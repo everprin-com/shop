@@ -1,0 +1,11 @@
+
+
+<% @configurable.all do |key, value| %>
+<p>
+<%= key%></p>
+  <p>
+  <%=value%></p>
+</p>
+<% end %>
+ <li class="active"><span><span><%=link_to "Setting", new_admin_configurable_path %></span></span></li>
+<%#= link_to "edit", edit_admin_configurable_path(c)%>

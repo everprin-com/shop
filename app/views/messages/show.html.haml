@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @message.title
+%p
+  %b Body:
+  = @message.body
+%p
+  %b User:
+  = @message.user_id
+%p
+  %b User to:
+  = @message.user_to
+
+= link_to 'Edit', edit_message_path(@message)
+\|
+= link_to 'Back', messages_path

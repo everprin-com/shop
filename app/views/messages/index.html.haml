@@ -1,0 +1,12 @@
+%h1 Listing messages
+
+Send message
+- @messages_send.each do |message|
+  =render partial: "table_content", locals: {message: message}
+%dt
+  Receive message
+- @messages_receive.each do |message|
+  =render partial: "table_content", locals: {message: message}
+
+
+= link_to 'New Message', new_message_path
