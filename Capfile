@@ -17,7 +17,7 @@ require 'capistrano/rbenv'
 # Include default deployment tasks
 #require 'capistrano/deploy'
 set :rbenv_type, :user # or :system, depends on your rbenv setup
-set :rbenv_ruby, '2.2.4'
+set :rbenv_ruby, '2.3.0'
 # Include tasks from other gems included in your Gemfile
 #
 # For documentation on these, see for example:
