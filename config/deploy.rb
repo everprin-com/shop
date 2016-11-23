@@ -4,7 +4,7 @@ lock '3.6.1'
 set :application, 'shop'
 
 
-set :repo_url, 'git@github.com:olegprin/test_map.git'
+set :repo_url, 'git@github.com:olegprin/shop.git'
 
 set :deploy_to, '/home/deploy/shop'
 
