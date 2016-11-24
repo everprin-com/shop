@@ -34,7 +34,7 @@
       %p
         %b Description:
         -if params[:action]=='show'   
-          =insert_text(@product.description)
+          =@product.description
           = render partial: "products/modal_of_description"    
         -else  
           = @product.description
