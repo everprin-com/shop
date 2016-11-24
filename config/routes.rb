@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   end
   
 
-
+#get "search" => "products#search"
 
 resources :infos, :messagestoadministrators, :answerfrommoderators, :orders, :line_items, :carts
   
