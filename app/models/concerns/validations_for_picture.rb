@@ -10,7 +10,7 @@ module ValidationsForPicture
       @validation= false
     end  
 #set up "uploaded_file" field as attached_file (using Paperclip) 
-  has_attached_file  @model_of_attachment, styles: {for_posting: "340x340>", small: "300x300>",thumb: "300x300>", preview: "360x360#" }, :path => ":rails_root/public/image/:attachment/:id/:basename_:style.:extension",
+  has_attached_file  @model_of_attachment, styles: {for_posting: "340x340>", small: "300x300>", thumb: "300x300#",preview: "360x360>"}, :path => ":rails_root/public/image/:attachment/:id/:basename_:style.:extension",
 #@parameter=true if @parameter.nil?
 
 
