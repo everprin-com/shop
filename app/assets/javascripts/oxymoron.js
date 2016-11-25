@@ -964,23 +964,6 @@ angular.module("oxymoron.config.states", [])
           }
         })
       
-        .state('telephone_products_path', {
-          url: '/products/telephone',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['telephone_products_path'](params);
-          },
-          controller: 'ProductsCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('telephone', $stateParams)
-            }]
-          }
-        })
-      
         .state('laptop_products_path', {
           url: '/products/laptop',
           
@@ -1011,6 +994,23 @@ angular.module("oxymoron.config.states", [])
           resolve: {
             action: ['$stateParams', function ($stateParams) {
               return resolve('car', $stateParams)
+            }]
+          }
+        })
+      
+        .state('telephone_products_path', {
+          url: '/products/telephone',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['telephone_products_path'](params);
+          },
+          controller: 'ProductsCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('telephone', $stateParams)
             }]
           }
         })
@@ -1650,11 +1650,6 @@ angular.module("oxymoron.services.resources", [])
           "isArray" : null,
           "method" : "GET"
         },
-        "telephone" : {
-          "url" : "/products/telephone.json",
-          "isArray" : null,
-          "method" : "GET"
-        },
         "laptop" : {
           "url" : "/products/laptop.json",
           "isArray" : null,
@@ -1662,6 +1657,11 @@ angular.module("oxymoron.services.resources", [])
         },
         "car" : {
           "url" : "/products/car.json",
+          "isArray" : null,
+          "method" : "GET"
+        },
+        "telephone" : {
+          "url" : "/products/telephone.json",
           "isArray" : null,
           "method" : "GET"
         }
@@ -1918,7 +1918,7 @@ angular.module("oxymoron.directives", ['oxymoron.directives.fileupload', 'oxymor
 (function () {
   var Routes = function () {
     var self = this,
-        routes = {"new_user_session":{"defaults":{},"path":"/users/sign_in"},"user_session":{"defaults":{},"path":"/users/sign_in"},"destroy_user_session":{"defaults":{},"path":"/users/sign_out"},"user_digitalocean_omniauth_authorize":{"defaults":{},"path":"/users/auth/digitalocean"},"user_digitalocean_omniauth_callback":{"defaults":{},"path":"/users/auth/digitalocean/callback"},"user_google_oauth2_omniauth_authorize":{"defaults":{},"path":"/users/auth/google_oauth2"},"user_google_oauth2_omniauth_callback":{"defaults":{},"path":"/users/auth/google_oauth2/callback"},"user_facebook_omniauth_authorize":{"defaults":{},"path":"/users/auth/facebook"},"user_facebook_omniauth_callback":{"defaults":{},"path":"/users/auth/facebook/callback"},"user_password":{"defaults":{},"path":"/users/password"},"new_user_password":{"defaults":{},"path":"/users/password/new"},"edit_user_password":{"defaults":{},"path":"/users/password/edit"},"cancel_user_registration":{"defaults":{},"path":"/users/cancel"},"user_registration":{"defaults":{},"path":"/users"},"new_user_registration":{"defaults":{},"path":"/users/sign_up"},"edit_user_registration":{"defaults":{},"path":"/users/edit"},"voices_increase":{"defaults":{},"path":"/voices/:increase_id"},"voices_decrease":{"defaults":{},"path":"/voices/:decrease_id"},"admin_admins":{"defaults":{},"path":"/admin/admins"},"infos":{"defaults":{},"path":"/infos"},"new_info":{"defaults":{},"path":"/infos/new"},"edit_info":{"defaults":{},"path":"/infos/:id/edit"},"info":{"defaults":{},"path":"/infos/:id"},"messagestoadministrators":{"defaults":{},"path":"/messagestoadministrators"},"new_messagestoadministrator":{"defaults":{},"path":"/messagestoadministrators/new"},"edit_messagestoadministrator":{"defaults":{},"path":"/messagestoadministrators/:id/edit"},"messagestoadministrator":{"defaults":{},"path":"/messagestoadministrators/:id"},"answerfrommoderators":{"defaults":{},"path":"/answerfrommoderators"},"new_answerfrommoderator":{"defaults":{},"path":"/answerfrommoderators/new"},"edit_answerfrommoderator":{"defaults":{},"path":"/answerfrommoderators/:id/edit"},"answerfrommoderator":{"defaults":{},"path":"/answerfrommoderators/:id"},"orders":{"defaults":{},"path":"/orders"},"new_order":{"defaults":{},"path":"/orders/new"},"edit_order":{"defaults":{},"path":"/orders/:id/edit"},"order":{"defaults":{},"path":"/orders/:id"},"line_items":{"defaults":{},"path":"/line_items"},"new_line_item":{"defaults":{},"path":"/line_items/new"},"edit_line_item":{"defaults":{},"path":"/line_items/:id/edit"},"line_item":{"defaults":{},"path":"/line_items/:id"},"carts":{"defaults":{},"path":"/carts"},"new_cart":{"defaults":{},"path":"/carts/new"},"edit_cart":{"defaults":{},"path":"/carts/:id/edit"},"cart":{"defaults":{},"path":"/carts/:id"},"product_searches":{"defaults":{},"path":"/searches/product"},"searches":{"defaults":{},"path":"/searches"},"new_search":{"defaults":{},"path":"/searches/new"},"edit_search":{"defaults":{},"path":"/searches/:id/edit"},"search":{"defaults":{},"path":"/searches/:id"},"home_index":{"defaults":{},"path":"/home/index"},"store_map":{"defaults":{},"path":"/store/map"},"store_index":{"defaults":{},"path":"/store/index"},"store_all_category":{"defaults":{},"path":"/store/all_category"},"store_show":{"defaults":{},"path":"/store/show"},"store_contact":{"defaults":{},"path":"/store/contact"},"increase_line_item":{"defaults":{},"path":"/line/increase"},"decrease_line_item":{"defaults":{},"path":"/line/decrease"},"store_showlike":{"defaults":{},"path":"/store/showlike"},"change_locale":{"defaults":{},"path":"/change_locale/:locale"},"search_products":{"defaults":{},"path":"/products/search"},"telephone_products":{"defaults":{},"path":"/products/telephone"},"laptop_products":{"defaults":{},"path":"/products/laptop"},"car_products":{"defaults":{},"path":"/products/car"},"product_comments":{"defaults":{},"path":"/products/:product_id/comments"},"new_product_comment":{"defaults":{},"path":"/products/:product_id/comments/new"},"edit_product_comment":{"defaults":{},"path":"/products/:product_id/comments/:id/edit"},"product_comment":{"defaults":{},"path":"/products/:product_id/comments/:id"},"products":{"defaults":{},"path":"/products"},"new_product":{"defaults":{},"path":"/products/new"},"edit_product":{"defaults":{},"path":"/products/:id/edit"},"product":{"defaults":{},"path":"/products/:id"},"finish_signup":{"defaults":{},"path":"/users/:id/finish_signup"},"user_show":{"defaults":{},"path":"/info_show_from_email/:user_id"},"user_show_navbar":{"defaults":{},"path":"/info_show_from_navbar/:user_id"},"ban":{"defaults":{},"path":"/ban_the_user/:id"},"make_admin":{"defaults":{},"path":"/make_admin/:id"},"delete_user":{"defaults":{},"path":"/user_delete/:id"},"root":{"defaults":{},"path":"/"},"admin_configurable":{"defaults":{},"path":"/admin/configurable"},"new_admin_configurable":{"defaults":{},"path":"/admin/configurable/new"},"edit_admin_configurable":{"defaults":{},"path":"/admin/configurable/edit"},"rails_mailers":{"defaults":{},"path":"/rails/mailers"},"rails_info_properties":{"defaults":{},"path":"/rails/info/properties"},"rails_info_routes":{"defaults":{},"path":"/rails/info/routes"},"rails_info":{"defaults":{},"path":"/rails/info"}};
+        routes = {"new_user_session":{"defaults":{},"path":"/users/sign_in"},"user_session":{"defaults":{},"path":"/users/sign_in"},"destroy_user_session":{"defaults":{},"path":"/users/sign_out"},"user_digitalocean_omniauth_authorize":{"defaults":{},"path":"/users/auth/digitalocean"},"user_digitalocean_omniauth_callback":{"defaults":{},"path":"/users/auth/digitalocean/callback"},"user_google_oauth2_omniauth_authorize":{"defaults":{},"path":"/users/auth/google_oauth2"},"user_google_oauth2_omniauth_callback":{"defaults":{},"path":"/users/auth/google_oauth2/callback"},"user_facebook_omniauth_authorize":{"defaults":{},"path":"/users/auth/facebook"},"user_facebook_omniauth_callback":{"defaults":{},"path":"/users/auth/facebook/callback"},"user_password":{"defaults":{},"path":"/users/password"},"new_user_password":{"defaults":{},"path":"/users/password/new"},"edit_user_password":{"defaults":{},"path":"/users/password/edit"},"cancel_user_registration":{"defaults":{},"path":"/users/cancel"},"user_registration":{"defaults":{},"path":"/users"},"new_user_registration":{"defaults":{},"path":"/users/sign_up"},"edit_user_registration":{"defaults":{},"path":"/users/edit"},"voices_increase":{"defaults":{},"path":"/voices/:increase_id"},"voices_decrease":{"defaults":{},"path":"/voices/:decrease_id"},"admin_admins":{"defaults":{},"path":"/admin/admins"},"infos":{"defaults":{},"path":"/infos"},"new_info":{"defaults":{},"path":"/infos/new"},"edit_info":{"defaults":{},"path":"/infos/:id/edit"},"info":{"defaults":{},"path":"/infos/:id"},"messagestoadministrators":{"defaults":{},"path":"/messagestoadministrators"},"new_messagestoadministrator":{"defaults":{},"path":"/messagestoadministrators/new"},"edit_messagestoadministrator":{"defaults":{},"path":"/messagestoadministrators/:id/edit"},"messagestoadministrator":{"defaults":{},"path":"/messagestoadministrators/:id"},"answerfrommoderators":{"defaults":{},"path":"/answerfrommoderators"},"new_answerfrommoderator":{"defaults":{},"path":"/answerfrommoderators/new"},"edit_answerfrommoderator":{"defaults":{},"path":"/answerfrommoderators/:id/edit"},"answerfrommoderator":{"defaults":{},"path":"/answerfrommoderators/:id"},"orders":{"defaults":{},"path":"/orders"},"new_order":{"defaults":{},"path":"/orders/new"},"edit_order":{"defaults":{},"path":"/orders/:id/edit"},"order":{"defaults":{},"path":"/orders/:id"},"line_items":{"defaults":{},"path":"/line_items"},"new_line_item":{"defaults":{},"path":"/line_items/new"},"edit_line_item":{"defaults":{},"path":"/line_items/:id/edit"},"line_item":{"defaults":{},"path":"/line_items/:id"},"carts":{"defaults":{},"path":"/carts"},"new_cart":{"defaults":{},"path":"/carts/new"},"edit_cart":{"defaults":{},"path":"/carts/:id/edit"},"cart":{"defaults":{},"path":"/carts/:id"},"product_searches":{"defaults":{},"path":"/searches/product"},"searches":{"defaults":{},"path":"/searches"},"new_search":{"defaults":{},"path":"/searches/new"},"edit_search":{"defaults":{},"path":"/searches/:id/edit"},"search":{"defaults":{},"path":"/searches/:id"},"home_index":{"defaults":{},"path":"/home/index"},"store_map":{"defaults":{},"path":"/store/map"},"store_index":{"defaults":{},"path":"/store/index"},"store_all_category":{"defaults":{},"path":"/store/all_category"},"store_show":{"defaults":{},"path":"/store/show"},"store_contact":{"defaults":{},"path":"/store/contact"},"increase_line_item":{"defaults":{},"path":"/line/increase"},"decrease_line_item":{"defaults":{},"path":"/line/decrease"},"store_showlike":{"defaults":{},"path":"/store/showlike"},"change_locale":{"defaults":{},"path":"/change_locale/:locale"},"search_products":{"defaults":{},"path":"/products/search"},"laptop_products":{"defaults":{},"path":"/products/laptop"},"car_products":{"defaults":{},"path":"/products/car"},"telephone_products":{"defaults":{},"path":"/products/telephone"},"product_comments":{"defaults":{},"path":"/products/:product_id/comments"},"new_product_comment":{"defaults":{},"path":"/products/:product_id/comments/new"},"edit_product_comment":{"defaults":{},"path":"/products/:product_id/comments/:id/edit"},"product_comment":{"defaults":{},"path":"/products/:product_id/comments/:id"},"products":{"defaults":{},"path":"/products"},"new_product":{"defaults":{},"path":"/products/new"},"edit_product":{"defaults":{},"path":"/products/:id/edit"},"product":{"defaults":{},"path":"/products/:id"},"finish_signup":{"defaults":{},"path":"/users/:id/finish_signup"},"user_show":{"defaults":{},"path":"/info_show_from_email/:user_id"},"user_show_navbar":{"defaults":{},"path":"/info_show_from_navbar/:user_id"},"ban":{"defaults":{},"path":"/ban_the_user/:id"},"make_admin":{"defaults":{},"path":"/make_admin/:id"},"delete_user":{"defaults":{},"path":"/user_delete/:id"},"root":{"defaults":{},"path":"/"},"admin_configurable":{"defaults":{},"path":"/admin/configurable"},"new_admin_configurable":{"defaults":{},"path":"/admin/configurable/new"},"edit_admin_configurable":{"defaults":{},"path":"/admin/configurable/edit"},"rails_mailers":{"defaults":{},"path":"/rails/mailers"},"rails_info_properties":{"defaults":{},"path":"/rails/info/properties"},"rails_info_routes":{"defaults":{},"path":"/rails/info/routes"},"rails_info":{"defaults":{},"path":"/rails/info"}};
 
     self.defaultParams = {}
 

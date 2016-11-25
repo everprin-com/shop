@@ -1,7 +1,8 @@
+
 module Admin
 
   class BaseController < ApplicationController
-  layout "admin"
+  
   before_action :only_admin_or_moderator
 
 
@@ -33,9 +34,10 @@ module Admin
     @user=User.find(@info.user_id)
     @user.destroy
     respond_to do |format|
-      format.html {  redirect_to "/admin/admins", notice: 'User was successfully destroyed.' }
+      format.html {  redirect_to "admin/admins", notice: 'User was successfully destroyed.' }
+      format.json { head :no_content }
     end
-  end
+   end
 
   
   private

@@ -34,9 +34,9 @@ class CommentsController < ApplicationController
     if current_user.present? 
       @comment.user_id=current_user.id
     else
-    @biz = Info.new(name: params[:name])
-    @biz.save
-     end
+      @biz = Info.new(name: params[:name])
+      @biz.save
+    end
     @commentable_ajax=params[:param1]
     #@comment.info_id=Info.create.id
     respond_to do |format|
@@ -53,28 +53,27 @@ class CommentsController < ApplicationController
   
   def edit
     #render partial: "form", locals: {commentable: @commentable, comment: @comment} 
-  @comment=Comment.find(params[:id])
-   respond_modal_with @comment
-
+    @comment=Comment.find(params[:id])
+    respond_modal_with @comment
   end	
   
 
   def update
-  comment=Comment.find(params[:id])
-   @comment_count=@commentable.comments.paginate(
-       :page => params[:page],
-       :per_page => Configurable[:blogs_per_page]
-    )
-    respond_to do |format|
-    if comment.update_attributes(comment_params)
-        format.html { redirect_to  @commentable, notice: 'Film was successfully updated.' }
-        format.json {  }
-        format.js { }
-    else
-      render partials: 'comments/form'
+    comment=Comment.find(params[:id])
+     @comment_count=@commentable.comments.paginate(
+         :page => params[:page],
+         :per_page => Configurable[:blogs_per_page]
+      )
+      respond_to do |format|
+      if comment.update_attributes(comment_params)
+          format.html { redirect_to  @commentable, notice: 'Film was successfully updated.' }
+          format.json {  }
+          format.js { }
+      else
+        render partials: 'comments/form'
+      end
     end
   end
- end
 
   def destroy
     @comment=Comment.find(params[:id])
@@ -95,7 +94,7 @@ class CommentsController < ApplicationController
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
-end
+  end
    
   def new_with_info
     @comment=@commentable.comments.build
@@ -108,22 +107,18 @@ end
   private
   
     def define_eccept 
-    if user_signed_in?
-    #-if can_manage(Film, current_user.films)
+      if user_signed_in?
+      #-if can_manage(Film, current_user.films)
 
-      comment=Comment.find(params[:id])
-        if can_manage(current_user.comments, comment, Comment) 
-          return true
-        end
-      
-    end
+        comment=Comment.find(params[:id])
+          if can_manage(current_user.comments, comment, Comment) 
+            return true
+          end
+      end
     end
 
     def comment_params
       params.require(:comment).permit(:commentable_id, :commentable_type,:info_id, :from_ip, :content,:image_comment, info_attributes: [:name])
     end
-
-
-
 
 end

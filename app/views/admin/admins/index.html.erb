@@ -1,56 +1,22 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+
 <head>
-<%= title "CMS Admin" %>
-<h1> Admin pannel </h1>
-<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-<style media="all" type="text/css">
-@import "css/all.css";
-</style>
+
+    <% title "Admin pannel" %>
+    <% meta_tag :description, "Admin panel of timeorg blog" %>
+    <% meta_tag :keywords, "admin" %>
 </head>
 <body>
 <div id="main">
   
-    <ul id="top-navigation">
-      <li class="active"><span><span><%=link_to "home", root_path%></span></span></li>
-       <li class="active"><span><span><%=link_to "Setting", edit_admin_configurable_path %></span></span></li>
-       <li class="active"><span><span><%=link_to "Receive message", messagestoadministrators_path %></span></span></li>
-       <li class="active"><span><span><%=link_to "Send message", answerfrommoderators_path %></span></span></li>  
-     <!-- <li class="active"><span><span><a href="#">Users</a></span></span></li>
-       <li class="active"><span><span><a href="#">Orders</a></span></span></li>
-      
-       <li class="active"><span><span><a href="#">Statistics</a></span></span></li>
-       <li class="active"><span><span><a href="#">Design</a></span></span></li>
-       <li class="active"><span><span><a href="#">Contents</a></span></span></li>-->
-    </ul>
 
   <div id="middle">
-    <div id="left-column">
-      <h3>Header</h3>
-      <ul class="nav">
-        <li><a href="#">Lorem Ipsum dollar</a></li>
-        <li><a href="#">Dollar</a></li>
-        <li><a href="#">Lorem dollar</a></li>
-        <li><a href="#">Ipsum dollar</a></li>
-        <li><a href="#">Lorem Ipsum dollar</a></li>
-        <li class="last"><a href="#">Dollar Lorem Ipsum</a></li>
-      </ul>
-      <a href="#" class="link">Link here</a> <a href="#" class="link">Link here</a>
-    </div>
+    
     <div id="center-column">
-      <div class="top-bar"> <a href="#" class="button">ADD NEW </a>
-        <h1>Contents</h1>
-        <div class="breadcrumbs"> <a><%=link_to "Home", root_path%></a>
-          <a><%=link_to "Setting", edit_admin_configurable_path %></a>
-           <a><%=link_to "Receive message", messagestoadministrators_path %></a>
-            <a><%=link_to "Send message", answerfrommoderators_path %></a>
-        </div>
-      </div>
-   
      
+      
 
 
-
+      
       <div class="table"> <img src="/assets/admin/bg-th-left.gif" width="8" height="7" alt="" class="left" /> <img src="/assets/admin/bg-th-right.gif" width="7" height="7" alt="" class="right" />
 
         <table class="listing" cellpadding="0" cellspacing="0">
@@ -58,14 +24,18 @@
             <th class="first" width="177">Name</th>
             <th>Email</th>
             <th>Action</th>
+              <th>Role</th>
           </tr>
           <tr>
+
             <% @infos.each do |info| %>
               <td>
                 <%= info.name %>
               </td>
               <td>
-                <%= info.user.email %>
+                <% if info.user.present? %>
+                  <%= info.user.email %>
+               
               </td>
               <td>
                 <div class="btn-group closed">
@@ -82,7 +52,7 @@
                     <%= link_to "edit",edit_info_path(info) %>
                   </li>
                   
-                  <li><%= link_to "delete", delete_user_path(info.user_id),  method: :delete, data: { confirm: 'Are you sure?' }  %>
+                  <li><%= link_to "delete", delete_user_path(info.id), data: { confirm: 'Are you sure?' }  %>
                   </li>      
 
                   <li> 
@@ -105,7 +75,8 @@
                 <%= info.user.role %>
               </td>
             </tr> 
-          <% end %>   
+          <% end %> 
+           <%end%>  
         </table>
 
         <div class="select"> <strong>Other Pages: </strong>
@@ -114,6 +85,7 @@
           </select>
         </div>
       </div>
+
 
 
 
@@ -148,7 +120,6 @@
   <div id="footer"></div>
 </div>
 </body>
-</html>
 
 
 
@@ -156,19 +127,6 @@
 
 
 
-
-
-
-
-
-    
-            <td><img src="/assets/admin/add-icon.gif" width="16" height="16" alt="" /></td>
-            <td><img src="/assets/admin/hr.gif" width="16" height="16" alt="" /></td>
-            <td><img src="/assets/admin/save-icon.gif" width="16" height="16" alt="" /></td>
-            <td><img src="/assets/admin/edit-icon.gif" width="16" height="16" alt="" /></td>
-            <td><img src="/assets/admin/login-icon.gif" width="16" height="16" alt="" /></td>
-            <td><img src="/assets/admin/save-icon.gif" width="16" height="16" alt="save" /></td>
-            <td class="last"><img src="/assets/admin/add-icon.gif" width="16" height="16" alt="add" /></td>
 
 
 

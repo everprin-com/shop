@@ -3,15 +3,13 @@ module Admin
  class ConfigurablesController < ApplicationController
   
   include ConfigurableEngine::ConfigurablesController
- 
+
    before_action :authenticate_user!
-   before_action :only_admin_or_moderator
-    def new
-      @keys = Configurable.keys
-    end
+  #before_filter :protect_my_code
     def edit
       @keys = Configurable.keys
     end
+
     def update
       failures = Configurable
         .keys.map do |key|

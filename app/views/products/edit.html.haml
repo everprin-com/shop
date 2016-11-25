@@ -5,7 +5,7 @@
 
   
    
-= bootstrap_form_for @product, method: :put, layout: :vertical do |f|
+= bootstrap_form_for @resource, method: :put, layout: :vertical do |f|
 
 
   = f.text_field :title, label: "title", placeholder: "title",:size => 160
@@ -25,6 +25,6 @@
 = ui_button 'back', 'Back', root_path
 
 
-= link_to 'Show', @product
+= link_to 'Show', @resource 
 
 = link_to 'Back', products_path

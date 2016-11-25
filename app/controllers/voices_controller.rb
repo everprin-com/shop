@@ -31,7 +31,7 @@ class VoicesController < ApplicationController
   end
     
   def voice_params
-      params.require(:voice).permit(:vote_flag, :votable_type, :sum_voices, :votable_id, :voter_id, :voter_type)
+    params.require(:voice).permit(:vote_flag, :votable_type, :sum_voices, :votable_id, :voter_id, :voter_type)
   end
 
 end

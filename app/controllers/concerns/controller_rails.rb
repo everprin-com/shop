@@ -32,7 +32,7 @@ module ControllerRails
       end   
       respond_to do |format|
         if @resource.save
-          format.html { redirect_to redirect_options, notice: 'Message was successfully created.' }
+          format.html { redirect_to @resource, notice: 'Message was successfully created.' }
           format.json { render :show, status: :created, location: @resource }
         else
           format.html { render :new }
@@ -46,7 +46,7 @@ module ControllerRails
     def update
       respond_to do |format|
         if @resource.update(resource_params)
-          format.html { redirect_to @resource, notice: 'Message was successfully updated.' }
+          format.html { redirect_to redirect_update, notice: 'Message was successfully updated.' }
           format.json { render :show, status: :ok, location: @resource }
         else
           format.html { render :edit }

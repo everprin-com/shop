@@ -3,20 +3,20 @@
 
 %p
   %b Name:
-  = @messagestoadministrator.name
+  = @resource.name
 %p
   %b User:
-  = @messagestoadministrator.user_id
+  = @resource.user_id
 %p
   %b Telephone:
-  = @messagestoadministrator.telephone
+  = @resource.telephone
 %p
   %b Email:
-  = @messagestoadministrator.email
+  = @resource.email
 %p
   %b Message:
-  = @messagestoadministrator.message
+  = @resource.message
 
-= link_to 'Edit', edit_messagestoadministrator_path(@messagestoadministrator)
-\|
+= link_to 'Edit', edit_messagestoadministrator_path(@resource)
+\@resource
 = link_to 'Back', messagestoadministrators_path

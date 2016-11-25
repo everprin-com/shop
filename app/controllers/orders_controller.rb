@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
   
+  include ControllerRails
   include CurrentCart
   before_action :set_cart
   respond_to :html, :js, :json
