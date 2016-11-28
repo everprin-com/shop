@@ -14,8 +14,7 @@ Guardfile
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+/vendor
 /.idea
-/test
-/rspec
 config/database.yml
 config/secrets.yml

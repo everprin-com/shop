@@ -4,27 +4,24 @@ RSpec.describe ProductsController, type: :controller do
  
   render_views
   login_user
+  
 
-  it "redirect when something went wrong" do
-    get :index
-    expect(response).to render_template("index")
+  describe "GET #index" do
+    it "responds successfully with an HTTP 200 status code" do
+      get :index
+      expect(response).to be_success
+      expect(response).to have_http_status(200)
+    end
+    it "renders the index template" do
+      get :index
+      expect(response).to render_template("index")
+    end
   end
 
-  # This should return the minimal set of attributes required to create a valid
-  # Product. As you add validations to Product, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # ProductsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+
+
 
   describe "GET #index" do
     it "assigns all products as @products" do

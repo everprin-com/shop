@@ -1,7 +1,13 @@
 require 'rails_helper'
 
-describe Answerfrommoderator do
-	it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_presence_of(:content) }
+
+
+describe Product do
+	it "is valid with a name, title and description" do
+		product = create(:product)
+	  expect(product).to be_valid
+	end
 end
+
+
 

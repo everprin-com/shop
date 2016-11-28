@@ -15,7 +15,7 @@ gem 'jquery-rails'
 
 gem 'jbuilder'
 gem "paperclip"
-
+gem 'sidekiq'
 gem 'bootstrap-sass'
 gem 'sass-rails'
 gem 'bootstrap_form'
@@ -41,16 +41,11 @@ gem 'thin'
 gem 'active_model_serializers', '0.9.4'
 gem 'slim'
 gem 'slim-rails'
-
 gem 'gon'
 gem 'carrierwave'
-
 #gem 'mysql2',          '~> 0.3.18', :platform => :ruby
 #gem 'thinking-sphinx', '~> 3.1.4'
-
 gem 'mini_magick'
-
-gem "oxymoron"
 gem 'kaminari'
 gem 'geocoder'
 gem 'gmaps4rails'
@@ -59,25 +54,23 @@ gem 'oj'
 gem 'oj_mimic_json'
 gem 'file_validators'
 gem 'whenever', :require => false
-
 gem "rolify"
-
 gem "pundit"
 gem "rest-client"
 
 
 
 group :development, :test do
-  gem 'capybara'
+  gem 'capybara', '~> 2.5'
   gem 'byebug'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.4'
   gem 'shoulda-matchers', require: false
   gem 'database_cleaner'
   gem 'faker'
   gem 'factory_girl_rails'
+  gem 'selenium-webdriver'
   gem 'simplecov', :require => false
-
-
+  #gem 'minitest-rails-capybara'
   #gem "ruby-growl"
   #gem "ruby_gntp"
   #gem "awesome_print", require:"ap"

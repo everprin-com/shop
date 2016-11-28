@@ -3,7 +3,7 @@
   %div{:class=>"col-md-2"} 
     = ui_button 'back', "Back", root_path
   %div{:class=>"col-md-6"}
-    = bootstrap_form_for @order, remote: request.xhr?, html: { data: { modal: true } } do |f|
+    = bootstrap_form_for @resource, remote: request.xhr?, html: { data: { modal: true } } do |f|
 
       = f.text_field :name, placeholder: "name",:size => 160
 

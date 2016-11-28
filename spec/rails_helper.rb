@@ -6,6 +6,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'spec_helper'
 require 'rspec/rails'
 require 'shoulda/matchers'
+require 'devise'
 # Add additional requires below this line. Rails is not loaded until this point!
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -40,7 +41,11 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
+
+  
   config.include Devise::Test::ControllerHelpers, type: :controller
+  config.extend ControllerMacros, :type => :controller
+
   config.use_transactional_fixtures = false
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and

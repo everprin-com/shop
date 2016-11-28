@@ -67,32 +67,13 @@ class ProductsController < ApplicationController
       end
     end
   end
-
   
-  def mobile
-    @products = Product.where(category: "Mobile").paginate(:page => params[:page], :per_page => Configurable['products_per_page'])
+  def order
+    @par=params[:kind]
+    @products = Product.where(category: @par.to_s.capitalize).paginate(:page => params[:page], :per_page => Configurable['products_per_page'])
     @resource= @products.first
     render "store/index"
-  end  
-
-  def car
-    @products = Product.where(category: "Car").paginate(:page => params[:page], :per_page => Configurable['products_per_page'])
-    @product= @products.first
-    render "store/index"
-  end  
-  
-  def laptop
-    @products = Product.where(category: "Laptop").paginate(:page => params[:page], :per_page => Configurable['products_per_page'])
-    @resource= @products.first
-    render "store/index"
-  end  
-  
-
-  def telephone
-    @products = Product.where(category: "Telephone").paginate(:page => params[:page], :per_page => Configurable['products_per_page'])
-    @resource= @products.first
-    render "store/index"
-  end   
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

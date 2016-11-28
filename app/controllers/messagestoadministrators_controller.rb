@@ -11,7 +11,7 @@ class MessagestoadministratorsController < ApplicationController
   def redirect_update
     root_path
   end 
-
+  
   private
 
     # Never trust parameters from the scary internet, only allow the white list through.

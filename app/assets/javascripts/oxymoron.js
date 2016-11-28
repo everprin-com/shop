@@ -80,6 +80,159 @@ angular.module("oxymoron.config.states", [])
     $stateProvider.rails = function () {
       $stateProvider
       
+        .state('order_products_path', {
+          url: $urlMatcherFactoryProvider.compile("/products/{kind:(?:search|laptop|car|mobile)}"),
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['order_products_path'](params);
+          },
+          controller: 'ProductsCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('order', $stateParams)
+            }]
+          }
+        })
+      
+        .state('product_comments_path', {
+          url: '/products/:product_id/comments',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['product_comments_path'](params);
+          },
+          controller: 'ProductsCommentsCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('index', $stateParams)
+            }]
+          }
+        })
+      
+        .state('new_product_comment_path', {
+          url: '/products/:product_id/comments/new',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['new_product_comment_path'](params);
+          },
+          controller: 'ProductsCommentsCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('new', $stateParams)
+            }]
+          }
+        })
+      
+        .state('edit_product_comment_path', {
+          url: '/products/:product_id/comments/:id/edit',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['edit_product_comment_path'](params);
+          },
+          controller: 'ProductsCommentsCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('edit', $stateParams)
+            }]
+          }
+        })
+      
+        .state('product_comment_path', {
+          url: '/products/:product_id/comments/:id',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['product_comment_path'](params);
+          },
+          controller: 'ProductsCommentsCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('show', $stateParams)
+            }]
+          }
+        })
+      
+        .state('products_path', {
+          url: '/products',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['products_path'](params);
+          },
+          controller: 'ProductsCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('index', $stateParams)
+            }]
+          }
+        })
+      
+        .state('new_product_path', {
+          url: '/products/new',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['new_product_path'](params);
+          },
+          controller: 'ProductsCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('new', $stateParams)
+            }]
+          }
+        })
+      
+        .state('edit_product_path', {
+          url: '/products/:id/edit',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['edit_product_path'](params);
+          },
+          controller: 'ProductsCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('edit', $stateParams)
+            }]
+          }
+        })
+      
+        .state('product_path', {
+          url: '/products/:id',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['product_path'](params);
+          },
+          controller: 'ProductsCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('show', $stateParams)
+            }]
+          }
+        })
+      
         .state('new_user_session_path', {
           url: '/users/sign_in',
           
@@ -297,6 +450,159 @@ angular.module("oxymoron.config.states", [])
           resolve: {
             action: ['$stateParams', function ($stateParams) {
               return resolve('index', $stateParams)
+            }]
+          }
+        })
+      
+        .state('admin_admin_configurable_edit_path', {
+          url: '/admin/configurable/edit',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['admin_admin_configurable_edit_path'](params);
+          },
+          controller: 'AdminConfigurableCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('edit', $stateParams)
+            }]
+          }
+        })
+      
+        .state('admin_clients_path', {
+          url: '/admin/clients',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['admin_clients_path'](params);
+          },
+          controller: 'AdminClientsCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('index', $stateParams)
+            }]
+          }
+        })
+      
+        .state('new_admin_client_path', {
+          url: '/admin/clients/new',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['new_admin_client_path'](params);
+          },
+          controller: 'AdminClientsCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('new', $stateParams)
+            }]
+          }
+        })
+      
+        .state('edit_admin_client_path', {
+          url: '/admin/clients/:id/edit',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['edit_admin_client_path'](params);
+          },
+          controller: 'AdminClientsCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('edit', $stateParams)
+            }]
+          }
+        })
+      
+        .state('admin_client_path', {
+          url: '/admin/clients/:id',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['admin_client_path'](params);
+          },
+          controller: 'AdminClientsCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('show', $stateParams)
+            }]
+          }
+        })
+      
+        .state('admin_tasks_path', {
+          url: '/admin/tasks',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['admin_tasks_path'](params);
+          },
+          controller: 'AdminTasksCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('index', $stateParams)
+            }]
+          }
+        })
+      
+        .state('new_admin_task_path', {
+          url: '/admin/tasks/new',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['new_admin_task_path'](params);
+          },
+          controller: 'AdminTasksCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('new', $stateParams)
+            }]
+          }
+        })
+      
+        .state('edit_admin_task_path', {
+          url: '/admin/tasks/:id/edit',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['edit_admin_task_path'](params);
+          },
+          controller: 'AdminTasksCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('edit', $stateParams)
+            }]
+          }
+        })
+      
+        .state('admin_task_path', {
+          url: '/admin/tasks/:id',
+          
+          templateUrl: function(params) {
+            params['ng-view']='';
+            
+            
+            return Routes['admin_task_path'](params);
+          },
+          controller: 'AdminTasksCtrl as ctrl',
+          resolve: {
+            action: ['$stateParams', function ($stateParams) {
+              return resolve('show', $stateParams)
             }]
           }
         })
@@ -947,210 +1253,6 @@ angular.module("oxymoron.config.states", [])
           }
         })
       
-        .state('search_products_path', {
-          url: '/products/search',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['search_products_path'](params);
-          },
-          controller: 'ProductsCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('search', $stateParams)
-            }]
-          }
-        })
-      
-        .state('laptop_products_path', {
-          url: '/products/laptop',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['laptop_products_path'](params);
-          },
-          controller: 'ProductsCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('laptop', $stateParams)
-            }]
-          }
-        })
-      
-        .state('car_products_path', {
-          url: '/products/car',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['car_products_path'](params);
-          },
-          controller: 'ProductsCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('car', $stateParams)
-            }]
-          }
-        })
-      
-        .state('telephone_products_path', {
-          url: '/products/telephone',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['telephone_products_path'](params);
-          },
-          controller: 'ProductsCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('telephone', $stateParams)
-            }]
-          }
-        })
-      
-        .state('product_comments_path', {
-          url: '/products/:product_id/comments',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['product_comments_path'](params);
-          },
-          controller: 'ProductsCommentsCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('index', $stateParams)
-            }]
-          }
-        })
-      
-        .state('new_product_comment_path', {
-          url: '/products/:product_id/comments/new',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['new_product_comment_path'](params);
-          },
-          controller: 'ProductsCommentsCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('new', $stateParams)
-            }]
-          }
-        })
-      
-        .state('edit_product_comment_path', {
-          url: '/products/:product_id/comments/:id/edit',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['edit_product_comment_path'](params);
-          },
-          controller: 'ProductsCommentsCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('edit', $stateParams)
-            }]
-          }
-        })
-      
-        .state('product_comment_path', {
-          url: '/products/:product_id/comments/:id',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['product_comment_path'](params);
-          },
-          controller: 'ProductsCommentsCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('show', $stateParams)
-            }]
-          }
-        })
-      
-        .state('products_path', {
-          url: '/products',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['products_path'](params);
-          },
-          controller: 'ProductsCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('index', $stateParams)
-            }]
-          }
-        })
-      
-        .state('new_product_path', {
-          url: '/products/new',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['new_product_path'](params);
-          },
-          controller: 'ProductsCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('new', $stateParams)
-            }]
-          }
-        })
-      
-        .state('edit_product_path', {
-          url: '/products/:id/edit',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['edit_product_path'](params);
-          },
-          controller: 'ProductsCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('edit', $stateParams)
-            }]
-          }
-        })
-      
-        .state('product_path', {
-          url: '/products/:id',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['product_path'](params);
-          },
-          controller: 'ProductsCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('show', $stateParams)
-            }]
-          }
-        })
-      
         .state('finish_signup_path', {
           url: '/users/:id/finish_signup',
           
@@ -1287,74 +1389,6 @@ angular.module("oxymoron.config.states", [])
           }
         })
       
-        .state('rails_mailers_path', {
-          url: '/rails/mailers',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['rails_mailers_path'](params);
-          },
-          controller: 'RailsMailersCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('index', $stateParams)
-            }]
-          }
-        })
-      
-        .state('rails_info_properties_path', {
-          url: '/rails/info/properties',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['rails_info_properties_path'](params);
-          },
-          controller: 'RailsInfoCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('properties', $stateParams)
-            }]
-          }
-        })
-      
-        .state('rails_info_routes_path', {
-          url: '/rails/info/routes',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['rails_info_routes_path'](params);
-          },
-          controller: 'RailsInfoCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('routes', $stateParams)
-            }]
-          }
-        })
-      
-        .state('rails_info_path', {
-          url: '/rails/info',
-          
-          templateUrl: function(params) {
-            params['ng-view']='';
-            
-            
-            return Routes['rails_info_path'](params);
-          },
-          controller: 'RailsInfoCtrl as ctrl',
-          resolve: {
-            action: ['$stateParams', function ($stateParams) {
-              return resolve('index', $stateParams)
-            }]
-          }
-        })
-      
       return $stateProvider;
     }
   }])
@@ -1385,7 +1419,7 @@ angular.module("oxymoron.config.states", [])
   ])
 angular.module("oxymoron.config.debug", [])
 .config(['$compileProvider', function ($compileProvider) {
-  $compileProvider.debugInfoEnabled(true);
+  $compileProvider.debugInfoEnabled(false);
 }]);
 
 angular.module("oxymoron.config", ['oxymoron.config.http', 'oxymoron.config.states', 'oxymoron.config.debug'])
@@ -1417,6 +1451,99 @@ angular.module("oxymoron.services.resources", [])
     };
   }])
 
+  
+    .factory('ProductComment', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
+      return resourceDecorator($resource('/products/:product_id/comments/:id.json', {"product_id":"@product_id","id":"@id"}, {
+        "new" : {
+          "method" : "GET",
+          "url" : "/products/:product_id/comments/:id/new.json"
+        },
+        "edit" : {
+          "method" : "GET",
+          "url" : "/products/:product_id/comments/:id/edit.json"
+        },
+        "update" : {
+          "method" : "PUT"
+        },
+        "create" : {
+          "method" : "POST"
+        },
+        "destroy" : {
+          "method" : "DELETE"
+        }
+      }));
+    }])
+  
+    .factory('Product', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
+      return resourceDecorator($resource('/products/:id.json', {"id":"@id"}, {
+        "new" : {
+          "method" : "GET",
+          "url" : "/products/:id/new.json"
+        },
+        "edit" : {
+          "method" : "GET",
+          "url" : "/products/:id/edit.json"
+        },
+        "update" : {
+          "method" : "PUT"
+        },
+        "create" : {
+          "method" : "POST"
+        },
+        "destroy" : {
+          "method" : "DELETE"
+        },
+        "order" : {
+          "url" : "/products/:kind.json",
+          "isArray" : null,
+          "method" : "GET"
+        }
+      }));
+    }])
+  
+    .factory('AdminClient', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
+      return resourceDecorator($resource('/admin/clients/:id.json', {"id":"@id"}, {
+        "new" : {
+          "method" : "GET",
+          "url" : "/admin/clients/:id/new.json"
+        },
+        "edit" : {
+          "method" : "GET",
+          "url" : "/admin/clients/:id/edit.json"
+        },
+        "update" : {
+          "method" : "PUT"
+        },
+        "create" : {
+          "method" : "POST"
+        },
+        "destroy" : {
+          "method" : "DELETE"
+        }
+      }));
+    }])
+  
+    .factory('AdminTask', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
+      return resourceDecorator($resource('/admin/tasks/:id.json', {"id":"@id"}, {
+        "new" : {
+          "method" : "GET",
+          "url" : "/admin/tasks/:id/new.json"
+        },
+        "edit" : {
+          "method" : "GET",
+          "url" : "/admin/tasks/:id/edit.json"
+        },
+        "update" : {
+          "method" : "PUT"
+        },
+        "create" : {
+          "method" : "POST"
+        },
+        "destroy" : {
+          "method" : "DELETE"
+        }
+      }));
+    }])
   
     .factory('Info', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
       return resourceDecorator($resource('/infos/:id.json', {"id":"@id"}, {
@@ -1598,70 +1725,6 @@ angular.module("oxymoron.services.resources", [])
         },
         "showlike" : {
           "url" : "/store/showlike.json",
-          "isArray" : null,
-          "method" : "GET"
-        }
-      }));
-    }])
-  
-    .factory('ProductComment', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
-      return resourceDecorator($resource('/products/:product_id/comments/:id.json', {"product_id":"@product_id","id":"@id"}, {
-        "new" : {
-          "method" : "GET",
-          "url" : "/products/:product_id/comments/:id/new.json"
-        },
-        "edit" : {
-          "method" : "GET",
-          "url" : "/products/:product_id/comments/:id/edit.json"
-        },
-        "update" : {
-          "method" : "PUT"
-        },
-        "create" : {
-          "method" : "POST"
-        },
-        "destroy" : {
-          "method" : "DELETE"
-        }
-      }));
-    }])
-  
-    .factory('Product', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
-      return resourceDecorator($resource('/products/:id.json', {"id":"@id"}, {
-        "new" : {
-          "method" : "GET",
-          "url" : "/products/:id/new.json"
-        },
-        "edit" : {
-          "method" : "GET",
-          "url" : "/products/:id/edit.json"
-        },
-        "update" : {
-          "method" : "PUT"
-        },
-        "create" : {
-          "method" : "POST"
-        },
-        "destroy" : {
-          "method" : "DELETE"
-        },
-        "search" : {
-          "url" : "/products/search.json",
-          "isArray" : null,
-          "method" : "GET"
-        },
-        "laptop" : {
-          "url" : "/products/laptop.json",
-          "isArray" : null,
-          "method" : "GET"
-        },
-        "car" : {
-          "url" : "/products/car.json",
-          "isArray" : null,
-          "method" : "GET"
-        },
-        "telephone" : {
-          "url" : "/products/telephone.json",
           "isArray" : null,
           "method" : "GET"
         }
@@ -1918,7 +1981,7 @@ angular.module("oxymoron.directives", ['oxymoron.directives.fileupload', 'oxymor
 (function () {
   var Routes = function () {
     var self = this,
-        routes = {"new_user_session":{"defaults":{},"path":"/users/sign_in"},"user_session":{"defaults":{},"path":"/users/sign_in"},"destroy_user_session":{"defaults":{},"path":"/users/sign_out"},"user_digitalocean_omniauth_authorize":{"defaults":{},"path":"/users/auth/digitalocean"},"user_digitalocean_omniauth_callback":{"defaults":{},"path":"/users/auth/digitalocean/callback"},"user_google_oauth2_omniauth_authorize":{"defaults":{},"path":"/users/auth/google_oauth2"},"user_google_oauth2_omniauth_callback":{"defaults":{},"path":"/users/auth/google_oauth2/callback"},"user_facebook_omniauth_authorize":{"defaults":{},"path":"/users/auth/facebook"},"user_facebook_omniauth_callback":{"defaults":{},"path":"/users/auth/facebook/callback"},"user_password":{"defaults":{},"path":"/users/password"},"new_user_password":{"defaults":{},"path":"/users/password/new"},"edit_user_password":{"defaults":{},"path":"/users/password/edit"},"cancel_user_registration":{"defaults":{},"path":"/users/cancel"},"user_registration":{"defaults":{},"path":"/users"},"new_user_registration":{"defaults":{},"path":"/users/sign_up"},"edit_user_registration":{"defaults":{},"path":"/users/edit"},"voices_increase":{"defaults":{},"path":"/voices/:increase_id"},"voices_decrease":{"defaults":{},"path":"/voices/:decrease_id"},"admin_admins":{"defaults":{},"path":"/admin/admins"},"infos":{"defaults":{},"path":"/infos"},"new_info":{"defaults":{},"path":"/infos/new"},"edit_info":{"defaults":{},"path":"/infos/:id/edit"},"info":{"defaults":{},"path":"/infos/:id"},"messagestoadministrators":{"defaults":{},"path":"/messagestoadministrators"},"new_messagestoadministrator":{"defaults":{},"path":"/messagestoadministrators/new"},"edit_messagestoadministrator":{"defaults":{},"path":"/messagestoadministrators/:id/edit"},"messagestoadministrator":{"defaults":{},"path":"/messagestoadministrators/:id"},"answerfrommoderators":{"defaults":{},"path":"/answerfrommoderators"},"new_answerfrommoderator":{"defaults":{},"path":"/answerfrommoderators/new"},"edit_answerfrommoderator":{"defaults":{},"path":"/answerfrommoderators/:id/edit"},"answerfrommoderator":{"defaults":{},"path":"/answerfrommoderators/:id"},"orders":{"defaults":{},"path":"/orders"},"new_order":{"defaults":{},"path":"/orders/new"},"edit_order":{"defaults":{},"path":"/orders/:id/edit"},"order":{"defaults":{},"path":"/orders/:id"},"line_items":{"defaults":{},"path":"/line_items"},"new_line_item":{"defaults":{},"path":"/line_items/new"},"edit_line_item":{"defaults":{},"path":"/line_items/:id/edit"},"line_item":{"defaults":{},"path":"/line_items/:id"},"carts":{"defaults":{},"path":"/carts"},"new_cart":{"defaults":{},"path":"/carts/new"},"edit_cart":{"defaults":{},"path":"/carts/:id/edit"},"cart":{"defaults":{},"path":"/carts/:id"},"product_searches":{"defaults":{},"path":"/searches/product"},"searches":{"defaults":{},"path":"/searches"},"new_search":{"defaults":{},"path":"/searches/new"},"edit_search":{"defaults":{},"path":"/searches/:id/edit"},"search":{"defaults":{},"path":"/searches/:id"},"home_index":{"defaults":{},"path":"/home/index"},"store_map":{"defaults":{},"path":"/store/map"},"store_index":{"defaults":{},"path":"/store/index"},"store_all_category":{"defaults":{},"path":"/store/all_category"},"store_show":{"defaults":{},"path":"/store/show"},"store_contact":{"defaults":{},"path":"/store/contact"},"increase_line_item":{"defaults":{},"path":"/line/increase"},"decrease_line_item":{"defaults":{},"path":"/line/decrease"},"store_showlike":{"defaults":{},"path":"/store/showlike"},"change_locale":{"defaults":{},"path":"/change_locale/:locale"},"search_products":{"defaults":{},"path":"/products/search"},"laptop_products":{"defaults":{},"path":"/products/laptop"},"car_products":{"defaults":{},"path":"/products/car"},"telephone_products":{"defaults":{},"path":"/products/telephone"},"product_comments":{"defaults":{},"path":"/products/:product_id/comments"},"new_product_comment":{"defaults":{},"path":"/products/:product_id/comments/new"},"edit_product_comment":{"defaults":{},"path":"/products/:product_id/comments/:id/edit"},"product_comment":{"defaults":{},"path":"/products/:product_id/comments/:id"},"products":{"defaults":{},"path":"/products"},"new_product":{"defaults":{},"path":"/products/new"},"edit_product":{"defaults":{},"path":"/products/:id/edit"},"product":{"defaults":{},"path":"/products/:id"},"finish_signup":{"defaults":{},"path":"/users/:id/finish_signup"},"user_show":{"defaults":{},"path":"/info_show_from_email/:user_id"},"user_show_navbar":{"defaults":{},"path":"/info_show_from_navbar/:user_id"},"ban":{"defaults":{},"path":"/ban_the_user/:id"},"make_admin":{"defaults":{},"path":"/make_admin/:id"},"delete_user":{"defaults":{},"path":"/user_delete/:id"},"root":{"defaults":{},"path":"/"},"admin_configurable":{"defaults":{},"path":"/admin/configurable"},"new_admin_configurable":{"defaults":{},"path":"/admin/configurable/new"},"edit_admin_configurable":{"defaults":{},"path":"/admin/configurable/edit"},"rails_mailers":{"defaults":{},"path":"/rails/mailers"},"rails_info_properties":{"defaults":{},"path":"/rails/info/properties"},"rails_info_routes":{"defaults":{},"path":"/rails/info/routes"},"rails_info":{"defaults":{},"path":"/rails/info"}};
+        routes = {"order_products":{"defaults":{},"path":"/products/:kind"},"product_comments":{"defaults":{},"path":"/products/:product_id/comments"},"new_product_comment":{"defaults":{},"path":"/products/:product_id/comments/new"},"edit_product_comment":{"defaults":{},"path":"/products/:product_id/comments/:id/edit"},"product_comment":{"defaults":{},"path":"/products/:product_id/comments/:id"},"products":{"defaults":{},"path":"/products"},"new_product":{"defaults":{},"path":"/products/new"},"edit_product":{"defaults":{},"path":"/products/:id/edit"},"product":{"defaults":{},"path":"/products/:id"},"new_user_session":{"defaults":{},"path":"/users/sign_in"},"user_session":{"defaults":{},"path":"/users/sign_in"},"destroy_user_session":{"defaults":{},"path":"/users/sign_out"},"user_digitalocean_omniauth_authorize":{"defaults":{},"path":"/users/auth/digitalocean"},"user_digitalocean_omniauth_callback":{"defaults":{},"path":"/users/auth/digitalocean/callback"},"user_google_oauth2_omniauth_authorize":{"defaults":{},"path":"/users/auth/google_oauth2"},"user_google_oauth2_omniauth_callback":{"defaults":{},"path":"/users/auth/google_oauth2/callback"},"user_facebook_omniauth_authorize":{"defaults":{},"path":"/users/auth/facebook"},"user_facebook_omniauth_callback":{"defaults":{},"path":"/users/auth/facebook/callback"},"user_password":{"defaults":{},"path":"/users/password"},"new_user_password":{"defaults":{},"path":"/users/password/new"},"edit_user_password":{"defaults":{},"path":"/users/password/edit"},"cancel_user_registration":{"defaults":{},"path":"/users/cancel"},"user_registration":{"defaults":{},"path":"/users"},"new_user_registration":{"defaults":{},"path":"/users/sign_up"},"edit_user_registration":{"defaults":{},"path":"/users/edit"},"voices_increase":{"defaults":{},"path":"/voices/:increase_id"},"voices_decrease":{"defaults":{},"path":"/voices/:decrease_id"},"admin_admins":{"defaults":{},"path":"/admin/admins"},"admin_admin_configurable_edit":{"defaults":{},"path":"/admin/configurable/edit"},"admin_clients":{"defaults":{},"path":"/admin/clients"},"new_admin_client":{"defaults":{},"path":"/admin/clients/new"},"edit_admin_client":{"defaults":{},"path":"/admin/clients/:id/edit"},"admin_client":{"defaults":{},"path":"/admin/clients/:id"},"admin_tasks":{"defaults":{},"path":"/admin/tasks"},"new_admin_task":{"defaults":{},"path":"/admin/tasks/new"},"edit_admin_task":{"defaults":{},"path":"/admin/tasks/:id/edit"},"admin_task":{"defaults":{},"path":"/admin/tasks/:id"},"infos":{"defaults":{},"path":"/infos"},"new_info":{"defaults":{},"path":"/infos/new"},"edit_info":{"defaults":{},"path":"/infos/:id/edit"},"info":{"defaults":{},"path":"/infos/:id"},"messagestoadministrators":{"defaults":{},"path":"/messagestoadministrators"},"new_messagestoadministrator":{"defaults":{},"path":"/messagestoadministrators/new"},"edit_messagestoadministrator":{"defaults":{},"path":"/messagestoadministrators/:id/edit"},"messagestoadministrator":{"defaults":{},"path":"/messagestoadministrators/:id"},"answerfrommoderators":{"defaults":{},"path":"/answerfrommoderators"},"new_answerfrommoderator":{"defaults":{},"path":"/answerfrommoderators/new"},"edit_answerfrommoderator":{"defaults":{},"path":"/answerfrommoderators/:id/edit"},"answerfrommoderator":{"defaults":{},"path":"/answerfrommoderators/:id"},"orders":{"defaults":{},"path":"/orders"},"new_order":{"defaults":{},"path":"/orders/new"},"edit_order":{"defaults":{},"path":"/orders/:id/edit"},"order":{"defaults":{},"path":"/orders/:id"},"line_items":{"defaults":{},"path":"/line_items"},"new_line_item":{"defaults":{},"path":"/line_items/new"},"edit_line_item":{"defaults":{},"path":"/line_items/:id/edit"},"line_item":{"defaults":{},"path":"/line_items/:id"},"carts":{"defaults":{},"path":"/carts"},"new_cart":{"defaults":{},"path":"/carts/new"},"edit_cart":{"defaults":{},"path":"/carts/:id/edit"},"cart":{"defaults":{},"path":"/carts/:id"},"product_searches":{"defaults":{},"path":"/searches/product"},"searches":{"defaults":{},"path":"/searches"},"new_search":{"defaults":{},"path":"/searches/new"},"edit_search":{"defaults":{},"path":"/searches/:id/edit"},"search":{"defaults":{},"path":"/searches/:id"},"home_index":{"defaults":{},"path":"/home/index"},"store_map":{"defaults":{},"path":"/store/map"},"store_index":{"defaults":{},"path":"/store/index"},"store_all_category":{"defaults":{},"path":"/store/all_category"},"store_show":{"defaults":{},"path":"/store/show"},"store_contact":{"defaults":{},"path":"/store/contact"},"increase_line_item":{"defaults":{},"path":"/line/increase"},"decrease_line_item":{"defaults":{},"path":"/line/decrease"},"store_showlike":{"defaults":{},"path":"/store/showlike"},"change_locale":{"defaults":{},"path":"/change_locale/:locale"},"finish_signup":{"defaults":{},"path":"/users/:id/finish_signup"},"user_show":{"defaults":{},"path":"/info_show_from_email/:user_id"},"user_show_navbar":{"defaults":{},"path":"/info_show_from_navbar/:user_id"},"ban":{"defaults":{},"path":"/ban_the_user/:id"},"make_admin":{"defaults":{},"path":"/make_admin/:id"},"delete_user":{"defaults":{},"path":"/user_delete/:id"},"root":{"defaults":{},"path":"/"},"admin_configurable":{"defaults":{},"path":"/admin/configurable"},"new_admin_configurable":{"defaults":{},"path":"/admin/configurable/new"},"edit_admin_configurable":{"defaults":{},"path":"/admin/configurable/edit"}};
 
     self.defaultParams = {}
 

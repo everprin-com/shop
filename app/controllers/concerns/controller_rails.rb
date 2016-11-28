@@ -66,9 +66,17 @@ module ControllerRails
     end
 
     private
-    
+      
       def set_resource
-        @resource = @model.find(params[:id])
+        begin
+          @resource = @model.find(params[:id])
+        rescue
+          raise Page::NotFound 
+        end      
+      end
+      
+      def redirect_update
+        @model
       end
 
       def pluck_fields
