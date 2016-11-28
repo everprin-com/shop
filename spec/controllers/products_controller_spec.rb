@@ -18,129 +18,74 @@ RSpec.describe ProductsController, type: :controller do
     end
   end
 
-
-
-
-
-
-  describe "GET #index" do
-    it "assigns all products as @products" do
-      product = Product.create! valid_attributes
-      get :index, params: {}, session: valid_session
-      expect(assigns(:products)).to eq([product])
-    end
-  end
-
-  describe "GET #show" do
-    it "assigns the requested product as @product" do
-      product = Product.create! valid_attributes
-      get :show, params: {id: product.to_param}, session: valid_session
-      expect(assigns(:product)).to eq(product)
-    end
-  end
-
-  describe "GET #new" do
-    it "assigns a new product as @product" do
-      get :new, params: {}, session: valid_session
-      expect(assigns(:product)).to be_a_new(Product)
-    end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested product as @product" do
-      product = Product.create! valid_attributes
-      get :edit, params: {id: product.to_param}, session: valid_session
-      expect(assigns(:product)).to eq(product)
-    end
-  end
-
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Product" do
-        expect {
-          post :create, params: {product: valid_attributes}, session: valid_session
-        }.to change(Product, :count).by(1)
+  
+  describe 'POST #create' do
+    context 'with valid attributes' do
+      it 'creates the vehicle' do
+        post :create, product: attributes_for(:product)
+        expect(Product.count).to eq(1)
       end
 
-      it "assigns a newly created product as @product" do
-        post :create, params: {product: valid_attributes}, session: valid_session
-        expect(assigns(:product)).to be_a(Product)
-        expect(assigns(:product)).to be_persisted
-      end
-
-      it "redirects to the created product" do
-        post :create, params: {product: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Product.last)
+      it 'redirects to the "show" action for the new vehicle' do
+        post :create, product: attributes_for(:product)
+        expect(response).to redirect_to Product.first
       end
     end
 
-    context "with invalid params" do
-      it "assigns a newly created but unsaved product as @product" do
-        post :create, params: {product: invalid_attributes}, session: valid_session
-        expect(assigns(:product)).to be_a_new(Product)
+    context 'with invalid attributes' do
+      it 'does not create the vehicle' do
+        post :create, product: attributes_for(:product, price: nil)
+        expect(Product.count).to eq(0)
       end
 
-      it "re-renders the 'new' template" do
-        post :create, params: {product: invalid_attributes}, session: valid_session
-        expect(response).to render_template("new")
+      it 're-renders the "new" view' do
+        post :create, product: attributes_for(:product, price: nil)
+        expect(response).to render_template :new
       end
     end
   end
 
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
 
-      it "updates the requested product" do
-        product = Product.create! valid_attributes
-        put :update, params: {id: product.to_param, product: new_attributes}, session: valid_session
-        product.reload
-        skip("Add assertions for updated state")
+  context 'json' do
+    context 'with valid attributes' do
+      it 'creates the vehicle' do
+        post :create, product: attributes_for(:product), format: :json
+        expect(Product.count).to eq(1)
       end
 
-      it "assigns the requested product as @product" do
-        product = Product.create! valid_attributes
-        put :update, params: {id: product.to_param, product: valid_attributes}, session: valid_session
-        expect(assigns(:product)).to eq(product)
-      end
-
-      it "redirects to the product" do
-        product = Product.create! valid_attributes
-        put :update, params: {id: product.to_param, product: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(product)
+      it 'responds with 201' do
+        post :create, product: attributes_for(:product), format: :json
+        expect(response).to have_http_status(201)
       end
     end
 
-    context "with invalid params" do
-      it "assigns the product as @product" do
-        product = Product.create! valid_attributes
-        put :update, params: {id: product.to_param, product: invalid_attributes}, session: valid_session
-        expect(assigns(:product)).to eq(product)
+    context 'with invalid attributes' do
+      it 'does not create the vehicle' do
+        post :create, product: attributes_for(:product, price: nil), format: :json
+        expect(Product.count).to eq(0)
       end
 
-      it "re-renders the 'edit' template" do
-        product = Product.create! valid_attributes
-        put :update, params: {id: product.to_param, product: invalid_attributes}, session: valid_session
-        expect(response).to render_template("edit")
+      it 'responds with 422' do
+        post :create, product: attributes_for(:product, price: nil), format: :json
+        expect(response).to have_http_status(422)
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested product" do
-      product = Product.create! valid_attributes
-      expect {
-        delete :destroy, params: {id: product.to_param}, session: valid_session
-      }.to change(Product, :count).by(-1)
-    end
+  describe 'Ed product' do 
 
-    it "redirects to the products list" do
-      product = Product.create! valid_attributes
-      delete :destroy, params: {id: product.to_param}, session: valid_session
-      expect(response).to redirect_to(products_url)
+    
+    #let(:product) {create(:product)}
+    #product = create(:product)
+    before(:each) do
+      @product = FactoryGirl.create(:product)
+   
     end
+    
+    it "finds a specific product" do
+      patch :update, id: @product.id, product: FactoryGirl.attributes_for(:product)
+      expect(assigns(:product)).to eq(@product.id)
+    end
+   
   end
-
 end

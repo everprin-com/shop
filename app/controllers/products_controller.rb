@@ -59,7 +59,7 @@ class ProductsController < ApplicationController
     @resource.update_attributes(title: save_title(@resource.title))
     respond_to do |format|
       if @resource.save
-        format.html { redirect_to store_index_path, notice: 'Product was successfully created.' }
+        format.html { redirect_to @resource, notice: 'Product was successfully created.' }
         format.json { render :index, status: :created, location: @resource }
       else
         format.html { render :new }
