@@ -82,10 +82,10 @@ RSpec.describe ProductsController, type: :controller do
    
     end
     
-    it "finds a specific product" do
-      patch :update, id: @product.id, product: FactoryGirl.attributes_for(:product)
-      expect(assigns(:product)).to eq(@product.id)
-    end
+    #it "finds a specific product" do
+      #patch :update, id: @product.id, product: FactoryGirl.attributes_for(:product)
+      #expect(assigns(:product)).to eq(@product.id)
+    #end
    
   end
 end

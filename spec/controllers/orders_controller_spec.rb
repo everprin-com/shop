@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MessagestoadministratorsController, type: :controller do
+RSpec.describe OrdersController, type: :controller do
  
   render_views
   login_user
@@ -22,24 +22,24 @@ RSpec.describe MessagestoadministratorsController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'creates the vehicle' do
-        post :create, messagestoadministrator: attributes_for(:messagestoadministrator)
-        expect(Messagestoadministrator.count).to eq(1)
+        post :create, order: attributes_for(:order)
+        expect(Order.count).to eq(1)
       end
 
       it 'redirects to the "show" action for the new vehicle' do
-        post :create, messagestoadministrator: attributes_for(:messagestoadministrator)
-        expect(response).to redirect_to Messagestoadministrator.first
+        post :create, order: attributes_for(:order)
+        expect(response).to redirect_to Order.first
       end
     end
 
     context 'with invalid attributes' do
       it 'does not create the vehicle' do
-        post :create, messagestoadministrator: attributes_for(:messagestoadministrator, email: nil)
-        expect(Messagestoadministrator.count).to eq(0)
+        post :create, order: attributes_for(:order, email: nil)
+        expect(Order.count).to eq(0)
       end
 
       it 're-renders the "new" view' do
-        post :create, messagestoadministrator: attributes_for(:messagestoadministrator, email: nil)
+        post :create, order: attributes_for(:order, email: nil)
         expect(response).to render_template :new
       end
     end
@@ -47,16 +47,26 @@ RSpec.describe MessagestoadministratorsController, type: :controller do
 
 
   context 'json' do
-   
+    context 'with valid attributes' do
+      it 'creates the vehicle' do
+        post :create, order: attributes_for(:order), format: :json
+        expect(Order.count).to eq(1)
+      end
+
+      it 'responds with 201' do
+        post :create, order: attributes_for(:order), format: :json
+        expect(response).to have_http_status(201)
+      end
+    end
 
     context 'with invalid attributes' do
-      it 'does not create the messagestoadministrator' do
-        post :create, messagestoadministrator: attributes_for(:messagestoadministrator, email: nil), format: :json
-        expect(Messagestoadministrator.count).to eq(0)
+      it 'does not create the vehicle' do
+        post :create, order: attributes_for(:order, email: nil), format: :json
+        expect(Order.count).to eq(0)
       end
 
       it 'responds with 422' do
-        post :create, messagestoadministrator: attributes_for(:messagestoadministrator, email: nil), format: :json
+        post :create, order: attributes_for(:order, email: nil), format: :json
         expect(response).to have_http_status(422)
       end
     end
@@ -68,7 +78,7 @@ RSpec.describe MessagestoadministratorsController, type: :controller do
     #let(:product) {create(:product)}
     #product = create(:product)
     before(:each) do
-      @product = FactoryGirl.create(:messagestoadministrator)
+      @product = FactoryGirl.create(:order)
    
     end
     
@@ -79,4 +89,3 @@ RSpec.describe MessagestoadministratorsController, type: :controller do
    
   end
 end
-

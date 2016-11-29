@@ -2,7 +2,7 @@ class MessagestoadministratorsController < ApplicationController
   
   include ControllerRails
   before_action :only_admin_or_moderator, except: [:new, :create]
-  
+  respond_to :html, :js, :json
 
   def set_model
     @model=Messagestoadministrator
