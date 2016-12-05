@@ -12,7 +12,7 @@ gem 'bootstrap_form'
 gem 'coffee-rails'
 
 gem 'jquery-rails'
-
+gem 'redcarpet'
 gem 'jbuilder'
 gem "paperclip"
 gem 'sidekiq'
