@@ -83,7 +83,7 @@ group :development, :test do
   gem "bullet"
   gem 'newrelic_rpm'
   gem 'colored'
-  gem 'deadweight', :require => 'deadweight/hijack/rails'
+  #gem 'deadweight', :require => 'deadweight/hijack/rails'
   gem 'capistrano'
   gem 'capistrano-passenger'
   gem 'capistrano-bundler'

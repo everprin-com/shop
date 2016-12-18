@@ -17,7 +17,7 @@ set :rails_env, 'production'
 
 
 # Replace 127.0.0.1 with your server's IP address!
-server '104.199.32.238', user: 'deploy', roles: %w{web app db}
+server '35.164.207.57', user: 'deploy', roles: %w{web app db}
 
 
 # role-based syntax
