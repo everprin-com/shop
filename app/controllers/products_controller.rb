@@ -32,6 +32,7 @@ class ProductsController < ApplicationController
   # GET /products/1
   # GET /products/1.json
   def show
+    @first_product=@resource
     @user=User.find(@resource.user_id)
     @info=@user.info
      respond_to do |format|
