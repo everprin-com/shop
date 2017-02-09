@@ -10,7 +10,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'bootstrap_form'
 
 gem 'coffee-rails'
-
+gem 'thor', '0.19.1'
 gem 'jquery-rails'
 gem 'redcarpet'
 gem 'jbuilder'
@@ -83,7 +83,7 @@ group :development, :test do
   gem "bullet"
   gem 'newrelic_rpm'
   gem 'colored'
-  gem 'deadweight', :require => 'deadweight/hijack/rails'
+  #gem 'deadweight', :require => 'deadweight/hijack/rails'
   gem 'capistrano'
   gem 'capistrano-passenger'
   gem 'capistrano-bundler'

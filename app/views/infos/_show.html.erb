@@ -39,7 +39,7 @@
 
 
       <tbody> <td>Website:  </td>
-      <td><%= info_presenter.website %>
+      <td><%= markdown(info_presenter.website) %>
     </tbody>
 
 
@@ -58,7 +58,7 @@
 
 
     <tbody> <td>Bio:  </td>
-            <td><%=info_presenter.bio %>
+            <td><%= markdown(info_presenter.bio) %>
     </tbody>
     <tbody> 
       <td>Film created: 

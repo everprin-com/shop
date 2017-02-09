@@ -1,16 +1,16 @@
 # config valid only for current version of Capistrano
-lock '3.6.1'
+lock '3.7.1'
 
 set :application, 'shop'
 
 
-set :repo_url, 'git@github.com:olegprin/shop.git'
+set :repo_url, 'git@github.com:olegsta/shop.git'
 
 set :deploy_to, '/home/deploy/shop'
 
 
 set :rbenv_type, :user # or :system, depends on your rbenv setup
-set :rbenv_ruby, '2.3.0'
+set :rbenv_ruby, '2.2.4'
 
 set :passenger_restart_with_touch, true
 #set :rbenv_path, '/usr/local/rbenv'
