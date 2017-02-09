@@ -10,7 +10,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'bootstrap_form'
 
 gem 'coffee-rails'
-
+gem 'thor', '0.19.1'
 gem 'jquery-rails'
 gem 'redcarpet'
 gem 'jbuilder'
