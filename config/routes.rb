@@ -1,15 +1,6 @@
 Rails.application.routes.draw do
 
-  kinds = %w|search laptop car mobile|
 
-  resources :products do 
-    collection do
-      get '/:kind' => 'products#order', as: :order, constraints: {kind: Regexp.new(kinds.join('|'))}
-    end
-      resources :comments, module: :products do
-    end
-  end  
-  
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   
   put "voices/:increase_id" => "voices#increase", :as => "voices_increase"
@@ -17,9 +8,9 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources  :admins, only: [:index] 
-    get "configurable/edit", as: "admin_configurable_edit"
-    resources  :clients
-    resources  :tasks
+    #get "configurable/edit", as: "admin_configurable_edit"
+    #resources  :clients
+    #resources  :tasks
   end
   
 
@@ -33,20 +24,29 @@ Rails.application.routes.draw do
 
   
   get 'home/index'
-
   get 'store/map'
   get 'store/index'
   get 'store/all_category'
   get 'store/show'
   get 'store/contact'
-  
-
   get 'line/increase',to: 'line_items#increase', as: :increase_line_item
   get 'line/decrease',to: 'line_items#decrease', as: :decrease_line_item
   get 'store/showlike'
   get '/change_locale/:locale', to: 'pages#change_locale', as: :change_locale
   
 
+
+  resources :products do 
+    collection do
+      get "search" => "products#search"
+      get "laptop" => "products#laptop"
+      get "car" => "products#car"
+      get "telephone" => "products#telephone"
+    end
+      resources :comments, module: :products do
+    end
+  end  
+  
 
   get '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup  
   get "info_show_from_email/:user_id" => "infos#show_from_email", :as => "user_show"
