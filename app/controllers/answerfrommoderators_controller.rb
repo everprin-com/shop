@@ -8,7 +8,19 @@ class AnswerfrommoderatorsController < ApplicationController
   
   def set_model
     @model=Answerfrommoderator
-  end  
+  end 
+    
+  def redirect_options
+    {
+      create: {
+        redirect_to_url: products_path
+      },
+      update: {
+        redirect_to_url: products_path
+      }
+    }
+  end 
+ 
 
   private
  

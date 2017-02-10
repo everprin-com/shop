@@ -12,7 +12,7 @@
       %th
 
   %tbody
-    - @answerfrommoderators.try(:each) do |answerfrommoderator|
+    - @answerfrommoderators.each do |answerfrommoderator|
       %tr
         %td= answerfrommoderator.user_id
         %td= answerfrommoderator.send_message

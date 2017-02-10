@@ -2,8 +2,8 @@
 <!-- navigator -->
   <div id="prod_nav">
     <div class="row">
-      <%if @resources.present?%>
-      <% @resources.each do |product| %> 
+      <%if @products.present?%>
+      <% @products.each do |product| %> 
         <div class="col-md-4">
           <div class="title_product">
             <%= product.title.capitalize %>

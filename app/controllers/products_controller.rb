@@ -32,7 +32,6 @@ class ProductsController < ApplicationController
   # GET /products/1
   # GET /products/1.json
   def show
-    @first_product=@resource
     @user=User.find(@resource.user_id)
     @info=@user.info
      respond_to do |format|
@@ -60,7 +59,7 @@ class ProductsController < ApplicationController
     @resource.update_attributes(title: save_title(@resource.title))
     respond_to do |format|
       if @resource.save
-        format.html { redirect_to @resource, notice: 'Product was successfully created.' }
+        format.html { redirect_to store_index_path, notice: 'Product was successfully created.' }
         format.json { render :index, status: :created, location: @resource }
       else
         format.html { render :new }
@@ -68,13 +67,32 @@ class ProductsController < ApplicationController
       end
     end
   end
+
   
-  def order
-    @par=params[:kind]
-    @products = Product.where(category: @par.to_s.capitalize).paginate(:page => params[:page], :per_page => Configurable['products_per_page'])
+  def mobile
+    @products = Product.where(category: "Mobile").paginate(:page => params[:page], :per_page => Configurable['products_per_page'])
     @resource= @products.first
     render "store/index"
-  end
+  end  
+
+  def car
+    @products = Product.where(category: "Car").paginate(:page => params[:page], :per_page => Configurable['products_per_page'])
+    @product= @products.first
+    render "store/index"
+  end  
+  
+  def laptop
+    @products = Product.where(category: "Laptop").paginate(:page => params[:page], :per_page => Configurable['products_per_page'])
+    @resource= @products.first
+    render "store/index"
+  end  
+  
+
+  def telephone
+    @products = Product.where(category: "Telephone").paginate(:page => params[:page], :per_page => Configurable['products_per_page'])
+    @resource= @products.first
+    render "store/index"
+  end   
 
   private
     # Use callbacks to share common setup or constraints between actions.
