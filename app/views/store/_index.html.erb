@@ -5,6 +5,7 @@
     <div class="col-md-9">  
       <div class="search_panel"> 
       <%=render "searches/new"%>
+     
       </div>
     </div>
     <div class="image_cart">
@@ -30,7 +31,7 @@
 
 
         <div id="hide_tovar">  
-          <%= render "products/show" %>  
+          <%= render partial: "products/show" %>  
         </div>         
         <div id="mytovar">
           <%=render "store/product"%>
