@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
+
+
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
   include CurrentCart
   before_action :set_cart
@@ -39,11 +39,7 @@ class ApplicationController < ActionController::Base
   end
   
   def ensure_signup_complete
-    # Ensure we don't go into an infinite loop
     return if action_name == 'finish_signup'
-
-    # Redirect to the 'finish_signup' page if the user
-    # email hasn't been verified yet
     if current_user && !current_user.email_verified?
       redirect_to finish_signup_path(current_user)
     end
@@ -55,17 +51,17 @@ class ApplicationController < ActionController::Base
     respond_with *args, options, &blk
   end
   
- # rescue_from Cinema::NotFound do
-   # render_404
- # end
+  rescue_from Page::NotFound do
+    render_404
+  end
 
-  #rescue_from Cinema::InvalidAccess do
-  #  render_404
-#  end
+  rescue_from Page::InvalidAccess do
+    render_404
+  end
 
-  #rescue_from Cinema::ReadOnly do
-   # render_404
- # end
+  rescue_from Page::ReadOnly do
+    render_404
+  end
 
   def user_present?
     current_user.present?
@@ -113,12 +109,12 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate
-  if current_user.try(:role)=="admin"
-    true
-  else
-    redirect_to root_path  
-   end  
-end  
+    if current_user.try(:role)=="admin"
+      true
+    else
+      redirect_to root_path  
+    end  
+  end  
 
   private
     
