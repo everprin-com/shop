@@ -1,0 +1,22 @@
+= form_for @answerfrommoderator do |f|
+  - if @answerfrommoderator.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@answerfrommoderator.errors.count, "error")} prohibited this answerfrommoderator from being saved:"
+      %ul
+        - @answerfrommoderator.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :user_id
+    = f.number_field :user_id
+  .field
+    = f.label :send_message
+    = f.text_field :send_message
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :content
+    = f.text_field :content
+  .actions
+    = f.submit 'Save'
