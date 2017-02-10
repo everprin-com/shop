@@ -7,13 +7,10 @@ class StoreController < ApplicationController
   end
 
   def index
-    @product=Product.first
+    @first_product=Product.first
     #@products = Product.order(:title)
-  	@products = Product.order(:title).paginate(
-       :page => params[:page],
-       :per_page => Configurable[:products_per_page]
-    )
-    @resourse='Product'
+  	@resources = Product.order_paginate(params[:page],Configurable[:products_per_page])
+    #@resourse='Product'
   end
 
   def show
@@ -26,7 +23,7 @@ class StoreController < ApplicationController
   
 
   def contact
-    @messagestoadministrator = Messagestoadministrator.new
+    @resource = Messagestoadministrator.new
   end 
    
 end

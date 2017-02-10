@@ -52,20 +52,20 @@ module ApplicationHelper
   
 
 
-   def all_total_price
+  def all_total_price
     @price=0
     @cart.line_items.each do |line_item|
       @price=@price+line_item.price.to_i
-  end
-  @price
-end 
+    end
+    @price
+  end 
 
   def current_info
     @info = Info.find_by_user_id(current_user.id)
   end
 
   def count_of_product
-      "55"
+    "55"
   end  
 
 	def current_blog(_user=current_user)
@@ -220,13 +220,11 @@ end
   end
 
   def current_author_for_object(resourse, object)  
-
       if resourse.where(id: object.id).present?
         true
       else
         false
-      end     
-      
+      end       
   end
 
   #-if can_manage(current_user.films,film, Film)

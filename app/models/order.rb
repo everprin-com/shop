@@ -10,7 +10,7 @@ class Order < ActiveRecord::Base
 
 
   def new_order
-   OrderMailer.new_order(self).deliver
+   OrderMailer.new_order(self).deliver_now
   end
   
   
