@@ -63,12 +63,9 @@ end
     true
   end
 
-
-
-
   def send_notification
-    AdminMailer.new_user(self).deliver_now
-    AdminMailer.new_user_admin(self).deliver_now
+    AdminMailer.new_user(self).delay.welcome_email
+    AdminMailer.new_user_admin(self).delay.do_long_running_action(@project.id)
   end
 
 end
