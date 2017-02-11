@@ -14,20 +14,16 @@ class SearchesController < ApplicationController
     @search_min_price=params[:search][:min_price]
     @search_max_price=params[:search][:max_price]
     search_products
+    
     if @products.present?
-      @first_product=@products.first
-      @resources=@products
-      respond_to do |format|
-        format.html { redirect_to root_path }
-        format.js { }
-      end
+    @product=@products.first
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.js { }
+    end
     end
   end
    
-
-
-  private
-    
   def search_products
     @products=Product.all
     @products=@products.where(["category LIKE ?", @search_category])
@@ -38,6 +34,9 @@ class SearchesController < ApplicationController
     @products=@products.paginate(:page => params[:page], :per_page => Configurable['products_per_page'])
     @products
   end
+
+  private
+
     # Use callbacks to share common setup or constraints between actions.
    
     # Never trust parameters from the scary internet, only allow the white list through.

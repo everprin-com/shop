@@ -29,9 +29,7 @@ class VoicesController < ApplicationController
       " You should registered"
     end
   end
-  
-  private
-     
+    
   def voice_params
     params.require(:voice).permit(:vote_flag, :votable_type, :sum_voices, :votable_id, :voter_id, :voter_type)
   end

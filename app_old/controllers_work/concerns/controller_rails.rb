@@ -7,10 +7,6 @@ module ControllerRails
 
     def index
       @resources = @model.all
-       respond_to do |format|
-        format.html
-        format.json {render json: @resources}
-      end
     end
 
     # GET /messages/1
@@ -64,33 +60,21 @@ module ControllerRails
     def destroy
       @resource.destroy
       respond_to do |format|
-        format.html { redirect_to root_path, notice: 'Message was successfully destroyed.' }
+        format.html { redirect_to redirect_options, notice: 'Message was successfully destroyed.' }
         format.json { head :no_content }
       end
     end
 
     private
-      
+    
       def set_resource
-        begin
-          @resource = @model.find(params[:id])
-        rescue
-          raise Page::NotFound 
-        end      
-      end
-      
-      def redirect_update
-        @model
+        @resource = @model.find(params[:id])
       end
 
       def pluck_fields
         @model.pluck_fields
       end
-      
-      def redirect_options
-        root_path
-      end
-        
+
       def check_auth
         unless current_user
           render json: {msg: "Вы не авторизованы"}, status: 403

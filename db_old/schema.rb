@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20160423230222) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "answerfrommoderators", force: :cascade do |t|
     t.integer  "user_id"
     t.boolean  "send_message"
@@ -54,7 +51,7 @@ ActiveRecord::Schema.define(version: 20160423230222) do
     t.datetime "updated_at"
   end
 
-  add_index "configurables", ["name"], name: "index_configurables_on_name", using: :btree
+  add_index "configurables", ["name"], name: "index_configurables_on_name"
 
   create_table "identities", force: :cascade do |t|
     t.integer  "user_id"
@@ -64,7 +61,7 @@ ActiveRecord::Schema.define(version: 20160423230222) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
+  add_index "identities", ["user_id"], name: "index_identities_on_user_id"
 
   create_table "infos", force: :cascade do |t|
     t.string   "name"
@@ -84,7 +81,7 @@ ActiveRecord::Schema.define(version: 20160423230222) do
     t.datetime "updated_at",                            null: false
   end
 
-  add_index "infos", ["user_id"], name: "index_infos_on_user_id", using: :btree
+  add_index "infos", ["user_id"], name: "index_infos_on_user_id"
 
   create_table "line_items", force: :cascade do |t|
     t.integer  "product_id"
@@ -96,8 +93,8 @@ ActiveRecord::Schema.define(version: 20160423230222) do
     t.datetime "updated_at",             null: false
   end
 
-  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id", using: :btree
-  add_index "line_items", ["product_id"], name: "index_line_items_on_product_id", using: :btree
+  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id"
+  add_index "line_items", ["product_id"], name: "index_line_items_on_product_id"
 
   create_table "messagestoadministrators", force: :cascade do |t|
     t.string   "name"
@@ -160,10 +157,12 @@ ActiveRecord::Schema.define(version: 20160423230222) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.string   "provider"
+    t.string   "uid"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   create_table "voices", force: :cascade do |t|
     t.integer  "votable_id"
@@ -176,8 +175,4 @@ ActiveRecord::Schema.define(version: 20160423230222) do
     t.datetime "updated_at",               null: false
   end
 
-  add_foreign_key "identities", "users"
-  add_foreign_key "infos", "users"
-  add_foreign_key "line_items", "carts"
-  add_foreign_key "line_items", "products"
 end
