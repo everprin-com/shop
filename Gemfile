@@ -23,10 +23,10 @@ gem 'bootstrap_form'
 gem 'jquery-ui-rails'
 
 gem 'devise'
-gem 'omniauth-google-oauth2', :require => "omniauth-google-oauth2"
+#gem 'omniauth-google-oauth2', :require => "omniauth-google-oauth2"
 
-gem 'omniauth-oauth2', '~> 1.3.1'
-gem 'omniauth-digitalocean'
+#gem 'omniauth-oauth2', '~> 1.3.1'
+#gem 'omniauth-digitalocean'
 
 gem 'cancancan'
 gem 'will_paginate'
