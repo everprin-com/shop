@@ -10,12 +10,12 @@ gem 'uglifier', '>= 1.3.0'
 gem 'bootstrap_form'
 
 gem 'coffee-rails'
-gem 'thor', '0.19.1'
+
 gem 'jquery-rails'
-gem 'redcarpet'
+
 gem 'jbuilder'
 gem "paperclip"
-gem 'sidekiq'
+
 gem 'bootstrap-sass'
 gem 'sass-rails'
 gem 'bootstrap_form'
@@ -23,10 +23,10 @@ gem 'bootstrap_form'
 gem 'jquery-ui-rails'
 
 gem 'devise'
-#gem 'omniauth-google-oauth2', :require => "omniauth-google-oauth2"
+gem 'omniauth-google-oauth2', :require => "omniauth-google-oauth2"
 
-#gem 'omniauth-oauth2', '~> 1.3.1'
-#gem 'omniauth-digitalocean'
+gem 'omniauth-oauth2', '~> 1.3.1'
+gem 'omniauth-digitalocean'
 
 gem 'cancancan'
 gem 'will_paginate'
@@ -41,11 +41,16 @@ gem 'thin'
 gem 'active_model_serializers', '0.9.4'
 gem 'slim'
 gem 'slim-rails'
+
 gem 'gon'
 gem 'carrierwave'
+
 #gem 'mysql2',          '~> 0.3.18', :platform => :ruby
 #gem 'thinking-sphinx', '~> 3.1.4'
+
 gem 'mini_magick'
+
+gem "oxymoron"
 gem 'kaminari'
 gem 'geocoder'
 gem 'gmaps4rails'
@@ -54,23 +59,25 @@ gem 'oj'
 gem 'oj_mimic_json'
 gem 'file_validators'
 gem 'whenever', :require => false
+
 gem "rolify"
+
 gem "pundit"
 gem "rest-client"
 
 
 
 group :development, :test do
-  gem 'capybara', '~> 2.5'
+  gem 'capybara'
   gem 'byebug'
-  gem 'rspec-rails', '~> 3.4'
+  gem 'rspec-rails'
   gem 'shoulda-matchers', require: false
   gem 'database_cleaner'
   gem 'faker'
   gem 'factory_girl_rails'
-  gem 'selenium-webdriver'
   gem 'simplecov', :require => false
-  #gem 'minitest-rails-capybara'
+
+
   #gem "ruby-growl"
   #gem "ruby_gntp"
   #gem "awesome_print", require:"ap"
@@ -83,7 +90,7 @@ group :development, :test do
   gem "bullet"
   gem 'newrelic_rpm'
   gem 'colored'
-  #gem 'deadweight', :require => 'deadweight/hijack/rails'
+  gem 'deadweight', :require => 'deadweight/hijack/rails'
   gem 'capistrano'
   gem 'capistrano-passenger'
   gem 'capistrano-bundler'
