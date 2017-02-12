@@ -1,4 +1,0 @@
-module OrdersHelper
-
-
-end

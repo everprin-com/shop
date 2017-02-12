@@ -1,4 +1,0 @@
-module CartsHelper
-
-   
-end
