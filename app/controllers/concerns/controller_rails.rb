@@ -36,7 +36,7 @@ module ControllerRails
       end   
       respond_to do |format|
         if @resource.save
-          format.html { redirect_to @resource, notice: 'Message was successfully created.' }
+          format.html { redirect_to root_path, notice: 'Message was successfully created.' }
           format.json { render :show, status: :created, location: @resource }
         else
           format.html { render :new }

@@ -19,16 +19,16 @@ class InfosController < ApplicationController
     @user=User.find(params[:user_id])
     render "infos/show"
   end
-
+  
   def show
-    @user=@info.user
+    @user=@resource.user
   end
 
   private
 
       # Use callbacks to share common setup or constraints between actions.  
     def define_eccept
-      if current_user.info.id==@info.id || can_manage_has_one(current_user.info, @info, Info)
+      if current_user.info.id==@resource.id || can_manage_has_one(current_user.info, @resource, Info)
         return true
       else
         redirect_to root_path 
