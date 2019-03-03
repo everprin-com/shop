@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.6'
 
 gem "haml-rails"
-gem 'sqlite3'
 gem 'uglifier', '>= 1.3.0'
 
 gem 'bootstrap_form'
@@ -41,10 +40,10 @@ gem 'thin'
 gem 'active_model_serializers', '0.9.4'
 gem 'slim'
 gem 'slim-rails'
-
+gem 'json'#, github: 'flori/json', branch: 'v1.8'
 gem 'gon'
 gem 'carrierwave'
-
+gem 'webpacker'
 #gem 'mysql2',          '~> 0.3.18', :platform => :ruby
 #gem 'thinking-sphinx', '~> 3.1.4'
 
@@ -55,8 +54,8 @@ gem 'kaminari'
 gem 'geocoder'
 gem 'gmaps4rails'
 gem 'underscore-rails'
-gem 'oj'
-gem 'oj_mimic_json'
+# gem 'oj'
+# gem 'oj_mimic_json'
 gem 'file_validators'
 gem 'whenever', :require => false
 
@@ -69,6 +68,7 @@ gem "rest-client"
 
 group :development, :test do
   gem 'capybara'
+  gem 'sqlite3', '~> 1.3.6'
   gem 'byebug'
   gem 'rspec-rails'
   gem 'shoulda-matchers', require: false
@@ -95,5 +95,5 @@ group :development, :test do
   gem 'capistrano-passenger'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
-  gem 'capistrano-rbenv', github: "capistrano/rbenv"
+  #gem 'capistrano-rbenv', github: "capistrano/rbenv"
 end

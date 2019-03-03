@@ -7,39 +7,6 @@
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'AngularXMLHttpRequest';
     $httpProvider.defaults.paramSerializer = '$httpParamSerializerJQLike';
   }])
-
-  .config(["$httpProvider", function ($httpProvider) {
-      $httpProvider.defaults.transformResponse.push(function(responseData){
-          convertDateStringsToDates(responseData);
-          return responseData;
-      });
-  }]);
-
-  var regexIso8601 = /^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$/;
-
-  function convertDateStringsToDates(input) {
-      // Ignore things that aren't objects.
-      if (typeof input !== "object") return input;
-
-      for (var key in input) {
-          if (!input.hasOwnProperty(key)) continue;
-
-          var value = input[key];
-          var match;
-          // Check for string properties which look like dates.
-          // TODO: Improve this regex to better match ISO 8601 date strings.
-          if (typeof value === "string" && (match = value.match(regexIso8601))) {
-              // Assume that Date.parse can parse ISO 8601 strings, or has been shimmed in older browsers to do so.
-              var milliseconds = Date.parse(match[0]);
-              if (!isNaN(milliseconds)) {
-                  input[key] = new Date(milliseconds);
-              }
-          } else if (typeof value === "object") {
-              // Recurse into object
-              convertDateStringsToDates(value);
-          }
-      }
-  }
 angular.module("oxymoron.config.states", [])
   .config(['$locationProvider', '$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryProvider', function ($locationProvider, $stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
     /*
@@ -1505,274 +1472,274 @@ angular.module("oxymoron.services.resources", [])
   
     .factory('ProductComment', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
       return resourceDecorator($resource('/products/:product_id/comments/:id.json', {"product_id":"@product_id","id":"@id"}, {
-        "new" : {
-          "method" : "GET",
-          "url" : "/products/:product_id/comments/:id/new.json"
+        "new": {
+          "method": "GET",
+          "url": "/products/:product_id/comments/:id/new.json"
         },
-        "edit" : {
-          "method" : "GET",
-          "url" : "/products/:product_id/comments/:id/edit.json"
+        "edit": {
+          "method": "GET",
+          "url": "/products/:product_id/comments/:id/edit.json"
         },
-        "update" : {
-          "method" : "PUT"
+        "update": {
+          "method": "PUT"
         },
-        "create" : {
-          "method" : "POST"
+        "create": {
+          "method": "POST"
         },
-        "destroy" : {
-          "method" : "DELETE"
+        "destroy": {
+          "method": "DELETE"
         }
       }));
     }])
   
     .factory('Product', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
       return resourceDecorator($resource('/products/:id.json', {"id":"@id"}, {
-        "new" : {
-          "method" : "GET",
-          "url" : "/products/:id/new.json"
+        "new": {
+          "method": "GET",
+          "url": "/products/:id/new.json"
         },
-        "edit" : {
-          "method" : "GET",
-          "url" : "/products/:id/edit.json"
+        "edit": {
+          "method": "GET",
+          "url": "/products/:id/edit.json"
         },
-        "update" : {
-          "method" : "PUT"
+        "update": {
+          "method": "PUT"
         },
-        "create" : {
-          "method" : "POST"
+        "create": {
+          "method": "POST"
         },
-        "destroy" : {
-          "method" : "DELETE"
+        "destroy": {
+          "method": "DELETE"
         },
-        "order" : {
-          "url" : "/products/:kind.json",
-          "isArray" : null,
-          "method" : "GET"
+        "order": {
+          "url": "/products/:kind.json",
+          "isArray": null,
+          "method": "GET"
         }
       }));
     }])
   
     .factory('AdminClient', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
       return resourceDecorator($resource('/admin/clients/:id.json', {"id":"@id"}, {
-        "new" : {
-          "method" : "GET",
-          "url" : "/admin/clients/:id/new.json"
+        "new": {
+          "method": "GET",
+          "url": "/admin/clients/:id/new.json"
         },
-        "edit" : {
-          "method" : "GET",
-          "url" : "/admin/clients/:id/edit.json"
+        "edit": {
+          "method": "GET",
+          "url": "/admin/clients/:id/edit.json"
         },
-        "update" : {
-          "method" : "PUT"
+        "update": {
+          "method": "PUT"
         },
-        "create" : {
-          "method" : "POST"
+        "create": {
+          "method": "POST"
         },
-        "destroy" : {
-          "method" : "DELETE"
+        "destroy": {
+          "method": "DELETE"
         }
       }));
     }])
   
     .factory('AdminTask', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
       return resourceDecorator($resource('/admin/tasks/:id.json', {"id":"@id"}, {
-        "new" : {
-          "method" : "GET",
-          "url" : "/admin/tasks/:id/new.json"
+        "new": {
+          "method": "GET",
+          "url": "/admin/tasks/:id/new.json"
         },
-        "edit" : {
-          "method" : "GET",
-          "url" : "/admin/tasks/:id/edit.json"
+        "edit": {
+          "method": "GET",
+          "url": "/admin/tasks/:id/edit.json"
         },
-        "update" : {
-          "method" : "PUT"
+        "update": {
+          "method": "PUT"
         },
-        "create" : {
-          "method" : "POST"
+        "create": {
+          "method": "POST"
         },
-        "destroy" : {
-          "method" : "DELETE"
+        "destroy": {
+          "method": "DELETE"
         }
       }));
     }])
   
     .factory('Info', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
       return resourceDecorator($resource('/infos/:id.json', {"id":"@id"}, {
-        "new" : {
-          "method" : "GET",
-          "url" : "/infos/:id/new.json"
+        "new": {
+          "method": "GET",
+          "url": "/infos/:id/new.json"
         },
-        "edit" : {
-          "method" : "GET",
-          "url" : "/infos/:id/edit.json"
+        "edit": {
+          "method": "GET",
+          "url": "/infos/:id/edit.json"
         },
-        "update" : {
-          "method" : "PUT"
+        "update": {
+          "method": "PUT"
         },
-        "create" : {
-          "method" : "POST"
+        "create": {
+          "method": "POST"
         },
-        "destroy" : {
-          "method" : "DELETE"
+        "destroy": {
+          "method": "DELETE"
         }
       }));
     }])
   
     .factory('Messagestoadministrator', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
       return resourceDecorator($resource('/messagestoadministrators/:id.json', {"id":"@id"}, {
-        "new" : {
-          "method" : "GET",
-          "url" : "/messagestoadministrators/:id/new.json"
+        "new": {
+          "method": "GET",
+          "url": "/messagestoadministrators/:id/new.json"
         },
-        "edit" : {
-          "method" : "GET",
-          "url" : "/messagestoadministrators/:id/edit.json"
+        "edit": {
+          "method": "GET",
+          "url": "/messagestoadministrators/:id/edit.json"
         },
-        "update" : {
-          "method" : "PUT"
+        "update": {
+          "method": "PUT"
         },
-        "create" : {
-          "method" : "POST"
+        "create": {
+          "method": "POST"
         },
-        "destroy" : {
-          "method" : "DELETE"
+        "destroy": {
+          "method": "DELETE"
         }
       }));
     }])
   
     .factory('Answerfrommoderator', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
       return resourceDecorator($resource('/answerfrommoderators/:id.json', {"id":"@id"}, {
-        "new" : {
-          "method" : "GET",
-          "url" : "/answerfrommoderators/:id/new.json"
+        "new": {
+          "method": "GET",
+          "url": "/answerfrommoderators/:id/new.json"
         },
-        "edit" : {
-          "method" : "GET",
-          "url" : "/answerfrommoderators/:id/edit.json"
+        "edit": {
+          "method": "GET",
+          "url": "/answerfrommoderators/:id/edit.json"
         },
-        "update" : {
-          "method" : "PUT"
+        "update": {
+          "method": "PUT"
         },
-        "create" : {
-          "method" : "POST"
+        "create": {
+          "method": "POST"
         },
-        "destroy" : {
-          "method" : "DELETE"
+        "destroy": {
+          "method": "DELETE"
         }
       }));
     }])
   
     .factory('Order', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
       return resourceDecorator($resource('/orders/:id.json', {"id":"@id"}, {
-        "new" : {
-          "method" : "GET",
-          "url" : "/orders/:id/new.json"
+        "new": {
+          "method": "GET",
+          "url": "/orders/:id/new.json"
         },
-        "edit" : {
-          "method" : "GET",
-          "url" : "/orders/:id/edit.json"
+        "edit": {
+          "method": "GET",
+          "url": "/orders/:id/edit.json"
         },
-        "update" : {
-          "method" : "PUT"
+        "update": {
+          "method": "PUT"
         },
-        "create" : {
-          "method" : "POST"
+        "create": {
+          "method": "POST"
         },
-        "destroy" : {
-          "method" : "DELETE"
+        "destroy": {
+          "method": "DELETE"
         }
       }));
     }])
   
     .factory('LineItem', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
       return resourceDecorator($resource('/line_items/:id.json', {"id":"@id"}, {
-        "new" : {
-          "method" : "GET",
-          "url" : "/line_items/:id/new.json"
+        "new": {
+          "method": "GET",
+          "url": "/line_items/:id/new.json"
         },
-        "edit" : {
-          "method" : "GET",
-          "url" : "/line_items/:id/edit.json"
+        "edit": {
+          "method": "GET",
+          "url": "/line_items/:id/edit.json"
         },
-        "update" : {
-          "method" : "PUT"
+        "update": {
+          "method": "PUT"
         },
-        "create" : {
-          "method" : "POST"
+        "create": {
+          "method": "POST"
         },
-        "destroy" : {
-          "method" : "DELETE"
+        "destroy": {
+          "method": "DELETE"
         }
       }));
     }])
   
     .factory('Cart', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
       return resourceDecorator($resource('/carts/:id.json', {"id":"@id"}, {
-        "new" : {
-          "method" : "GET",
-          "url" : "/carts/:id/new.json"
+        "new": {
+          "method": "GET",
+          "url": "/carts/:id/new.json"
         },
-        "edit" : {
-          "method" : "GET",
-          "url" : "/carts/:id/edit.json"
+        "edit": {
+          "method": "GET",
+          "url": "/carts/:id/edit.json"
         },
-        "update" : {
-          "method" : "PUT"
+        "update": {
+          "method": "PUT"
         },
-        "create" : {
-          "method" : "POST"
+        "create": {
+          "method": "POST"
         },
-        "destroy" : {
-          "method" : "DELETE"
+        "destroy": {
+          "method": "DELETE"
         }
       }));
     }])
   
     .factory('Search', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
       return resourceDecorator($resource('/searches/:id.json', {"id":"@id"}, {
-        "new" : {
-          "method" : "GET",
-          "url" : "/searches/:id/new.json"
+        "new": {
+          "method": "GET",
+          "url": "/searches/:id/new.json"
         },
-        "edit" : {
-          "method" : "GET",
-          "url" : "/searches/:id/edit.json"
+        "edit": {
+          "method": "GET",
+          "url": "/searches/:id/edit.json"
         },
-        "update" : {
-          "method" : "PUT"
+        "update": {
+          "method": "PUT"
         },
-        "create" : {
-          "method" : "POST"
+        "create": {
+          "method": "POST"
         },
-        "destroy" : {
-          "method" : "DELETE"
+        "destroy": {
+          "method": "DELETE"
         },
-        "search_product" : {
-          "url" : "/searches/product.json",
-          "isArray" : null,
-          "method" : "POST"
+        "search_product": {
+          "url": "/searches/product.json",
+          "isArray": null,
+          "method": "POST"
         }
       }));
     }])
   
     .factory('StoreShow', ['$resource', 'resourceDecorator', function ($resource, resourceDecorator) {
       return resourceDecorator($resource('/store/show.json', {}, {
-        "new" : {
-          "method" : "GET",
-          "url" : "/store/show/new.json"
+        "new": {
+          "method": "GET",
+          "url": "/store/show/new.json"
         },
-        "edit" : {
-          "method" : "GET",
-          "url" : "/store/show/edit.json"
+        "edit": {
+          "method": "GET",
+          "url": "/store/show/edit.json"
         },
-        "update" : {
-          "method" : "PUT"
+        "update": {
+          "method": "PUT"
         },
-        "create" : {
-          "method" : "POST"
+        "create": {
+          "method": "POST"
         },
-        "destroy" : {
-          "method" : "DELETE"
+        "destroy": {
+          "method": "DELETE"
         }
       }));
     }])
@@ -1881,33 +1848,44 @@ angular.module("oxymoron.services", ["oxymoron.services.interceptor", "oxymoron.
     }
   ])
 angular.module("oxymoron.directives.fileupload", [])
-  .directive('fileupload', ['$http', '$timeout', '$cookies', function ($http, $timeout, $cookies) {
+  .directive('fileupload', ['$http', '$timeout', '$cookies', 'ngNotify', function ($http, $timeout, $cookies, ngNotify) {
     return {
       scope: {
         fileupload: "=",
         ngModel: "=",
         hash: "=",
-        percentCompleted: "="
+        percentCompleted: "=",
+        maxSize: "="
       },
       restrict: 'A',
       link: function($scope, element, attrs) {
         $scope.percentCompleted = undefined;
 
         element.bind('change', function(){
+          var valid = true;
           if ($scope.xhr) $scope.xhr.abort();
 
           var fd = new FormData();
 
           angular.forEach(element[0].files, function (file) {
+            if ($scope.maxSize && file.size/1024/1024 > $scope.maxSize) {
+              valid = false;
+              return
+            }
             fd.append("attachments[]", file);
           })
 
+          if (!valid) {
+            ngNotify.set("File size is more then " + $scope.maxSize + " Mb", "error")
+            return false;
+          }
+
           $scope.xhr = new XMLHttpRequest;
 
+          $scope.percentCompleted = 0;
+          
           $scope.xhr.upload.onprogress = function(e) {
-              // Event listener for when the file is uploading
               $scope.$apply(function() {
-                  var percentCompleted;
                   if (e.lengthComputable) {
                       $scope.percentCompleted = Math.round(e.loaded / e.total * 100);
                   }
@@ -1915,8 +1893,9 @@ angular.module("oxymoron.directives.fileupload", [])
           };
 
           $scope.xhr.onload = function() {
-              var res = JSON.parse(this.responseText)
-
+            var res = JSON.parse(this.responseText)
+            
+            if (this.status == 200) {
               $scope.$apply(function() {
                 if (!$scope.hash) {
                   if (attrs.multiple) {
@@ -1939,6 +1918,9 @@ angular.module("oxymoron.directives.fileupload", [])
 
                 $scope.percentCompleted = undefined;
               });
+            } else {
+              ngNotify.set(res.msg || "Uploading error", "error")
+            }
           };
 
 
@@ -1997,10 +1979,18 @@ angular.module("oxymoron.directives", ['oxymoron.directives.fileupload', 'oxymor
           Validate(res.data.form_name || res.config.data.form_name, res.data.errors)
         }
 
-        if (res.data.redirect_to_url) {
-          $location.url(res.data.redirect_to_url);
-        } else if (res.data.redirect_to) {
-          $state.go(res.data.redirect_to, res.data.redirect_options || {});
+        if (res.data.reload) {
+          if (res.data.redirect_to_url) {
+            window.location = res.data.redirect_to_url;
+          } else if (res.data.redirect_to) {
+            $state.transitionTo(res.data.redirect_to, res.data.redirect_options || {}, {notify: false, location: true, reload: true});
+          }
+        } else {
+          if (res.data.redirect_to_url) {
+            $location.url(res.data.redirect_to_url);
+          } else if (res.data.redirect_to) {
+            $state.go(res.data.redirect_to, res.data.redirect_options || {});
+          }
         }
 
         if (res.data.reload) {
@@ -2035,7 +2025,7 @@ angular.module("oxymoron.directives", ['oxymoron.directives.fileupload', 'oxymor
       var str = [];
       for(var p in obj) {
         if (obj.hasOwnProperty(p)) {
-          var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
+          var k = prefix ? prefix + "[" + (Array.isArray(obj) ? '' : p) + "]" : p, v = obj[p];
           str.push(typeof v == "object" ?
             serialize(v, k) :
             encodeURIComponent(k) + "=" + encodeURIComponent(v));
@@ -2067,6 +2057,12 @@ angular.module("oxymoron.directives", ['oxymoron.directives.fileupload', 'oxymor
             params = omit(params, k);
           }
         })
+
+        if (result.search(/\*\w+/)!=-1) {
+          result = result.replace(/\*(\w+)/, function (a, b) {
+            return params[b];
+          })
+        }
         
         if (Object.keys(params).length)
           result += '?'+serialize(params)
