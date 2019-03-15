@@ -35,13 +35,13 @@ module SimpleForm
       self.default_options = {}
 
       def self.enable(*keys)
-        options = self.default_options.dup
+        options = default_options.dup
         keys.each { |key| options.delete(key) }
         self.default_options = options
       end
 
       def self.disable(*keys)
-        options = self.default_options.dup
+        options = default_options.dup
         keys.each { |key| options[key] = false }
         self.default_options = options
       end
@@ -81,7 +81,7 @@ module SimpleForm
         end
       end
 
-      def input(wrapper_options = nil)
+      def input(_wrapper_options = nil)
         raise NotImplementedError
       end
 
@@ -94,7 +94,7 @@ module SimpleForm
       end
 
       def input_class
-        "#{lookup_model_names.join("_")}_#{reflection_or_attribute_name}"
+        "#{lookup_model_names.join('_')}_#{reflection_or_attribute_name}"
       end
 
       private
@@ -173,8 +173,8 @@ module SimpleForm
         model_names = lookup_model_names.dup
         lookups     = []
 
-        while !model_names.empty?
-          joined_model_names = model_names.join(".")
+        until model_names.empty?
+          joined_model_names = model_names.join('.')
           model_names.shift
 
           lookups << :"#{joined_model_names}.#{lookup_action}.#{reflection_or_attribute_name}"
@@ -190,9 +190,7 @@ module SimpleForm
       def merge_wrapper_options(options, wrapper_options)
         if wrapper_options
           options.merge(wrapper_options) do |_, oldval, newval|
-            if Array === oldval
-              oldval + Array(newval)
-            end
+            oldval + Array(newval) if Array === oldval
           end
         else
           options

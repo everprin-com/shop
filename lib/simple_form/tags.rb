@@ -47,7 +47,7 @@ module SimpleForm
       private
 
       def render_component(builder)
-        builder.radio_button + builder.label(class: "collection_radio_buttons")
+        builder.radio_button + builder.label(class: 'collection_radio_buttons')
       end
     end
 
@@ -61,7 +61,7 @@ module SimpleForm
       private
 
       def render_component(builder)
-        builder.check_box + builder.label(class: "collection_check_boxes")
+        builder.check_box + builder.label(class: 'collection_check_boxes')
       end
     end
   end

@@ -1,23 +1,15 @@
 Rails.application.configure do
   # Verifies that versions and hashed value of the package contents in the project's package.json
-config.webpacker.check_yarn_integrity = false
+  config.webpacker.check_yarn_integrity = false
 
   # Settings specified here will take precedence over those in config/application.rb.
   config.cache_classes = true
-  #config.serve_static_files = true
-  #config.assets.compile = true
+  # config.serve_static_files = true
+  # config.assets.compile = true
   config.assets.digest = true
-  
 
-
-
-
-  #config.full_host = 'https://alldndekc.tk'
-  #config.action_mailer.default_url_options = { host: '46.101.99.184' }
-
-
-
-
+  # config.full_host = 'https://alldndekc.tk'
+  # config.action_mailer.default_url_options = { host: '46.101.99.184' }
 
   # Code is not reloaded between requests.
   # config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
@@ -41,15 +33,13 @@ config.webpacker.check_yarn_integrity = false
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
 
-config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = false
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
-
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
-
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
@@ -59,7 +49,7 @@ config.action_mailer.raise_delivery_errors = false
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
- config.assets.debug = true
+  config.assets.debug = true
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
   config.log_level = :debug
@@ -89,16 +79,13 @@ config.action_mailer.raise_delivery_errors = false
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-    config.action_mailer.default_url_options = { :host => 'http://www.alldndekc.tk' }  
+  config.action_mailer.default_url_options = { host: 'http://www.alldndekc.tk' }
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-
 
   # ADDDD
   config.serve_static_files = true
   config.assets.css_compressor = :sass
   config.assets.compile = true
   config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
-  
 end

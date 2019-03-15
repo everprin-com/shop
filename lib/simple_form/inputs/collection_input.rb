@@ -7,14 +7,14 @@ module SimpleForm
       # "simple_form.no" keys. See the example locale file.
       def self.boolean_collection
         i18n_cache :boolean_collection do
-          [ [I18n.t(:"simple_form.yes", default: 'Yes'), true],
-            [I18n.t(:"simple_form.no", default: 'No'), false] ]
+          [[I18n.t(:"simple_form.yes", default: 'Yes'), true],
+           [I18n.t(:"simple_form.no", default: 'No'), false]]
         end
       end
 
-      def input(wrapper_options = nil)
+      def input(_wrapper_options = nil)
         raise NotImplementedError,
-          "input should be implemented by classes inheriting from CollectionInput"
+              'input should be implemented by classes inheriting from CollectionInput'
       end
 
       def input_options
@@ -42,7 +42,7 @@ module SimpleForm
 
       # Check if :include_blank must be included by default.
       def skip_include_blank?
-        (options.keys & [:prompt, :include_blank, :default, :selected]).any? || multiple?
+        (options.keys & %i[prompt include_blank default selected]).any? || multiple?
       end
 
       def multiple?
@@ -55,7 +55,8 @@ module SimpleForm
       # SimpleForm.collection_label_methods and
       # SimpleForm.collection_value_methods.
       def detect_collection_methods
-        label, value = options.delete(:label_method), options.delete(:value_method)
+        label = options.delete(:label_method)
+        value = options.delete(:value_method)
 
         unless label && value
           common_method_for = detect_common_display_methods
@@ -78,7 +79,7 @@ module SimpleForm
         end
       end
 
-      def detect_method_from_class(collection_classes)
+      def detect_method_from_class(_collection_classes)
         sample = collection.first || collection.last
 
         { label: SimpleForm.collection_label_methods.find { |m| sample.respond_to?(m) },
@@ -86,12 +87,12 @@ module SimpleForm
       end
 
       def detect_collection_classes(some_collection = collection)
-        some_collection.map { |e| e.class }.uniq
+        some_collection.map(&:class).uniq
       end
 
       def collection_includes_basic_objects?(collection_classes)
         (collection_classes & [
-          String, Integer, Fixnum, Bignum, Float, NilClass, Symbol, TrueClass, FalseClass
+          String, Integer, Integer, Integer, Float, NilClass, Symbol, TrueClass, FalseClass
         ]).any?
       end
 

@@ -1,32 +1,31 @@
 class Ability
   include CanCan::Ability
 
- def initialize(user)
-  user ||= User.new
-  if user.role?(:admin)
-    can :manage, :all
-  elsif user.role?(:moderator)
-    can :update, Info
-    can :delete, Info
-    can :delete, Comment
-    can :update, Comment
-    can :delete, Product
-    can :update, Product
-  elsif user.role?(:user)
+  def initialize(user)
+    user ||= User.new
+    if user.role?(:admin)
+      can :manage, :all
+    elsif user.role?(:moderator)
+      can :update, Info
+      can :delete, Info
+      can :delete, Comment
+      can :update, Comment
+      can :delete, Product
+      can :update, Product
+    elsif user.role?(:user)
 
-    can :read, Comment
-  elsif user.role?(:quest)
+      can :read, Comment
+    elsif user.role?(:quest)
 
-    can :read, Comment
-  end
-   end
-
+      can :read, Comment
+    end
+    end
 
   def current_ability
     @current_ability ||= Ability.new(current_user)
   end
 
-        #   user ||= User.new # guest user (not logged in)
+    #   user ||= User.new # guest user (not logged in)
     #   if user.admin?
     #     can :manage, :all
     #   else
@@ -50,5 +49,4 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
-
   end

@@ -1,8 +1,8 @@
 # Load the Rails application.
-require File.expand_path('../application', __FILE__)
+require File.expand_path('application', __dir__)
 
 # Initialize the Rails application.
 Rails.application.initialize!
-#Capybara.register_driver :selenium do |app|
-  #Capybara::Driver::Selenium.new app, :browser => :chrome
-#end
+# Capybara.register_driver :selenium do |app|
+# Capybara::Driver::Selenium.new app, :browser => :chrome
+# end

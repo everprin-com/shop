@@ -76,8 +76,9 @@ group :development, :test do
   gem 'faker'
   gem 'factory_girl_rails'
   gem 'simplecov', :require => false
-
-
+  gem 'rubocop'
+  gem 'rubocop-rspec', require: false
+  gem 'rubocop-config-umbrellio'
   #gem "ruby-growl"
   #gem "ruby_gntp"
   #gem "awesome_print", require:"ap"
