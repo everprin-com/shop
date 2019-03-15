@@ -43,9 +43,7 @@ gem 'slim-rails'
 gem 'json'#, github: 'flori/json', branch: 'v1.8'
 gem 'gon'
 gem 'carrierwave'
-gem "webpacker", "~> 3"
-gem "react_on_rails", "11.0.0"
-gem 'mini_racer', platforms: :ruby
+gem 'webpacker'
 #gem 'mysql2',          '~> 0.3.18', :platform => :ruby
 #gem 'thinking-sphinx', '~> 3.1.4'
 
@@ -78,8 +76,10 @@ group :development, :test do
   gem 'faker'
   gem 'factory_girl_rails'
   gem 'simplecov', :require => false
-
-
+  gem 'rubocop'
+  gem 'rubocop-rspec', require: false
+  gem 'rubocop-config-umbrellio'
+  gem 'jshint'
   #gem "ruby-growl"
   #gem "ruby_gntp"
   #gem "awesome_print", require:"ap"
