@@ -6,3 +6,7 @@ ruby 2.3.3
 
 
 rubocop
+
+lounch lint
+./bin/webpack-dev-server
+eslint app/assets
