@@ -1,17 +1,13 @@
 class Auth::OAuth2Authenticator < Auth::Authenticator
-
-  def name
-    @name
-  end
+  attr_reader :name
 
   # only option at the moment is :trusted
-  def initialize(name, opts={})
+  def initialize(name, opts = {})
     @name = name
     @opts = opts
   end
 
   def after_authenticate(auth_token)
-
     result = Auth::Result.new
 
     oauth2_provider = auth_token[:provider]
@@ -51,5 +47,4 @@ class Auth::OAuth2Authenticator < Auth::Authenticator
       user_id: user.id
     )
   end
-
 end

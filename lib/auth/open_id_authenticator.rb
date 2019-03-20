@@ -1,5 +1,4 @@
 class Auth::OpenIdAuthenticator < Auth::Authenticator
-
   attr_reader :name, :identifier
 
   def initialize(name, identifier, opts = {})
@@ -15,7 +14,7 @@ class Auth::OpenIdAuthenticator < Auth::Authenticator
     identity_url = auth_token[:extra][:response].identity_url
     result.email = email = data[:email]
 
-    raise Discourse::InvalidParameters.new(:email) if email.blank?
+    raise Discourse::InvalidParameters, :email if email.blank?
 
     # If the auth supplies a name / username, use those. Otherwise start with email.
     result.name = data[:name] || data[:email]
@@ -24,7 +23,7 @@ class Auth::OpenIdAuthenticator < Auth::Authenticator
     user_open_id = UserOpenId.find_by_url(identity_url)
 
     if !user_open_id && @opts[:trusted] && user = User.find_by_email(email)
-      user_open_id = UserOpenId.create(url: identity_url , user_id: user.id, email: email, active: true)
+      user_open_id = UserOpenId.create(url: identity_url, user_id: user.id, email: email, active: true)
     end
 
     result.user = user_open_id.try(:user)
@@ -49,15 +48,14 @@ class Auth::OpenIdAuthenticator < Auth::Authenticator
     )
   end
 
-
   def register_middleware(omniauth)
     omniauth.provider :open_id,
-           :setup => lambda { |env|
-              strategy = env["omniauth.strategy"]
-              strategy.options[:store] = OpenID::Store::Redis.new($redis)
-           },
-           :name => name,
-           :identifier => identifier,
-           :require => "omniauth-openid"
+                      setup: lambda { |env|
+                        strategy = env['omniauth.strategy']
+                        strategy.options[:store] = OpenID::Store::Redis.new($redis)
+                      },
+                      name: name,
+                      identifier: identifier,
+                      require: 'omniauth-openid'
   end
 end

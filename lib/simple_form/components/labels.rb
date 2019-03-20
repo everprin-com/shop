@@ -7,8 +7,7 @@ module SimpleForm
         def translate_required_html
           i18n_cache :translate_required_html do
             I18n.t(:"simple_form.required.html", default:
-              %[<abbr title="#{translate_required_text}">#{translate_required_mark}</abbr>]
-            )
+              %(<abbr title="#{translate_required_text}">#{translate_required_mark}</abbr>))
           end
         end
 
@@ -31,7 +30,7 @@ module SimpleForm
         end
       end
 
-      def label_text(wrapper_options = nil)
+      def label_text(_wrapper_options = nil)
         label_text = options[:label_text] || SimpleForm.label_text
         label_text.call(html_escape(raw_label_text), required_label_text, options[:label].present?).strip.html_safe
       end
@@ -41,9 +40,9 @@ module SimpleForm
       end
 
       def label_html_options
-        label_html_classes = SimpleForm.additional_classes_for(:label) {
+        label_html_classes = SimpleForm.additional_classes_for(:label) do
           [input_type, required_class, disabled_class, SimpleForm.label_class].compact
-        }
+        end
 
         label_options = html_options_for(:label, label_html_classes)
         if options.key?(:input_html) && options[:input_html].key?(:id)

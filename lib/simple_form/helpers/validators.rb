@@ -24,7 +24,7 @@ module SimpleForm
       end
 
       def action_validator_match?(validator)
-        return true if !validator.options.include?(:on)
+        return true unless validator.options.include?(:on)
 
         case validator.options[:on]
         when :save

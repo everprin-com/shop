@@ -9,7 +9,6 @@ module SimpleForm
     #   end
     #
     module FormHelper
-
       def simple_form_for(record, options = {}, &block)
         options[:builder] ||= SimpleForm::FormBuilder
         options[:html] ||= {}
@@ -28,7 +27,10 @@ module SimpleForm
       end
 
       def simple_fields_for(record_name, record_object = nil, options = {}, &block)
-        options, record_object = record_object, nil if record_object.is_a?(Hash) && record_object.extractable_options?
+        if record_object.is_a?(Hash) && record_object.extractable_options?
+          options = record_object
+          record_object = nil
+        end
         options[:builder] ||= SimpleForm::FormBuilder
 
         with_simple_form_field_error_proc do

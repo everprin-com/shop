@@ -1,12 +1,11 @@
-require_dependency "auth/current_user_provider"
+require_dependency 'auth/current_user_provider'
 
 class Auth::DefaultCurrentUserProvider
-
-  CURRENT_USER_KEY ||= "_DISCOURSE_CURRENT_USER".freeze
-  API_KEY ||= "api_key".freeze
-  API_KEY_ENV ||= "_DISCOURSE_API".freeze
-  TOKEN_COOKIE ||= "_t".freeze
-  PATH_INFO ||= "PATH_INFO".freeze
+  CURRENT_USER_KEY ||= '_DISCOURSE_CURRENT_USER'.freeze
+  API_KEY ||= 'api_key'.freeze
+  API_KEY_ENV ||= '_DISCOURSE_API'.freeze
+  TOKEN_COOKIE ||= '_t'.freeze
+  PATH_INFO ||= 'PATH_INFO'.freeze
 
   # do all current user initialization here
   def initialize(env)
@@ -22,9 +21,7 @@ class Auth::DefaultCurrentUserProvider
     if shared_key = @env['HTTP_X_SHARED_SESSION_KEY']
       uid = $redis.get("shared_session_key_#{shared_key}")
       user = nil
-      if uid
-        user = User.find_by(id: uid.to_i)
-      end
+      user = User.find_by(id: uid.to_i) if uid
       @env[CURRENT_USER_KEY] = user
       return user
     end
@@ -45,7 +42,7 @@ class Auth::DefaultCurrentUserProvider
 
     if current_user && should_update_last_seen?
       u = current_user
-      Scheduler::Defer.later "Updating Last Seen" do
+      Scheduler::Defer.later 'Updating Last Seen' do
         u.update_last_seen!
         u.update_ip_address!(request.ip)
       end
@@ -55,13 +52,14 @@ class Auth::DefaultCurrentUserProvider
     if api_key = request[API_KEY]
       current_user = lookup_api_user(api_key, request)
       raise Discourse::InvalidAccess unless current_user
+
       @env[API_KEY_ENV] = true
     end
 
     @env[CURRENT_USER_KEY] = current_user
   end
 
-  def log_on_user(user, session, cookies)
+  def log_on_user(user, _session, cookies)
     unless user.auth_token && user.auth_token.length == 32
       user.auth_token = SecureRandom.hex(16)
       user.save!
@@ -81,15 +79,14 @@ class Auth::DefaultCurrentUserProvider
     end
   end
 
-  def log_off_user(session, cookies)
+  def log_off_user(_session, cookies)
     if SiteSetting.log_out_strict && (user = current_user)
       user.auth_token = nil
       user.save!
-      MessageBus.publish "/logout", user.id, user_ids: [user.id]
+      MessageBus.publish '/logout', user.id, user_ids: [user.id]
     end
     cookies[TOKEN_COOKIE] = nil
   end
-
 
   # api has special rights return true if api was detected
   def is_api?
@@ -103,7 +100,7 @@ class Auth::DefaultCurrentUserProvider
   end
 
   def should_update_last_seen?
-    !(@request.path =~ /^\/message-bus\//)
+    @request.path !~ %r{^/message-bus/}
   end
 
   protected
@@ -111,9 +108,9 @@ class Auth::DefaultCurrentUserProvider
   def lookup_api_user(api_key_value, request)
     api_key = ApiKey.where(key: api_key_value).includes(:user).first
     if api_key
-      api_username = request["api_username"]
+      api_username = request['api_username']
 
-      if api_key.allowed_ips.present? && !api_key.allowed_ips.any?{|ip| ip.include?(request.ip)}
+      if api_key.allowed_ips.present? && api_key.allowed_ips.none? { |ip| ip.include?(request.ip) }
         Rails.logger.warn("Unauthorized API access: #{api_username} ip address: #{request.ip}")
         return nil
       end
@@ -125,5 +122,4 @@ class Auth::DefaultCurrentUserProvider
       end
     end
   end
-
 end

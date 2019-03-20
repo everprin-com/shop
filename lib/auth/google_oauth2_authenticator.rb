@@ -1,7 +1,6 @@
 class Auth::GoogleOAuth2Authenticator < Auth::Authenticator
-
   def name
-    "google_oauth2"
+    'google_oauth2'
   end
 
   def after_authenticate(auth_hash)
@@ -19,7 +18,7 @@ class Auth::GoogleOAuth2Authenticator < Auth::Authenticator
     result.user = user_info.try(:user)
 
     if !result.user && !result.email.blank? && result.user = User.find_by_email(result.email)
-      GoogleUserInfo.create({user_id: result.user.id}.merge(google_hash))
+      GoogleUserInfo.create({ user_id: result.user.id }.merge(google_hash))
     end
 
     result
@@ -27,16 +26,16 @@ class Auth::GoogleOAuth2Authenticator < Auth::Authenticator
 
   def after_create_account(user, auth)
     data = auth[:extra_data]
-    GoogleUserInfo.create({user_id: user.id}.merge(data))
+    GoogleUserInfo.create({ user_id: user.id }.merge(data))
   end
 
   def register_middleware(omniauth)
     omniauth.provider :google_oauth2,
-           :setup => lambda { |env|
-              strategy = env["omniauth.strategy"]
-              strategy.options[:client_id] = SiteSetting.google_oauth2_client_id
-              strategy.options[:client_secret] = SiteSetting.google_oauth2_client_secret
-           }
+                      setup: lambda { |env|
+                        strategy = env['omniauth.strategy']
+                        strategy.options[:client_id] = SiteSetting.google_oauth2_client_id
+                        strategy.options[:client_secret] = SiteSetting.google_oauth2_client_secret
+                      }
   end
 
   protected

@@ -2,7 +2,7 @@
 #  an authentication system interacts with our database and middleware
 
 class Auth::Authenticator
-  def after_authenticate(auth_options)
+  def after_authenticate(_auth_options)
     raise NotImplementedError
   end
 
@@ -16,7 +16,7 @@ class Auth::Authenticator
 
   # hook used for registering omniauth middleware,
   #  without this we can not authenticate
-  def register_middleware(omniauth)
+  def register_middleware(_omniauth)
     raise NotImplementedError
   end
 end

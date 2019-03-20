@@ -3,20 +3,19 @@ module ControllerRails
 
   included do
     before_action :set_model
-    before_action :set_resource, only: [:show, :edit, :update, :destroy]
+    before_action :set_resource, only: %i[show edit update destroy]
 
     def index
       @resources = @model.all
-       respond_to do |format|
+      respond_to do |format|
         format.html
-        format.json {render json: @resources}
+        format.json { render json: @resources }
       end
     end
 
     # GET /messages/1
     # GET /messages/1.json
-    def show
-    end
+    def show; end
 
     # GET /messages/new
     def new
@@ -24,16 +23,13 @@ module ControllerRails
     end
 
     # GET /messages/1/edit
-    def edit
-    end
+    def edit; end
 
     # POST /messages
     # POST /messages.json
     def create
       @resource = @model.new(resource_params)
-      if current_user.present?
-        @resource.user_id=current_user.id
-      end   
+      @resource.user_id = current_user.id if current_user.present?
       respond_to do |format|
         if @resource.save
           format.html { redirect_to root_path, notice: 'Message was successfully created.' }
@@ -70,35 +66,33 @@ module ControllerRails
     end
 
     private
-      
-      def set_resource
-        begin
-          @resource = @model.find(params[:id])
-        rescue
-          raise Page::NotFound 
-        end      
-      end
-      
-      def redirect_update
-        @model
-      end
 
-      def pluck_fields
-        @model.pluck_fields
-      end
-      
-      def redirect_options
-        root_path
-      end
-        
-      def check_auth
-        unless current_user
-          render json: {msg: "Вы не авторизованы"}, status: 403
-        end
-      end
+    def set_resource
+      @resource = @model.find(params[:id])
+    rescue StandardError
+      raise Page::NotFound
+    end
 
-      def serializer
-        serializer = "#{@model.model_name}Serializer"
+    def redirect_update
+      @model
+    end
+
+    def pluck_fields
+      @model.pluck_fields
+    end
+
+    def redirect_options
+      root_path
+    end
+
+    def check_auth
+      unless current_user
+        render json: { msg: 'Вы не авторизованы' }, status: 403
       end
+    end
+
+    def serializer
+      serializer = "#{@model.model_name}Serializer"
+    end
   end
 end
