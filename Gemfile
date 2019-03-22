@@ -66,7 +66,9 @@ gem "rolify"
 gem "pundit"
 gem "rest-client"
 
-
+# convert excel
+gem "roo"
+gem "roo-xls"
 
 group :development, :test do
   gem 'capybara'

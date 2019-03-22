@@ -2,7 +2,7 @@
 
 # Version of your assets, change this if you want to expire all your assets.
 Rails.application.config.assets.version = '1.0'
-Rails.application.config.assets.precompile += %w[categories.css]
+Rails.application.config.assets.precompile += %w[categories.css  items_imports.css]
 Dir[Rails.root.join('app/controllers/*_controller.rb')].map { |path| path =~ /(\w+)_controller.rb/; Regexp.last_match(1) }.compact.each do |controller|
   Rails.application.config.assets.precompile += ["#{controller}.js", "#{controller}.css"]
 end
