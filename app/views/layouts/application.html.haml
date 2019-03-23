@@ -3,11 +3,10 @@
   %head
     = javascript_pack_tag "hello_react"
     %title 
-      OLegStarosvitskij - 
       = yield(:title) || "The blog"
 
   = render partial: "shared/down"
-  = render partial: "shared/navbar" 
+  -# = render partial: "shared/navbar" 
 %div{:id=>"modal-holder"}
 
 
@@ -15,5 +14,5 @@
 %title
   = yield(:title)
 
-
-= yield
+%div{:id=>"root"}
+  = yield

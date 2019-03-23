@@ -35,6 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
     <Provider store={store}>
     <TestComponent />
   </Provider>,  
-    document.body.appendChild(document.createElement('div')),
+    document.getElementById("root")
   )
 })

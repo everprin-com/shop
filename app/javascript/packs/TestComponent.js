@@ -1,38 +1,51 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types';
+import Header from './Header'
+import { hot } from 'react-hot-loader/root'
 
-const mapStateToProps = state => {
-    return {
-      text: state.text,
-      initialData: state.initialData
-    }
+class App extends React.PureComponent{
+render(){
+  return (
+    <Header />
+  )
+}
 }
 
-class TestComponent extends React.PureComponent{
-    constructor(props){
-      super(props)
-      this.state={
-        data: null
-      }
-      this.sendFetch = this.sendFetch.bind(this)
-    }
+export default hot(App)
 
-    componentDidMount(){
-      this.sendFetch()
-    }
+// const mapStateToProps = state => {
+//     return {
+//       text: state.text,
+//       initialData: state.initialData
+//     }
+// }
 
-    sendFetch(){
-      fetch("https://randomuser.me/api/")
-      .then(res => res.json())
-      .then(data => this.setState({data}))
-    }
+// class TestComponent extends React.PureComponent{
+//     constructor(props){
+//       super(props)
+//       this.state={
+//         data: null
+//       }
+//       this.sendFetch = this.sendFetch.bind(this)
+//     }
 
-    render(){
-      const { data } = this.state 
-      return <h1 className="text" onClick={this.sendFetch}>
-      {data ? data.results[0].email : "LOADING..."}
-      </h1> 
-    }
-  } 
+//     componentDidMount(){
+//       this.sendFetch()
+//     }
 
-  export default connect(mapStateToProps)(TestComponent)
+//     sendFetch(){
+//       fetch("https://randomuser.me/api/")
+//       .then(res => res.json())
+//       .then(data => this.setState({data}))
+//     }
+
+//     render(){
+//       const { data } = this.state 
+//       return <h1 className="text" onClick={this.sendFetch}>
+//       {data ? data.results[0].email : "LOADING..."}
+//       </h1> 
+//     }
+//   } 
+
+//   export default connect(mapStateToProps)(TestComponent)
