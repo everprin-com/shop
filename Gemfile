@@ -20,10 +20,10 @@ gem 'sass-rails'
 gem 'bootstrap_form'
 
 gem 'jquery-ui-rails'
-gem 'pg'
+gem 'pg', "~> 0.15"
 gem 'devise'
 gem 'omniauth-google-oauth2', :require => "omniauth-google-oauth2"
-
+gem 'pg_search', '~> 1.0.5'
 gem 'omniauth-oauth2', '~> 1.3.1'
 gem 'omniauth-digitalocean'
 
@@ -70,8 +70,6 @@ gem "roo"
 gem "roo-xls"
 
 group :development, :test do
-  gem 'capybara'
-  gem 'pg'
   gem 'byebug'
   gem 'rspec-rails'
   gem 'shoulda-matchers', require: false

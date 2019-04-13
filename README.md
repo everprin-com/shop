@@ -10,3 +10,7 @@ rubocop
 lounch lint
 ./bin/webpack-dev-server
 eslint app/assets
+
+
+install posgres
+http://rubycode.ru/ruby-on-rails/69-kak-ustanovit-postgresql-na-rails.html
