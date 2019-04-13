@@ -20,7 +20,7 @@ gem 'sass-rails'
 gem 'bootstrap_form'
 
 gem 'jquery-ui-rails'
-
+gem 'pg'
 gem 'devise'
 gem 'omniauth-google-oauth2', :require => "omniauth-google-oauth2"
 
@@ -29,7 +29,6 @@ gem 'omniauth-digitalocean'
 
 gem 'cancancan'
 gem 'will_paginate'
-gem "pg"
 gem 'rake'
 gem 'tire'
 gem 'prawn'
@@ -72,7 +71,7 @@ gem "roo-xls"
 
 group :development, :test do
   gem 'capybara'
-  gem 'sqlite3', '~> 1.3.6'
+  gem 'pg'
   gem 'byebug'
   gem 'rspec-rails'
   gem 'shoulda-matchers', require: false
