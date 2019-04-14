@@ -2,7 +2,8 @@ Rails application online store, demo:
 http://
 lounch install
 bundler 1.9.0
-ruby 2.3.3
+ruby 2.5.1
+rails version 4.2.11
 
 
 rubocop
