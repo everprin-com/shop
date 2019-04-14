@@ -10,3 +10,7 @@ rubocop
 lounch lint
 ./bin/webpack-dev-server
 eslint app/assets
+
+
+update ruby gems
+- gem update --system
