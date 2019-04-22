@@ -12,8 +12,7 @@ import green from '@material-ui/core/colors/green';
 const styles = theme => ({
   root: {
     display: 'inline-block',
-    width: '300px',
-    float: 'right',
+    width: '250px',
   },
   cssFocused: {},
   cssUnderline: {
@@ -65,9 +64,10 @@ function CustomizedInputs(props) {
   const { classes } = props;
 
   return (
-    <div className={classes.root}>
+    <div className={classes.inputWrap}>
    
       <TextField
+        
         InputLabelProps={{
           classes: {
             root: classes.cssLabel,
@@ -81,9 +81,10 @@ function CustomizedInputs(props) {
             notchedOutline: classes.notchedOutline,
           },
         }}
-        label="Custom CSS"
+        label="Поиск товара"
         variant="outlined"
         id="custom-css-outlined-input"
+        className ={classes.root}
       />
     </div>
   );

@@ -6,10 +6,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore } from "redux"
 import reducers from "../reducers"
-import TestComponent from "./TestComponent"
+import App from "../components/App"
+import {  products } from '../components/mockData'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { createStore, applyMiddleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
+import ProductCart from "../components/ProductCart"
+import mySaga from '../components/saga'
 
+const ProductCartWrap = ({match}) => <ProductCart id={match.params.id} />
+
+// create the saga middleware
+const sagaMiddleware = createSagaMiddleware()
+  
 const initialStore = {
   user: {
     age:30 ,
@@ -25,16 +35,29 @@ const initialStore = {
   ]
 }
 
-const store = createStore(reducers, initialStore)
+const store = createStore(
+  reducers,
+  applyMiddleware(sagaMiddleware)
+)
+
+sagaMiddleware.run(mySaga)
+
 
 window.store = store
+window.products = products
+
+store.dispatch({type:"ADD_PRODUCTS", products})
+
 store.subscribe(()=>console.log(store.getState()))
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Provider store={store}>
-    <TestComponent />
-  </Provider>,  
+      <Router>
+        <Route exact path="/" component={App} />
+        <Route path="/productcart/:id" component={ProductCartWrap} />
+      </Router>
+    </Provider>,  
     document.getElementById("root")
   )
 })

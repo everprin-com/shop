@@ -2,17 +2,37 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import Header from './Header'
-import { hot } from 'react-hot-loader/root'
+// import { hot } from 'react-hot-loader/root'
+import Home from './Home'
+import Grid from '@material-ui/core/Grid'
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+  root: {
+    width: '1240px',
+    margin: '0 auto',
+    positon: 'relative',
+  },
+});
+
 
 class App extends React.PureComponent{
 render(){
+  const { classes } = this.props
   return (
-    <Header />
+    <div className={classes.root}>
+      <Grid container spacing={24}>
+          <Grid item xs={12}>
+            <Header />
+            <Home />
+          </Grid>
+      </Grid>
+    </div>
   )
 }
 }
 
-export default hot(App)
+export default withStyles(styles)(App)
 
 // const mapStateToProps = state => {
 //     return {
