@@ -17,3 +17,7 @@ table
         td= item.strih_code
         td= item.goods
         td= item.brand
+
+= form_tag items_path, method: :get, role: 'search' do
+  = text_field_tag :query, params[:query]
+  = submit_tag "Искать", name: nil
