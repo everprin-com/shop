@@ -90,6 +90,9 @@ const styles = {
   dialog: {
     // maxWidth: 900
   },
+  cardBlock: {
+    cursor: 'pointer'
+  }
 };
 
 class Panel extends React.PureComponent {
@@ -124,11 +127,11 @@ class Panel extends React.PureComponent {
       <div>
           <Toolbar className={classes.root}>
               <Input />
-              <div>
+              <div className={classes.cardBlock} onClick={this.handleClickOpen}>
                 <Badge className={classes.margin} invisible={!cardLengh} badgeContent={cardLengh} color="primary">
                   <ShoppingCart className={classes.icon} />
                 </Badge>
-                <span className={classes.cardText} onClick={this.handleClickOpen}>
+                <span className={classes.cardText}>
                   Корзина
                 </span>
               </div>

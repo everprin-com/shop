@@ -14,12 +14,15 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
   return {
-    products: state.product
+    products: state.product,
+    card: state.card,
+    orderform: state.orderform,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    openCart: () => dispatch({ type: 'OPEN_CART'}),
     putToCart: product => dispatch({ type: 'PUT_TO_CART', product }),
   }
 }
@@ -40,16 +43,25 @@ class ProductCart extends Component {
         super(props)
     }
 
+    componentDidUpdate(prevProps){
+        this.props.orderform && this.redirectToOrderForm()
+      }
+
     state = { 
-        productData : this.props.products.find(product=>product.id == this.props.id)
+        productData : this.props.products.find(product=>product.id == this.props.match.params.id)
     }
 
-    putToCart = () => { this.props.putToCart(this.state.productData) }
+    putToCart = () => this.props.putToCart(this.state.productData)
+
+    redirectToOrderForm = () => this.props.history.push('/orderform')
+
+    openCart = () => this.props.openCart()
 
     render() {
-        const { classes, products } = this.props
+        const { classes, products, card, match } = this.props
         const { productData } = this.state
-        const src = "http:" + products.find(product=>product.id == this.props.id).img
+        const src = "http:" + products.find(product => product.id == match.params.id).img
+        const isInCart = card.data.some(cardItem => cardItem.id == match.params.id )
         return (
             <div className="fluid">
                 <Header />
@@ -78,8 +90,8 @@ class ProductCart extends Component {
                     <p>
                          <a href="#"> Таблица размеров</a>
                     </p>
-                    <Button variant="contained" color="primary" className={classes.button} onClick={this.putToCart}>
-                        Добавить в корзину
+                    <Button variant="contained" color="primary" className={classes.button} onClick= { isInCart ? this.openCart : this.putToCart}>
+                       {isInCart ? "Товар уже в корзине" : "Добавить в корзину" } 
                     </Button>
                     <AboutProduct productData={productData} />
                 </div>

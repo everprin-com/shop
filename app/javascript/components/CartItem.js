@@ -12,6 +12,11 @@ const mapStateToProps = state => {
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    redirToOrderForm: () => dispatch({ type: 'OPEN_ORDER_FORM'}),
+  }
+}
 
 const styles = theme => ({
   root: {
@@ -42,7 +47,7 @@ const styles = theme => ({
 });
 
 function Cart(props) {
-  const { classes, card } = props;
+  const { classes, card, redirToOrderForm } = props;
   const totalPrice = card.data.reduce((prev, next)=> { return (prev + next.price)}, 0)
   const renderProducts = card.data.map( cartDataItem => {
     return  (<Paper className={classes.root} elevation={1}>
@@ -62,17 +67,16 @@ function Cart(props) {
           <div className={classes.totalPrice}>
             {`Итого: ${totalPrice} грн`}
           </div>
-          <Button variant="contained" color="secondary" className={classes.button}>
+          <Button variant="contained" color="secondary" className={classes.button} onClick={redirToOrderForm}>
             Оформить заказ
           </Button>
         </div>
       </div>
     );
-  
 }
 
 Cart.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(Cart));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Cart));

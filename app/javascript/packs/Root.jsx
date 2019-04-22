@@ -13,9 +13,8 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import ProductCart from "../components/ProductCart"
+import OrderForm from "../components/OrderForm"
 import mySaga from '../components/saga'
-
-const ProductCartWrap = ({match}) => <ProductCart id={match.params.id} />
 
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware()
@@ -55,7 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
     <Provider store={store}>
       <Router>
         <Route exact path="/" component={App} />
-        <Route path="/productcart/:id" component={ProductCartWrap} />
+        <Route path="/productcart/:id" component={ProductCart} />
+        <Route path="/orderform/" component={OrderForm} />
       </Router>
     </Provider>,  
     document.getElementById("root")

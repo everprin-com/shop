@@ -7,6 +7,12 @@ import Home from './Home'
 import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles';
 
+const mapStateToProps = state => {
+  return {
+    orderform: state.orderform
+  }
+}
+
 const styles = theme => ({
   root: {
     width: '1240px',
@@ -15,8 +21,14 @@ const styles = theme => ({
   },
 });
 
-
 class App extends React.PureComponent{
+
+componentDidUpdate(prevProps){
+  this.props.orderform && this.redirectToOrderForm()
+}
+
+redirectToOrderForm = () => this.props.history.push('/orderform')
+
 render(){
   const { classes } = this.props
   return (
@@ -32,7 +44,7 @@ render(){
 }
 }
 
-export default withStyles(styles)(App)
+export default connect(mapStateToProps)(withStyles(styles)(App))
 
 // const mapStateToProps = state => {
 //     return {
