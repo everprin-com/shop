@@ -1,7 +1,7 @@
 class ItemsImport
   include ActiveModel::Model
   require 'roo'
-  HEADER = %w[code name article strih_code goods brand]
+  HEADER = %w[article name description price color picture brand season male size country category presence size_world drop_ship composition]
   attr_accessor :file
 
   def initialize(attributes={})
@@ -25,10 +25,10 @@ class ItemsImport
     spreadsheet = open_spreadsheet
     header = spreadsheet.row(5)
     (6..spreadsheet.last_row).map do |i|
-      row = Hash[[HEADER, spreadsheet.row(i).reject.with_index{|v, i| i == 0 }[0..HEADER.size-1]].transpose]
-      item = Item.find_by_id(row["id"]) || Item.new
-      item.attributes = row.to_hash
-      item
+       row = Hash[[HEADER, spreadsheet.row(i)[0..HEADER.size-1]].transpose]
+       item = Item.find_by_id(row["id"]) || Item.new
+       item.attributes = row.to_hash
+       item
     end
   end
 

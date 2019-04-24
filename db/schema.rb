@@ -87,14 +87,24 @@ ActiveRecord::Schema.define(version: 20190320192443) do
   add_index "infos", ["user_id"], name: "index_infos_on_user_id", using: :btree
 
   create_table "items", force: :cascade do |t|
-    t.string   "code"
-    t.string   "name"
-    t.string   "article"
-    t.string   "strih_code"
-    t.string   "goods"
+    t.integer  "article",                   null: false
+    t.string   "name",                      null: false
+    t.string   "description"
+    t.integer  "price",                     null: false
+    t.string   "color"
+    t.string   "picture",                   null: false
     t.string   "brand"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "season"
+    t.string   "male"
+    t.string   "size"
+    t.string   "country"
+    t.string   "category"
+    t.string   "presence",    default: "t"
+    t.string   "size_world"
+    t.string   "drop_ship"
+    t.string   "composition"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "line_items", force: :cascade do |t|
