@@ -26,7 +26,7 @@ table
         td= item.description
         td= item.price
         td= item.color
-        td= item.picture
+        td= image_tag(item.picture)
         td= item.brand
         td= item.season
         td= item.male
@@ -39,5 +39,9 @@ table
         td= item.composition
 
 = form_tag items_path, method: :get, role: 'search' do
-  = text_field_tag :name_search, params[:name_search]
-  = submit_tag "Искать имя", name: nil
+  = text_field_tag :name_search, params[:name_search], placeholder: "Имя"
+  = text_field_tag :search_color, params[:search_color], placeholder: "Цвет"
+  = text_field_tag :search_category, params[:search_category], placeholder: "Категория"
+  = text_field_tag :price_search_from, params[:price_search_from], placeholder: "Цена От"
+  = text_field_tag :price_search_to, params[:price_search_to], placeholder: "Цена До"
+  = submit_tag "Искать"
