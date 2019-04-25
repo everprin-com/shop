@@ -9,10 +9,10 @@
 <div id="main">
 
   <div id="middle">
-    
+
     <div id="center-column">
-     
-      
+
+
 
       <div class="table"> <img src="/assets/admin/bg-th-left.gif" width="8" height="7" alt="" class="left" /> <img src="/assets/admin/bg-th-right.gif" width="7" height="7" alt="" class="right" />
 
@@ -32,7 +32,7 @@
               <td>
                 <% if info.user.present? %>
                   <%= info.user.email %>
-               
+
               </td>
               <td>
                 <div class="btn-group closed">
@@ -41,39 +41,39 @@
                   <span class="fa fa-caret-down"></span></a>
                 <ul class="dropdown-menu">
 
-                  <li> 
+                  <li>
                     <%= link_to "Show info", info_path(info.id) %>
-                  </li> 
+                  </li>
 
-                  <li> 
+                  <li>
                     <%= link_to "edit",edit_info_path(info) %>
                   </li>
-                  
-                  <li><%= link_to "delete", delete_user_path(info.id), data: { confirm: 'Are you sure?' }  %>
-                  </li>      
 
-                  <li> 
-                    
-                  </li> 
+                  <li><%= link_to "delete", delete_user_path(info.id), data: { confirm: 'Are you sure?' }  %>
+                  </li>
+
+                  <li>
+
+                  </li>
                   <% if info.ban==false %>
-                    <li> <%= link_to "Ban", ban_path(info.id) %> </li> 
+                    <li> <%= link_to "Ban", ban_path(info.id) %> </li>
                   <% else %>
-                    <li><%= link_to "Reban", ban_path(info.id) %> </li> 
+                    <li><%= link_to "Reban", ban_path(info.id) %> </li>
                   <% end %>
                   </a></li>
-                   
+
                   <li class="divider"></li>
                   <li><%= link_to "make admin", make_admin_path(info.id)%></li>
                 </ul>
 
                 </div>
-              </dt>    
+              </dt>
               <td>
                 <%= info.user.role %>
               </td>
-            </tr> 
-          <% end %> 
-           <%end%>  
+            </tr>
+          <% end %>
+           <%end%>
         </table>
 
         <div class="select"> <strong>Other Pages: </strong>
@@ -93,8 +93,9 @@
             <th class="full" colspan="2">Header Here</th>
           </tr>
           <tr>
-            <td class="first" width="172"><strong>Lorem Ipsum</strong></td>
-            <td class="last"><input type="text" class="text" /></td>
+            <h1>Items</h1>
+              <td class="first"><<%= link_to 'Download as Excel', items_path(format: :xlsx) %></td>
+              <td class="last"><<%= link_to 'Upload from Excel', new_items_import_path %></td>
           </tr>
           <tr class="bg">
             <td class="first"><strong>Lorem Ipsum</strong></td>
@@ -117,15 +118,3 @@
   <div id="footer"></div>
 </div>
 </body>
-
-
-
-
-
-
-
-
-
-
-
-   

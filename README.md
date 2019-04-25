@@ -15,3 +15,28 @@ eslint app/assets
 
 update ruby gems
 - gem update --system
+
+install posgres
+http://rubycode.ru/ruby-on-rails/69-kak-ustanovit-postgresql-na-rails.html
+
+
+
+Parser
+валидация по полям name, price, picture
+Расположение по порядку
+1 (A) :article, null: false
+2 (B) :name, null: false
+3 (C) :description
+4 (D) :price, null: false
+5 (E) :color
+6 (F) :picture, null: false
+7 (G) :brand
+8 (H) :season
+9 (I) :male
+10 (J) :size
+11 (M) :country
+12 (N) :category
+13 (O) :presence, default: true
+14 (X) :size_world
+15 (Y) :drop_ship
+16 (Z) :composition

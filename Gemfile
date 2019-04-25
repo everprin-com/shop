@@ -19,16 +19,15 @@ gem 'sass-rails'
 gem 'bootstrap_form'
 
 gem 'jquery-ui-rails'
-
+gem 'pg', "~> 0.15"
 gem 'devise'
 gem 'omniauth-google-oauth2', :require => "omniauth-google-oauth2"
-
+gem 'pg_search', '~> 1.0.5'
 gem 'omniauth-oauth2', '~> 1.3.1'
 gem 'omniauth-digitalocean'
 
 gem 'cancancan'
 gem 'will_paginate'
-gem "pg"
 gem 'rake'
 gem 'tire'
 gem 'prawn'
@@ -65,7 +64,9 @@ gem "rolify"
 gem "pundit"
 gem "rest-client"
 
-
+# convert excel
+gem "roo"
+gem "roo-xls"
 
 group :development, :test do
   gem 'capybara'

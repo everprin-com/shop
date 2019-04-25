@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'items_imports/new'
+
+  get 'items_imports/create'
+
   kinds = %w[search laptop car mobile]
 
   resources :products do
@@ -20,6 +24,9 @@ Rails.application.routes.draw do
     resources  :clients
     resources  :tasks
   end
+
+  resources :items
+  resources :items_imports, only: [:new, :create]
 
   resources :infos, :messagestoadministrators, :answerfrommoderators, :orders, :line_items, :carts
 
