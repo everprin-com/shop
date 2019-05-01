@@ -55,7 +55,7 @@ gem 'geocoder'
 gem 'gmaps4rails'
 gem 'underscore-rails'
 # gem 'oj'
-gem 'mina1-yarn'
+
 # gem 'oj_mimic_json'
 gem 'file_validators'
 gem 'whenever', :require => false
@@ -93,7 +93,6 @@ group :development, :test do
   gem "bullet"
   gem 'newrelic_rpm'
   gem 'colored'
-  gem 'deadweight', :require => 'deadweight/hijack/rails'
   gem 'capistrano'
   gem 'capistrano-passenger'
   gem 'capistrano-bundler'
