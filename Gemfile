@@ -48,7 +48,7 @@ gem 'mini_racer', platforms: :ruby
 #gem 'thinking-sphinx', '~> 3.1.4'
 
 gem 'mini_magick'
-
+gem 'unicorn'
 gem "oxymoron"
 gem 'kaminari'
 gem 'geocoder'
