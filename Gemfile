@@ -49,7 +49,6 @@ gem 'mini_racer', platforms: :ruby
 
 gem 'mini_magick'
 gem 'unicorn'
-gem "oxymoron"
 gem 'kaminari'
 gem 'geocoder'
 gem 'gmaps4rails'
