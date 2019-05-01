@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/bin/node /usr/local/bin/yarn install
+  /usr/bin/node /usr/local/bin/yarn install --no-progress --production
 
 PATH: 
-  /home/oleg/.rbenv/shims:/home/oleg/.rbenv/bin:/home/oleg/.rbenv/shims:/home/oleg/.rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+  /home/oleg/.rbenv/versions/2.5.1/lib/ruby/gems/2.5.0/bin:/home/oleg/.rbenv/versions/2.5.1/bin:/home/oleg/.rbenv/libexec:/home/oleg/.rbenv/plugins/ruby-build/bin:/home/oleg/.rbenv/shims:/home/oleg/.rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 Yarn version: 
   1.13.0
@@ -28,6 +28,7 @@ npm manifest:
       "react": "^16.8.4",
       "react-dom": "^16.8.4",
       "react-redux": "^6.0.1",
+      "react-router-hash-link": "^1.2.1",
       "redux": "^4.0.1"
     },
     "devDependencies": {
@@ -3085,7 +3086,7 @@ Lockfile:
     dependencies:
       eslint-restricted-globals "^0.1.1"
   
-  eslint-config-airbnb@^15.0.1:
+  eslint-config-airbnb@^15.1.0:
     version "15.1.0"
     resolved "https://registry.yarnpkg.com/eslint-config-airbnb/-/eslint-config-airbnb-15.1.0.tgz#fd432965a906e30139001ba830f58f73aeddae8e"
     integrity sha512-m0q9fiMBzDAIbirlGnpJNWToIhdhJmXXnMG+IFflYzzod9231ZhtmGKegKg8E9T8F1YuVaDSU1FnCm5b9iXVhQ==
@@ -7566,6 +7567,13 @@ Lockfile:
       loose-envify "^1.4.0"
       prop-types "^15.7.2"
       react-is "^16.8.2"
+  
+  react-router-hash-link@^1.2.1:
+    version "1.2.1"
+    resolved "https://registry.yarnpkg.com/react-router-hash-link/-/react-router-hash-link-1.2.1.tgz#da3b6384e5bff90e9b2172d2e689a994646f2f45"
+    integrity sha512-ddkCtmk/JwMmuU087TGShQHYyNjsJ+/9CTyuVdvvKf6ACgqk2Ma9ndX2xogo7WWmyq9AjuziBm5bmJ12zBxtsQ==
+    dependencies:
+      prop-types "^15.6.0"
   
   react-transition-group@^2.2.1:
     version "2.6.1"
