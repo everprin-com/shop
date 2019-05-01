@@ -55,6 +55,7 @@ gem 'geocoder'
 gem 'gmaps4rails'
 gem 'underscore-rails'
 # gem 'oj'
+gem 'mina1-yarn'
 # gem 'oj_mimic_json'
 gem 'file_validators'
 gem 'whenever', :require => false

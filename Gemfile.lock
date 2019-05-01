@@ -231,6 +231,7 @@ GEM
     method_source (0.9.2)
     mime-types (2.99.3)
     mimemagic (0.3.3)
+    mina1-yarn (0.1.0)
     mini_magick (4.9.3)
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
@@ -536,6 +537,7 @@ DEPENDENCIES
   json
   kaminari
   meta_request
+  mina1-yarn
   mini_magick
   mini_racer
   newrelic_rpm
