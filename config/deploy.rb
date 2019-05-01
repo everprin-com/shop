@@ -75,11 +75,7 @@ task :deploy do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    if force_precompile
-      invoke :'rails:assets_precompile:force'
-    else
-      invoke :'rails:assets_precompile'
-    end
+    invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 
     on :launch do
