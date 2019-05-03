@@ -3,7 +3,19 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import DoneIcon from '@material-ui/icons/Done';
+import { connect } from 'react-redux';
 
+// const mapStateToProps = state => {
+//   return {
+//     sizes: state.sizes
+//   }
+// }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setActiveSize: (id, size) => dispatch({ type: 'SET_ACTIVE_SIZE', id, size}),
+  }
+}
 
 const styles = theme => ({
   root: {
@@ -39,55 +51,35 @@ const styles = theme => ({
       color: "eee",
     },
 },
+active: {
+  backgroundColor: "#2C9925 !important",
+  color: "eee",
+},
 label:{
   padding: 0,
   color:'red'
 }
   })
-  
-function handleDelete() {
-  alert('You clicked the delete icon.'); // eslint-disable-line no-alert
-}
 
-function handleClick() {
-  alert('You clicked the Chip.'); // eslint-disable-line no-alert
-}
-
-function OutlinedChips(props) {
-  const { classes, small = false } = props;
+function Sizes(props) {
+  const { classes, sizes, activeSize, setActiveSize, productId, helpSetActiveSize } = props;
   return (
     <div className={classes.root}>
-      <Chip
-        label='42'
-        labelStyle={classes.label}
-        onClick={handleClick}
-        className={ classes.chipBig }
+      {sizes.map(sizeItem => { return (
+        <Chip
+        label={sizeItem}
+        onClick={()=>{ setActiveSize(productId, sizeItem); helpSetActiveSize() }}
+        className={`${classes.chipBig} ${activeSize===sizeItem ? classes.active : ""}`}
         variant="outlined"
       />
-         <Chip
-        label="43"
-        onClick={handleClick}
-        className={classes.chipBig }
-        variant="outlined"
-      />
-         <Chip
-        label="44"
-        onClick={handleClick}
-        className={classes.chipBig }
-        variant="outlined"
-      />
-         <Chip
-        label="45"
-        onClick={handleClick}
-        className={classes.chipBig}
-        variant="outlined"
-      />
+      ) })}
+         
     </div>
   );
 }
 
-OutlinedChips.propTypes = {
+Sizes.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(OutlinedChips)
+export default connect(null, mapDispatchToProps)(withStyles(styles)(Sizes))

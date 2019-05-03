@@ -2,18 +2,46 @@
  *= require rails_bootstrap_forms
  */
 
-@import "bootstrap-sprockets";
-@import "bootstrap";
-@import "rails_bootstrap_forms";
-@import "comments";
-@import "store";
-@import "TestComponent";
+// @import "bootstrap-sprockets";
+// @import "bootstrap";
+// @import "rails_bootstrap_forms";
+// @import "comments";
+// @import "store";
+// @import "TestComponent";
 @import "antd/lib/slider/style/index";
 @import "antd/lib/switch/style/index";
 @import "antd/lib/input-number/style/index";
 @import 'rc-slider/assets/index';
 
 //example**************************
+
+
+$black: #333;
+$white: #eee; 
+
+//header *****************************************
+.header{
+    background-color: $white;
+}
+
+.header-content{
+    width: 1264px;
+    margin: 0 auto;
+    color: $black;
+}
+
+// end header************************************************
+
+
+// general******************************************
+.input{
+    font-size: 20px;
+}
+
+body{
+  background: #fff;
+  
+}
 .fluid {
     max-width: 1200px;
     margin: 0 auto;

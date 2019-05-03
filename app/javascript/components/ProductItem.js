@@ -16,7 +16,7 @@ import compose from 'recompose/compose';
 const mapDispatchToProps = dispatch => {
   return {
     openCart: () => dispatch({ type: 'OPEN_CART'}),
-    putToCart: product => dispatch({ type: 'PUT_TO_CART', product }),
+    putToCart: product => dispatch({ type: 'TRY_PUT_TO_CART', product }),
   }
 }
 
@@ -25,16 +25,16 @@ const styles = theme => ({
     zIndex: 0,
     position: 'relative',
     cursor: 'pointer',
-    width: 230,
-    margin: '5px',
-    border: "10px solid transparent",
+    width: 210,
+    margin: '5px 5px 0 5px',
+    // border: "10px solid transparent",
     transition: 'transform .2s',
     overflow: 'inherit',
     '&:hover': {
       zIndex: 1,
-      borderTop: '10px solid #eee',
+      // borderTop: '10px solid #eee',
       transform: 'scale(1.05, 1.05)',
-      boxShadow: '2px 2px 16px rgba(0,0,0,.24), -2px -2px 16px rgba(0,0,0,.24) ',
+      // boxShadow: '2px 2px 16px rgba(0,0,0,.24), -2px -2px 16px rgba(0,0,0,.24) ',
     },
   },
   cardDesctiption: {
@@ -45,6 +45,7 @@ const styles = theme => ({
     color: '#333',
     fontSize: '16px',
     fontWeight: 'bold',
+    
   },
   category: {
     color: '#888',
@@ -57,22 +58,26 @@ const styles = theme => ({
     textDecoration: 'line-through',
     paddingBottom: '5px',
   },
-  price:{
+  newPrice:{
     color: 'f74137',
     fontSize: '16px',
   },
+  price: {
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
   media: {
-    height: 300,
+    height: 190,
     paddingTop: '56.25%', // 16:9
     backgroundSize: 'contain',
   },
   actions: {
     display: 'flex',
-    height: '20px',
   },
   productItemLink: {
     display: 'block',
     textAlign: 'center',
+    textDecoration: 'none',
     '&:hover':{
       textDecoration: 'none',
     },
@@ -80,19 +85,32 @@ const styles = theme => ({
   button: {
     margin: '15px auto',
     width: '100%',
+    fontSize: '15px',
+  },
+  cardIn:{
+    // left: 0,
+    // position: 'absolute',
+    // top: 0,
+    // bottom: 0,
+    // right: 0,
   },
   activeCard: {
     position: 'absolute',
-    padding: 20,
     textAlign: 'center',
-    width: 230,
-    left: -10,
-    height: 100,
-    bottom: -80,
+    top:'98%',
+    // width: 209,
+    left: 0,
+    right: 0,
     display: 'block',
     background: '#fff',
-    boxShadow: '0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14)',
-  }
+    boxShadow: '1px 1px rgba(0,0,0, 0.1), -1px 1px rgba(0,0,0,0.1)',
+  },
+  cardContent:{
+    padding: 5,
+    '&:last-child': {
+      paddingBottom:0,
+    },
+  },
 });
 
 class ProductItem extends React.Component {
@@ -110,24 +128,31 @@ class ProductItem extends React.Component {
 
   openCart = () => this.props.openCart()
 
+
   render() {
-    const { classes, inCard } = this.props;
-    const { img, price, title, category, id } = this.props.data;
+    const { classes, inCard, data } = this.props;
+    const { img, price, title, category, id, sizes, activeSize } = data;
     const oldPrice = Math.round(price + price/2 + price/10)
     return (
       <Card
         className={classes.card}
-        onMouseOver={this.onHover} 
+        onMouseOver={this.onHover}
         onMouseLeave={this.onLive}
       >
-        <Link to={`/productcart/${id}`} className={classes.productItemLink}>
+        <Link
+        className={classes.productItemLink}
+        to={{
+          pathname: `/productcart/${id}`,
+          state: { data }
+        }}
+        >
           <CardMedia
             className={classes.media}
             image={img}
             title={title}
           />
 
-          <CardContent>
+          <CardContent className={classes.cardContent}>
             <Typography component="div" className ={classes.cardDesctiption} >
               <div className={classes.title}>
                 {title}
@@ -135,11 +160,13 @@ class ProductItem extends React.Component {
               <div className={classes.category}>
                 {category}
               </div>
-              <div className={classes.oldPrice}>
-                {`${oldPrice} грн`}
-              </div>
               <div className={classes.price}>
-                {`${price} грн`}
+                <div className={classes.oldPrice}>
+                  {`${oldPrice} грн`}
+                </div>
+                <div className={classes.newPrice}>
+                  {`${price} грн`}
+                </div>
               </div>
             </Typography>
           </CardContent>
@@ -147,10 +174,10 @@ class ProductItem extends React.Component {
         </Link>
           { this.state.hover && <div className={classes.activeCard}>
             <CardActions className={classes.actions} disableActionSpacing>
-                <ProductItemSizes />
+                <ProductItemSizes id={id} sizes={sizes} activeSize={activeSize} />
             </CardActions>
-            <Button variant="contained" color="primary" className={classes.button} onClick={inCard ? this.openCart : this.putToCart}>
-            {inCard ? "Товар уже в корзине" : "Добавить в корзину"} 
+            <Button variant="contained" color="primary" className={classes.button} onClick={this.putToCart}>
+          {"Добавить в корзину"} 
             </Button>
           </div>}
       </Card>

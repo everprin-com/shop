@@ -31,7 +31,7 @@ Rails.application.routes.draw do
     end
   end
 
-  
+  get '*path', to: 'store#index'
   get 'home/index'
 
   get 'store/map'
@@ -46,7 +46,6 @@ Rails.application.routes.draw do
   #get 'store/showlike'
   get '/change_locale/:locale', to: 'pages#change_locale', as: :change_locale
   
-
 
   get '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup  
   get "info_show_from_email/:user_id" => "infos#show_from_email", :as => "user_show"

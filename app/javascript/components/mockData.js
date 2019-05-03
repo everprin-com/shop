@@ -250,7 +250,9 @@ const products = category.map((v,i)=>({
     color: color[i],
     brandCountry: brandCountry[i],
     weight: random(200,800),
-    description: description[i]
+    description: description[i],
+    sizes: [...(new Array(random(2,7)))].map((v,i)=>(i+40)).sort(),
+    activeSize: null,
  }))
 
 export {

@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { Close } from '@material-ui/icons'
-import TextField from '@material-ui/core/TextField';
 
 const mapStateToProps = state => {
   return {
@@ -19,15 +18,13 @@ const mapDispatchToProps = dispatch => {
     closeCart: () => dispatch({ type: 'CLOSE_CART'}),
     redirToOrderForm: () => dispatch({ type: 'OPEN_ORDER_FORM'}),
     deleteFromCart: id => dispatch({ type: 'DELETE_FROM_CART', id}),
-    setAmount: (id, amount)=> dispatch({ type: 'SET_AMOUTN', id, amount}),
   }
 }
 
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    padding: 5,
     maxWidth: 800,
     margin: '10 0',
   },
@@ -37,23 +34,23 @@ const styles = theme => ({
     justifyContent: 'space-around',
   },
   title: {
-    margin: '0 30px'
+    margin: '0 15px'
   },
   totalBlock:{
     margin: 20,
     // flexDirection: 'column',
     display: 'flex',
-    justifyContent: 'space-between',
     alignItems: 'flex-end',
     fontFamily: 'Arial,Helvetica,FreeSans,"Liberation Sans","Nimbus Sans",sans-serif',
     fontSize: 24,
+    justifyContent: 'flex-end'
   },
   button: {
     fontSize: 16
   },
   imageWrapper: {
-    width: 150,
-    height: 150,
+    width: 100,
+    height: 100,
   },
   image: {
     height: '100%',
@@ -65,73 +62,38 @@ const styles = theme => ({
   },
   totalPrice: {
     marginBottom: 5
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 50,
-  },
+  }
 });
 
-function Cart(props) {
+function MicroCart(props) {
   const { classes, card, redirToOrderForm, deleteFromCart, closeCart } = props;
-  const totalPrice = card.data.reduce((prev, next)=> { return (prev + next.price*next.amount)}, 0)
+  const totalPrice = card.data.reduce((prev, next)=> { return (prev + next.price)}, 0)
   const renderProducts = card.data.map( cartDataItem => {
-    const handleChange = event => {
-      props.setAmount(cartDataItem.id, event.target.value) 
-    };
-    return  (<Paper className={classes.root} key={cartDataItem.id} elevation={1}>
+    return  (<div className={classes.root} elevation={1}>
     <div className={classes.content}>
       <div className={classes.imageWrapper}>
           <img src={cartDataItem.img} className={classes.image}/>
       </div>
       <div className={classes.title}>{cartDataItem.title}</div>
-      <div className={classes.price}>
-        <TextField
-            id="standard-number"
-            value={cartDataItem.amount}
-            onChange={handleChange}
-            type="number"
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            margin="normal"
-        />
-      </div>
-      <div className={classes.price}>{`${cartDataItem.price * cartDataItem.amount} грн`}</div>
-      <div className={classes.price}>
-        <Button className={classes.buttonClose} onClick={deleteFromCart.bind(null, cartDataItem.id)}>
-          <Close />
-        </Button>
-      </div>
+      <div className={classes.price}>Количество</div>
+      <div className={classes.price}>{`${cartDataItem.price} грн`}</div>
     </div>
-    </Paper>)
+    </div>)
     })
     return (
-      <div>
+      <Paper>
         {renderProducts}
         <div className={classes.totalBlock}>
-        <div>
-            <Button variant="contained" className={classes.button} onClick={closeCart}>
-              Продолжить покупки
-            </Button>
-          </div>
-          <div>
             <div className={classes.totalPrice}>
               {`Итого: ${totalPrice} грн`}
             </div>
-            <Button variant="contained" color="secondary" className={classes.button} onClick={redirToOrderForm}>
-              Оформить заказ
-            </Button>
-          </div>
         </div>
-      </div>
+      </Paper>
     );
 }
 
-Cart.propTypes = {
+MicroCart.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Cart));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MicroCart));

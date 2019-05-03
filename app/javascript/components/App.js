@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import Header from './Header'
 // import { hot } from 'react-hot-loader/root'
 import Home from './Home'
+import Dialog from './Dialog'
 import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles';
+import ChooseSize from './ChooseSize'
 
 const mapStateToProps = state => {
   return {
@@ -39,6 +41,7 @@ render(){
             <Home />
           </Grid>
       </Grid>
+      <Dialog title="Выберите размер" Component={ChooseSize}/>
     </div>
   )
 }

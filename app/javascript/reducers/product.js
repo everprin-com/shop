@@ -4,8 +4,12 @@ export default function (state = [], action) {
         return [...state, ...action.products] 
       case 'ADD_PRODUCT':
         return [...state, action.product] 
-      case 'RESET_PRODUCTs':
-        return [] 
+      case 'RESET_PRODUCTS':
+        return []
+      case 'SET_ACTIVE_SIZE':
+        return [...state.map(product => { return (
+          product.id === action.id ? {...product, activeSize: action.size} : product
+        )})]
       default:
         return state
     }

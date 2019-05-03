@@ -14,7 +14,7 @@ import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import ProductCart from "../components/ProductCart"
 import OrderForm from "../components/OrderForm"
-import mySaga from '../components/saga'
+import rootSaga from '../components/saga'
 
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware()
@@ -26,12 +26,6 @@ const initialStore = {
     login: "Pupkin",
     role: "Bot"
   },
-  card: [
-    { product_id: 1, title: "pansil", describtion: "some describtion of pensil",   price: 20, amount: 2 },
-    { product_id: 2, title: "pen", describtion: "some describtion of pen",   price: 10, amount: 4 },
-    { product_id: 3, title: "rule", describtion: "some describtion of rule",   price: 300, amount: 5 },
-    { product_id: 4, title: "table", describtion: "some describtion of table",   price: 140, amount: 3 },
-  ]
 }
 
 const store = createStore(
@@ -39,7 +33,7 @@ const store = createStore(
   applyMiddleware(sagaMiddleware)
 )
 
-sagaMiddleware.run(mySaga)
+sagaMiddleware.run(rootSaga)
 
 
 window.store = store

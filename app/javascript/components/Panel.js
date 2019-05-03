@@ -26,6 +26,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     closeCart: () => dispatch({ type: 'CLOSE_CART'}),
+    openCart: () => dispatch({ type: 'OPEN_CART'}),
   }
 }
 
@@ -92,42 +93,28 @@ const styles = {
   },
   cardBlock: {
     cursor: 'pointer'
-  }
+  },
+  cardTitleBlock: {
+    display: 'flex',
+  },
+  cardTitle: {
+    display: 'inline-flex',
+  },
+  addedProduct: {
+    marginLeft: 110,
+    display: 'inline-flex',
+  },
 };
 
 class Panel extends React.PureComponent {
-  constructor(props){
-    super(props)
-  }
-
-  state = {
-    open: false || this.props.card.isOpen,
-  }
-
-  componentDidUpdate (prevProps, prevState) {
-    console.log(this.props.card.isOpen)
-    console.log(prevState.open)
-    if (this.props.card.isOpen !== prevState.open) this.setState({open: this.props.card.isOpen})
-  }
-
-  handleClickOpen = () => {
-    this.setState({
-      open: true,
-    });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-    this.props.closeCart()
-  };
   render(){
-    const { classes, card } = this.props;
+    const { classes, card, closeCart, openCart } = this.props;
     const cardLengh = card.data.length
     return (
       <div>
           <Toolbar className={classes.root}>
               <Input />
-              <div className={classes.cardBlock} onClick={this.handleClickOpen}>
+              <div className={classes.cardBlock} onClick={openCart}>
                 <Badge className={classes.margin} invisible={!cardLengh} badgeContent={cardLengh} color="primary">
                   <ShoppingCart className={classes.icon} />
                 </Badge>
@@ -137,22 +124,23 @@ class Panel extends React.PureComponent {
               </div>
           </Toolbar>
           <Dialog
-          onClose={this.handleClose}
+          onClose={closeCart}
           aria-labelledby="customized-dialog-title"
-          open={this.state.open}
+          open={card.isOpen}
           className={classes.dialog}
           maxWidth="lg"
         >
-          <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>
-            Modal title
+          <DialogTitle className={classes.cardTitleBlock} onClose={closeCart}>
+            <div className={classes.cardTitle}>Корзина</div>
+            {card.withProduct && <div className={classes.addedProduct}>Вы добавили товар в корзину</div>}
           </DialogTitle>
           <DialogContent>
             <Cart />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            {/* <Button onClick={closeCart} color="primary">
               Save changes
-            </Button>
+            </Button> */}
           </DialogActions>
         </Dialog>
       </div>

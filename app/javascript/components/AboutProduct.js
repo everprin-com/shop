@@ -29,32 +29,17 @@ const styles = theme => ({
   row: {
     border: '1px solid transparent',
     outlineColor: "transparent"
-  }
+  },
+  aboutProduct: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
 });
-
-let id = 0;
-function createData(title, data) {
-  id += 1;
-  return { id, title, data }
-}
-
-const rows = [
-  createData('Цена', 159),
-  createData('Бренд', "Springfield"),
-  createData('Артикул товара:', "119580167"),
-  createData('Принадлежность', "Мужчинам"),
-  createData('Сезонность', "Демисезон"),
-  createData('Состав', "100% хлопок"),
-  createData('Цвет', "Бледно-красный"),
-  createData('Страна бренда', "Испания"),
-  createData('Страна производства', "Бангладеш"),
-  createData('Вес', "300 грамм"),
-  createData('Описание', "рубашка с длинным рукавом, застегивается на пуговицы. На размер L длина изделия 72 см, длина рукава 67 см"),
-];
 
 function AboutProduct(props) {
   const { classes, productData } = props;
   let mapKeys ={
+    category: "Категория",
     title: "Наименование",
     price: "Цена",
     brand: "Бренд",
@@ -68,11 +53,17 @@ function AboutProduct(props) {
     description: "Описание",
   }
   var formatedProductData = {}
-  Object.keys(productData).map(key => formatedProductData[key] = { title: mapKeys[key], value: productData[key] })
+  Object.keys(productData).forEach(key => {
+    if (!mapKeys[key] || !productData[key]) return
+     formatedProductData[key] = { title: mapKeys[key], value: productData[key] }
+    })
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableBody>
+        <div className={classes.aboutProduct}>
+          О товаре
+        </div>
           {Object.keys(formatedProductData).map((key, i) => (
             <TableRow key={i} className={classes.row}>
               <TableCell component="th" className={`${classes.title} ${classes.cell}`} scope="row">

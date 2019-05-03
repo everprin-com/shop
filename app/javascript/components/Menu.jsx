@@ -103,7 +103,6 @@ class ScrollableTabsButtonForce extends React.Component {
             <Tab className={classes.tab} label="Item Two" icon={<FavoriteIcon />} onMouseEnter={this.hoverOn.bind(this, 1)} />
             <Tab className={classes.tab} label="Item Three" icon={<PersonPinIcon />} onMouseEnter={this.hoverOn.bind(this, 2)} />
             <Tab className={classes.tab} label="Item Four" icon={<HelpIcon />} onMouseEnter={this.hoverOn.bind(this,3)} />
-            <Tab className={classes.tab} label="Item Five" icon={<ShoppingBasket />} onMouseEnter={this.hoverOn.bind(this, 4)} />
             <Panel />
           </Tabs>
         </AppBar>
@@ -119,9 +118,6 @@ class ScrollableTabsButtonForce extends React.Component {
             <ul> {this.categoryList()} </ul>  
           </TabContainer>}
           {value === 3 && <TabContainer className={classes.tab_content}>
-            <ul> {this.categoryList()} </ul>  
-          </TabContainer>}
-          {value === 4 && <TabContainer className={classes.tab_content}>
             <ul> {this.categoryList()} </ul>  
           </TabContainer>}
         </div>}

@@ -7,10 +7,12 @@ import { withStyles } from '@material-ui/core/styles';
 import Sizes from './Sizes'
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
+import ProductItemSizes from './ProductItemSizes';
+import DialogWindow from './Dialog';
+import ChooseSize from './ChooseSize'
 
 // import watchImg687 from 'a.lmcdn.ru/img236x341/L/O/LO019EWCCQQ2_7453089_1_v1.jpg';
 // import watchImg1200 from './wristwatch_1200.jpg';
-
 
 const mapStateToProps = state => {
   return {
@@ -23,7 +25,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     openCart: () => dispatch({ type: 'OPEN_CART'}),
-    putToCart: product => dispatch({ type: 'PUT_TO_CART', product }),
+    putToCart: product => dispatch({ type: 'TRY_PUT_TO_CART', product }),
   }
 }
 
@@ -38,30 +40,26 @@ const styles = theme => ({
     }
 })
 
-class ProductCart extends Component {
-    constructor(props){
-        super(props)
-    }
-
+class ProductCart extends React.Component {
     componentDidUpdate(prevProps){
         this.props.orderform && this.redirectToOrderForm()
       }
 
-    state = { 
-        productData : this.props.products.find(product=>product.id == this.props.match.params.id)
+    putToCart = () => {
+        const {products, putToCart, match }  = this.props
+        const activeSize = products.find(product => product.id == match.params.id).activeSize
+        putToCart({...this.props.location.state.data, activeSize})
     }
-
-    putToCart = () => this.props.putToCart(this.state.productData)
 
     redirectToOrderForm = () => this.props.history.push('/orderform')
 
-    openCart = () => this.props.openCart()
-
     render() {
-        const { classes, products, card, match } = this.props
-        const { productData } = this.state
-        const src = "http:" + products.find(product => product.id == match.params.id).img
-        const isInCart = card.data.some(cardItem => cardItem.id == match.params.id )
+        const { classes, products, card, match, location, openCart } = this.props
+        const { id } = match.params
+        const productData  = location.state.data
+        const activeSize = products.find(product => product.id == id).activeSize
+        const src = "http:" + location.state.data.img
+        const isInCart = card.data.some(cardItem => cardItem.id == id )
         return (
             <div className="fluid">
                 <Header />
@@ -85,15 +83,26 @@ class ProductCart extends Component {
                         {`${productData.price} грн`}
                     </p>
                     <p>
-                       Размер: <Sizes />
+                       <ProductItemSizes
+                            sizes={productData.sizes}
+                            id={+this.props.match.params.id}
+                            activeSize={activeSize}
+                            format="big"
+                        />
                     </p>
                     <p>
-                         <a href="#"> Таблица размеров</a>
+                        <a href="#"> Таблица размеров</a>
                     </p>
-                    <Button variant="contained" color="primary" className={classes.button} onClick= { isInCart ? this.openCart : this.putToCart}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        onClick={ isInCart ? openCart : this.putToCart}
+                    >
                        {isInCart ? "Товар уже в корзине" : "Добавить в корзину" } 
                     </Button>
                     <AboutProduct productData={productData} />
+                    <DialogWindow title="Выберите размер" Component={ChooseSize} />
                 </div>
 
                 <div style={{height: '500px'}} />
