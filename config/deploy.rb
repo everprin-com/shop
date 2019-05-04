@@ -15,6 +15,7 @@ set :deploy_to, "/home/#{fetch(:user)}/app"
 set :repository, 'git@github.com:everprin-com/shop.git'
 set :branch, 'master'
 set :rvm_use_path, '/etc/profile.d/rvm.sh'
+set :compiled_asset_path, 'public/assets'
 
 # Optional settings:
 #   set :user, 'foobar'          # Username in the server to SSH to.
@@ -34,6 +35,22 @@ task :remote_environment do
   raise "Couldn't determine Ruby version: Do you have a file .ruby-version in your project root?" if ruby_version.empty?
 
   invoke :'rvm:use', ruby_version
+end
+
+desc 'Precompiles assets (skips if nothing has changed since the last release).'
+task :assets_precompile do
+  ensure!(:deploy_block, message: "Can't be run outside deploy do block. Please use mina 'rake[assets_precompile]' instead")
+  if fetch(:force_asset_precompile)
+    comment %{Precompiling asset files}
+    command %{#{fetch(:rake)} assets:precompile}
+  else
+    command check_for_changes_script(
+      at: fetch(:asset_dirs),
+      skip: %{echo "-----> Skipping asset precompilation"},
+      changed: %{echo "-----> Precompiling asset files"
+        #{echo_cmd "#{fetch(:rake)} assets:precompile"}}
+    ), quiet: true
+  end
 end
 
 # Put any custom commands you need to run at setup
