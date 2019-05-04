@@ -24,4 +24,4 @@ def secure_token
   end
 end
 
-#Cinema7::Application.config.secret_key_base = secure_token
+# Cinema7::Application.config.secret_key_base = secure_token

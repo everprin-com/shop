@@ -24,7 +24,7 @@ module SimpleForm
     SimpleForm::Components.eager_load!
   end
 
-  CUSTOM_INPUT_DEPRECATION_WARN = <<-WARN
+  CUSTOM_INPUT_DEPRECATION_WARN = <<-WARN.freeze
 %{name} method now accepts a `wrapper_options` argument. The method definition without the argument is deprecated and will be removed in the next Simple Form version. Change your code from:
 
     def %{name}
@@ -58,11 +58,11 @@ See https://github.com/plataformatec/simple_form/pull/997 for more information.
 
   # Series of attemps to detect a default label method for collection.
   mattr_accessor :collection_label_methods
-  @@collection_label_methods = [:to_label, :name, :title, :to_s]
+  @@collection_label_methods = %i[to_label name title to_s]
 
   # Series of attemps to detect a default value method for collection.
   mattr_accessor :collection_value_methods
-  @@collection_value_methods = [:id, :to_s]
+  @@collection_value_methods = %i[id to_s]
 
   # You can wrap a collection of radio/check boxes in a pre-defined tag, defaulting to none.
   mattr_accessor :collection_wrapper_tag
@@ -84,7 +84,7 @@ See https://github.com/plataformatec/simple_form/pull/997 for more information.
 
   # How the label text should be generated altogether with the required text.
   mattr_accessor :label_text
-  @@label_text = lambda { |label, required, explicit_label| "#{required} #{label}" }
+  @@label_text = ->(label, required, _explicit_label) { "#{required} #{label}" }
 
   # You can define the class to be used on all labels. Defaults to none.
   mattr_accessor :label_class
@@ -108,7 +108,7 @@ See https://github.com/plataformatec/simple_form/pull/997 for more information.
 
   # You can define which elements should obtain additional classes.
   mattr_accessor :generate_additional_classes_for
-  @@generate_additional_classes_for = [:wrapper, :label, :input]
+  @@generate_additional_classes_for = %i[wrapper label input]
 
   # Whether attributes are required by default or not.
   mattr_accessor :required_by_default
@@ -120,7 +120,7 @@ See https://github.com/plataformatec/simple_form/pull/997 for more information.
 
   # Collection of methods to detect if a file type was given.
   mattr_accessor :file_methods
-  @@file_methods = [:mounted_as, :file?, :public_filename]
+  @@file_methods = %i[mounted_as file? public_filename]
 
   # Custom mappings for input types. This should be a hash containing a regexp
   # to match as key, and the input type that will be used when the field name
@@ -177,7 +177,7 @@ See https://github.com/plataformatec/simple_form/pull/997 for more information.
   # This gets taken care of semantically by adding an error class to the wrapper tag
   # containing the input.
   mattr_accessor :field_error_proc
-  @@field_error_proc = proc do |html_tag, instance_tag|
+  @@field_error_proc = proc do |html_tag, _instance_tag|
     html_tag
   end
 
@@ -204,7 +204,7 @@ See https://github.com/plataformatec/simple_form/pull/997 for more information.
 
   # Retrieves a given wrapper
   def self.wrapper(name)
-    @@wrappers[name.to_s] or raise WrapperNotFound, "Couldn't find wrapper with name #{name}"
+    @@wrappers[name.to_s] || raise(WrapperNotFound, "Couldn't find wrapper with name #{name}")
   end
 
   # Raised when fails to find a given wrapper name
@@ -252,11 +252,11 @@ See https://github.com/plataformatec/simple_form/pull/997 for more information.
   ## SETUP
 
   def self.default_input_size=(*)
-    ActiveSupport::Deprecation.warn "[SIMPLE_FORM] SimpleForm.default_input_size= is deprecated and has no effect", caller
+    ActiveSupport::Deprecation.warn '[SIMPLE_FORM] SimpleForm.default_input_size= is deprecated and has no effect', caller
   end
 
   def self.form_class=(value)
-    ActiveSupport::Deprecation.warn "[SIMPLE_FORM] SimpleForm.form_class= is deprecated and will be removed in 4.x. Use SimpleForm.default_form_class= instead", caller
+    ActiveSupport::Deprecation.warn '[SIMPLE_FORM] SimpleForm.form_class= is deprecated and will be removed in 4.x. Use SimpleForm.default_form_class= instead', caller
     @@form_class = value
   end
 

@@ -1,24 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe OrdersController, type: :controller do
- 
   render_views
   login_user
-  
 
-  describe "GET #index" do
-    it "responds successfully with an HTTP 200 status code" do
+  describe 'GET #index' do
+    it 'responds successfully with an HTTP 200 status code' do
       get :index
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
-    it "renders the index template" do
+    it 'renders the index template' do
       get :index
-      expect(response).to render_template("index")
+      expect(response).to render_template('index')
     end
   end
 
-  
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'creates the order' do
@@ -32,19 +29,18 @@ RSpec.describe OrdersController, type: :controller do
       end
     end
 
-    #context 'with invalid attributes' do
-      #it 'does not create the order' do
-        #post :create, order: attributes_for(:order, email: nil)
-        #expect(Order.count).to eq(0)
-      #end
+    # context 'with invalid attributes' do
+    # it 'does not create the order' do
+    # post :create, order: attributes_for(:order, email: nil)
+    # expect(Order.count).to eq(0)
+    # end
 
-      #it 're-renders the "new" view' do
-        #post :create, order: attributes_for(:order, email: nil)
-        #expect(response).to render_template :new
-      #end
-    #end
+    # it 're-renders the "new" view' do
+    # post :create, order: attributes_for(:order, email: nil)
+    # expect(response).to render_template :new
+    # end
+    # end
   end
-
 
   context 'json' do
     context 'with valid attributes' do
@@ -72,20 +68,16 @@ RSpec.describe OrdersController, type: :controller do
     end
   end
 
-  describe 'Ed product' do 
-
-    
-    #let(:product) {create(:product)}
-    #product = create(:product)
+  describe 'Ed product' do
+    # let(:product) {create(:product)}
+    # product = create(:product)
     before(:each) do
       @product = FactoryGirl.create(:order)
-   
     end
-    
-    #it "finds a specific product" do
-      #patch :update, id: @product.id, product: FactoryGirl.attributes_for(:product)
-      #expect(assigns(:product)).to eq(@product.id)
-    #end
-   
+
+    # it "finds a specific product" do
+    # patch :update, id: @product.id, product: FactoryGirl.attributes_for(:product)
+    # expect(assigns(:product)).to eq(@product.id)
+    # end
   end
 end

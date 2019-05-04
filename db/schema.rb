@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160423230222) do
+ActiveRecord::Schema.define(version: 20190320192443) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "answerfrommoderators", force: :cascade do |t|
     t.integer  "user_id"
@@ -38,10 +41,10 @@ ActiveRecord::Schema.define(version: 20160423230222) do
     t.integer  "info_id"
     t.string   "image_comment_file_name"
     t.string   "image_comment_content_type"
-    t.integer  "image_comment_file_size"
+    t.integer  "image_comment_file_size",    limit: 8
     t.datetime "image_comment_updated_at"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
 
   create_table "configurables", force: :cascade do |t|
@@ -51,7 +54,7 @@ ActiveRecord::Schema.define(version: 20160423230222) do
     t.datetime "updated_at"
   end
 
-  add_index "configurables", ["name"], name: "index_configurables_on_name"
+  add_index "configurables", ["name"], name: "index_configurables_on_name", using: :btree
 
   create_table "identities", force: :cascade do |t|
     t.integer  "user_id"
@@ -61,7 +64,7 @@ ActiveRecord::Schema.define(version: 20160423230222) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "identities", ["user_id"], name: "index_identities_on_user_id"
+  add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
   create_table "infos", force: :cascade do |t|
     t.string   "name"
@@ -70,18 +73,39 @@ ActiveRecord::Schema.define(version: 20160423230222) do
     t.string   "telephone"
     t.string   "data"
     t.string   "bio"
-    t.boolean  "send_new_film",         default: false
-    t.boolean  "send_comments_to_film", default: false
-    t.boolean  "ban",                   default: false
+    t.boolean  "send_new_film",                   default: false
+    t.boolean  "send_comments_to_film",           default: false
+    t.boolean  "ban",                             default: false
     t.string   "photo_file_name"
     t.string   "photo_content_type"
-    t.integer  "photo_file_size"
+    t.integer  "photo_file_size",       limit: 8
     t.datetime "photo_updated_at"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
   end
 
-  add_index "infos", ["user_id"], name: "index_infos_on_user_id"
+  add_index "infos", ["user_id"], name: "index_infos_on_user_id", using: :btree
+
+  create_table "items", force: :cascade do |t|
+    t.integer  "article",                   null: false
+    t.string   "name",                      null: false
+    t.string   "description"
+    t.integer  "price",                     null: false
+    t.string   "color"
+    t.string   "picture",                   null: false
+    t.string   "brand"
+    t.string   "season"
+    t.string   "male"
+    t.string   "size"
+    t.string   "country"
+    t.string   "category"
+    t.string   "presence",    default: "t"
+    t.string   "size_world"
+    t.string   "drop_ship"
+    t.string   "composition"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
 
   create_table "line_items", force: :cascade do |t|
     t.integer  "product_id"
@@ -93,8 +117,8 @@ ActiveRecord::Schema.define(version: 20160423230222) do
     t.datetime "updated_at",             null: false
   end
 
-  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id"
-  add_index "line_items", ["product_id"], name: "index_line_items_on_product_id"
+  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id", using: :btree
+  add_index "line_items", ["product_id"], name: "index_line_items_on_product_id", using: :btree
 
   create_table "messagestoadministrators", force: :cascade do |t|
     t.string   "name"
@@ -122,13 +146,13 @@ ActiveRecord::Schema.define(version: 20160423230222) do
     t.text     "description"
     t.string   "uploaded_file_file_name"
     t.string   "uploaded_file_content_type"
-    t.integer  "uploaded_file_file_size"
+    t.integer  "uploaded_file_file_size",    limit: 8
     t.datetime "uploaded_file_updated_at"
     t.string   "category"
-    t.decimal  "price",                      precision: 8, scale: 2
+    t.decimal  "price",                                precision: 8, scale: 2
     t.text     "full_description"
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.datetime "created_at",                                                   null: false
+    t.datetime "updated_at",                                                   null: false
   end
 
   create_table "searches", force: :cascade do |t|
@@ -161,8 +185,8 @@ ActiveRecord::Schema.define(version: 20160423230222) do
     t.string   "uid"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "voices", force: :cascade do |t|
     t.integer  "votable_id"
@@ -175,4 +199,8 @@ ActiveRecord::Schema.define(version: 20160423230222) do
     t.datetime "updated_at",               null: false
   end
 
+  add_foreign_key "identities", "users"
+  add_foreign_key "infos", "users"
+  add_foreign_key "line_items", "carts"
+  add_foreign_key "line_items", "products"
 end

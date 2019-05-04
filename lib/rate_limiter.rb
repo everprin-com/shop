@@ -3,11 +3,10 @@ require_dependency 'rate_limiter/on_create_record'
 
 # A redis backed rate limiter.
 class RateLimiter
-
   attr_reader :max, :secs, :user, :key
 
   def self.key_prefix
-    "l-rate-limit:"
+    'l-rate-limit:'
   end
 
   def self.disable
@@ -64,6 +63,7 @@ class RateLimiter
 
   def rollback!
     return if RateLimiter.disabled?
+
     $redis.lpop(@key)
   end
 
@@ -81,8 +81,8 @@ class RateLimiter
   def is_under_limit?
     # number of events in buffer less than max allowed? OR
     ($redis.llen(@key) < @max) ||
-    # age bigger than silding window size?
-    (age_of_oldest > @secs)
+      # age bigger than silding window size?
+      (age_of_oldest > @secs)
   end
 
   def rate_unlimited?

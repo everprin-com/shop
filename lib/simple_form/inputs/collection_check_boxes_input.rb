@@ -14,7 +14,7 @@ module SimpleForm
       end
 
       def item_wrapper_class
-        "checkbox"
+        'checkbox'
       end
     end
   end

@@ -1,20 +1,18 @@
 class Auth::TwitterAuthenticator < Auth::Authenticator
-
   def name
-    "twitter"
+    'twitter'
   end
 
-  # TODO twitter provides all sorts of extra info, like website/bio etc.
+  # TODO: twitter provides all sorts of extra info, like website/bio etc.
   #  it may be worth considering pulling some of it in.
   def after_authenticate(auth_token)
-
     result = Auth::Result.new
 
     data = auth_token[:info]
 
-    result.username = screen_name = data["nickname"]
-    result.name = name = data["name"]
-    twitter_user_id = auth_token["uid"]
+    result.username = screen_name = data['nickname']
+    result.name = name = data['name']
+    twitter_user_id = auth_token['uid']
 
     result.extra_data = {
       twitter_user_id: twitter_user_id,
@@ -39,11 +37,10 @@ class Auth::TwitterAuthenticator < Auth::Authenticator
 
   def register_middleware(omniauth)
     omniauth.provider :twitter,
-           :setup => lambda { |env|
-              strategy = env["omniauth.strategy"]
-              strategy.options[:consumer_key] = SiteSetting.twitter_consumer_key
-              strategy.options[:consumer_secret] = SiteSetting.twitter_consumer_secret
-           }
+                      setup: lambda { |env|
+                        strategy = env['omniauth.strategy']
+                        strategy.options[:consumer_key] = SiteSetting.twitter_consumer_key
+                        strategy.options[:consumer_secret] = SiteSetting.twitter_consumer_secret
+                      }
   end
-
 end

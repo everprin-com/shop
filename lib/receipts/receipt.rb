@@ -21,57 +21,56 @@ module Receipts
 
     private
 
-      def default_message
-        "#{Configurable[:slogan]}"
-      end
+    def default_message
+      (Configurable[:slogan]).to_s
+    end
 
-      def setup_fonts
-        font_families.update "Primary" => custom_font
-        font "Primary"
-      end
+    def setup_fonts
+      font_families.update 'Primary' => custom_font
+      font 'Primary'
+    end
 
-      def generate
-        bounding_box [0, 792], width: 612, height: 792 do
-          bounding_box [85, 792], width: 442, height: 792 do
-            header
-            charge_details
-
-          end
+    def generate
+      bounding_box [0, 792], width: 612, height: 792 do
+        bounding_box [85, 792], width: 442, height: 792 do
+          header
+          charge_details
         end
       end
+    end
 
-      def header
-        move_down 60
+    def header
+      move_down 60
 
-        if company.has_key? :logo
-          image open(company.fetch(:logo)), height: 32
-        else
-          move_down 32
-        end
-
-        move_down 8
-        text "<color rgb='a6a6a6'>PRICE FOR GOODS ##{id}</color>", inline_format: true
-
-        move_down 30
-        text message, inline_format: true, size: 12.5, leading: 4
+      if company.key? :logo
+        image open(company.fetch(:logo)), height: 32
+      else
+        move_down 32
       end
 
-      def charge_details
-        move_down 30
+      move_down 8
+      text "<color rgb='a6a6a6'>PRICE FOR GOODS ##{id}</color>", inline_format: true
 
-        borders = line_items.length - 2
+      move_down 30
+      text message, inline_format: true, size: 12.5, leading: 4
+    end
 
-        table(line_items, cell_style: { border_color: 'cccccc' }) do
-          cells.padding = 12
-          cells.borders = []
-          row(0..borders).borders = [:bottom]
-        end
+    def charge_details
+      move_down 30
+
+      borders = line_items.length - 2
+
+      table(line_items, cell_style: { border_color: 'cccccc' }) do
+        cells.padding = 12
+        cells.borders = []
+        row(0..borders).borders = [:bottom]
       end
+    end
 
-      #def
-        #move_down 45
-       # text company.fetch(:name), inline_format: true
-       # text "<color rgb='888888'>#{company.fetch(:address)}</color>", inline_format: true
-      #end
+    # def
+    # move_down 45
+    # text company.fetch(:name), inline_format: true
+    # text "<color rgb='888888'>#{company.fetch(:address)}</color>", inline_format: true
+    # end
   end
 end

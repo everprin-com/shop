@@ -1,6 +1,6 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
-#require 'omniauth-google-oauth2'
+# require 'omniauth-google-oauth2'
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
@@ -231,7 +231,7 @@ Devise.setup do |config|
   # should add them to the navigational formats lists.
   config.http_authenticatable_on_xhr = false
   # The "*/*" below is required to match Internet Explorer requests.
-  #config.navigational_formats = ['*/*', :html, :json, :js]
+  # config.navigational_formats = ['*/*', :html, :json, :js]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
@@ -239,20 +239,18 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  config.omniauth :digitalocean, "f1afae871d3d78372b574eb58873706a8697e5e2efb1de1235cce7e99d5de13d", "c06e6343501471b4a17e1b39e99cd6555e9e89e56d416675cb91764b0d9afc4a",
-                callback_url: "CALLBACK_URL"
+  config.omniauth :digitalocean, 'f1afae871d3d78372b574eb58873706a8697e5e2efb1de1235cce7e99d5de13d', 'c06e6343501471b4a17e1b39e99cd6555e9e89e56d416675cb91764b0d9afc4a',
+                  callback_url: 'CALLBACK_URL'
 
-  config.omniauth :google_oauth2, "911017061680-qpuv9iqftmqrgnhb9ka4ljr84v6epfms.apps.googleusercontent.com", "5l1nduBuGZNt1hY29o6XcZU2", callback_url: "CALLBACK_URL"
+  config.omniauth :google_oauth2, '911017061680-qpuv9iqftmqrgnhb9ka4ljr84v6epfms.apps.googleusercontent.com', '5l1nduBuGZNt1hY29o6XcZU2', callback_url: 'CALLBACK_URL'
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,
-    #config.omniauth :facebook, ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_APP_SECRET']
-    #config.omniauth :twitter, ENV['TWITTER_APP_ID'], ENV['TWITTER_APP_SECRET']
+  # config.omniauth :facebook, ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_APP_SECRET']
+  # config.omniauth :twitter, ENV['TWITTER_APP_ID'], ENV['TWITTER_APP_SECRET']
 
   config.secret_key = '51f08becd85a4c9a2c281de00ff4d9f184d66ad6aa60c0e02149ff5b38640d5267ac76071677612ba4e82a81e92567fc295b234cca7c55f31763201e089d84a5'
 
-  #config.omniauth :twitter, ENV["TWITTER_CONSUMER_KEY"], ENV["TWITTER_CONSUMER_SECRET"]
-  #config.omniauth :facebook, "583655635116766", "63fc69642a0f838635fc93382daa85f4", callback_url: "CALLBACK_URL"
-  
-
+  # config.omniauth :twitter, ENV["TWITTER_CONSUMER_KEY"], ENV["TWITTER_CONSUMER_SECRET"]
+  # config.omniauth :facebook, "583655635116766", "63fc69642a0f838635fc93382daa85f4", callback_url: "CALLBACK_URL"
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

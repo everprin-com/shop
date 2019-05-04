@@ -5,7 +5,7 @@ module SimpleForm
 
       def input(wrapper_options = nil)
         unless string?
-          input_html_classes.unshift("string")
+          input_html_classes.unshift('string')
           input_html_options[:type] ||= input_type if html5?
         end
 

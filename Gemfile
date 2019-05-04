@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 
-gem 'rails', '4.2.6'
+gem 'rails', '4.2.11'
 
 gem "haml-rails"
 gem 'uglifier', '>= 1.3.0'
@@ -9,7 +9,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'bootstrap_form'
 
 gem 'coffee-rails'
-
 gem 'jquery-rails'
 
 gem 'jbuilder'
@@ -20,16 +19,15 @@ gem 'sass-rails'
 gem 'bootstrap_form'
 
 gem 'jquery-ui-rails'
-
+gem 'pg', "~> 0.15"
 gem 'devise'
 gem 'omniauth-google-oauth2', :require => "omniauth-google-oauth2"
-
+gem 'pg_search', '~> 1.0.5'
 gem 'omniauth-oauth2', '~> 1.3.1'
 gem 'omniauth-digitalocean'
 
 gem 'cancancan'
 gem 'will_paginate'
-gem "pg"
 gem 'rake'
 gem 'tire'
 gem 'prawn'
@@ -50,13 +48,13 @@ gem 'mini_racer', platforms: :ruby
 #gem 'thinking-sphinx', '~> 3.1.4'
 
 gem 'mini_magick'
-
-gem "oxymoron"
+gem 'unicorn'
 gem 'kaminari'
 gem 'geocoder'
 gem 'gmaps4rails'
 gem 'underscore-rails'
 # gem 'oj'
+
 # gem 'oj_mimic_json'
 gem 'file_validators'
 gem 'whenever', :require => false
@@ -66,11 +64,12 @@ gem "rolify"
 gem "pundit"
 gem "rest-client"
 
-
+# convert excel
+gem "roo"
+gem "roo-xls"
 
 group :development, :test do
   gem 'capybara'
-  gem 'sqlite3', '~> 1.3.6'
   gem 'byebug'
   gem 'rspec-rails'
   gem 'shoulda-matchers', require: false
@@ -78,8 +77,9 @@ group :development, :test do
   gem 'faker'
   gem 'factory_girl_rails'
   gem 'simplecov', :require => false
-
-
+  gem 'rubocop'
+  gem 'rubocop-rspec', require: false
+  gem 'rubocop-config-umbrellio'
   #gem "ruby-growl"
   #gem "ruby_gntp"
   #gem "awesome_print", require:"ap"
@@ -92,7 +92,6 @@ group :development, :test do
   gem "bullet"
   gem 'newrelic_rpm'
   gem 'colored'
-  gem 'deadweight', :require => 'deadweight/hijack/rails'
   gem 'capistrano'
   gem 'capistrano-passenger'
   gem 'capistrano-bundler'

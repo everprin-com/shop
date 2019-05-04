@@ -1,8 +1,7 @@
 module Auth; end
 class Auth::CurrentUserProvider
-
   # do all current user initialization here
-  def initialize(env)
+  def initialize(_env)
     raise NotImplementedError
   end
 
@@ -12,7 +11,7 @@ class Auth::CurrentUserProvider
   end
 
   # log on a user and set cookies and session etc.
-  def log_on_user(user,session,cookies)
+  def log_on_user(_user, _session, _cookies)
     raise NotImplementedError
   end
 
@@ -27,8 +26,7 @@ class Auth::CurrentUserProvider
     raise NotImplementedError
   end
 
-
-  def log_off_user(session, cookies)
+  def log_off_user(_session, _cookies)
     raise NotImplementedError
   end
 end
