@@ -41,10 +41,10 @@ ActiveRecord::Schema.define(version: 20190320192443) do
     t.integer  "info_id"
     t.string   "image_comment_file_name"
     t.string   "image_comment_content_type"
-    t.integer  "image_comment_file_size"
+    t.integer  "image_comment_file_size",    limit: 8
     t.datetime "image_comment_updated_at"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
 
   create_table "configurables", force: :cascade do |t|
@@ -73,15 +73,15 @@ ActiveRecord::Schema.define(version: 20190320192443) do
     t.string   "telephone"
     t.string   "data"
     t.string   "bio"
-    t.boolean  "send_new_film",         default: false
-    t.boolean  "send_comments_to_film", default: false
-    t.boolean  "ban",                   default: false
+    t.boolean  "send_new_film",                   default: false
+    t.boolean  "send_comments_to_film",           default: false
+    t.boolean  "ban",                             default: false
     t.string   "photo_file_name"
     t.string   "photo_content_type"
-    t.integer  "photo_file_size"
+    t.integer  "photo_file_size",       limit: 8
     t.datetime "photo_updated_at"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
   end
 
   add_index "infos", ["user_id"], name: "index_infos_on_user_id", using: :btree
@@ -146,13 +146,13 @@ ActiveRecord::Schema.define(version: 20190320192443) do
     t.text     "description"
     t.string   "uploaded_file_file_name"
     t.string   "uploaded_file_content_type"
-    t.integer  "uploaded_file_file_size"
+    t.integer  "uploaded_file_file_size",    limit: 8
     t.datetime "uploaded_file_updated_at"
     t.string   "category"
-    t.decimal  "price",                      precision: 8, scale: 2
+    t.decimal  "price",                                precision: 8, scale: 2
     t.text     "full_description"
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.datetime "created_at",                                                   null: false
+    t.datetime "updated_at",                                                   null: false
   end
 
   create_table "searches", force: :cascade do |t|
@@ -199,4 +199,8 @@ ActiveRecord::Schema.define(version: 20190320192443) do
     t.datetime "updated_at",               null: false
   end
 
+  add_foreign_key "identities", "users"
+  add_foreign_key "infos", "users"
+  add_foreign_key "line_items", "carts"
+  add_foreign_key "line_items", "products"
 end

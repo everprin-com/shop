@@ -1,8 +1,4 @@
 {
-  "TestComponent.js": "/packs/TestComponent-1ba88711710e9b4c4f1b.js",
-  "TestComponent.js.map": "/packs/TestComponent-1ba88711710e9b4c4f1b.js.map",
-  "application.js": "/packs/application-7b6c081ba54a472af60c.js",
-  "application.js.map": "/packs/application-7b6c081ba54a472af60c.js.map",
-  "hello_react.js": "/packs/hello_react-5dce979927b1448cefe7.js",
-  "hello_react.js.map": "/packs/hello_react-5dce979927b1448cefe7.js.map"
+  "Root.js": "/packs/Root-2151ee82375abeb3ccf8.js",
+  "Root.js.map": "/packs/Root-2151ee82375abeb3ccf8.js.map"
 }
