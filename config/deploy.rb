@@ -76,6 +76,8 @@ task :deploy do
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
+    invoke :'yarn upgrade'
+    invoke :'./bin/webpack-dev-server'
     invoke :'deploy:cleanup'
 
     on :launch do
