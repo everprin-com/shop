@@ -18,6 +18,10 @@ gem 'bootstrap-sass'
 gem 'sass-rails'
 gem 'bootstrap_form'
 
+#telegram
+gem 'tele_notify'
+gem 'notifiee-ruby'
+
 gem 'jquery-ui-rails'
 gem 'pg', "~> 0.15"
 gem 'devise'
@@ -29,7 +33,6 @@ gem 'omniauth-digitalocean'
 gem 'cancancan'
 gem 'will_paginate'
 gem 'rake'
-gem 'tire'
 gem 'prawn'
 gem 'prawn-table'
 gem 'configurable_engine'
