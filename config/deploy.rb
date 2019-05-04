@@ -75,8 +75,11 @@ task :deploy do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    invoke :'rails:assets_precompile'
-    #invoke :'yarn upgrade'
+    command %{yarn install}
+    #invoke :'rails:assets_precompile'
+    #command %{bundle exec rails webpacker:compile}
+    command %{yarn upgrade}
+    #command :'yarn upgrade'
     #invoke :'./bin/webpack-dev-server'
     invoke :'deploy:cleanup'
 
