@@ -2,11 +2,11 @@
 %html
   %head
     = javascript_pack_tag "Root"
-    %title 
+    %title
       = yield(:title) || "The blog"
 
   = render partial: "shared/down"
-  -# = render partial: "shared/navbar" 
+  -# = render partial: "shared/navbar"
 %div{:id=>"modal-holder"}
 
 %title

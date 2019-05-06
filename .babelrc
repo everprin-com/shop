@@ -15,13 +15,18 @@
   ],
   "plugins": [
     "syntax-dynamic-import",
-    "react-hot-loader/babel",
     "transform-object-rest-spread",
     [
       "transform-class-properties",
       {
         "spec": true
       }
-    ]
-  ]
+    ],
+    "react-hot-loader/babel"
+  ],
+  "env": {
+    "test": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    }
+  }
 }

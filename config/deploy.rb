@@ -9,11 +9,11 @@ require 'mina/rvm'
 #   branch       - Branch name to deploy. (needed by mina/git)
 
 set :application_name, 'rails-demo'
-set :domain, '142.93.171.244'
+set :domain, '178.62.6.75'
 set :user, fetch(:application_name)
 set :deploy_to, "/home/#{fetch(:user)}/app"
 set :repository, 'git@github.com:everprin-com/shop.git'
-set :branch, 'master'
+set :branch, 'deploy'
 set :rvm_use_path, '/etc/profile.d/rvm.sh'
 
 # Optional settings:
@@ -75,12 +75,7 @@ task :deploy do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    command %{yarn install}
-    #invoke :'rails:assets_precompile'
-    #command %{bundle exec rails webpacker:compile}
-    command %{yarn upgrade}
-    #command :'yarn upgrade'
-    #invoke :'./bin/webpack-dev-server'
+    invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 
     on :launch do
