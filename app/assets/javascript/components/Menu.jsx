@@ -8,9 +8,6 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import HelpIcon from '@material-ui/icons/Help';
-import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
-import ThumbDown from '@material-ui/icons/ThumbDown';
-import ThumbUp from '@material-ui/icons/ThumbUp';
 import Typography from '@material-ui/core/Typography';
 import MenuGenderPanel from './MenuGenderPanel'
 import { category } from './mockData'
@@ -36,6 +33,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     position: 'relative',
     zIndex: 2,
+    width: 1240,
   },
   tab: {
     fontSize: '16px',
@@ -61,7 +59,7 @@ const styles = theme => ({
   }
 });
 
-class ScrollableTabsButtonForce extends React.Component {
+class TopMenu extends React.Component {
   state = {
     value: 100,
   };
@@ -126,8 +124,8 @@ class ScrollableTabsButtonForce extends React.Component {
   }
 }
 
-ScrollableTabsButtonForce.propTypes = {
+TopMenu.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ScrollableTabsButtonForce);
+export default withStyles(styles)(TopMenu);

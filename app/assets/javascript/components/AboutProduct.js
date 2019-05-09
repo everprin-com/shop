@@ -28,7 +28,8 @@ const styles = theme => ({
   },
   row: {
     border: '1px solid transparent',
-    outlineColor: "transparent"
+    outlineColor: "transparent",
+    height: 35,
   },
   aboutProduct: {
     fontSize: 20,

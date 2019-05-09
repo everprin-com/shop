@@ -8,6 +8,7 @@ import Dialog from './Dialog'
 import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles';
 import ChooseSize from './ChooseSize'
+import Footer from './Footer'
 
 const mapStateToProps = state => {
   return {
@@ -39,6 +40,7 @@ render(){
           <Grid item xs={12}>
             <Header />
             <Home />
+            <Footer />
           </Grid>
       </Grid>
       <Dialog title="Выберите размер" Component={ChooseSize}/>

@@ -21,7 +21,7 @@ import FilterSeason from './FilterSeason';
 const styles = theme => ({
   root: {
     position: 'fixed',
-    marginTop: 110,
+    marginTop: 75,
     width: '100%',
     maxWidth: 260,
     backgroundColor: theme.palette.background.paper,
@@ -33,7 +33,7 @@ const styles = theme => ({
   },
 });
 
-class NestedList extends React.Component {
+class SideBar extends React.Component {
   state = {
     open: true,
   };
@@ -93,8 +93,8 @@ class NestedList extends React.Component {
   }
 }
 
-NestedList.propTypes = {
+SideBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(NestedList);
+export default withStyles(styles)(SideBar);

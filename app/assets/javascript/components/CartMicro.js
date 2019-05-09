@@ -34,7 +34,7 @@ const styles = theme => ({
     justifyContent: 'space-around',
   },
   title: {
-    margin: '0 15px'
+    margin: 0
   },
   totalBlock:{
     margin: 20,
@@ -62,6 +62,16 @@ const styles = theme => ({
   },
   totalPrice: {
     marginBottom: 5
+  },
+  contentText: {
+    display: 'flex',
+    flexDirection: 'column',
+    minWidth: 200,
+  },
+  contentTextBottom: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: 20,
   }
 });
 
@@ -69,14 +79,19 @@ function MicroCart(props) {
   const { classes, card, redirToOrderForm, deleteFromCart, closeCart } = props;
   const totalPrice = card.data.reduce((prev, next)=> { return (prev + next.price)}, 0)
   const renderProducts = card.data.map( cartDataItem => {
+    const {img, title, amount, price} = cartDataItem
     return  (<div className={classes.root} elevation={1}>
     <div className={classes.content}>
       <div className={classes.imageWrapper}>
-          <img src={cartDataItem.img} className={classes.image}/>
+          <img src={img} className={classes.image}/>
       </div>
-      <div className={classes.title}>{cartDataItem.title}</div>
-      <div className={classes.price}>Количество</div>
-      <div className={classes.price}>{`${cartDataItem.price} грн`}</div>
+      <div className={classes.contentText}>
+        <div className={classes.title}>{title}</div>
+        <div className={classes.contentTextBottom}>
+          <div className={classes.price}>{`${amount} шт`}</div>
+          <div className={classes.price}>{`${amount ? price * amount : price} грн`}</div>
+        </div>
+      </div>
     </div>
     </div>)
     })

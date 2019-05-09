@@ -19,17 +19,20 @@ const styles = theme => ({
         justifyContent: 'space-around',
         flexWrap: 'wrap',
     },
+    contentForBig: {
+        width: '100%',
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
     title: {
-        marginBottom: '15px',
+        marginBottom: '10px',
     },
     sizeItem: {
         display: 'inline-block',
         verticalAlign: 'top',
-        // lineHeight: '18px',
         minWidth: 'auto',
         width: 'auto',
-        // padding: '0 6px',
-        margin: '0 8px 8px 0',
+        margin: '0 2px 2px 0',
         borderRadius: 8,
         backgroundRolor: '#ffffff',
         cursor: 'pointer',
@@ -67,7 +70,7 @@ class ProductItemSizes extends React.Component {
         return (
             <div className={classes.root}>
                 <div className={classes.title}>Размеры:</div>
-                <div className={classes.content}>
+                <div className={format ? classes.contentForBig : classes.content}>
                 {sizes.map(sizeItem => { return (
                     <Button
                         size={format ? "large" : "small"}

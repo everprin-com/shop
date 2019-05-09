@@ -13,10 +13,10 @@ const mapStateToProps = state => {
 const styles = theme => ({
     root: {
       marginLeft: 260,
-      marginTop: 110,
+      marginTop: 75,
       display: 'flex',
       flexWrap: 'wrap',
-      justifyContent: 'space-around',
+      justifyContent: 'space-between',
     },
   });
 
@@ -24,6 +24,46 @@ class ProductList extends React.Component {
     constructor(){
         super()
     }
+
+  componentDidMount() {
+    // this.sendFetch()
+    this.search()
+  }
+
+  sendFetch = () => {
+
+    var myInit = {
+      method: 'GET',
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+
+    fetch("/items", myInit)
+    .then(res => res.json())
+    .then(data => this.setState({data}))
+
+}
+
+search = () => {
+
+    const formData = new FormData();
+    formData.append("search[name_search]", 'блузка');
+    var myInit = {
+    method: 'GET',
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }
+    console.log(formData)
+
+
+    fetch("/items?name_search=&search_color=СИНИЙ&search_category=&price_search_from=400&price_search_to=&commit=Искать", myInit)
+    .then(res => res.json())
+    .then(data => this.setState({data}))
+}
 
   renderProductList(){
     const { products, card } = this.props
