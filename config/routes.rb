@@ -31,8 +31,8 @@ Rails.application.routes.draw do
   resources :infos, :messagestoadministrators, :answerfrommoderators, :orders, :line_items, :carts
 
   #post '/852875250:AAEMa_qRzOs4LdRDvgOWJYOIBpcIy_zM9vs' => 'application#webhook'
-  get '/message' => 'some#message'
-  post '/send_message_to_all' => 'some#send_message_to_all'
+  # get '/message' => 'some#message'
+  # post '/send_message_to_all' => 'some#send_message_to_all'
 
   resources :searches do
     collection do

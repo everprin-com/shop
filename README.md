@@ -20,6 +20,10 @@ install posgres
 http://rubycode.ru/ruby-on-rails/69-kak-ustanovit-postgresql-na-rails.html
 
 
+Question
+id: TeleNotify::TelegramUser.find(1)
+Order telegram
+id: TeleNotify::TelegramUser.find(2)
 
 Parser
 валидация по полям name, price, picture
@@ -40,3 +44,8 @@ Parser
 14 (X) :size_world
 15 (Y) :drop_ship
 16 (Z) :composition
+
+
+server
+
+sudo chmod -R 777 '/home/rails-demo/app/current/node_modules'

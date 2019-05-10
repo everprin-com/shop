@@ -1,8 +1,8 @@
 class OrdersController < ApplicationController
   include ControllerRails
   include CurrentCart
-  before_action :set_cart
-  respond_to :html, :js, :json
+  #before_action :set_cart
+  #respond_to :html, :js, :json
 
   def set_model
     @model = Order
@@ -13,21 +13,25 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = Order.new(resource_params)
-    @cart.line_items.each do |line_item|
-      @order.line_items << line_item
-    end
-    @order.total_price = all_total_price
+    order = Order.new(resource_params)
+    TeleNotify::TelegramUser.find(2).send_message(order.to_json) if order.save!
     respond_to do |format|
-      if @order.save
-        session[:cart_id] = nil
-        format.html { redirect_to @order, notice: 'Order was successfully created.' }
-        format.json { render :show, status: :created, location: @order }
-      else
-        format.html { render :new }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
+      format.all { render :nothing => true, :status => 200 }
     end
+    # @cart.line_items.each do |line_item|
+    #   @order.line_items << line_item
+    # end
+    # @order.total_price = all_total_price
+    # respond_to do |format|
+    #   if @order.save
+    #     session[:cart_id] = nil
+    #     format.html { redirect_to @order, notice: 'Order was successfully created.' }
+    #     format.json { render :show, status: :created, location: @order }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @order.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   private
