@@ -13,7 +13,7 @@ set :domain, '178.62.6.75'
 set :user, fetch(:application_name)
 set :deploy_to, "/home/#{fetch(:user)}/app"
 set :repository, 'git@github.com:everprin-com/shop.git'
-set :branch, 'deploy'
+set :branch, 'master'
 set :rvm_use_path, '/etc/profile.d/rvm.sh'
 
 # Optional settings:
@@ -75,11 +75,12 @@ task :deploy do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
+    invoke :'bin/webpack'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 
     on :launch do
-      # command "sudo service #{fetch(:user)} restart"
+      command "sudo service #{fetch(:user)} restart"
     end
   end
 
