@@ -71,6 +71,7 @@ class ProductItemSizes extends React.Component {
             <div className={classes.root}>
                 <div className={classes.title}>Размеры:</div>
                 <div className={format ? classes.contentForBig : classes.content}>
+                {console.log(sizes)}
                 {sizes.map(sizeItem => { return (
                     <Button
                         size={format ? "large" : "small"}

@@ -83,9 +83,9 @@ function Cart(props) {
     return  (<Paper className={classes.root} key={cartDataItem.id} elevation={1}>
     <div className={classes.content}>
       <div className={classes.imageWrapper}>
-          <img src={cartDataItem.img} className={classes.image}/>
+          <img src={cartDataItem.picture} className={classes.image}/>
       </div>
-      <div className={classes.title}>{cartDataItem.title}</div>
+      <div className={classes.title}>{cartDataItem.name}</div>
       <div className={classes.price}>
         <TextField
             id="standard-number"

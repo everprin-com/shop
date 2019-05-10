@@ -41,7 +41,7 @@ function AboutProduct(props) {
   const { classes, productData } = props;
   let mapKeys ={
     category: "Категория",
-    title: "Наименование",
+    name: "Наименование",
     price: "Цена",
     brand: "Бренд",
     sex: "Принадлежность",

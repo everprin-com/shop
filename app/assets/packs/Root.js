@@ -29,8 +29,6 @@ sagaMiddleware.run(rootSaga)
 window.store = store
 window.products = products
 
-store.dispatch({type:"ADD_PRODUCTS", products})
-
 store.subscribe(()=>console.log(store.getState()))
 
 document.addEventListener('DOMContentLoaded', () => {

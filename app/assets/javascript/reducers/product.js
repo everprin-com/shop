@@ -6,6 +6,8 @@ export default function (state = [], action) {
         return [...state, action.product] 
       case 'RESET_PRODUCTS':
         return []
+      case 'RESET_AND_ADD_PRODUCTS':
+        return [...action.products]
       case 'SET_ACTIVE_SIZE':
         return [...state.map(product => { return (
           product.id === action.id ? {...product, activeSize: action.size} : product

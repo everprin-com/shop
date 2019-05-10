@@ -2,18 +2,15 @@ import React, { Component } from 'react';
 import ReactImageMagnify from 'react-image-magnify';
 import Header from './Header'
 import AboutProduct from './AboutProduct'
-import {  products } from './mockData'
 import { withStyles } from '@material-ui/core/styles';
-import Sizes from './Sizes'
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import ProductItemSizes from './ProductItemSizes';
 import DialogWindow from './Dialog';
 import ChooseSize from './ChooseSize';
 import Footer from './Footer';
-
-// import watchImg687 from 'a.lmcdn.ru/img236x341/L/O/LO019EWCCQQ2_7453089_1_v1.jpg';
-// import watchImg1200 from './wristwatch_1200.jpg';
+import fetchGet from "./api/fetchGet"
+import { getSizes } from './Utils';
 
 const mapStateToProps = state => {
   return {
@@ -54,6 +51,17 @@ const styles = theme => ({
 })
 
 class ProductCart extends React.Component {
+    state = {}
+    componentDidMount() {
+        this.getProduct()
+    }
+
+    getProduct = () => {
+        const { id } = this.props.match.params
+        fetchGet(`/items/${id}`)
+        .then(data => this.setState({data}))
+    }
+
     componentDidUpdate(prevProps){
         this.props.orderform && this.redirectToOrderForm()
       }
@@ -69,9 +77,10 @@ class ProductCart extends React.Component {
     render() {
         const { classes, products, card, match, location, openCart } = this.props
         const { id } = match.params
-        const productData  = location.state.data
-        const activeSize = products.find(product => product.id == id).activeSize
-        const src = "http:" + location.state.data.img
+        const productData  = this.state.data || {}
+        const { size, picture } = productData
+        let sizes = getSizes(size)
+        // const activeSize = products.find(product => product.id == id).activeSize
         const isInCart = card.data.some(cardItem => cardItem.id == id )
         return (
             <div className={classes.root}>
@@ -82,25 +91,25 @@ class ProductCart extends React.Component {
                             smallImage: {
                                 alt: 'Wristwatch by Ted Baker London',
                                 isFluidWidth: true,
-                                src
+                                src: picture,
                             },
                             largeImage: {
-                                src,
+                                src: picture,
                                 width: 1200,
-                                height: 1800
+                                height: 1800,
                             }
                         }} />
                     </div>
                     <div className="fluid__instructions">
-                        <h3>{productData.title}</h3>
+                        <h3>{productData.name}</h3>
                         <p className={classes.price}>
                             {`${productData.price} грн`}
                         </p>
                         <p>
                         <ProductItemSizes
-                                sizes={productData.sizes}
+                                sizes={sizes}
                                 id={+this.props.match.params.id}
-                                activeSize={activeSize}
+                                // activeSize={activeSize}
                                 format="big"
                             />
                         </p>

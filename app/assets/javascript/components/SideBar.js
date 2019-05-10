@@ -17,6 +17,7 @@ import FilterPanel from './FilterPanel';
 import SomeFilter from './SomeFilter';
 import FilterPrice from './FilterPrice';
 import FilterSeason from './FilterSeason';
+import FilterColor from './FilterColor';
 
 const styles = theme => ({
   root: {
@@ -68,6 +69,10 @@ class SideBar extends React.Component {
 
         <ListItem button>
             <FilterPanel title="Фильтр по цене" Filter={FilterPrice} />
+        </ListItem>
+
+        <ListItem button>
+            <FilterPanel title="Фильтр по цвету" Filter={FilterColor} />
         </ListItem>
 
         <ListItem button onClick={this.handleClick}>
