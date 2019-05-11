@@ -19,5 +19,6 @@ class CreateItems < ActiveRecord::Migration
       t.string :composition
       t.timestamps null: false
     end
+    #enable_extension "pg_trgm"
   end
 end

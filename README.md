@@ -18,12 +18,14 @@ update ruby gems
 
 install posgres
 http://rubycode.ru/ruby-on-rails/69-kak-ustanovit-postgresql-na-rails.html
-
+SELECT indexname, indexdef from pg_indexes where tablename='items';\
 
 Question
 id: TeleNotify::TelegramUser.find(1)
 Order telegram
 id: TeleNotify::TelegramUser.find(2)
+1) #<TeleNotify::TelegramUser id: 1, telegram_id: -363760774, first_name: "newtrex", username: "newtrex_bot", created_at: "2019-05-09 20:53:20", updated_at: "2019-05-09 20:53:20">
+2) => #<TeleNotify::TelegramUser id: 2, telegram_id: -374400962, first_name: "newtrex", username: "newtrex_bot", created_at: "2019-05-09 21:06:13", updated_at: "2019-05-09 21:06:13">
 
 Parser
 валидация по полям name, price, picture
@@ -44,6 +46,13 @@ Parser
 14 (X) :size_world
 15 (Y) :drop_ship
 16 (Z) :composition
+
+#posgres superusr
+Thank's @devton your tip solved my problem.
+I just made the log in postgres and do this comands:
+postgres=# \du # to list all users
+postgres=# ALTER ROLE user CREATEROLE SUPERUSER;
+ALTER ROLE # this was the result
 
 
 server
