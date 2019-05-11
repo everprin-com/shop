@@ -14,7 +14,7 @@ class OrdersController < ApplicationController
 
   def create
     order = Order.new(resource_params)
-    TeleNotify::TelegramUser.find(2).send_message(order.to_json) if order.save!
+    TeleNotify::TelegramUser.find_by_tg_channel("order").send_message(order.to_json) if order.save!
     respond_to do |format|
       format.all { render :nothing => true, :status => 200 }
     end
