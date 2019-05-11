@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
   menuGenderPanle: {
       display: 'flex',
-      justifyContent: 'space-around'
+      justifyContent: 'space-between'
   },
   maleButton: {
       fontSize: '16px',

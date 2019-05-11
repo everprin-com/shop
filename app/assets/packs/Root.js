@@ -18,15 +18,6 @@ import rootSaga from '../javascript/components/saga'
 
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware()
-  
-const initialStore = {
-  user: {
-    age:30 ,
-    name: "Vasy",
-    login: "Pupkin",
-    role: "Bot"
-  },
-}
 
 const store = createStore(
   reducers,
@@ -37,8 +28,6 @@ sagaMiddleware.run(rootSaga)
 
 window.store = store
 window.products = products
-
-store.dispatch({type:"ADD_PRODUCTS", products})
 
 store.subscribe(()=>console.log(store.getState()))
 

@@ -11,7 +11,7 @@ import red from '@material-ui/core/colors/red';
 import ProductItemSizes from './ProductItemSizes';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import compose from 'recompose/compose';
+import { getSizes } from './Utils';
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -118,7 +118,7 @@ class ProductItem extends React.Component {
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
-  };
+  }
 
   onLive = () => this.setState({ hover: false })
 
@@ -128,11 +128,12 @@ class ProductItem extends React.Component {
 
   openCart = () => this.props.openCart()
 
-
   render() {
     const { classes, inCard, data } = this.props;
-    const { img, price, title, category, id, sizes, activeSize } = data;
+    const { picture, price, name, category, id, size, activeSize } = data;
     const oldPrice = Math.round(price + price/2 + price/10)
+    let sizes = getSizes(size)
+     
     return (
       <Card
         className={classes.card}
@@ -148,14 +149,14 @@ class ProductItem extends React.Component {
         >
           <CardMedia
             className={classes.media}
-            image={img}
-            title={title}
+            image={picture}
+            title={name}
           />
 
           <CardContent className={classes.cardContent}>
             <Typography component="div" className ={classes.cardDesctiption} >
               <div className={classes.title}>
-                {title}
+                {name}
               </div>
               <div className={classes.category}>
                 {category}

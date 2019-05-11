@@ -76,7 +76,10 @@ const DialogActions = withStyles(theme => ({
 const styles = {
   root: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
+  },
+  panel: {
+    width: 900
   },
   icon: {
       fontSize: '40px',
@@ -111,7 +114,7 @@ class Panel extends React.PureComponent {
     const { classes, card, closeCart, openCart } = this.props;
     const cardLengh = card.data.length
     return (
-      <div>
+      <div className={classes.panel}>
           <Toolbar className={classes.root}>
               <Input />
               <div className={classes.cardBlock} onClick={openCart}>

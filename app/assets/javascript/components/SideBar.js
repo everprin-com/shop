@@ -17,11 +17,12 @@ import FilterPanel from './FilterPanel';
 import SomeFilter from './SomeFilter';
 import FilterPrice from './FilterPrice';
 import FilterSeason from './FilterSeason';
+import FilterColor from './FilterColor';
 
 const styles = theme => ({
   root: {
     position: 'fixed',
-    marginTop: 110,
+    marginTop: 75,
     width: '100%',
     maxWidth: 260,
     backgroundColor: theme.palette.background.paper,
@@ -33,7 +34,7 @@ const styles = theme => ({
   },
 });
 
-class NestedList extends React.Component {
+class SideBar extends React.Component {
   state = {
     open: true,
   };
@@ -70,6 +71,10 @@ class NestedList extends React.Component {
             <FilterPanel title="Фильтр по цене" Filter={FilterPrice} />
         </ListItem>
 
+        <ListItem button>
+            <FilterPanel title="Фильтр по цвету" Filter={FilterColor} />
+        </ListItem>
+
         <ListItem button onClick={this.handleClick}>
           <ListItemIcon>
             <InboxIcon />
@@ -93,8 +98,8 @@ class NestedList extends React.Component {
   }
 }
 
-NestedList.propTypes = {
+SideBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(NestedList);
+export default withStyles(styles)(SideBar);

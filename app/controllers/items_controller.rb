@@ -11,7 +11,17 @@ class ItemsController < ApplicationController
     @items = @items.search_category(params[:search_category]) if params[:search_category].present?
     respond_to do |format|
       format.html
+      format.json { render json: @items.to_json }
       format.xml { render :xml => @people.to_xml }
     end
   end
+
+  def show 
+    item = Item.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render json: item.to_json }
+    end
+  end 
+
 end

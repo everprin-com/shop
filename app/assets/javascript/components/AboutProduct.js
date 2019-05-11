@@ -28,7 +28,8 @@ const styles = theme => ({
   },
   row: {
     border: '1px solid transparent',
-    outlineColor: "transparent"
+    outlineColor: "transparent",
+    height: 35,
   },
   aboutProduct: {
     fontSize: 20,
@@ -40,7 +41,7 @@ function AboutProduct(props) {
   const { classes, productData } = props;
   let mapKeys ={
     category: "Категория",
-    title: "Наименование",
+    name: "Наименование",
     price: "Цена",
     brand: "Бренд",
     sex: "Принадлежность",
