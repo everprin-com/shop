@@ -37,16 +37,17 @@ Parser
 5 (E) :color
 6 (F) :picture, null: false
 7 (G) :brand
-8 (H) :season
-9 (I) :male
+8 (H) :season, null: false
+зима - 1, весна - 2, лето - 3, осень - 4
+9 (I) :male, boolean man: true, wooman-false
 10 (J) :size
-11 (M) :country
-12 (N) :category
-13 (O) :presence, default: true
-14 (X) :size_world
-15 (Y) :drop_ship
-16 (Z) :composition
-
+11 (K) :country
+12 (L) :category
+13 (M) :presence, default: true
+14 (N) :size_world
+15 (O) :drop_ship, null: false
+16 (P) :composition
+17) :exsel_company, null: false -откуда взяли ексель
 #posgres superusr
 Thank's @devton your tip solved my problem.
 I just made the log in postgres and do this comands:

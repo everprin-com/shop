@@ -88,24 +88,24 @@ ActiveRecord::Schema.define(version: 20190510191036) do
   add_index "infos", ["user_id"], name: "index_infos_on_user_id", using: :btree
 
   create_table "items", force: :cascade do |t|
-    t.integer  "article",                   null: false
-    t.string   "name",                      null: false
+    t.string   "article",                     null: false
+    t.string   "name",                        null: false
     t.string   "description"
-    t.integer  "price",                     null: false
+    t.integer  "price",                       null: false
     t.string   "color"
-    t.string   "picture",                   null: false
+    t.string   "picture",                     null: false
     t.string   "brand"
-    t.string   "season"
-    t.string   "male"
-    t.string   "size"
+    t.integer  "season"
+    t.boolean  "male",        default: false, null: false
+    t.string   "size",                        null: false
     t.string   "country"
     t.string   "category"
     t.string   "presence",    default: "t"
     t.string   "size_world"
-    t.string   "drop_ship"
+    t.string   "drop_ship",                   null: false
     t.string   "composition"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   add_index "items", ["name"], name: "items_on_name_gin_trgm_idx", using: :gin
@@ -213,4 +213,5 @@ ActiveRecord::Schema.define(version: 20190510191036) do
     t.datetime "updated_at",               null: false
   end
 
+  add_foreign_key "identities", "users"
 end
