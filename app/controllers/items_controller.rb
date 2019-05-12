@@ -16,7 +16,17 @@ class ItemsController < ApplicationController
     @items = @items.paginate(page: 1, per_page: 20)
     respond_to do |format|
       format.html
+      format.json { render json: @items.to_json }
       format.xml { render :xml => @people.to_xml }
     end
   end
+
+  def show 
+    item = Item.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render json: item.to_json }
+    end
+  end 
+
 end

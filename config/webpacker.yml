@@ -1,10 +1,11 @@
 # Note: You must restart bin/webpack-dev-server for changes to take effect
 
 default: &default
-  source_path: app/javascript
+  source_path: app/assets
   source_entry_path: packs
-  public_output_path: packs
+  public_output_path: assets
   cache_path: tmp/cache/webpacker
+  compile: false
 
   # Additional paths webpack should lookup modules
   # ['app/assets', 'engine/foo/app/assets']
@@ -14,7 +15,6 @@ default: &default
   cache_manifest: false
 
   extensions:
-    - .jsx
     - .js
     - .sass
     - .scss
@@ -27,6 +27,7 @@ default: &default
     - .gif
     - .jpeg
     - .jpg
+    - .jsx
 
 development:
   <<: *default
@@ -49,7 +50,7 @@ development:
     headers:
       'Access-Control-Allow-Origin': '*'
     watch_options:
-      ignored: /node_modules/
+      ignored: '**/node_modules/**'
 
 
 test:

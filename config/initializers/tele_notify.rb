@@ -2,7 +2,7 @@
 #For production, just use your URL (e.g. https://myapp.com)
 #You MUST NOT include a trailing slash and it MUST be https!
 #INVALID URLS: e.g. http://myapp.com or https://myapp.com/
-TeleNotify::TelegramUser.configure_home_url("https://cbaadd74.ngrok.io")
+TeleNotify::TelegramUser.configure_home_url("https://kilo.com.ua")
 
 #For development, download ngrok from https://ngrok.com/.
 #Extract it and run "./ngrok http 3000"

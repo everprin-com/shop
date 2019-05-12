@@ -1,0 +1,20 @@
+env:
+  es6: true
+extends:
+  - "umbrellio"
+  - "umbrellio/react"
+parserOptions:
+  ecmaFeatures:
+    experimentalObjectRestSpread: true
+    jsx: true
+  sourceType: module
+rules:
+  react/prefer-stateless-function:
+    - error
+    - ignorePureComponents: true
+  react/no-did-mount-set-state: "off"
+  react/no-did-update-set-state: "off"
+  no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["_.transform"] }]
+parser: "babel-eslint"
+settings:
+  import/parser: "babel-eslint"

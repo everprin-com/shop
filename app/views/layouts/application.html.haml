@@ -1,19 +1,12 @@
 %DOCTYPE
 %html
   %head
-    = javascript_pack_tag "hello_react"
-    %title 
-      OLegStarosvitskij - 
-      = yield(:title) || "The blog"
+    = javascript_pack_tag "Root"
+    %title
+      = "KILO магазин одежды и обуви"
 
-  = render partial: "shared/down"
-  = render partial: "shared/navbar" 
+  = stylesheet_pack_tag "application", media: "all"
+  = csrf_meta_tags
 %div{:id=>"modal-holder"}
-
-
-
-%title
-  = yield(:title)
-
-
-= yield
+%div{:id=>"root"}
+-# = yield

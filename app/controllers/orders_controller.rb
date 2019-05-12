@@ -18,6 +18,7 @@ class OrdersController < ApplicationController
     respond_to do |format|
       format.all { render :nothing => true, :status => 200 }
     end
+
     # @cart.line_items.each do |line_item|
     #   @order.line_items << line_item
     # end
@@ -47,6 +48,6 @@ class OrdersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def resource_params
-    params.require(:order).permit(:name, :address, :email, :pay_type)
+    params.require(:order).permit(:name, :address, :phone)
   end
 end

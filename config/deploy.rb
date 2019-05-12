@@ -9,7 +9,7 @@ require 'mina/rvm'
 #   branch       - Branch name to deploy. (needed by mina/git)
 
 set :application_name, 'rails-demo'
-set :domain, '142.93.171.244'
+set :domain, '178.62.6.75'
 set :user, fetch(:application_name)
 set :deploy_to, "/home/#{fetch(:user)}/app"
 set :repository, 'git@github.com:everprin-com/shop.git'
@@ -75,6 +75,8 @@ task :deploy do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
+    #npm rebuild node-sass
+    invoke :' ./bin/webpack'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 
