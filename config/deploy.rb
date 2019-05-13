@@ -13,7 +13,7 @@ set :domain, '178.62.6.75'
 set :user, fetch(:application_name)
 set :deploy_to, "/home/#{fetch(:user)}/app"
 set :repository, 'git@github.com:everprin-com/shop.git'
-set :branch, 'master'
+set :branch, 'add_telegram'
 set :rvm_use_path, '/etc/profile.d/rvm.sh'
 
 # Optional settings:
@@ -76,7 +76,11 @@ task :deploy do
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     #npm rebuild node-sass
-    invoke :' ./bin/webpack'
+    command %{npm rebuild node-sass}
+    command %{yarn install}
+    command %{./bin/webpack}
+    #command %{bundle exec rails webpacker:compile}
+    #invoke :' ./bin/webpack'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 

@@ -23,7 +23,7 @@ gem 'tele_notify'
 gem 'notifiee-ruby'
 
 gem 'jquery-ui-rails'
-gem 'pg', '~> 0.20.0'
+gem 'pg', "~> 0.20.0"
 gem 'devise'
 gem 'omniauth-google-oauth2', :require => "omniauth-google-oauth2"
 gem 'pg_search', '~> 1.0.5'
