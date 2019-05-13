@@ -13,7 +13,7 @@ set :domain, '178.62.6.75'
 set :user, fetch(:application_name)
 set :deploy_to, "/home/#{fetch(:user)}/app"
 set :repository, 'git@github.com:everprin-com/shop.git'
-set :branch, 'add_telegram'
+set :branch, 'master'
 set :rvm_use_path, '/etc/profile.d/rvm.sh'
 
 # Optional settings:
