@@ -23,4 +23,5 @@ config/secrets.yml/public/packs
 yarn-debug.log*
 .yarn-integrity
 /public/packs/
+/public/assets/
 node_modules/

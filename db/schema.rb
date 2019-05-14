@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190320192443) do
+ActiveRecord::Schema.define(version: 20190512141805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,24 +87,24 @@ ActiveRecord::Schema.define(version: 20190320192443) do
   add_index "infos", ["user_id"], name: "index_infos_on_user_id", using: :btree
 
   create_table "items", force: :cascade do |t|
-    t.integer  "article",                   null: false
-    t.string   "name",                      null: false
+    t.string   "article",                     null: false
+    t.string   "name",                        null: false
     t.string   "description"
-    t.integer  "price",                     null: false
+    t.integer  "price",                       null: false
     t.string   "color"
-    t.string   "picture",                   null: false
+    t.string   "picture",                     null: false
     t.string   "brand"
-    t.string   "season"
-    t.string   "male"
-    t.string   "size"
+    t.integer  "season"
+    t.boolean  "male",        default: false, null: false
+    t.string   "size",                        null: false
     t.string   "country"
     t.string   "category"
     t.string   "presence",    default: "t"
     t.string   "size_world"
-    t.string   "drop_ship"
+    t.string   "drop_ship",                   null: false
     t.string   "composition"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   create_table "line_items", force: :cascade do |t|
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(version: 20190320192443) do
     t.integer  "total_price"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "phone"
   end
 
   create_table "products", force: :cascade do |t|
@@ -165,6 +166,17 @@ ActiveRecord::Schema.define(version: 20190320192443) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "telegram_users", force: :cascade do |t|
+    t.integer  "telegram_id"
+    t.string   "first_name"
+    t.string   "username"
+    t.string   "tg_channel"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "telegram_users", ["telegram_id"], name: "index_telegram_users_on_telegram_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false

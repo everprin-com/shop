@@ -1,6 +1,6 @@
-<%= bootstrap_form_for @resource, method: :put do |f| %>
+<%= bootstrap_form_for @resource do |f| %>
   <%if user_signed_in?%>
-  
+
     <%= f.text_field :email, value: "#{current_user.email}", size: "40"%>
   <%else%>
     <%= f.text_field :email, size: "40"%>

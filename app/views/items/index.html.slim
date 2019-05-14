@@ -1,3 +1,10 @@
+= form_tag("/send_message_to_all", method: "post") do
+  = label_tag(:message, "Message:")
+  = text_field_tag(:message)
+  = submit_tag("Send")
+
+a href="https://telegram.me/newtrex_bot"
+  | Message me on Telegram to get notifications!
 table
   thead
     tr
@@ -44,4 +51,7 @@ table
   = text_field_tag :search_category, params[:search_category], placeholder: "Категория"
   = text_field_tag :price_search_from, params[:price_search_from], placeholder: "Цена От"
   = text_field_tag :price_search_to, params[:price_search_to], placeholder: "Цена До"
+  = check_box_tag :male
+  = label_tag(:male, "Мужской")
+
   = submit_tag "Искать"

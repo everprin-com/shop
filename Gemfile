@@ -18,8 +18,12 @@ gem 'bootstrap-sass'
 gem 'sass-rails'
 gem 'bootstrap_form'
 
+#telegram
+gem 'tele_notify'
+gem 'notifiee-ruby'
+
 gem 'jquery-ui-rails'
-gem 'pg', "~> 0.15"
+gem 'pg', "~> 0.20.0"
 gem 'devise'
 gem 'omniauth-google-oauth2', :require => "omniauth-google-oauth2"
 gem 'pg_search', '~> 1.0.5'
@@ -29,7 +33,6 @@ gem 'omniauth-digitalocean'
 gem 'cancancan'
 gem 'will_paginate'
 gem 'rake'
-gem 'tire'
 gem 'prawn'
 gem 'prawn-table'
 gem 'configurable_engine'
