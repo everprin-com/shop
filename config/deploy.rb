@@ -75,7 +75,12 @@ task :deploy do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    invoke :'bin/webpack'
+    #npm rebuild node-sass
+    command %{npm rebuild node-sass}
+    command %{yarn install}
+    command %{./bin/webpack}
+    #command %{bundle exec rails webpacker:compile}
+    #invoke :' ./bin/webpack'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 

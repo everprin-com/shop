@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
   helper_method :role?
   helper_method :current_blog
   include ApplicationHelper
+  #skip_before_filter :verify_authenticity_token, :only => :webhook
+  #include TeleNotify::Controller
 
   def set_locale
     if cookies[:educator_locale] && I18n.available_locales.include?(cookies[:educator_locale].to_sym)
