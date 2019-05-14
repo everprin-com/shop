@@ -1,5 +1,6 @@
 import { call, put, takeEvery, takeLatest, select, all } from 'redux-saga/effects'
 import regeneratorRuntime from "regenerator-runtime";
+import fetchGetWithParams from "./api/fetchGetWithParams"
 // import Api from '...'
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
@@ -19,6 +20,23 @@ function* checkSetSize(action){
   } 
 }
 
+function* getFilteredProducts(){
+  
+  console.log("from getFilteredProducts")
+  console.log(state)
+  console.log("from getFilteredProducts")
+}
+
+function* fetchData(action) {
+  try {
+     const state = yield select();
+     const data = yield call(fetchGetWithParams, "items/", {...state.filter}, true)
+     yield put({type: "RESET_AND_ADD_PRODUCTS", data})
+  } catch (error) {
+     yield put({type: "FETCH_FAILED", error})
+  }
+}
+
 function* watchTryPutCart() {
   yield takeEvery("TRY_PUT_TO_CART", checkSetSize );
 }
@@ -27,9 +45,14 @@ function* watchPutToCart() {
   yield takeEvery("PUT_TO_CART", openCart);
 }
 
+function* watchAddFilter() {
+  yield takeEvery("ADD_FILTER", fetchData);
+}
+
 export default function* rootSaga() {
   yield all([
     watchTryPutCart(),
-    watchPutToCart()
+    watchPutToCart(),
+    watchAddFilter(),
   ])
 }

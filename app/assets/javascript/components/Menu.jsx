@@ -10,9 +10,16 @@ import PersonPinIcon from '@material-ui/icons/PersonPin';
 import HelpIcon from '@material-ui/icons/Help';
 import Typography from '@material-ui/core/Typography';
 import MenuGenderPanel from './MenuGenderPanel'
-import { category } from './mockData'
+import categories from './constants/categories'
 import Panel from './Panel'
-import { Link } from "react-router-dom";
+import fetchGetWithParams from "./api/fetchGetWithParams"
+import { connect } from 'react-redux';
+
+const mapDispatchToProps = dispatch => {
+  return {
+    resetAndAddProducts: products => dispatch({ type: 'RESET_AND_ADD_PRODUCTS', products }),
+  }
+}
 
 function TabContainer(props) {
   return (
@@ -63,21 +70,25 @@ class TopMenu extends React.Component {
   state = {
     value: 100,
   };
-//MuiTab-root-145
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
 
-  hoverOn(value){
-  this.handleChange("", value)
+  handleChange = (event, value) => this.setState({ value });
+
+  hoverOn = value => this.handleChange("", value)
+
+  onChangeCategory = category => {
+    fetchGetWithParams("items/", {search_category: category}, true)
+    .then(products=> {
+      this.props.resetAndAddProducts(products);
+    })
   }
 
-  categoryList () {
+  categoryList = () => {
     const { classes } = this.props;
-    return category.map(category => <li className={classes.categoryItem}><a href="#" >{category}</a></li>)
+  return categories.map(category => {
+    return <li className={classes.categoryItem} onClick={()=>this.onChangeCategory(category)}>{category.toUpperCase()}</li>
+  })
   }
 
-  // resetDropDown = () => console.log("w");
   resetDropDown = () => this.setState({ value: 100});
 
   render() {
@@ -128,4 +139,4 @@ TopMenu.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TopMenu);
+export default connect(null, mapDispatchToProps)(withStyles(styles)(TopMenu))

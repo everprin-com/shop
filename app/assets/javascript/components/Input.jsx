@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
-import InputBase from '@material-ui/core/InputBase';
-import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
 import purple from '@material-ui/core/colors/purple';
-import green from '@material-ui/core/colors/green';
+import fetchGetWithParams from "./api/fetchGetWithParams"
+import { connect } from 'react-redux';
+
+const mapDispatchToProps = dispatch => {
+  return {
+    resetAndAddProducts: products => dispatch({ type: 'RESET_AND_ADD_PRODUCTS', products }),
+  }
+}
 
 const styles = theme => ({
   root: {
@@ -63,6 +66,13 @@ const styles = theme => ({
 function CustomizedInputs(props) {
   const { classes } = props;
 
+  const onChange = e => {
+    fetchGetWithParams("items/", {search_category: e.target.value}, true)
+    .then(products=> {
+      props.resetAndAddProducts(products);
+    })
+  }
+
   return (
     <div className={classes.inputWrap}>
    
@@ -85,6 +95,7 @@ function CustomizedInputs(props) {
         variant="outlined"
         id="custom-css-outlined-input"
         className ={classes.root}
+        onChange={onChange}
       />
     </div>
   );
@@ -94,4 +105,4 @@ CustomizedInputs.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CustomizedInputs);
+export default connect(null, mapDispatchToProps)(withStyles(styles)(CustomizedInputs))

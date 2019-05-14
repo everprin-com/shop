@@ -13,11 +13,12 @@ import SendIcon from '@material-ui/icons/Send';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
-import FilterPanel from './FilterPanel';
-import SomeFilter from './SomeFilter';
-import FilterPrice from './FilterPrice';
-import FilterSeason from './FilterSeason';
-import FilterColor from './FilterColor';
+import FilterPanel from './filter/FilterPanel';
+import SomeFilter from './filter/SomeFilter';
+import FilterPrice from './filter/FilterPrice';
+import FilterSeason from './filter/FilterSeason';
+import FilterColor from './filter/FilterColor';
+import FilterCategory from './filter/FilterCategory';
 
 const styles = theme => ({
   root: {
@@ -73,6 +74,10 @@ class SideBar extends React.Component {
 
         <ListItem button>
             <FilterPanel title="Фильтр по цвету" Filter={FilterColor} />
+        </ListItem>
+
+        <ListItem button>
+            <FilterPanel title="Фильтр по категории" Filter={FilterCategory} />
         </ListItem>
 
         <ListItem button onClick={this.handleClick}>
