@@ -33,7 +33,7 @@ class ProductList extends React.Component {
     }
 
   componentDidMount() {
-    fetchGetWithParams("items/", {search_color: "зеленый"})
+    fetchGetWithParams("items/", {page: 1})
       .then(data => this.props.addProducts(data))
   }
 

@@ -3,17 +3,18 @@ class ItemsController < ApplicationController
 
   def index
     @items = Item.all
-    #byebug
     @items = @items.name_search(params[:name_search]) if params[:name_search].present?
     @items = @items.where("price >= ?", params[:price_search_from]) if params[:price_search_from].present?
     @items = @items.where("price <= ?", params[:price_search_to]) if params[:price_search_to].present?
-    @items = @items.search_color(params[:search_color]) if params[:search_color].present?
+    @items = @items.where(color: params[:search_color]) if params[:search_color]
+    #byebug
     @items = @items.search_brand(params[:search_brand]) if params[:search_brand].present?
-    @items = @items.search_category(params[:search_category]) if params[:search_category].present?
+    @items = @items.where(category: params[:search_category]) if params[:search_category].present?
+    #@items = @items.search_category(params[:search_category]) if params[:search_category].present?
     @items = @items.where(male: true) if params[:male].present?
     @items = @items.where(season: params[:season]) if params[:season].present?
 
-    @items = @items.paginate(page: 1, per_page: 20)
+    @items = @items.paginate(page: params[:page], per_page: 20)
     respond_to do |format|
       format.html
       format.json { render json: @items.to_json }
@@ -21,12 +22,12 @@ class ItemsController < ApplicationController
     end
   end
 
-  def show 
+  def show
     item = Item.find(params[:id])
     respond_to do |format|
       format.html
       format.json { render json: item.to_json }
     end
-  end 
+  end
 
 end
