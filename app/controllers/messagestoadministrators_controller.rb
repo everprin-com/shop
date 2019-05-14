@@ -7,8 +7,12 @@ class MessagestoadministratorsController < ApplicationController
     @model = Messagestoadministrator
   end
 
-  def redirect_update
-    root_path
+  def create
+    message = Messagestoadministrator.create!(resource_params)
+    TeleNotify::TelegramUser.find_by_tg_channel("question").send_message(message.to_json) if message
+    respond_to do |format|
+      format.all { render :nothing => true, :status => 200 }
+    end
   end
 
   private

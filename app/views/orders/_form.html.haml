@@ -1,6 +1,6 @@
 
 %div{:class=>"row"}
-  %div{:class=>"col-md-2"} 
+  %div{:class=>"col-md-2"}
     = ui_button 'back', "Back", root_path
   %div{:class=>"col-md-6"}
     = bootstrap_form_for @resource, remote: request.xhr?, html: { data: { modal: true } } do |f|
@@ -11,7 +11,6 @@
 
       = f.text_field :email, placeholder: "email",:size => 160
 
-      = f.select :pay_type, Order::PAYMENT_TYPES, prompt: 'Select a payment method',:size => 60
+      //= f.select :pay_type, Order::PAYMENT_TYPES, prompt: 'Select a payment method',:size => 60
 
       = f.submit 'Place Order'
-  

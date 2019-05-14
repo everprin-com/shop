@@ -38,7 +38,7 @@ config.webpacker.check_yarn_integrity = false
 
   config.action_mailer.raise_delivery_errors = false
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
+  config.assets.js_compressor = Uglifier.new(harmony: true)
   # config.assets.css_compressor = :sass
 
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,

@@ -29,7 +29,7 @@ const styles = theme => ({
 
 class ProductList extends React.Component {
     constructor(){
-        super()
+      super()
     }
 
   componentDidMount() {
@@ -54,5 +54,5 @@ class ProductList extends React.Component {
       )
     }
   }
- 
+
   export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ProductList));

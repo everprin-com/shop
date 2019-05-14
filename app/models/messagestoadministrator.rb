@@ -1,4 +1,4 @@
 class Messagestoadministrator < ActiveRecord::Base
   belongs_to :user
-  validates :email, :message, presence: true
+  validates :name, :telephone, :message, presence: true
 end
