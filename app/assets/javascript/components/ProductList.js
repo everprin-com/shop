@@ -41,7 +41,7 @@ class ProductList extends React.Component {
     const { products, card } = this.props
     return products.map(product => {
       const inCard = card.data && card.data.some(cardItem => cardItem.id == product.id )
-      return  <ProductItem data={product} inCard={inCard} />
+      return  <ProductItem data={product} inCard={inCard} key={product.id} />
       })
   }
 

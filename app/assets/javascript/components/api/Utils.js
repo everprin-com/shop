@@ -16,17 +16,16 @@ const createOptionsPost = formData => ({
   })
 
 const getUrlWithParams = (route, params, withoutEncode) => {
-    console.log("withoutEncode : "+ withoutEncode)
     const query = Object.keys(params).map(k => {
         if (Array.isArray(params[k])) {
             return params[k]
             .map(val => {
-                if (withoutEncode) return `${k}[]=${val}`
-                `${encodeURIComponent(k)}[]=${encodeURIComponent(val)}`
+                // if (withoutEncode) return `${k}[]=${val}`
+               return `${encodeURIComponent(k)}[]=${encodeURIComponent(val)}`
             })
             .join('&')
         }
-        if (withoutEncode) return `${k}=${params[k]}`
+        // if (withoutEncode) return `${k}=${params[k]}`
         return `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`
     }).join('&')
 

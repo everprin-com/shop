@@ -5,6 +5,7 @@ import card from "./card"
 import product from "./product"
 import orderform from "./orderform"
 import dialog from "./dialog"
+import filter from "./filter"
 
 export default combineReducers({
     user,
@@ -12,4 +13,5 @@ export default combineReducers({
     product,
     orderform,
     dialog,
+    filter,
 })
