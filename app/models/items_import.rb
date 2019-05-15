@@ -38,14 +38,15 @@ class ItemsImport
 
   def save
     if imported_items.map(&:valid?).all?
+      imported_items.reject! {|item| item.size == nil}
       imported_items.each(&:save!)
       true
     else
-      imported_items.each_with_index do |item, index|
-        item.errors.full_messages.each do |msg|
-          errors.add :base, "Row #{index + 6}: #{msg}"
-        end
-      end
+      # imported_items.each_with_index do |item, index|
+      #   item.errors.full_messages.each do |msg|
+      #     errors.add :base, "Row #{index + 6}: #{msg}"
+      #   end
+      # end
       false
     end
   end
