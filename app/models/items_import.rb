@@ -28,8 +28,15 @@ class ItemsImport
        row = Hash[[HEADER, spreadsheet.row(i)[0..HEADER.size-1]].transpose]
        item = Item.find_by_id(row["id"]) || Item.new
        item.attributes = row.to_hash
+       conver_size_to_array(row)
+       item["size"] = conver_size_to_array(row)
        item
     end
+  end
+
+  def conver_size_to_array(row)
+    a = row["size"].split("-")
+    (a[0].to_i..a[1].to_i).to_a
   end
 
   def imported_items
@@ -38,7 +45,12 @@ class ItemsImport
 
   def save
     if imported_items.map(&:valid?).all?
-      imported_items.reject! {|item| item.size == nil}
+      #byebug
+      #imported_items.reject! {|item| item.picture == nil}
+      imported_items.reject! {|item| item.brand == nil}
+      imported_items.each {|item| item.color = item.color&.capitalize}
+      imported_items.each {|item| item.brand = item.brand.capitalize}
+
       imported_items.each(&:save!)
       true
     else
