@@ -10,7 +10,7 @@ class CreateItems < ActiveRecord::Migration
       t.string :brand
       t.integer :season
       t.boolean :male, default: false, null: false
-      t.string :size, null: false
+      t.string :size, array: true, default: '{}'
       t.string :country
       t.string :category
       t.string :presence, default: true
@@ -19,6 +19,7 @@ class CreateItems < ActiveRecord::Migration
       t.string :composition
       t.timestamps null: false
     end
+    add_index  :items, :size, using: 'gin'
     #enable_extension "pg_trgm"
   end
 end

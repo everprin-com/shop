@@ -1,6 +1,8 @@
 class ItemsImport
   include ActiveModel::Model
   require 'roo'
+  CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
+  CANT_BU_NULL = ["article", "name", "price", "picture", "drop_ship"]
   HEADER = %w[article name description price color picture brand season male size country category presence size_world drop_ship composition]
   attr_accessor :file
 
@@ -28,24 +30,46 @@ class ItemsImport
        row = Hash[[HEADER, spreadsheet.row(i)[0..HEADER.size-1]].transpose]
        item = Item.find_by_id(row["id"]) || Item.new
        item.attributes = row.to_hash
+       conver_size_to_array(row)
+       item["size"] = conver_size_to_array(row)
        item
     end
+  end
+
+  def conver_size_to_array(row)
+    a = row["size"].split("-")
+    (a[0].to_i..a[1].to_i).to_a
   end
 
   def imported_items
     @imported_items ||= load_imported_items
   end
 
+  def delete_null(imported_items)
+    CANT_BU_NULL.each do |field|
+      #byebug
+      imported_items.reject! { |item| item[field.to_sym] == nil }
+    end
+  end
+
+  def capitalize_fields(imported_items)
+   CAPITALIZE_FIELDS.each do |field|
+      imported_items.each { |item| item.public_send("#{field}=", item.public_send("#{field}")&.capitalize) }
+    end
+  end
+
   def save
     if imported_items.map(&:valid?).all?
+      delete_null(imported_items)
+      capitalize_fields(imported_items)
       imported_items.each(&:save!)
       true
     else
-      imported_items.each_with_index do |item, index|
-        item.errors.full_messages.each do |msg|
-          errors.add :base, "Row #{index + 6}: #{msg}"
-        end
-      end
+      # imported_items.each_with_index do |item, index|
+      #   item.errors.full_messages.each do |msg|
+      #     errors.add :base, "Row #{index + 6}: #{msg}"
+      #   end
+      # end
       false
     end
   end

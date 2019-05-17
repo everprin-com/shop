@@ -1,6 +1,6 @@
 
 class ItemsImportsController < ApplicationController
-  before_action :only_admin_or_moderator
+  #before_action :only_admin_or_moderator
 
   def new
     @items_import = ItemsImport.new
