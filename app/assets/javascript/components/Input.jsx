@@ -67,7 +67,7 @@ function CustomizedInputs(props) {
   const { classes } = props;
 
   const onChange = e => {
-    fetchGetWithParams("items/", {search_category: e.target.value}, true)
+    fetchGetWithParams("items/", {search_category: [e.target.value]}, true)
     .then(products=> {
       props.resetAndAddProducts(products);
     })

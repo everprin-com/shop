@@ -13,25 +13,18 @@ function* openCart(action) {
 }
 
 function* checkSetSize(action){
-  if (!action.product.activeSize) { 
+  if (action.product.size ? !action.product.size.includes("универсальный") : false) { 
     yield put({type: 'SHOW_SET_SIZE_WINDOW', id: action.product.id})
   } else {
     yield put({type: 'PUT_TO_CART', product: action.product})
   } 
 }
 
-function* getFilteredProducts(){
-  
-  console.log("from getFilteredProducts")
-  console.log(state)
-  console.log("from getFilteredProducts")
-}
-
-function* fetchData(action) {
+function* getFilteredProducts(action) {
   try {
      const state = yield select();
-     const data = yield call(fetchGetWithParams, "items/", {...state.filter}, true)
-     yield put({type: "RESET_AND_ADD_PRODUCTS", data})
+     const products = yield call(fetchGetWithParams, "items/", {...state.filter}, true)
+     yield put({type: "RESET_AND_ADD_PRODUCTS", products})
   } catch (error) {
      yield put({type: "FETCH_FAILED", error})
   }
@@ -46,7 +39,7 @@ function* watchPutToCart() {
 }
 
 function* watchAddFilter() {
-  yield takeEvery("ADD_FILTER", fetchData);
+  yield takeEvery("ADD_FILTER", getFilteredProducts);
 }
 
 export default function* rootSaga() {

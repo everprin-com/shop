@@ -241,9 +241,9 @@ const products = category.map((v,i)=>({
     id:i,
     sex: ( (i%2>0) ? "Мужчинам" : "Женщинам"),
     brand: brand[i],
-    title: title[i],
+    name: title[i],
     category: category[i],
-    img: imgs[i],
+    picture: imgs[i],
     price: price[i],
     season: season[random(0,3)],
     composition: composition[i],
@@ -252,6 +252,7 @@ const products = category.map((v,i)=>({
     weight: random(200,800),
     description: description[i],
     sizes: [...(new Array(random(2,7)))].map((v,i)=>(i+40)).sort(),
+    size: "45-50",
     activeSize: null,
  }))
 

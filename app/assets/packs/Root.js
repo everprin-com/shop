@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import reducers from "../javascript/reducers"
 import App from "../javascript/components/App"
-import {  products } from '../javascript/components/mockData'
+
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
@@ -27,7 +27,6 @@ const store = createStore(
 sagaMiddleware.run(rootSaga)
 
 window.store = store
-window.products = products
 
 store.subscribe(()=>console.log(store.getState()))
 

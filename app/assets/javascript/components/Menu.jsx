@@ -60,9 +60,12 @@ const styles = theme => ({
     position: 'relative',
   },
   categoryItem: {
-    display: 'inline-block',
     fontSize: '16px',
     margin: '15px',
+    cursor: 'pointer',
+  },
+  categoryBlock: {
+    display: 'flex',
   }
 });
 
@@ -82,11 +85,39 @@ class TopMenu extends React.Component {
     })
   }
 
-  categoryList = () => {
+  ulWithSpecialCountLi = (arrLi, countLi) => {
     const { classes } = this.props;
-  return categories.map(category => {
-    return <li className={classes.categoryItem} onClick={()=>this.onChangeCategory(category)}>{category.toUpperCase()}</li>
-  })
+    let ulAmount = Math.ceil((arrLi.length+1) / countLi)
+
+    let arrForUl = []
+    for(var i=1, s=0; i < ulAmount; ++i, s=s+countLi){
+      arrForUl.push(arrLi.slice(s, countLi*i))
+    }
+    return arrForUl.map(arrLi => {
+      return (
+        <ul>
+          {arrLi.map((liTitle, i) => {
+            return (
+              <li
+                className={classes.categoryItem}
+                onClick={()=>this.onChangeCategory(liTitle)}
+                key={i}
+              >
+                {liTitle.toUpperCase()}
+              </li>
+            )})
+          }
+        </ul>
+      ) 
+    })
+  }
+
+  clothesList = () => {
+    const { classes } = this.props;
+    return (
+    <div  className={classes.categoryBlock}>
+      {this.ulWithSpecialCountLi(categories, 5)}
+    </div>)
   }
 
   resetDropDown = () => this.setState({ value: 100});
@@ -108,26 +139,22 @@ class TopMenu extends React.Component {
             indicatorColor="primary"
             textColor="primary"
           >
-            <Tab className={classes.tab} label="Item One" icon={<PhoneIcon />} onMouseEnter={this.hoverOn.bind(this, 0)} />
-            <Tab className={classes.tab} label="Item Two" icon={<FavoriteIcon />} onMouseEnter={this.hoverOn.bind(this, 1)} />
-            <Tab className={classes.tab} label="Item Three" icon={<PersonPinIcon />} onMouseEnter={this.hoverOn.bind(this, 2)} />
-            <Tab className={classes.tab} label="Item Four" icon={<HelpIcon />} onMouseEnter={this.hoverOn.bind(this,3)} />
+            <Tab className={classes.tab} label="Одежда" icon={<PhoneIcon />} onMouseEnter={this.hoverOn.bind(this, 0)} />
+            <Tab className={classes.tab} label="Обувь" icon={<FavoriteIcon />} onMouseEnter={this.hoverOn.bind(this, 1)} />
+            <Tab className={classes.tab} label="Аксессуары" icon={<PersonPinIcon />} onMouseEnter={this.hoverOn.bind(this, 2)} />
             <Panel />
           </Tabs>
         </AppBar>
 
         {this.state.value !==100 && <div className={classes.dropdownMenu} onMouseLeave={this.resetDropDown}>
           {value === 0 && <TabContainer className={classes.tab_content}>
-            <ul> {this.categoryList()} </ul>  
+            {this.clothesList()}
           </TabContainer>}
           {value === 1 && <TabContainer className={classes.tab_content}>
-            <ul> {this.categoryList()} </ul>  
+            {this.clothesList()}  
           </TabContainer>}
           {value === 2 && <TabContainer className={classes.tab_content}>
-            <ul> {this.categoryList()} </ul>  
-          </TabContainer>}
-          {value === 3 && <TabContainer className={classes.tab_content}>
-            <ul> {this.categoryList()} </ul>  
+            {this.clothesList()}  
           </TabContainer>}
         </div>}
       </div>

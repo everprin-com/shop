@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 const mapDispatchToProps = dispatch => {
   return {
     closeOrderForm: () => dispatch({ type: 'CLOSE_ORDER_FORM'}),
+    closeCart: () => dispatch({ type: 'CLOSE_CART'}),
   }
 }
 
@@ -52,6 +53,7 @@ class OrderForm extends React.Component {
 
   componentDidMount() {
     this.props.closeOrderForm()
+    this.props.closeCart()
   }
 
   sendFetch = () => {
