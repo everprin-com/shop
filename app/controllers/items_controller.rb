@@ -18,7 +18,6 @@ class ItemsController < ApplicationController
 
     @items = @items.paginate(page: params[:page], per_page: 20)
     respond_to do |format|
-      format.html
       format.json { render json: @items.to_json }
       format.xml { render :xml => @people.to_xml }
     end
