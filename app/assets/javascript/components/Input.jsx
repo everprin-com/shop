@@ -67,7 +67,7 @@ function CustomizedInputs(props) {
   const { classes } = props;
 
   const onChange = e => {
-    fetchGetWithParams("items/", {search_category: [e.target.value]}, true)
+    fetchGetWithParams("items/", {search_name: e.target.value}, true)
     .then(products=> {
       props.resetAndAddProducts(products);
     })
@@ -75,9 +75,9 @@ function CustomizedInputs(props) {
 
   return (
     <div className={classes.inputWrap}>
-   
+
       <TextField
-        
+
         InputLabelProps={{
           classes: {
             root: classes.cssLabel,
