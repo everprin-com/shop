@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190512141805) do
+ActiveRecord::Schema.define(version: 20190519072133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,7 +142,7 @@ ActiveRecord::Schema.define(version: 20190512141805) do
     t.integer  "total_price"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
-    t.integer  "phone"
+    t.string   "phone"
     t.json     "status",      default: {}
   end
 
@@ -171,6 +171,15 @@ ActiveRecord::Schema.define(version: 20190512141805) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "statistics", force: :cascade do |t|
+    t.string   "ip"
+    t.integer  "order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "statistics", ["order_id"], name: "index_statistics_on_order_id", using: :btree
 
   create_table "telegram_users", force: :cascade do |t|
     t.integer  "telegram_id"

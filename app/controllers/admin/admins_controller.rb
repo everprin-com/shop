@@ -5,7 +5,8 @@ module Admin
 
     def index
       @infos = Info.all
-      @user = User.all
+      @users = User.all
+      @orders = Order.order("created_at").includes(:statistic).all
     end
   end
 end

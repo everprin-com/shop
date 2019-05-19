@@ -1,0 +1,51 @@
+body
+  | USERS
+  table
+    tr
+      th
+        | email
+      th
+        | role
+    - @users.each do |user|
+      tr
+        td
+          = user.email
+        td
+          = user.role
+  | ORDER
+  table
+    tr
+      th
+        | name
+      th
+        | adress
+      th
+        | phone
+      th
+        | ip
+      th
+        | total_price
+      - ApplicationHelper::STATUS_ORDER.each do |status|
+        th
+          = status
+      th
+        | send
+    - @orders.each do |order|
+      tr
+        td
+          = order.name
+        td
+          = order.address
+        td
+          = order.phone
+        td
+          = order.statistic&.ip  
+        td
+          = order.total_price
+        = form_for Order.find(order.id), :method => :PUT do |f|
+          = f.fields_for :status, order.status do |status|
+            - ApplicationHelper::STATUS_ORDER.each do |status_name|
+              td
+                = status.check_box status_name.to_sym, { checked: order.status[status_name].to_s == 'true' ? true : false }, "true", "false"
+            td
+              = f.submit "Confirm change status"

@@ -2,6 +2,8 @@
 # require 'simple_form'
 module ApplicationHelper
   # before_action user_signed_in?, only: :can_manage
+  STATUS_ORDER = [ "confirmed", "preparing_to_ship", "on_the_road", "by_mail", "failure", "not_come_to_post", "must_confirm", "took_away", "return", "other" ]
+
   # <%#= ui_button 'read', t(:show),show_posting_posting_path(posting), data: { modal: true } %>
   def insert_twitter_box
     if File.exist?(

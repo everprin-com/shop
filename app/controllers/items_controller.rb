@@ -3,6 +3,8 @@ class ItemsController < ApplicationController
 
   def index
     @items = Item.all
+    #Statistic.create!(request.remote_ip)
+
     @items = @items.name_search(params[:search_name]) if params[:search_name].present?
     @items = @items.where("price >= ?", params[:price_search_from]) if params[:price_search_from].present?
     @items = @items.where("price <= ?", params[:price_search_to]) if params[:price_search_to].present?
