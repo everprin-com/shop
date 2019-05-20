@@ -4,9 +4,9 @@ class CreateItems < ActiveRecord::Migration
       t.string :article, null: false
       t.string :name, null: false
       t.string :description
-      t.integer :price, null: false
+      t.decimal :price, precision: 8, scale: 2
       t.string :color
-      t.string :picture, null: false
+      t.string :picture, array: true, default: '{}', null: false
       t.string :brand
       t.integer :season
       t.boolean :male, default: false, null: false
@@ -17,6 +17,7 @@ class CreateItems < ActiveRecord::Migration
       t.string :size_world
       t.string :drop_ship, null: false
       t.string :composition
+      t.decimal :drop_ship_price, precision: 8, scale: 2
       t.timestamps null: false
     end
     add_index  :items, :size, using: 'gin'

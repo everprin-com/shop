@@ -73,7 +73,7 @@ function Sizes(props) {
         variant="outlined"
       />
       ) })}
-         
+
     </div>
   );
 }

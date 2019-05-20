@@ -10,8 +10,8 @@ module Admin
     end
 
     def delete_drop_ship
-      Item.where(drop_ship: params[:drop_ship_name]).delete_all
-      redirect "admin/admins"
+      Item.where(drop_ship: params[:drop_ship_name].capitalize).delete_all
+      redirect_to "admin/admins"
     end
   end
 end
