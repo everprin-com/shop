@@ -1,5 +1,12 @@
 body
-  | USERS
+  div
+    | delete drop ship
+    = form_tag('/admin/admins/delete_drop_ship') do
+      = text_area_tag(:drop_ship_name)
+      = submit_tag 'DELETE'
+    end
+  div
+    | USERS
   table
     tr
       th
@@ -39,10 +46,10 @@ body
         td
           = order.phone
         td
-          = order.statistic&.ip  
+          = order.statistic&.ip
         td
           = order.total_price
-        = form_for Order.find(order.id), :method => :PUT do |f|
+        = form_for :order, url: order_path(order.id), :method => :PUT do |f|
           = f.fields_for :status, order.status do |status|
             - ApplicationHelper::STATUS_ORDER.each do |status_name|
               td

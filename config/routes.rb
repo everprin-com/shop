@@ -19,7 +19,11 @@ Rails.application.routes.draw do
   put 'voices/:decrease_id' => 'voices#decrease', :as => 'voices_decrease'
 
   namespace :admin do
-    resources :admins, only: [:index]
+    resources :admins, only: [:index] do
+      collection do
+        post 'delete_drop_ship' => 'admins#delete_drop_ship'
+      end
+    end
     get 'configurable/edit', as: 'admin_configurable_edit'
     resources  :clients
     resources  :tasks
