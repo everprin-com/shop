@@ -45,7 +45,7 @@ class ItemsImport
 
   def conver_size_to_array(row)
     a = row["size"].split("-")
-    return nil if a[0].to_i == 0 #if string universal return nil
+    return [] if a[0].to_i == 0 #if string universal return nil
     (a[0].to_i..a[1].to_i).to_a
   end
 

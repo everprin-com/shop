@@ -5,6 +5,7 @@ bundler 1.9.0
 ruby 2.5.1
 rails version 4.2.11
 
+root@178.62.6.75
 
 rubocop
 
