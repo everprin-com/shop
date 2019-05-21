@@ -13,8 +13,7 @@ class ItemsController < ApplicationController
     #@items = @items.search_category(params[:search_category]) if params[:search_category].present?
     @items = @items.where(male: true) if params[:male].present?
     @items = @items.where(season: params[:season]) if params[:season].present?
-
-    @items = @items.paginate(page: params[:page], per_page: 20)
+    @items = @items.paginate(page: params[:page], per_page: per_page(params[:per_page]))
     respond_to do |format|
       format.json { render json: { items: @items, total_pages:  @items.total_pages }}
       format.xml { render :xml => @people.to_xml }
@@ -29,4 +28,9 @@ class ItemsController < ApplicationController
     end
   end
 
+   private
+
+   def per_page(per_page)
+     per_page ? per_page : Item::DEFAULT_PAGE
+   end
 end
