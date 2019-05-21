@@ -1,5 +1,4 @@
 import React from 'react'
-import { imgs } from './mockData'
 import ProductList from './ProductList'
 import SideBar from './SideBar'
 import { withStyles } from '@material-ui/core/styles'

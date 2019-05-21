@@ -13,6 +13,7 @@ const mapDispatchToProps = dispatch => {
     return {
       addFilter: filter => dispatch({ type: 'ADD_FILTER', filter }),
       resetAndAddProducts: products => dispatch({ type: 'RESET_AND_ADD_PRODUCTS', products }),
+      requestAndAddProducts: params => dispatch({ type: 'REQUEST_AND_ADD_PRODUCTS', params, afterReset: true}),
     }
   }
 

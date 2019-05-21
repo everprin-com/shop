@@ -13,28 +13,55 @@ function* openCart(action) {
 }
 
 function* checkSetSize(action){
-  if (!action.product.activeSize) { 
+  if (action.product.size ? !action.product.size.includes("универсальный") : false) { 
     yield put({type: 'SHOW_SET_SIZE_WINDOW', id: action.product.id})
   } else {
     yield put({type: 'PUT_TO_CART', product: action.product})
   } 
 }
 
-function* getFilteredProducts(){
-  
-  console.log("from getFilteredProducts")
-  console.log(state)
-  console.log("from getFilteredProducts")
-}
-
-function* fetchData(action) {
+function* getFilteredProducts(action) {
   try {
      const state = yield select();
-     const data = yield call(fetchGetWithParams, "items/", {...state.filter}, true)
-     yield put({type: "RESET_AND_ADD_PRODUCTS", data})
+     const products = yield call(fetchGetWithParams, "/items/", {...state.filter, page:1}, true)
+     yield put({type: "CHANGE_LAST_PARAMS", lastRequestParams: {...state.filter, page:1}})
+     yield put({type: "RESET_AND_ADD_PRODUCTS", products})
   } catch (error) {
      yield put({type: "FETCH_FAILED", error})
   }
+}
+
+function* requestAndAddProducts(action = {}, params = {page: 1}) {
+    let queryParams = {...action.params, ...params}
+    yield put({type: "LOADING_ON"})
+    const products =  yield call(fetchGetWithParams, "/items/", queryParams)
+    yield put({type: "CHANGE_LAST_PAGE", page: products.total_pages })
+    yield put({type: "CHANGE_LAST_PARAMS", lastRequestParams: queryParams})
+    if (action.afterReset) {
+      yield put({type: "RESET_AND_ADD_PRODUCTS", products: products.items})
+    } else {
+      yield put({type: "ADD_PRODUCTS", products: products.items})
+    }
+    yield put({type: "LOADING_OFF"})
+}
+
+function* handlePagination() {
+  const state = yield select()
+  const lastParams = state.general.lastRequestParams
+  if (lastParams.page >= state.general.lastPage) return
+  if (!lastParams) return 
+  const params = {...lastParams, page: ++lastParams.page}
+  yield requestAndAddProducts({}, params)
+}
+
+function* requestAndAddProductsToSlider(action) {
+  const products =  yield call(fetchGetWithParams, "/items/", { price_search_from: 300, price_search_to: 400 })
+  yield put({type: "ADD_PRODUCTS_TO_SLIDER", products: products.items})
+}
+
+function* handleScroll() {
+  setTimeout(()=>{
+    put({type: "SCROLL_OFF"})}, 2000)
 }
 
 function* watchTryPutCart() {
@@ -46,7 +73,23 @@ function* watchPutToCart() {
 }
 
 function* watchAddFilter() {
-  yield takeEvery("ADD_FILTER", fetchData);
+  yield takeEvery("ADD_FILTER", getFilteredProducts);
+}
+
+function* watchRequestAndAddProducts() {
+  yield takeEvery("REQUEST_AND_ADD_PRODUCTS", requestAndAddProducts);
+}
+
+function* watchHandlePagination() {
+  yield takeEvery("HANDLE_PAGINATION", handlePagination);
+}
+
+function* watchRequestAndAddProductsToSlider() {
+  yield takeEvery("REQUEST_AND_ADD_PRODUCTS_TO_SLIDER", requestAndAddProductsToSlider);
+}
+
+function* watchScroll() {
+  yield takeEvery("SCROLL_ON", handleScroll);
 }
 
 export default function* rootSaga() {
@@ -54,5 +97,9 @@ export default function* rootSaga() {
     watchTryPutCart(),
     watchPutToCart(),
     watchAddFilter(),
+    watchRequestAndAddProducts(),
+    watchHandlePagination(),
+    watchRequestAndAddProductsToSlider(),
+    watchScroll(),
   ])
 }

@@ -1,5 +1,4 @@
 export default function (state = { data: [], isOpen: false, withProduct: false }, action) {
-  console.log(state)
     switch (action.type) {
       case 'PUT_TO_CART':
         const product = state.data.find(product => product.id ===  action.product.id) || {}

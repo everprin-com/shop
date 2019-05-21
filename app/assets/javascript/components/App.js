@@ -10,9 +10,16 @@ import { withStyles } from '@material-ui/core/styles';
 import ChooseSize from './ChooseSize'
 import Footer from './Footer'
 
+const mapDispatchToProps = dispatch => {
+  return {
+    cancelScroll: () => dispatch({ type: 'SCROLL_OF'}),
+  }
+}
+
 const mapStateToProps = state => {
   return {
-    orderform: state.orderform
+    orderform: state.orderform,
+    scrolling: state.general.scrolling
   }
 }
 
@@ -26,11 +33,17 @@ const styles = theme => ({
 
 class App extends React.PureComponent{
 
-componentDidUpdate(prevProps){
+componentDidUpdate(){
   this.props.orderform && this.redirectToOrderForm()
+  this.props.scrolling && this.scrolling()
 }
 
 redirectToOrderForm = () => this.props.history.push('/orderform')
+
+scrolling = () => {
+  window.scroll({ top: 0, behavior: 'smooth' })
+  this.props.cancelScroll()
+}
 
 render(){
   const { classes } = this.props
@@ -49,7 +62,7 @@ render(){
 }
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(App))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App))
 
 // const mapStateToProps = state => {
 //     return {

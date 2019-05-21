@@ -67,17 +67,18 @@ class ProductItemSizes extends React.Component {
 
     render() {
         const { classes, sizes, setActiveSize, activeSize, id, format } = this.props;
+        if (sizes.length < 1 || !sizes || !sizes.length) return null
         return (
             <div className={classes.root}>
                 <div className={classes.title}>Размеры:</div>
                 <div className={format ? classes.contentForBig : classes.content}>
-                {console.log(sizes)}
                 {sizes.map(sizeItem => { return (
                     <Button
                         size={format ? "large" : "small"}
                         variant="outlined"
                         className={`${classes.sizeItem} ${activeSize===sizeItem ? classes.active : ""}`}
                         onClick={()=>setActiveSize(id, sizeItem)}
+                        key={sizeItem}
                     >
                         {sizeItem}
                     </Button>

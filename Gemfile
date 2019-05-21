@@ -30,6 +30,9 @@ gem 'pg_search', '~> 1.0.5'
 gem 'omniauth-oauth2', '~> 1.3.1'
 gem 'omniauth-digitalocean'
 
+gem "nokogiri", "1.10.3"
+gem "pkg-config"
+
 gem 'cancancan'
 gem 'will_paginate'
 gem 'rake'
