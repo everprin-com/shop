@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 const mapDispatchToProps = dispatch => {
   return {
     resetAndAddProducts: products => dispatch({ type: 'RESET_AND_ADD_PRODUCTS', products }),
+    requestAndAddProducts: params => dispatch({ type: 'REQUEST_AND_ADD_PRODUCTS', params, afterReset: true}),
   }
 }
 
@@ -41,14 +42,8 @@ class FilterPrice extends React.Component {
   };
 
   onApplay = () => {
-    fetchGetWithParams(
-      "items/",
-      {price_search_from: this.state.inputValue[0], price_search_to: this.state.inputValue[1], },
-      true
-    ).then(products=> {
-      this.props.resetAndAddProducts(products);
+    requestAndAddProducts({price_search_from: this.state.inputValue[0], price_search_to: this.state.inputValue[1], })
       this.setState({ applayed: !this.state.applayed });
-    })
   }
   
   onChangeFromSlider = (value) => {

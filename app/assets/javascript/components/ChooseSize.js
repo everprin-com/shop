@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
+import { getSizes } from './Utils'; 
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -59,7 +60,8 @@ class ChooseSize extends React.Component {
     render() {
       const { dialog, products, setActiveSize, classes, closeDialog, putToCart } = this.props
       const product = products.find(product => product.id == dialog.id) || {}
-      const { sizes, activeSize, id } =  product
+      const { size, activeSize, id } =  product
+      const sizes = getSizes(size) // need del in feature 
       return (
           <div className={classes.root}>
               <div className={classes.title}>Размеры:</div>

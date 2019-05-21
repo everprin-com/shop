@@ -15,7 +15,6 @@ const mapDispatchToProps = dispatch => {
 const styles = theme => ({
   root: {
     display: 'inline-block',
-    width: '250px',
   },
   cssFocused: {},
   cssUnderline: {
@@ -36,7 +35,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.common.white,
     border: '1px solid #ced4da',
     fontSize: 26,
-    width: '100%',
+    width: 350,
     padding: '10px 12px',
     transition: theme.transitions.create(['border-color', 'box-shadow']),
     // Use the system font instead of the default Roboto font.
@@ -67,7 +66,7 @@ function CustomizedInputs(props) {
   const { classes } = props;
 
   const onChange = e => {
-    fetchGetWithParams("items/", {search_name: e.target.value}, true)
+    fetchGetWithParams("/items/", {search_name: e.target.value}, true)
     .then(products=> {
       props.resetAndAddProducts(products);
     })
