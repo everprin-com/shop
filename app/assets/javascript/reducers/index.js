@@ -6,6 +6,8 @@ import product from "./product"
 import orderform from "./orderform"
 import dialog from "./dialog"
 import filter from "./filter"
+import general from "./general"
+import slider from "./slider"
 
 export default combineReducers({
     user,
@@ -14,4 +16,6 @@ export default combineReducers({
     orderform,
     dialog,
     filter,
+    general,
+    slider,
 })

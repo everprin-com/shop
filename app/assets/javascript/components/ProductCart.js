@@ -11,12 +11,16 @@ import ChooseSize from './ChooseSize';
 import Footer from './Footer';
 import fetchGet from "./api/fetchGet"
 import { getSizes } from './Utils';
+import Slider from "./Slider";
+import { withRouter } from "react-router-dom";
+import ProductList from './ProductList'
 
 const mapStateToProps = state => {
   return {
     products: state.product,
     card: state.card,
     orderform: state.orderform,
+    sliderProducts: state.slider.products,
   }
 }
 
@@ -24,6 +28,7 @@ const mapDispatchToProps = dispatch => {
   return {
     openCart: () => dispatch({ type: 'OPEN_CART'}),
     putToCart: product => dispatch({ type: 'TRY_PUT_TO_CART', product }),
+    requestAndAddSlider: category => dispatch({ type: 'REQUEST_AND_ADD_PRODUCTS_TO_SLIDER', category}),
   }
 }
 
@@ -36,6 +41,8 @@ const styles = theme => ({
         flexDirection: "column",
         lineHeight: "1.3",
         fontSize: "16px",
+        minHeight: '100vh',
+        justifyContent: 'space-between',
     },
     price: {
         color: '#000',
@@ -47,7 +54,11 @@ const styles = theme => ({
     },
     mainContent: {
         display: 'flex'
+    },
+    slider: {
+        width: '100%'
     }
+
 })
 
 class ProductCart extends React.Component {
@@ -59,11 +70,17 @@ class ProductCart extends React.Component {
     getProduct = () => {
         const { id } = this.props.match.params
         fetchGet(`/items/${id}`)
-        .then(data => this.setState({data}))
+        .then(data => {
+            this.setState(
+                {data},
+                ()=>this.props.requestAndAddSlider(this.state.data.category)
+            )
+        })
     }
 
     componentDidUpdate(prevProps){
         this.props.orderform && this.redirectToOrderForm()
+        if ( prevProps.location.pathname != this.props.location.pathname ) this.getProduct()
       }
 
     putToCart = () => {
@@ -74,17 +91,19 @@ class ProductCart extends React.Component {
 
     redirectToOrderForm = () => this.props.history.push('/orderform')
 
+    redirectToRoot = () => this.props.history.push('/')
+
     render() {
-        const { classes, products, card, match, location, openCart } = this.props
+        const { classes, card, match, location, openCart, sliderProducts } = this.props
         const { id } = match.params
         const productData  = this.state.data || {}
-        const { size, picture } = productData
+        const { size, picture, category } = productData
         let sizes = getSizes(size)
         // const activeSize = products.find(product => product.id == id).activeSize
         const isInCart = card.data.some(cardItem => cardItem.id == id )
         return (
             <div className={classes.root}>
-                <Header />
+                <Header redirectToRoot={this.redirectToRoot} />
                 <div className={classes.mainContent}>
                     <div className="fluid__image-container">
                         <ReactImageMagnify {...{
@@ -127,6 +146,16 @@ class ProductCart extends React.Component {
                         <AboutProduct productData={productData} />
                     </div>
                 </div>
+                <div className={classes.slider}>
+                    <Slider
+                        title="Вы просматривали:"
+                        slidesToShow={4}
+                        products={sliderProducts}
+                        draggable
+                        arrows
+                    />
+                </div>
+                <ProductList forCart productsParams={{search_category: category}} />
                 <Footer />
                 <DialogWindow title="Выберите размер" Component={ChooseSize} />
             </div>
@@ -134,4 +163,4 @@ class ProductCart extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ProductCart))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withRouter(ProductCart)))

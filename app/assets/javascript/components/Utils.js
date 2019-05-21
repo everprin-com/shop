@@ -6,8 +6,8 @@ const getSizes = size => {
     // for (var i=0; i<delta+1 ;++i){
     //     sizesArray.push(+MaxMinArray[0] + i)
     // }
-
-    return size
+    if (!size || !size.replace) return []
+    return size.replace(/[\[\] ]*/g,"").split(",").map(v=>+v)
 }
 
 

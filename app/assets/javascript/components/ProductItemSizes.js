@@ -67,7 +67,7 @@ class ProductItemSizes extends React.Component {
 
     render() {
         const { classes, sizes, setActiveSize, activeSize, id, format } = this.props;
-        if (sizes.length < 1) return null
+        if (sizes.length < 1 || !sizes || !sizes.length) return null
         return (
             <div className={classes.root}>
                 <div className={classes.title}>Размеры:</div>
@@ -78,6 +78,7 @@ class ProductItemSizes extends React.Component {
                         variant="outlined"
                         className={`${classes.sizeItem} ${activeSize===sizeItem ? classes.active : ""}`}
                         onClick={()=>setActiveSize(id, sizeItem)}
+                        key={sizeItem}
                     >
                         {sizeItem}
                     </Button>

@@ -9,7 +9,7 @@ import { Provider } from 'react-redux'
 import reducers from "../javascript/reducers"
 import App from "../javascript/components/App"
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, withRouter, Switch } from "react-router-dom";
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import ProductCart from "../javascript/components/ProductCart"
@@ -28,15 +28,15 @@ sagaMiddleware.run(rootSaga)
 
 window.store = store
 
-store.subscribe(()=>console.log(store.getState()))
-
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Provider store={store}>
       <Router>
-        <Route exact path="/" component={App} />
-        <Route path="/productcart/:id" component={ProductCart} />
-        <Route path="/orderform/" component={OrderForm} />
+        <Switch>
+          <Route exact path="/" component={App} />
+          <Route path="/productcart/:id" component={withRouter(ProductCart)} />
+          <Route path="/orderform/" component={OrderForm} />
+        </Switch>
       </Router>
     </Provider>,  
     document.getElementById("root")

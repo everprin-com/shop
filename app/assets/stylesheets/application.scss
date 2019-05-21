@@ -11,18 +11,54 @@
 @import "node_modules/antd/lib/switch/style/index";
 @import "node_modules/antd/lib/input-number/style/index";
 @import 'node_modules/rc-slider/assets/index';
-
+@import "node_modules/antd/lib/carousel/style/index";
+// @import "node_modules/slick-carousel/slick/slick";
+// @import "node_modules/slick-carousel/slick/slick-theme";
 //example**************************
 
 /* 
 $black: #333;
 $white: #eee;  */
 
+/* For demo */
+.ant-carousel .slick-slide {
+  text-align: center;
+  overflow: hidden;
+  height: 100%;
+}
+
+.titleSlider{
+font-size: 20px;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #fff;
+}
+
+.ant-carousel{
+  height: 250px;
+}
+
+.arrSlider.next{
+  right: -26px;
+  z-index: 1;
+  bottom: 166px;
+  float: right;
+}
+
+.arrSlider.prev{
+  left: -5px;
+  z-index: 1;
+  top: 140px;
+}
+
+.navSlider {
+  font-size: 45px,
+}
+
 .input{
     font-size: 20px;
 }
-
-
 
   .fluid__instructions {
     flex: 0 0 auto;

@@ -45,7 +45,7 @@ GEM
     ast (2.4.0)
     autoprefixer-rails (9.5.1.1)
       execjs
-    backports (3.14.0)
+    backports (3.15.0)
     bcrypt (3.1.12)
     better_errors (2.5.1)
       coderay (>= 1.0.0)
@@ -74,13 +74,14 @@ GEM
     capistrano-rails (1.4.0)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
-    capybara (3.19.1)
+    capybara (3.20.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.2)
+      uglifier
       xpath (~> 3.2)
     carrierwave (1.3.1)
       activemodel (>= 4.0.0)
@@ -162,7 +163,7 @@ GEM
       actionpack (>= 3.0)
       multi_json
       request_store (>= 1.0)
-    haml (5.0.4)
+    haml (5.1.0)
       temple (>= 0.8.0)
       tilt
     haml-rails (1.0.0)
@@ -182,7 +183,7 @@ GEM
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.2)
-    jbuilder (2.9.0)
+    jbuilder (2.9.1)
       activesupport (>= 4.2.0)
     jquery-rails (4.3.3)
       rails-dom-testing (>= 1, < 3)
@@ -274,6 +275,7 @@ GEM
       activerecord (>= 3.1)
       activesupport (>= 3.1)
       arel
+    pkg-config (1.3.7)
     powerpack (0.1.2)
     prawn (2.2.2)
       pdf-core (~> 0.7.0)
@@ -332,7 +334,7 @@ GEM
       execjs (~> 2.5)
       rails (>= 3.2)
       rainbow (~> 2.2)
-    regexp_parser (1.4.0)
+    regexp_parser (1.5.0)
     request_store (1.4.1)
       rack (>= 1.4)
     responders (2.4.1)
@@ -503,6 +505,7 @@ DEPENDENCIES
   mini_magick
   mini_racer
   newrelic_rpm
+  nokogiri (= 1.10.3)
   notifiee-ruby
   omniauth-digitalocean
   omniauth-google-oauth2
@@ -510,6 +513,7 @@ DEPENDENCIES
   paperclip
   pg (~> 0.20.0)
   pg_search (~> 1.0.5)
+  pkg-config
   prawn
   prawn-table
   pundit
