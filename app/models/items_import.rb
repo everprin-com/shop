@@ -2,8 +2,13 @@ class ItemsImport
   include ActiveModel::Model
   require 'roo'
   CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
-  CANT_BU_NULL = ["article", "name", "price", "picture", "drop_ship"]
-  HEADER = %w[article name description price color picture brand season male size country category presence size_world drop_ship composition]
+  CANT_BE_NULL = ["article", "name", "price", "picture", "drop_ship", "drop_ship_price"]
+  HEADER = %w[
+    article name description price color picture brand
+    season male size country category presence size_world
+    drop_ship composition drop_ship_price
+  ]
+
   attr_accessor :file
 
   def initialize(attributes={})
@@ -32,12 +37,15 @@ class ItemsImport
        item.attributes = row.to_hash
        conver_size_to_array(row)
        item["size"] = conver_size_to_array(row)
+       item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
+       item["picture"] = row["picture"]&.split(",")
        item
     end
   end
 
   def conver_size_to_array(row)
     a = row["size"].split("-")
+    return [] if a[0].to_i == 0 #if string universal return nil
     (a[0].to_i..a[1].to_i).to_a
   end
 
@@ -46,7 +54,7 @@ class ItemsImport
   end
 
   def delete_null(imported_items)
-    CANT_BU_NULL.each do |field|
+    CANT_BE_NULL.each do |field|
       #byebug
       imported_items.reject! { |item| item[field.to_sym] == nil }
     end

@@ -5,7 +5,13 @@ module Admin
 
     def index
       @infos = Info.all
-      @user = User.all
+      @users = User.all
+      @orders = Order.order("created_at").includes(:statistic).all
+    end
+
+    def delete_drop_ship
+      Item.where(drop_ship: params[:drop_ship_name].capitalize).delete_all
+      redirect_to "admin/admins"
     end
   end
 end

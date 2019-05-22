@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190512141805) do
+ActiveRecord::Schema.define(version: 20190519072133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,24 +88,25 @@ ActiveRecord::Schema.define(version: 20190512141805) do
   add_index "infos", ["user_id"], name: "index_infos_on_user_id", using: :btree
 
   create_table "items", force: :cascade do |t|
-    t.string   "article",                     null: false
-    t.string   "name",                        null: false
+    t.string   "article",                                                 null: false
+    t.string   "name",                                                    null: false
     t.string   "description"
-    t.integer  "price",                       null: false
+    t.decimal  "price",           precision: 8, scale: 2
     t.string   "color"
-    t.string   "picture",                     null: false
+    t.string   "picture",                                 default: [],    null: false, array: true
     t.string   "brand"
     t.integer  "season"
-    t.boolean  "male",        default: false, null: false
-    t.string   "size",                        null: false
+    t.boolean  "male",                                    default: false, null: false
+    t.string   "size",                                    default: [],                 array: true
     t.string   "country"
     t.string   "category"
-    t.string   "presence",    default: "t"
+    t.string   "presence",                                default: "t"
     t.string   "size_world"
-    t.string   "drop_ship",                   null: false
+    t.string   "drop_ship",                                               null: false
     t.string   "composition"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.decimal  "drop_ship_price", precision: 8, scale: 2
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
   end
 
   add_index "items", ["name"], name: "items_on_name_gin_trgm_idx", using: :gin
@@ -139,9 +140,10 @@ ActiveRecord::Schema.define(version: 20190512141805) do
     t.string   "email"
     t.string   "pay_type"
     t.integer  "total_price"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "phone"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "phone"
+    t.json     "status",      default: {}
   end
 
   create_table "products", force: :cascade do |t|
@@ -169,6 +171,15 @@ ActiveRecord::Schema.define(version: 20190512141805) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "statistics", force: :cascade do |t|
+    t.string   "ip"
+    t.integer  "order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "statistics", ["order_id"], name: "index_statistics_on_order_id", using: :btree
 
   create_table "telegram_users", force: :cascade do |t|
     t.integer  "telegram_id"

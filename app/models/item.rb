@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-
+  DEFAULT_PAGE = 16
   include PgSearch
   #pg_search_scope :search_name, against: [:name]
   pg_search_scope :search_color, against: [:color]

@@ -88,5 +88,5 @@ class ProductItemSizes extends React.Component {
         )
     }
   }
- 
+
   export default connect(null, mapDispatchToProps)(withStyles(styles)(ProductItemSizes));

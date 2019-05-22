@@ -1,7 +1,7 @@
 /*
  *= require rails_bootstrap_forms
  */
-/* 
+/*
 // @import "bootstrap-sprockets";
 // @import "bootstrap";
 // @import "comments";
@@ -16,7 +16,7 @@
 // @import "node_modules/slick-carousel/slick/slick-theme";
 //example**************************
 
-/* 
+/*
 $black: #333;
 $white: #eee;  */
 
@@ -65,47 +65,47 @@ font-size: 20px;
     margin: 0 20px;
     margin-top: 150px;
   }
-  
+
   .fixed__instructions {
     flex: 1;
     margin: 0 20px;
-   
+
   }
-  
+
   a {
     color: black;
   }
-  
+
   a:hover {
     color: #666;
   }
-  
+
   .code {
     font-family: Courier New, Courier, monospace;
   }
-  
+
   @media (min-width: 480px) {
     .fluid {
       flex-direction: row;
     }
-  
+
     .fluid__image-container{
       flex: 0 0 30%;
       margin: 20px 0 20px 20px;
       margin-top: 150px;
       z-index: 1;
     }
-  
+
     .fluid__instructions {
       flex: 0 0 50%;
       padding-top: 30px;
     }
-  
+
     .fixed__instructions {
       padding-top: 30px;
       margin: 0 10px;
     }
-  
+
     .portal {
       position: absolute;
       top: 40px;
@@ -182,7 +182,7 @@ font-size: 20px;
     outline: 0;
     border-color: #F77A52;
   }
-  .form-row input:focus + label, 
+  .form-row input:focus + label,
   .form-row input:valid + label {
     transform: translateY(-60px);
     margin-left: -14px;

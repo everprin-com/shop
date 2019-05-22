@@ -5,6 +5,7 @@ bundler 1.9.0
 ruby 2.5.1
 rails version 4.2.11
 
+root@178.62.6.75
 
 rubocop
 
@@ -47,7 +48,8 @@ Parser
 14 (N) :size_world
 15 (O) :drop_ship, null: false
 16 (P) :composition
-17) :exsel_company, null: false -откуда взяли ексель
+17) (Q) drop_ship_price - оригинальная цена
+
 #posgres superusr
 Thank's @devton your tip solved my problem.
 I just made the log in postgres and do this comands:
