@@ -56,3 +56,7 @@ body
                 = status.check_box status_name.to_sym, { checked: order.status[status_name].to_s == 'true' ? true : false }, "true", "false"
             td
               = f.submit "Confirm change status"
+  | STATISTIC
+  div
+    = @orders.count
+    | колчество заказов

@@ -15,6 +15,9 @@ class OrdersController < ApplicationController
 
   def create
     order = Order.new(resource_params)
+    #byebug
+    #a = {order: { name: "kolya", line_items: [{proudct_id: 5256, size: [45,33], quantity: 3 }] }}
+
     if order.save!
       order.create_statistic!(ip: request.remote_ip)
       TeleNotify::TelegramUser.find_by_tg_channel("order").send_message(order.to_json)
