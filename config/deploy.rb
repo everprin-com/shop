@@ -78,7 +78,7 @@ task :deploy do
     #npm rebuild node-sass
     command %{npm rebuild node-sass}
     command %{yarn install}
-    command %{./bin/webpack}
+    command %{./bin/webpack -p}
     #invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 
