@@ -59,22 +59,6 @@ class OrderForm extends React.PureComponent {
     this.props.closeCart()
   }
 
-  sendFetch = () => {
-    const formData = new FormData();
-    formData.append("items_import[file]", this.state.file);
-    var myInit = {
-    method: 'POST',
-    body: formData,
-    headers: {
-      Accept: "text/html,application/xhtml+xml,application/xml;" +
-      "q=0.9,image/webp,image/apng,*/*",
-    },
-  }
-    fetch("/items_imports", myInit)
-    .then(res => res.json())
-    .then(data => this.setState({data}))
-  }
-
   sendOrder = () => {
     fetch('/orders', {
      method: 'post',
@@ -92,25 +76,11 @@ class OrderForm extends React.PureComponent {
    })
   }
 
-  onChange = e => {
-   let file = e.target.files[0]
-   this.setState({file})
-  }
-
   render() {
     const { classes } = this.props;
 
     return (
       <div className={classes.root}>
-        <form noValidate autoComplete="off"  >
-          <div className={classes.title}>
-            ковертировать ексель
-          </div>
-          <input type="file" name="file" onChange={this.onChange} />
-          <Button variant="contained" className={classes.button} onClick={this.sendFetch} color="primary">
-            Отправить заказ
-          </Button>
-        </form>
         <form noValidate autoComplete="off"  >
           <div className={classes.title}>
             Оформление заказа

@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(version: 20190519072133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pg_trgm"
 
   create_table "answerfrommoderators", force: :cascade do |t|
     t.integer  "user_id"
@@ -42,10 +41,10 @@ ActiveRecord::Schema.define(version: 20190519072133) do
     t.integer  "info_id"
     t.string   "image_comment_file_name"
     t.string   "image_comment_content_type"
-    t.integer  "image_comment_file_size",    limit: 8
+    t.integer  "image_comment_file_size"
     t.datetime "image_comment_updated_at"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "configurables", force: :cascade do |t|
@@ -74,55 +73,59 @@ ActiveRecord::Schema.define(version: 20190519072133) do
     t.string   "telephone"
     t.string   "data"
     t.string   "bio"
-    t.boolean  "send_new_film",                   default: false
-    t.boolean  "send_comments_to_film",           default: false
-    t.boolean  "ban",                             default: false
+    t.boolean  "send_new_film",         default: false
+    t.boolean  "send_comments_to_film", default: false
+    t.boolean  "ban",                   default: false
     t.string   "photo_file_name"
     t.string   "photo_content_type"
-    t.integer  "photo_file_size",       limit: 8
+    t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   add_index "infos", ["user_id"], name: "index_infos_on_user_id", using: :btree
 
   create_table "items", force: :cascade do |t|
-    t.string   "article",                                                 null: false
-    t.string   "name",                                                    null: false
+    t.string   "article",                                                   null: false
+    t.string   "name",                                                      null: false
     t.string   "description"
-    t.decimal  "price",           precision: 8, scale: 2
+    t.decimal  "price",             precision: 8, scale: 2,                 null: false
     t.string   "color"
-    t.string   "picture",                                 default: [],    null: false, array: true
+    t.string   "picture",                                   default: [],    null: false, array: true
     t.string   "brand"
     t.integer  "season"
-    t.boolean  "male",                                    default: false, null: false
-    t.string   "size",                                    default: [],                 array: true
+    t.boolean  "male",                                      default: false, null: false
+    t.string   "size",                                      default: [],                 array: true
     t.string   "country"
     t.string   "category"
-    t.string   "presence",                                default: "t"
+    t.string   "available_product",                         default: "t"
     t.string   "size_world"
-    t.string   "drop_ship",                                               null: false
+    t.string   "drop_ship",                                                 null: false
     t.string   "composition"
-    t.decimal  "drop_ship_price", precision: 8, scale: 2
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
+    t.decimal  "drop_ship_price",   precision: 8, scale: 2,                 null: false
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
   end
 
-  add_index "items", ["name"], name: "items_on_name_gin_trgm_idx", using: :gin
+  add_index "items", ["size"], name: "index_items_on_size", using: :gin
 
   create_table "line_items", force: :cascade do |t|
-    t.integer  "product_id"
-    t.integer  "cart_id"
-    t.integer  "quantity",   default: 1
-    t.integer  "price"
     t.integer  "order_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer  "quantity",                                default: 1
+    t.string   "size",                                                null: false
+    t.string   "article",                                             null: false
+    t.string   "name",                                                null: false
+    t.decimal  "price",           precision: 8, scale: 2,             null: false
+    t.string   "color"
+    t.string   "category"
+    t.decimal  "drop_ship_price", precision: 8, scale: 2,             null: false
+    t.string   "drop_ship",                                           null: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
   end
 
-  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id", using: :btree
-  add_index "line_items", ["product_id"], name: "index_line_items_on_product_id", using: :btree
+  add_index "line_items", ["order_id"], name: "index_line_items_on_order_id", using: :btree
 
   create_table "messagestoadministrators", force: :cascade do |t|
     t.string   "name"
@@ -140,10 +143,11 @@ ActiveRecord::Schema.define(version: 20190519072133) do
     t.string   "email"
     t.string   "pay_type"
     t.integer  "total_price"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.integer  "total_price_drop_ship"
     t.string   "phone"
-    t.json     "status",      default: {}
+    t.json     "status",                default: {}
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
 
   create_table "products", force: :cascade do |t|
@@ -152,13 +156,13 @@ ActiveRecord::Schema.define(version: 20190519072133) do
     t.text     "description"
     t.string   "uploaded_file_file_name"
     t.string   "uploaded_file_content_type"
-    t.integer  "uploaded_file_file_size",    limit: 8
+    t.integer  "uploaded_file_file_size"
     t.datetime "uploaded_file_updated_at"
     t.string   "category"
-    t.decimal  "price",                                precision: 8, scale: 2
+    t.decimal  "price",                      precision: 8, scale: 2
     t.text     "full_description"
-    t.datetime "created_at",                                                   null: false
-    t.datetime "updated_at",                                                   null: false
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
   end
 
   create_table "searches", force: :cascade do |t|
@@ -226,7 +230,5 @@ ActiveRecord::Schema.define(version: 20190519072133) do
   end
 
   add_foreign_key "identities", "users"
-  add_foreign_key "infos", "users"
-  add_foreign_key "line_items", "carts"
-  add_foreign_key "line_items", "products"
+  add_foreign_key "line_items", "orders"
 end

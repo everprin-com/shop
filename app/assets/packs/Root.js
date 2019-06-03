@@ -14,6 +14,8 @@ import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import ProductCart from "../javascript/components/ProductCart"
 import OrderForm from "../javascript/components/OrderForm"
+import ConvertXml from "../javascript/components/ConvertXml"
+import RegistrationForm from "../javascript/components/RegistrationForm"
 import rootSaga from '../javascript/components/saga'
 import ScrollToTopRoute from "../javascript/components/ScrollToTopRoute"
 import Loadable from 'react-loadable';
@@ -55,9 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
           <ScrollToTopRoute exact path="/" component={App} />
           <ScrollToTopRoute path="/productcart/:id" component={ProductCart} />
           <ScrollToTopRoute path="/orderform/" component={OrderForm} />
+          <Route path="/registration/" component={RegistrationForm} />
+          <Route path="/convertXml/" component={ConvertXml} />
         </Switch>
       </Router>
-    </Provider>,  
+    </Provider>,
     document.getElementById("root")
   )
 })
