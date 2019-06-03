@@ -5,7 +5,7 @@ class ItemsImport
   CANT_BE_NULL = ["article", "name", "price", "picture", "drop_ship", "drop_ship_price"]
   HEADER = %w[
     article name description price color picture brand
-    season male size country category presence size_world
+    season male size country category available_product size_world
     drop_ship composition drop_ship_price
   ]
 
