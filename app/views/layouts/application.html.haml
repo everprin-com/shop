@@ -1,9 +1,10 @@
 %DOCTYPE
 %html
   %head
+    /= current_user&.id
     - if only_admin
       = link_to "Admin", admin_admins_path
-      = link_to 'Log out',  destroy_user_session_path, :method => :delete
+      = link_to 'Log out', destroy_user_session_path, :method => :get
     = javascript_pack_tag "Root"
     %title
       = "KILO магазин одежды и обуви"
@@ -16,5 +17,5 @@
   /= yield
 %div{:id=>"modal-holder"}
 %div{:id=>"root"}
-=render "devise/registrations/form_new"
-=render "devise/sessions/form_new"
+/=render "devise/registrations/form_new"
+/=render "devise/sessions/form_new"

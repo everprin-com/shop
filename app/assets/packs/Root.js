@@ -14,6 +14,8 @@ import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import ProductCart from "../javascript/components/ProductCart"
 import OrderForm from "../javascript/components/OrderForm"
+import ConvertXml from "../javascript/components/ConvertXml"
+import RegistrationForm from "../javascript/components/RegistrationForm"
 import rootSaga from '../javascript/components/saga'
 
 // create the saga middleware
@@ -36,9 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
           <Route exact path="/" component={App} />
           <Route path="/productcart/:id" component={withRouter(ProductCart)} />
           <Route path="/orderform/" component={OrderForm} />
+          <Route path="/registration/" component={RegistrationForm} />
+          <Route path="/convertXml/" component={ConvertXml} />
         </Switch>
       </Router>
-    </Provider>,  
+    </Provider>,
     document.getElementById("root")
   )
 })

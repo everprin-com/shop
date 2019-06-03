@@ -4,7 +4,7 @@ class CreateItems < ActiveRecord::Migration
       t.string :article, null: false
       t.string :name, null: false
       t.string :description
-      t.decimal :price, precision: 8, scale: 2
+      t.decimal :price, precision: 8, scale: 2, null: false
       t.string :color
       t.string :picture, array: true, default: '{}', null: false
       t.string :brand
@@ -13,11 +13,11 @@ class CreateItems < ActiveRecord::Migration
       t.string :size, array: true, default: '{}'
       t.string :country
       t.string :category
-      t.string :presence, default: true
+      t.string :available_product, default: true
       t.string :size_world
       t.string :drop_ship, null: false
       t.string :composition
-      t.decimal :drop_ship_price, precision: 8, scale: 2
+      t.decimal :drop_ship_price, precision: 8, scale: 2, null: false
       t.timestamps null: false
     end
     add_index  :items, :size, using: 'gin'
