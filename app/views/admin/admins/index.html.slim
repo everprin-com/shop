@@ -31,12 +31,14 @@ body
       th
         | ip
       th
-        | total_price
+        | delta_price
       - ApplicationHelper::STATUS_ORDER.each do |status|
         th
           = status
       th
         | send
+    - total_price = @orders.sum(:total_price).to_f
+    - count = @orders.count
     - @orders.each do |order|
       tr
         td
@@ -48,7 +50,7 @@ body
         td
           = order.statistic&.ip
         td
-          = order.total_price
+          = order.total_price.to_f - order.total_price_drop_ship.to_f
         = form_for :order, url: order_path(order.id), :method => :PUT do |f|
           = f.fields_for :status, order.status do |status|
             - ApplicationHelper::STATUS_ORDER.each do |status_name|
@@ -56,3 +58,20 @@ body
                 = status.check_box status_name.to_sym, { checked: order.status[status_name].to_s == 'true' ? true : false }, "true", "false"
             td
               = f.submit "Confirm change status"
+  | STATISTIC
+  div
+    | колчество заказов
+    div
+      = count
+  div
+    |  Общее дельта
+    div
+      = total_price - @orders.sum(:total_price_drop_ship).to_f
+  div
+    |  Общий оборот
+    div
+      = total_price
+  div
+    |  средний чек
+    div
+      = total_price/count
