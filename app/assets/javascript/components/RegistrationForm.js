@@ -6,13 +6,6 @@ import Button from '@material-ui/core/Button';
 import CartMicro from './CartMicro';
 import { connect } from 'react-redux';
 
-const mapDispatchToProps = dispatch => {
-  return {
-    closeOrderForm: () => dispatch({ type: 'CLOSE_ORDER_FORM'}),
-    closeCart: () => dispatch({ type: 'CLOSE_CART'}),
-  }
-}
-
 const styles = theme => ({
   container: {
     display: 'flex',
@@ -38,59 +31,32 @@ const styles = theme => ({
 
 class RegistrationForm extends React.Component {
   state = {
-    file: null,
-    name: "",
-    phone: "",
-    address: "",
-    name_question: "",
-    telephone: "",
-    message: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+    passwordLogin: "",
+    emailLogin: "",
+
   }
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
   };
 
-  componentDidMount() {
-    this.props.closeOrderForm()
-    this.props.closeCart()
-  }
-
-  sendFetch = () => {
-    const formData = new FormData();
-    formData.append("items_import[file]", this.state.file);
-    var myInit = {
-    method: 'POST',
-    body: formData,
-    headers: {
-      Accept: "text/html,application/xhtml+xml,application/xml;" +
-      "q=0.9,image/webp,image/apng,*/*",
-    },
-  }
-    fetch("/items_imports", myInit)
-    .then(res => res.json())
-    .then(data => this.setState({data}))
+  signIn = () => {
+    fetch('/users/sign_in', {
+     method: 'post',
+     headers: {'Content-Type':'application/json'},
+     body: JSON.stringify({ user: { email: this.state.emailLogin, password: this.state.passwordLogin }}),
+   })
   }
 
   sendOrder = () => {
-    fetch('/orders', {
+    fetch('/users', {
      method: 'post',
      headers: {'Content-Type':'application/json'},
-     body: JSON.stringify({order: {name: this.state.name, phone: this.state.phone, address: this.state.address}}),
+     body: JSON.stringify({user: {email: this.state.email, password: this.state.password, password_confirmation: this.state.password_confirmation}}),
    })
-  }
-
-  sendQuestion = () => {
-    fetch('/messagestoadministrators', {
-     method: 'post',
-     headers: {'Content-Type':'application/json'},
-     body: JSON.stringify({messagestoadministrator: {name: this.state.name_question, telephone: this.state.telephone, message: this.state.message}}),
-   })
-  }
-
-  onChange = e => {
-   let file = e.target.files[0]
-   this.setState({file})
   }
 
   render() {
@@ -100,86 +66,66 @@ class RegistrationForm extends React.Component {
       <div className={classes.root}>
         <form noValidate autoComplete="off"  >
           <div className={classes.title}>
-            ковертировать ексель
-          </div>
-          <input type="file" name="file" onChange={this.onChange} />
-          <Button variant="contained" className={classes.button} onClick={this.sendFetch} color="primary">
-            Отправить заказ
-          </Button>
-        </form>
-        <form noValidate autoComplete="off"  >
-          <div className={classes.title}>
-            Оформление заказа
+            Login
           </div>
           <TextField
-            label="Имя"
+            label="email"
             className={classes.textField}
             type="text"
-            value={this.state.name}
-            onChange={this.handleChange('name')}
+            value={this.state.emailLogin}
+            onChange={this.handleChange('emailLogin')}
             margin="normal"
             fullWidth
           />
           <TextField
-            label="Телефон"
-            value={this.state.phone}
-            onChange={this.handleChange('phone')}
+            label="password"
+            value={this.state.passwordLogin}
+            onChange={this.handleChange('passwordLogin')}
+            className={classes.textField}
+            type="password"
+            margin="normal"
+            fullWidth
+          />
+          <Button variant="contained" className={classes.button} onClick={this.signIn} color="primary">
+            Login
+          </Button>
+        </form>
+
+        <form noValidate autoComplete="off"  >
+          <div className={classes.title}>
+            Зарегестрировать
+          </div>
+          <TextField
+            label="email"
             className={classes.textField}
             type="text"
+            value={this.state.email}
+            onChange={this.handleChange('email')}
+            margin="normal"
+            fullWidth
+          />
+          <TextField
+            label="password"
+            value={this.state.password}
+            onChange={this.handleChange('password')}
+            className={classes.textField}
+            type="password"
             margin="normal"
             fullWidth
           />
             <TextField
-            label="Адресс"
-            value={this.state.address}
-            onChange={this.handleChange('address')}
+            label="password_confirmation"
+            value={this.state.password_confirmation}
+            onChange={this.handleChange('password_confirmation')}
             className={classes.textField}
-            type="text"
+            type="password"
             margin="normal"
             fullWidth
           />
           <Button variant="contained" className={classes.button} onClick={this.sendOrder} color="primary">
-            Отправить заказ
+            Зарегестрировать
           </Button>
         </form>
-        <form noValidate autoComplete="off"  >
-          <div className={classes.title}>
-            Вопрос менеджеру
-          </div>
-          <TextField
-            label="Имя"
-            className={classes.textField}
-            type="text"
-            value={this.state.name_question}
-            onChange={this.handleChange('name_question')}
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            label="Телефон"
-            value={this.state.telephone}
-            onChange={this.handleChange('telephone')}
-            className={classes.textField}
-            type="text"
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            label="Сообщение"
-            className={classes.textField}
-            type="text"
-            value={this.state.message}
-            onChange={this.handleChange('message')}
-            margin="normal"
-            fullWidth
-          />
-          <Button variant="contained" className={classes.button} onClick={this.sendQuestion} color="primary">
-            Отправить заказ
-          </Button>
-        </form>
-        <div className={classes.cartMicro}>
-          <CartMicro />
-        </div>
       </div>
 
     );
@@ -190,4 +136,4 @@ RegistrationForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(RegistrationForm))
+export default withStyles(styles)(RegistrationForm)
