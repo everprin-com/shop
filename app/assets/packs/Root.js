@@ -15,6 +15,8 @@ import createSagaMiddleware from 'redux-saga'
 import ProductCart from "../javascript/components/ProductCart"
 import OrderForm from "../javascript/components/OrderForm"
 import rootSaga from '../javascript/components/saga'
+import ScrollToTopRoute from "../javascript/components/ScrollToTopRoute"
+import Loadable from 'react-loadable';
 
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware()
@@ -28,17 +30,44 @@ sagaMiddleware.run(rootSaga)
 
 window.store = store
 
+const Loading = () => <div>Loading...</div>;
+
+const DApp = Loadable({
+  loader: () => import('../javascript/components/App'),
+  loading: Loading
+});
+
+const DProductCart = Loadable({
+  loader: () => import('../javascript/components/ProductCart'),
+  loading: Loading
+});
+
+const DOrderForm = Loadable({
+  loader: () => import('../javascript/components/OrderForm'),
+  loading: Loading
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Provider store={store}>
       <Router>
         <Switch>
-          <Route exact path="/" component={App} />
-          <Route path="/productcart/:id" component={withRouter(ProductCart)} />
-          <Route path="/orderform/" component={OrderForm} />
+          <ScrollToTopRoute exact path="/" component={App} />
+          <ScrollToTopRoute path="/productcart/:id" component={ProductCart} />
+          <ScrollToTopRoute path="/orderform/" component={OrderForm} />
         </Switch>
       </Router>
     </Provider>,  
     document.getElementById("root")
   )
 })
+
+// Usage in App.jsx
+{/* <Router history={History}>
+  <Switch>
+    <ScrollToTopRoute exact path="/" component={Home}/>
+    <ScrollToTopRoute exact path="/about" component={About}/>
+    <ScrollToTopRoute exact path="/search" component={Search}/>
+    <ScrollToTopRoute exact component={NoMatch}/>
+  </Switch>
+</Router> */}

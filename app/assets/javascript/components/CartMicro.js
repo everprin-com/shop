@@ -78,7 +78,7 @@ function MicroCart(props) {
   const totalPrice = card.data.reduce((prev, next)=> { return (prev + next.price)}, 0)
   const renderProducts = card.data.map( cartDataItem => {
     const {picture, title, amount, price} = cartDataItem
-    return  (<div className={classes.root} elevation={1}>
+    return  (<div className={classes.root} elevation={1} key={cartDataItem.id}>
     <div className={classes.content}>
       <div className={classes.imageWrapper}>
           <img src={picture} className={classes.image}/>

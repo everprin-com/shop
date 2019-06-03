@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Carousel } from 'antd';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import NavigateBefore from '@material-ui/icons/NavigateBefore';
 import NavigateNext from '@material-ui/icons/NavigateNext';
 
@@ -121,7 +121,7 @@ return (
 )
 }
 
-const CarouselItem = withStyles(styles)(withRouter(Item))
+const CarouselItem = withStyles(styles)(Item)
 
 function myCarousel({title, products, ...props}) {
     if (!products) return null
@@ -140,4 +140,4 @@ function myCarousel({title, products, ...props}) {
 }
 
 
-export default withRouter(myCarousel)
+export default myCarousel

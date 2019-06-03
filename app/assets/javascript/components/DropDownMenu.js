@@ -9,7 +9,7 @@ import imgCategoryMap from './constants/imgCategoryMap'
 const mapDispatchToProps = dispatch => {
   return {
     requestAndAddProducts: params => dispatch({ type: 'REQUEST_AND_ADD_PRODUCTS', params, afterReset: true}),
-    startScroll: () => dispatch({ type: 'SCROLL_ON'}),
+    // startScroll: () =>{  window.scroll({ top: 0, behavior: 'smooth' }) }
   }
 }
 
@@ -40,7 +40,7 @@ const styles = theme => ({
   }
 });
 
-class DropDownMenu extends React.Component {
+class DropDownMenu extends React.PureComponent {
   state = {
     value: 100,
     imgCategory: null,
@@ -54,7 +54,7 @@ class DropDownMenu extends React.Component {
     const {requestAndAddProducts, redirectToRoot, startScroll} = this.props
     requestAndAddProducts({search_category: category})
     redirectToRoot && redirectToRoot()
-    startScroll()
+    // startScroll()
   }
 
   resetDropDown = () => this.setState({ value: 100});

@@ -8,6 +8,17 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from 'react-redux';
 
+const mapTypeAndActionDiolog = {
+  close: {
+    size: "CLOSE_SET_SIZE_WINDOW",
+    successOrder: "CLOSE_SUCCESS_WINDOW"
+  },
+  open: {
+    size: "OPEN_SET_SIZE_WINDOW",
+    successOrder: "SHOW_SUCCESS_WINDOW"
+  }
+}
+
 const mapStateToProps = state => {
   return {
     dialog: state.dialog
@@ -16,7 +27,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    closeDialog: () => dispatch({ type: 'CLOSE_SET_SIZE_WINDOW'}),
+    closeDialog: type => dispatch({ type:  mapTypeAndActionDiolog.close[type]}),
   }
 }
 
@@ -34,21 +45,27 @@ const styles = theme => ({
   formControlLabel: {
     marginTop: theme.spacing.unit,
   },
+  title: {
+    textAlign: 'center',
+  }
 });
 
-class DialogWindow extends React.Component {
+class DialogWindow extends React.PureComponent {
   render() {
-    const { classes, title, Component, dialog, closeDialog } = this.props;
-
+    const { classes, title, Component, dialog, closeDialog, type } = this.props;
     return (
       <Dialog
-        onClose={closeDialog}
+        onClose={() => closeDialog(type)}
         aria-labelledby="customized-dialog-title"
-        open={dialog.status}
+        open={dialog[type].status}
         className={classes.dialog}
         maxWidth="lg"
       >
-        <DialogTitle id="customized-dialog-title" onClose={closeDialog}>
+        <DialogTitle
+          id="customized-dialog-title"
+          onClose={() => closeDialog(type)}
+          className={classes.title}
+        >
           {title}
         </DialogTitle>
         <DialogContent>

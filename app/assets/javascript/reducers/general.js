@@ -10,7 +10,7 @@ export default function (state = {}, action) {
         return {...state, loading: false}
       case 'SCROLL_ON' :
         return {...state, scrolling: true}
-      case 'SCROLL_OF' :
+      case 'SCROLL_OFF' :
         return {...state, scrolling: false}
       case 'CHANGE_LAST_PAGE' :
         return {...state, lastPage: action.page}

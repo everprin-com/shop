@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import purple from '@material-ui/core/colors/purple';
 import fetchGetWithParams from "./api/fetchGetWithParams"
 import { connect } from 'react-redux';
+import Paper from '@material-ui/core/Paper';
+import { Link } from "react-router-dom";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -15,6 +17,15 @@ const mapDispatchToProps = dispatch => {
 const styles = theme => ({
   root: {
     display: 'inline-block',
+    [theme.breakpoints.up('sm')]: {
+      width: '190px',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '350px',
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: '450px',
+    },
   },
   cssFocused: {},
   cssUnderline: {
@@ -23,6 +34,7 @@ const styles = theme => ({
     },
   },
   cssOutlinedInput: {
+    width: "100%",
     '&$cssFocused $notchedOutline': {
       borderColor: purple[500],
     },
@@ -60,23 +72,100 @@ const styles = theme => ({
   bootstrapFormLabel: {
     fontSize: 18,
   },
+  img: {
+    width: 50,
+    height: 'avto'
+  },
+  item: {
+    display: 'flex',
+    alignItems: "center",
+    margin: "3px 5px",
+    cursor: "pointer",
+  },
+  inputWrap: {
+    position: 'relative',
+  },
+  dropDown: {
+    position: 'absolute',
+    width: 450,
+    maxHeight: 500,
+    overflowY: 'auto',
+  },
+  textContent: {
+    marginLeft: 15,
+  },
+  linkItem: {
+    tesxtDecoration: 'none'
+  },
+  category: {
+    fontSize: '15px'
+  }
 });
 
-function CustomizedInputs(props) {
-  const { classes } = props;
-
-  const onChange = e => {
-    fetchGetWithParams("/items/", {search_name: e.target.value}, true)
-    .then(products=> {
-      props.resetAndAddProducts(products);
-    })
+class DropDown extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    this.dropDownRef = React.createRef()
   }
 
-  return (
-    <div className={classes.inputWrap}>
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside, false);
+  }
+  
+  componentWillMount() {
+    document.addEventListener('click', this.handleClickOutside, false);
+  }
+  
+  handleClickOutside = event => {
+    const domNode = this.dropDownRef.current
+    
+    if ((!domNode || !domNode.contains(event.target))) {
+        this.props.closeDropDown()
+    }
+  }
+
+  render(){
+    const { classes, data } = this.props
+    return (
+      <div className={classes.dropDown} ref={this.dropDownRef} >
+        <Paper>
+              {data.map((product, id )=> <Link to={`/productcart/${product.id}`} className={classes.linkItem} key={id}>
+                <div className={classes.item}>
+                  <div className={classes.imgWrap}>
+                    <img className={classes.img} src={product.picture}/>
+                  </div>
+                  <div className={classes.textContent}>
+                    <div className={classes.title}>
+                      {product.name}
+                    </div>
+                    <div className={classes.category}>
+                      {product.category}
+                    </div>
+                  </div>
+                </div>
+              </Link>)}
+        </Paper>
+      </div>
+    )
+  }
+}
+
+class CustomizedInputs extends React.PureComponent{
+  state = { isOpenDropDown:false, data: []}
+
+  onChange = e => {
+    fetchGetWithParams("/items/", {search_name: e.target.value, per_page: 30}, true)
+      .then(data => this.setState({isOpenDropDown: true, data: data.items}))
+  }
+
+  closeDropDown = () => this.setState({isOpenDropDown: false})
+
+  render(){
+    const { classes } = this.props;
+    return(
+      <div className={classes.inputWrap}>
 
       <TextField
-
         InputLabelProps={{
           classes: {
             root: classes.cssLabel,
@@ -94,10 +183,12 @@ function CustomizedInputs(props) {
         variant="outlined"
         id="custom-css-outlined-input"
         className ={classes.root}
-        onChange={onChange}
+        onChange={this.onChange}
       />
+      {this.state.isOpenDropDown && <DropDown classes = {classes} data = {this.state.data} closeDropDown={this.closeDropDown} />}
     </div>
-  );
+    )
+  }
 }
 
 CustomizedInputs.propTypes = {

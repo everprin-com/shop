@@ -4,6 +4,7 @@
     - if only_admin
       = link_to "Admin", admin_admins_path
       = link_to 'Log out',  destroy_user_session_path, :method => :delete
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
     = javascript_pack_tag "Root"
     %title
       = "KILO магазин одежды и обуви"
@@ -16,5 +17,5 @@
   /= yield
 %div{:id=>"modal-holder"}
 %div{:id=>"root"}
-=render "devise/registrations/form_new"
-=render "devise/sessions/form_new"
+-# =render "devise/registrations/form_new"
+-# =render "devise/sessions/form_new"

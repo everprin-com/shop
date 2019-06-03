@@ -7,7 +7,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import red from '@material-ui/core/colors/red';
 import ProductItemSizes from './ProductItemSizes';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
@@ -113,7 +112,7 @@ const styles = theme => ({
   },
 });
 
-class ProductItem extends React.Component {
+class ProductItem extends React.PureComponent {
   state = { expanded: false, hover: false };
 
   handleExpandClick = () => {

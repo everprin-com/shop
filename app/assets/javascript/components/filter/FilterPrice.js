@@ -35,7 +35,7 @@ const styles  = {
   }
 }
 
-class FilterPrice extends React.Component {
+class FilterPrice extends React.PureComponent {
   state = {
     applayed: false,
     inputValue: [0,10],
