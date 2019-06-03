@@ -40,7 +40,7 @@ const styles  = {
 
 
 
-class Filter extends React.Component {
+class Filter extends React.PureComponent {
   state = {
     search_color: [],
   };

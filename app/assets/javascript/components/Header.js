@@ -4,9 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import PhoneIcon from '@material-ui/icons/Phone';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import PersonPinIcon from '@material-ui/icons/PersonPin';
 import Typography from '@material-ui/core/Typography';
 import MenuGenderPanel from './MenuGenderPanel'
 import Panel from './Panel'
@@ -24,14 +21,34 @@ TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+function CastomIcon({src ,classes}) {
+  return (
+    <div className={classes.icon}>
+      <img className={classes.img} src={`/imgs/${src}`} />
+    </div>
+  )
+}
+
 const styles = theme => ({
   root: {
+    [theme.breakpoints.up('xs')]: {
+      width: '320px',
+    },
+    [theme.breakpoints.up('sm')]: {
+      width: '600px',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '1000px',
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: '1240px',
+    },
     marginTop: '10px',
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     position: 'relative',
     zIndex: 2,
-    width: 1240,
+    overflow: "visible"
   },
   tab: {
     fontSize: '16px',
@@ -51,12 +68,32 @@ const styles = theme => ({
     position: 'relative',
   },
   header: {
+    // position: 'sticky',
+    // top: '0px',
     position: 'fixed',
     zIndex: 3,
+  },
+  overflow: {
+    overflow: "visible",
+    maxWidth: "100%",
+  },
+  tabs: {
+    minHeight: 80,
+    overflow: "visible"
+  },
+  icon: {
+    width: 40,
+    height: 40,
+  },
+  img: {
+    width: '100%'
+  },
+  flexContainer: {
+    alignItems: 'center'
   }
 });
 
-class Header extends React.Component {
+class Header extends React.PureComponent {
   state = {
     value: 100,
   };
@@ -81,14 +118,16 @@ class Header extends React.Component {
               <Tabs
                 value={value}
                 onChange={this.handleChange}
-                variant="scrollable"
-                scrollButtons="on"
                 indicatorColor="primary"
                 textColor="primary"
+                classes={{
+                  root: classes.tabs ,
+                  scroller: classes.overflow,
+                  flexContainer: classes.flexContainer}}
               >
-                <Tab className={classes.tab} label="Одежда" icon={<PhoneIcon />} onMouseEnter={this.hoverOn.bind(this, 0)} />
-                <Tab className={classes.tab} label="Обувь" icon={<FavoriteIcon />} onMouseEnter={this.hoverOn.bind(this, 1)} />
-                <Tab className={classes.tab} label="Аксессуары" icon={<PersonPinIcon />} onMouseEnter={this.hoverOn.bind(this, 2)} />
+                <Tab className={classes.tab} label="Одежда" icon={<CastomIcon classes={classes} src="clothes.png" />} onMouseEnter={this.hoverOn.bind(this, 0)} />
+                <Tab className={classes.tab} label="Обувь" icon={<CastomIcon classes={classes} src="shoe.png" />} onMouseEnter={this.hoverOn.bind(this, 1)} />
+                <Tab className={classes.tab} label="Аксессуары" icon={<CastomIcon classes={classes} src="watch.svg" />} onMouseEnter={this.hoverOn.bind(this, 2)} />
                 <Panel />
               </Tabs>
             </AppBar>

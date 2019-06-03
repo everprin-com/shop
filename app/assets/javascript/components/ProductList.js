@@ -42,12 +42,12 @@ const styles = theme => ({
     }
   });
 
-class ProductList extends React.Component {
+class ProductList extends React.PureComponent {
   state = {scroll: 0}
 
   componentDidMount() {
-    const { requestAndAddProducts, productsParams } = this.props
-    requestAndAddProducts(productsParams)
+    const { requestAndAddProducts, products, productsParams } = this.props
+    if (products.length < 1) requestAndAddProducts(productsParams)
     window.onscroll = () => this.scrollChange()
   }
 

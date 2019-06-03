@@ -61,11 +61,21 @@ const styles = theme => ({
 
 })
 
-class ProductCart extends React.Component {
+class ProductCart extends React.PureComponent {
     state = {}
+    
     componentDidMount() {
         this.getProduct()
+        this.scrollToTop()
     }
+
+    componentDidUpdate(prevProps){
+        this.props.orderform && this.redirectToOrderForm()
+        if ( prevProps.location.pathname != this.props.location.pathname ) {
+            this.scrollToTop()
+            this.getProduct()
+        }
+      }
 
     getProduct = () => {
         const { id } = this.props.match.params
@@ -78,13 +88,10 @@ class ProductCart extends React.Component {
         })
     }
 
-    componentDidUpdate(prevProps){
-        this.props.orderform && this.redirectToOrderForm()
-        if ( prevProps.location.pathname != this.props.location.pathname ) this.getProduct()
-      }
+    scrollToTop = () => window.scroll({ top: 0, behavior: 'smooth' })
 
     putToCart = () => {
-        const {products, putToCart, match }  = this.props
+        const { products, putToCart, match }  = this.props
         const activeSize = products.find(product => product.id == match.params.id).activeSize
         putToCart({...this.props.location.state.data, activeSize})
     }
@@ -94,12 +101,12 @@ class ProductCart extends React.Component {
     redirectToRoot = () => this.props.history.push('/')
 
     render() {
-        const { classes, card, match, location, openCart, sliderProducts } = this.props
+        const { classes, card, match, location, openCart, sliderProducts, products } = this.props
         const { id } = match.params
         const productData  = this.state.data || {}
         const { size, picture, category } = productData
         let sizes = getSizes(size)
-        // const activeSize = products.find(product => product.id == id).activeSize
+        const activeSize = products.find(product => product.id == id) && products.find(product => product.id == id).activeSize
         const isInCart = card.data.some(cardItem => cardItem.id == id )
         return (
             <div className={classes.root}>
@@ -128,7 +135,7 @@ class ProductCart extends React.Component {
                         <ProductItemSizes
                                 sizes={sizes}
                                 id={+this.props.match.params.id}
-                                // activeSize={activeSize}
+                                activeSize={activeSize}
                                 format="big"
                             />
                         </p>
@@ -157,10 +164,10 @@ class ProductCart extends React.Component {
                 </div>
                 <ProductList forCart productsParams={{search_category: category}} />
                 <Footer />
-                <DialogWindow title="Выберите размер" Component={ChooseSize} />
+                <DialogWindow title="Выберите размер" Component={ChooseSize} type="size" />
             </div>
         );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withRouter(ProductCart)))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ProductCart))

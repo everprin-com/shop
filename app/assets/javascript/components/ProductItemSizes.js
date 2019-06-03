@@ -63,7 +63,7 @@ const styles = theme => ({
     }
   });
 
-class ProductItemSizes extends React.Component {
+class ProductItemSizes extends React.PureComponent {
 
     render() {
         const { classes, sizes, setActiveSize, activeSize, id, format } = this.props;

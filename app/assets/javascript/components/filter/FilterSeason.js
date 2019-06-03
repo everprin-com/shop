@@ -28,7 +28,7 @@ const styles  = {
   checked: {},
 }
 
-class CheckboxLabels extends React.Component {
+class CheckboxLabels extends React.PureComponent {
   state = {
     checkedA: true,
     checkedB: false,

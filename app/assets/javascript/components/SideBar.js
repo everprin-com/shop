@@ -35,7 +35,7 @@ const styles = theme => ({
   },
 });
 
-class SideBar extends React.Component {
+class SideBar extends React.PureComponent {
   state = {
     open: true,
   };

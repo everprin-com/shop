@@ -10,12 +10,6 @@ import { withStyles } from '@material-ui/core/styles';
 import ChooseSize from './ChooseSize'
 import Footer from './Footer'
 
-const mapDispatchToProps = dispatch => {
-  return {
-    cancelScroll: () => dispatch({ type: 'SCROLL_OF'}),
-  }
-}
-
 const mapStateToProps = state => {
   return {
     orderform: state.orderform,
@@ -25,7 +19,22 @@ const mapStateToProps = state => {
 
 const styles = theme => ({
   root: {
-    width: '1240px',
+    [theme.breakpoints.up('xs')]: {
+      width: '320px',
+    },
+    [theme.breakpoints.up('sm')]: {
+      width: '600px',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '1000px',
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: '1240px',
+    },
+    // [theme.breakpoints.between('lg')]: {
+    //   width: '1240px',
+    // },
+    // width: '1240px',
     margin: '0 auto',
     positon: 'relative',
   },
@@ -40,11 +49,6 @@ componentDidUpdate(){
 
 redirectToOrderForm = () => this.props.history.push('/orderform')
 
-scrolling = () => {
-  window.scroll({ top: 0, behavior: 'smooth' })
-  this.props.cancelScroll()
-}
-
 render(){
   const { classes } = this.props
   return (
@@ -56,13 +60,13 @@ render(){
             <Footer />
           </Grid>
       </Grid>
-      <Dialog title="Выберите размер" Component={ChooseSize}/>
+      <Dialog title="Выберите размер" Component={ChooseSize} type="size" />
     </div>
   )
 }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App))
+export default connect(mapStateToProps)(withStyles(styles)(App))
 
 // const mapStateToProps = state => {
 //     return {

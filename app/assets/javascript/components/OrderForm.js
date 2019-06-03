@@ -5,11 +5,14 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CartMicro from './CartMicro';
 import { connect } from 'react-redux';
+import Dialog from './Dialog';
+import SuccessOrder from './SuccessOrder';
 
 const mapDispatchToProps = dispatch => {
   return {
     closeOrderForm: () => dispatch({ type: 'CLOSE_ORDER_FORM'}),
     closeCart: () => dispatch({ type: 'CLOSE_CART'}),
+    showSuccess: () => dispatch({ type: 'SHOW_SUCCESS_WINDOW'}),
   }
 }
 
@@ -36,7 +39,7 @@ const styles = theme => ({
   }
 });
 
-class OrderForm extends React.Component {
+class OrderForm extends React.PureComponent {
   state = {
     file: null,
     name: "",
@@ -62,6 +65,7 @@ class OrderForm extends React.Component {
      headers: {'Content-Type':'application/json'},
      body: JSON.stringify({order: {name: this.state.name, phone: this.state.phone, address: this.state.address}}),
    })
+   this.props.showSuccess()
   }
 
   sendQuestion = () => {
@@ -150,6 +154,7 @@ class OrderForm extends React.Component {
         <div className={classes.cartMicro}>
           <CartMicro />
         </div>
+        <Dialog title="Ваш заказ принят" Component={SuccessOrder} type="successOrder" />
       </div>
 
     );

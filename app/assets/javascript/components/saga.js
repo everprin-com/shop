@@ -3,7 +3,6 @@ import regeneratorRuntime from "regenerator-runtime";
 import fetchGetWithParams from "./api/fetchGetWithParams"
 // import Api from '...'
 
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* openCart(action) {
    try {
     yield put({type: 'OPEN_CART', withProduct: true})
@@ -13,7 +12,10 @@ function* openCart(action) {
 }
 
 function* checkSetSize(action){
-  if (action.product.size ? !action.product.size.includes("универсальный") : false) { 
+  const state = yield select()
+  //checkProduct.activeSize ? action.product.size.includes("универсальный") : false
+  const checkProduct = state.product.find(product => product.id === action.product.id)
+  if (!checkProduct.activeSize) {
     yield put({type: 'SHOW_SET_SIZE_WINDOW', id: action.product.id})
   } else {
     yield put({type: 'PUT_TO_CART', product: action.product})
@@ -54,14 +56,20 @@ function* handlePagination() {
   yield requestAndAddProducts({}, params)
 }
 
-function* requestAndAddProductsToSlider(action) {
+function* requestAndAddProductsToSlider() {
   const products =  yield call(fetchGetWithParams, "/items/", { price_search_from: 300, price_search_to: 400 })
   yield put({type: "ADD_PRODUCTS_TO_SLIDER", products: products.items})
 }
 
 function* handleScroll() {
   setTimeout(()=>{
-    put({type: "SCROLL_OFF"})}, 2000)
+    put({type: "SCROLL_OFF"})}, 4000)
+}
+
+function* handleOpenCart() {
+  const state = yield select()
+  if (state.card.data.length < 1) return
+  yield put({type: "OPEN_CART"})
 }
 
 function* watchTryPutCart() {
@@ -92,6 +100,10 @@ function* watchScroll() {
   yield takeEvery("SCROLL_ON", handleScroll);
 }
 
+function* watchOpenCart() {
+  yield takeEvery("TRY_OPEN_CART", handleOpenCart);
+}
+
 export default function* rootSaga() {
   yield all([
     watchTryPutCart(),
@@ -101,5 +113,6 @@ export default function* rootSaga() {
     watchHandlePagination(),
     watchRequestAndAddProductsToSlider(),
     watchScroll(),
+    watchOpenCart(),
   ])
 }

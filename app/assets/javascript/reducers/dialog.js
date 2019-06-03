@@ -1,9 +1,13 @@
-export default function (state = {status: false, id: null}, action) {
+export default function (state = { size: { status: false, id: null }, successOrder: { status: false}}, action) {
       switch (action.type) {
         case 'SHOW_SET_SIZE_WINDOW':
-          return {id: action.id, status: true}
+          return { size: {id: action.id, status: true}, successOrder: {...state.successOrder} }
         case 'CLOSE_SET_SIZE_WINDOW':
-          return {id: null, status: false}
+          return { size: {id: null, status: false}, successOrder: {...state.successOrder} }
+        case 'SHOW_SUCCESS_WINDOW':
+          return { size: {...state.size}, successOrder: {status: true} }
+        case 'CLOSE_SUCCESS_WINDOW':
+          return { size: {...state.size}, successOrder: {status: false} }
         default:
           return state
       }

@@ -10,10 +10,7 @@ const styles = theme => ({
     },
   });
 
-class Home extends React.Component {
-    constructor(){
-        super()
-    }
+class Home extends React.PureComponent {
 
     render() {
         const { classes } = this.props

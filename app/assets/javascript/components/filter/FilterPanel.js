@@ -19,7 +19,7 @@ let styles = theme => ({
   },
 });
 
-class CustomizedTooltips extends React.Component {
+class CustomizedTooltips extends React.PureComponent {
   state = {
     open: false,
   };

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Input from './Input'
+import Tooltip from './Tooltip'
 import { ShoppingCart } from '@material-ui/icons'
 import Cart from './CartItem';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,7 +13,6 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
 import { connect } from 'react-redux';
 
@@ -26,7 +25,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     closeCart: () => dispatch({ type: 'CLOSE_CART'}),
-    openCart: () => dispatch({ type: 'OPEN_CART'}),
+    openCart: () => dispatch({ type: 'TRY_OPEN_CART'}),
   }
 }
 
@@ -65,21 +64,13 @@ const DialogContent = withStyles(theme => ({
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles(theme => ({
-  root: {
-    borderTop: `1px solid ${theme.palette.divider}`,
-    margin: 0,
-    padding: theme.spacing.unit,
-  },
-}))(MuiDialogActions);
-
-const styles = {
+const styles = theme => ({
   root: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   },
   panel: {
-    width: 900
+    width: 700
   },
   icon: {
       fontSize: '40px',
@@ -95,7 +86,13 @@ const styles = {
     // maxWidth: 900
   },
   cardBlock: {
-    cursor: 'pointer'
+    cursor: 'pointer',
+    [theme.breakpoints.up('sm')]: {
+      display: "flex",
+      alignItems: "center",
+      flexDirection: "column",
+      margin: 5
+    }
   },
   cardTitleBlock: {
     display: 'flex',
@@ -107,24 +104,27 @@ const styles = {
     marginLeft: 110,
     display: 'inline-flex',
   },
-};
+})
 
 class Panel extends React.PureComponent {
   render(){
     const { classes, card, closeCart, openCart } = this.props;
     const cardLengh = card.data.length
+    const cardSum = card.data.reduce( (prev, next) => prev + next.price, 0 )
     return (
       <div className={classes.panel}>
           <Toolbar className={classes.root}>
               <Input />
-              <div className={classes.cardBlock} onClick={openCart}>
-                <Badge className={classes.margin} invisible={!cardLengh} badgeContent={cardLengh} color="primary">
-                  <ShoppingCart className={classes.icon} />
-                </Badge>
-                <span className={classes.cardText}>
-                  Корзина
-                </span>
-              </div>
+              <Tooltip title = {!!cardLengh ? `В вашей корзине ${cardLengh} товаров на сумму ${cardSum} грн` : "Ваша корзина пуста"  } >
+                <div className={classes.cardBlock} onClick={openCart}>
+                  <Badge className={classes.margin} invisible={!cardLengh} badgeContent={cardLengh} color="primary">
+                    <ShoppingCart className={classes.icon} />
+                  </Badge>
+                  <span className={classes.cardText}>
+                    Корзина
+                  </span>
+                </div>
+              </Tooltip>
           </Toolbar>
           <Dialog
           onClose={closeCart}
@@ -140,11 +140,6 @@ class Panel extends React.PureComponent {
           <DialogContent>
             <Cart />
           </DialogContent>
-          <DialogActions>
-            {/* <Button onClick={closeCart} color="primary">
-              Save changes
-            </Button> */}
-          </DialogActions>
         </Dialog>
       </div>
     );

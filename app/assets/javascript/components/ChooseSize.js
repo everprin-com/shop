@@ -56,10 +56,10 @@ const styles = theme => ({
     }
   });
 
-class ChooseSize extends React.Component {
+class ChooseSize extends React.PureComponent {
     render() {
       const { dialog, products, setActiveSize, classes, closeDialog, putToCart } = this.props
-      const product = products.find(product => product.id == dialog.id) || {}
+      const product = products.find(product => product.id == dialog.size.id) || {}
       const { size, activeSize, id } =  product
       const sizes = getSizes(size) // need del in feature 
       return (
