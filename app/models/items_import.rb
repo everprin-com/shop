@@ -35,7 +35,7 @@ class ItemsImport
        row = Hash[[HEADER, spreadsheet.row(i)[0..HEADER.size-1]].transpose]
        item = Item.find_by_id(row["id"]) || Item.new
        item.attributes = row.to_hash
-       conver_size_to_array(row)
+       #conver_size_to_array(row)
        item["size"] = conver_size_to_array(row)
        item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
        item["picture"] = row["picture"]&.split(",")
@@ -44,6 +44,7 @@ class ItemsImport
   end
 
   def conver_size_to_array(row)
+    return [] unless row["size"]
     a = row["size"].split("-")
     return [] if a[0].to_i == 0 #if string universal return nil
     (a[0].to_i..a[1].to_i).to_a
