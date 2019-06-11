@@ -16,7 +16,7 @@ class Home extends React.PureComponent {
         const { classes } = this.props
         return (
         <div className={classes.root}>
-            <SideBar />
+            <SideBar isMainSideBar />
             <ProductList />
         </div>
         )

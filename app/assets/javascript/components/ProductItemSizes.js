@@ -40,7 +40,16 @@ const styles = theme => ({
         '&:hover': {
             background: '#2C9925',
             color: '#fff',
-        }
+        },
+        [theme.breakpoints.up('xs')]: {
+            padding: '2px 8px'
+        },
+        [theme.breakpoints.up('sm')]: {
+        padding: '4px 14px'
+        },
+        [theme.breakpoints.up('md')]: {
+        padding: '7px 20px'
+        },
     },
     chipBig: {
         borderRadius: 4,
@@ -60,6 +69,9 @@ const styles = theme => ({
     active: {
         background: '#2C9925',
         color: '#fff',
+    },
+    sizeSmall: {
+        padding: '0 4px',
     }
   });
 
@@ -67,7 +79,7 @@ class ProductItemSizes extends React.PureComponent {
 
     render() {
         const { classes, sizes, setActiveSize, activeSize, id, format } = this.props;
-        if (sizes.length < 1 || !sizes || !sizes.length) return null
+        if (!sizes || sizes.length < 1 || !sizes.length) return null
         return (
             <div className={classes.root}>
                 <div className={classes.title}>Размеры:</div>
@@ -75,6 +87,7 @@ class ProductItemSizes extends React.PureComponent {
                 {sizes.map(sizeItem => { return (
                     <Button
                         size={format ? "large" : "small"}
+                        classes={{sizeSmall: classes.sizeSmall }}
                         variant="outlined"
                         className={`${classes.sizeItem} ${activeSize===sizeItem ? classes.active : ""}`}
                         onClick={()=>setActiveSize(id, sizeItem)}

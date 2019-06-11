@@ -8,8 +8,14 @@ import Button from '@material-ui/core/Button';
 
 
 let styles = theme => ({
+  root: {
+    width: "100%",
+  },
   button: {
     margin: theme.spacing.unit,
+    width: "100%",
+    padding: "15px 20px",
+    margin: '8px 0',
   },
   lightTooltip: {
     backgroundColor: theme.palette.common.white,
@@ -37,7 +43,7 @@ class CustomizedTooltips extends React.PureComponent {
 
     return (
       <ClickAwayListener onClickAway={this.handleTooltipClose}>
-        <div onClick={this.handleTooltipOpen}>
+        <div className={classes.root} onClick={this.handleTooltipOpen}>
           <Tooltip
             PopperProps={{disablePortal: true,}}
             onClose={this.handleTooltipClose}
@@ -47,7 +53,7 @@ class CustomizedTooltips extends React.PureComponent {
             disableTouchListener
             title={<Filter />}
             placement="right"
-            classes={{ tooltip: classes.lightTooltip }}>
+            classes={{  tooltip: classes.lightTooltip }}>
             <Button
               className={classes.button}>
               {title}

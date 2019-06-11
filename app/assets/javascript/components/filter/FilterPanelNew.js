@@ -5,7 +5,7 @@ import green from '@material-ui/core/colors/green';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
 
 const styles  = {
   root: {
@@ -26,10 +26,6 @@ const styles  = {
     justifyContent: 'center',
   },
   checked: {},
-  divider: {
-    width: '100%',
-    backgroundColor: `rgba(0, 0, 0, 0.2)`
-  }
 }
 
 class CheckboxLabels extends React.PureComponent {
@@ -45,16 +41,12 @@ class CheckboxLabels extends React.PureComponent {
     this.setState({ [name]: event.target.checked });
   };
 
-  onApplay = () => {
-    this.setState({ applayed: !this.state.applayed });
-  }
-
   render() {
     const { classes } = this.props;
 
     return (
       <FormGroup row className={classes.root}>
-        <div className={classes.title}>Cезон</div>
+        <div className={classes.title}>Выберите сезон</div>
         <div className={classes.container}>
           <FormControlLabel
               control={
@@ -101,7 +93,6 @@ class CheckboxLabels extends React.PureComponent {
             label="Зима"
           />
         </div>
-        <Divider className={classes.divider} />
       </FormGroup>
     );
   }

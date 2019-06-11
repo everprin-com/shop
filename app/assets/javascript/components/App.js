@@ -55,7 +55,7 @@ render(){
     <div className={classes.root}>
       <Grid container spacing={24}>
           <Grid item xs={12}>
-            <Header />
+            <Header withSmallMenu />
             <Home />
             <Footer />
           </Grid>

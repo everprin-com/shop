@@ -27,19 +27,29 @@ const styles = theme => ({
       flexWrap: 'wrap',
       justifyContent: 'space-between',
       minHeight: '100vh',
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: 10,
+        justifyContent: 'space-around'
+      },
+      [theme.breakpoints.down('xs')]: {
+        justifyContent: 'center'
+      },
     },
     rootCart: {
       display: 'flex',
       flexWrap: 'wrap',
       justifyContent: 'space-between',
       minHeight: '100vh',
+      [theme.breakpoints.down('xs')]: {
+        justifyContent: 'center'
+      },
     },
     loader: {
       display: 'flex',
       justifyContent: 'center',
       padding: 50,
       marginLeft: 260,
-    }
+    },
   });
 
 class ProductList extends React.PureComponent {
@@ -47,7 +57,7 @@ class ProductList extends React.PureComponent {
 
   componentDidMount() {
     const { requestAndAddProducts, products, productsParams } = this.props
-    if (products.length < 1) requestAndAddProducts(productsParams)
+    if (productsParams) requestAndAddProducts(productsParams)
     window.onscroll = () => this.scrollChange()
   }
 

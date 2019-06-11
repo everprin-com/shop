@@ -84,6 +84,9 @@ const styles = theme => ({
   },
   inputWrap: {
     position: 'relative',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    },
   },
   dropDown: {
     position: 'absolute',

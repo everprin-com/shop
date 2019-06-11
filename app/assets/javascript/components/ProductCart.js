@@ -29,12 +29,12 @@ const mapDispatchToProps = dispatch => {
     openCart: () => dispatch({ type: 'OPEN_CART'}),
     putToCart: product => dispatch({ type: 'TRY_PUT_TO_CART', product }),
     requestAndAddSlider: category => dispatch({ type: 'REQUEST_AND_ADD_PRODUCTS_TO_SLIDER', category}),
+    addProduct: product => dispatch({ type: 'ADD_PRODUCT', product }),
   }
 }
 
 const styles = theme => ({
     root: {
-        maxWidth: "1200px",
         margin: "0 auto",
         display: "flex",
         fontFamily: "Arial",
@@ -43,6 +43,18 @@ const styles = theme => ({
         fontSize: "16px",
         minHeight: '100vh',
         justifyContent: 'space-between',
+        [theme.breakpoints.up('xs')]: {
+            maxWidth: '320px',
+        },
+        [theme.breakpoints.up('sm')]: {
+            maxWidth: '600px',
+        },
+        [theme.breakpoints.up('md')]: {
+            maxWidth: '1000px',
+        },
+        [theme.breakpoints.up('lg')]: {
+            maxWidth: "1200px",
+        },
     },
     price: {
         color: '#000',
@@ -53,12 +65,33 @@ const styles = theme => ({
         fontSize: 16,
     },
     mainContent: {
-        display: 'flex'
+        display: 'flex',
+        flexDirection: "column",
+    },
+    mainContentInner: {
+        display: 'flex',
+        [theme.breakpoints.between('xs', 'xs')]: {
+            flexDirection: "column",
+        }
     },
     slider: {
         width: '100%'
+    },
+    img: {
+        [theme.breakpoints.down('sm')]: {
+            marginTop: 150,
+        },
+        [theme.breakpoints.between('xs', 'xs')]: {
+            flexDirection: "column",
+        }
+    },
+    textContent: {
+        marginTop: 150,
+        marginLeft: 20,
+        [theme.breakpoints.down('xs')]: {
+            marginTop: 0,
+        },
     }
-
 })
 
 class ProductCart extends React.PureComponent {
@@ -83,7 +116,10 @@ class ProductCart extends React.PureComponent {
         .then(data => {
             this.setState(
                 {data},
-                ()=>this.props.requestAndAddSlider(this.state.data.category)
+                () => {
+                    this.props.requestAndAddSlider(this.state.data.category)
+                    this.props.addProduct(data)
+                }
             )
         })
     }
@@ -92,8 +128,8 @@ class ProductCart extends React.PureComponent {
 
     putToCart = () => {
         const { products, putToCart, match }  = this.props
-        const activeSize = products.find(product => product.id == match.params.id).activeSize
-        putToCart({...this.props.location.state.data, activeSize})
+        const product = products.find(product=> product.id==match.params.id) 
+        putToCart(product)
     }
 
     redirectToOrderForm = () => this.props.history.push('/orderform')
@@ -103,60 +139,66 @@ class ProductCart extends React.PureComponent {
     render() {
         const { classes, card, match, location, openCart, sliderProducts, products } = this.props
         const { id } = match.params
-        const productData  = this.state.data || {}
+        const productData  = products.find(product=>product.id==id) || {}
         const { size, picture, category } = productData
-        let sizes = getSizes(size)
-        const activeSize = products.find(product => product.id == id) && products.find(product => product.id == id).activeSize
+        const activeSize = productData.activeSize
         const isInCart = card.data.some(cardItem => cardItem.id == id )
         return (
             <div className={classes.root}>
                 <Header redirectToRoot={this.redirectToRoot} />
-                <div className={classes.mainContent}>
-                    <div className="fluid__image-container">
-                        <ReactImageMagnify {...{
-                            smallImage: {
-                                alt: 'Wristwatch by Ted Baker London',
-                                isFluidWidth: true,
-                                src: picture,
-                            },
-                            largeImage: {
-                                src: picture,
-                                width: 1200,
-                                height: 1800,
-                            }
-                        }} />
+
+                    <div className={classes.mainContent}>
+                        <div className={classes.mainContentInner}>
+                            <div className={`${classes.img} fluid__image-container`}>
+                                <ReactImageMagnify {...{
+                                    smallImage: {
+                                        alt: 'Wristwatch by Ted Baker London',
+                                        isFluidWidth: true,
+                                        src: picture,
+                                    },
+                                    largeImage: {
+                                        src: picture,
+                                        width: 1200,
+                                        height: 1800,
+                                    }
+                                }} />
+                            </div>
+
+                            <div className={`${classes.textContent} fluid__instructions`}>
+                                <h3>{productData.name}</h3>
+                                <p className={classes.price}>
+                                    {`${productData.price} грн`}
+                                </p>
+                                <p>
+                                <ProductItemSizes
+                                        sizes={size}
+                                        id={+this.props.match.params.id}
+                                        activeSize={activeSize}
+                                        format="big"
+                                    />
+                                </p>
+                                <p>
+                                    <a href="#"> Таблица размеров</a>
+                                </p>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.button}
+                                    onClick={ isInCart ? openCart : this.putToCart}
+                                >
+                                {isInCart ? "Товар уже в корзине" : "Добавить в корзину" } 
+                                </Button>
+                                <AboutProduct productData={productData} />
+                            </div>
+                        </div>
+                        <AboutProduct productData={productData} forMobile />
                     </div>
-                    <div className="fluid__instructions">
-                        <h3>{productData.name}</h3>
-                        <p className={classes.price}>
-                            {`${productData.price} грн`}
-                        </p>
-                        <p>
-                        <ProductItemSizes
-                                sizes={sizes}
-                                id={+this.props.match.params.id}
-                                activeSize={activeSize}
-                                format="big"
-                            />
-                        </p>
-                        <p>
-                            <a href="#"> Таблица размеров</a>
-                        </p>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.button}
-                            onClick={ isInCart ? openCart : this.putToCart}
-                        >
-                        {isInCart ? "Товар уже в корзине" : "Добавить в корзину" } 
-                        </Button>
-                        <AboutProduct productData={productData} />
-                    </div>
-                </div>
+
                 <div className={classes.slider}>
                     <Slider
                         title="Вы просматривали:"
                         slidesToShow={4}
+                        slidesToScroll={4}
                         products={sliderProducts}
                         draggable
                         arrows

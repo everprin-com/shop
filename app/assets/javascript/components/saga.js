@@ -12,11 +12,10 @@ function* openCart(action) {
 }
 
 function* checkSetSize(action){
-  const state = yield select()
   //checkProduct.activeSize ? action.product.size.includes("универсальный") : false
-  const checkProduct = state.product.find(product => product.id === action.product.id)
+  const checkProduct = action.product
   if (!checkProduct.activeSize) {
-    yield put({type: 'SHOW_SET_SIZE_WINDOW', id: action.product.id})
+    yield put({type: 'SHOW_SET_SIZE_WINDOW', id: action.product.id })
   } else {
     yield put({type: 'PUT_TO_CART', product: action.product})
   } 
@@ -27,7 +26,7 @@ function* getFilteredProducts(action) {
      const state = yield select();
      const products = yield call(fetchGetWithParams, "/items/", {...state.filter, page:1}, true)
      yield put({type: "CHANGE_LAST_PARAMS", lastRequestParams: {...state.filter, page:1}})
-     yield put({type: "RESET_AND_ADD_PRODUCTS", products})
+     yield put({type: "RESET_AND_ADD_PRODUCTS", products: products.items})
   } catch (error) {
      yield put({type: "FETCH_FAILED", error})
   }

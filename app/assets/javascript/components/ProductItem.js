@@ -130,9 +130,9 @@ class ProductItem extends React.PureComponent {
   render() {
     const { classes, inCard, data } = this.props;
     const { picture, price, name, category, id, size, activeSize } = data;
-    const oldPrice = Math.round(price + price/2 + price/10)
-    let sizes = getSizes(size)
-     
+    const oldPrice = Math.round(+price + +price/2 + +price/10)
+    const windowWidth = window.innerWidth
+    const shouldShowBottom = this.state.hover || windowWidth < 1000
     return (
       <Card
         className={classes.card}
@@ -172,9 +172,9 @@ class ProductItem extends React.PureComponent {
           </CardContent>
 
         </Link>
-          { this.state.hover && <div className={classes.activeCard}>
+          { shouldShowBottom && <div className={classes.activeCard}>
             <CardActions className={classes.actions} disableActionSpacing>
-                <ProductItemSizes id={id} sizes={sizes} activeSize={activeSize} />
+                <ProductItemSizes id={id} sizes={size} activeSize={activeSize} />
             </CardActions>
             <Button variant="contained" color="primary" className={classes.button} onClick={this.putToCart}>
           {"Добавить в корзину"} 
