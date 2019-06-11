@@ -26,6 +26,15 @@ const styles = theme => ({
     fontSize: '16px',
     margin: '15px',
     cursor: 'pointer',
+    [theme.breakpoints.down('sm')]: {
+      margin: '0px',
+      fontSize: '12px',
+    },
+  },
+  categoryList: {
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: 20,
+    },
   },
   categoryBlock: {
     display: 'flex',
@@ -51,13 +60,12 @@ class DropDownMenu extends React.PureComponent {
   hoverOn = value => imgCategoryMap[value] && this.setState({imgCategory: imgCategoryMap[value]})
 
   onChangeCategory = category => {
-    const {requestAndAddProducts, redirectToRoot, startScroll} = this.props
+    const {requestAndAddProducts, redirectToRoot, startScroll, resetDropDown} = this.props
     requestAndAddProducts({search_category: category})
+    resetDropDown()
     redirectToRoot && redirectToRoot()
     // startScroll()
   }
-
-  resetDropDown = () => this.setState({ value: 100});
 
   ulWithSpecialCountLi = (arrLi, countLi) => {
     const { classes } = this.props;
@@ -69,7 +77,7 @@ class DropDownMenu extends React.PureComponent {
     }
     return arrForUl.map((arrLi, i)=> {
       return (
-        <ul key={i}>
+        <ul className={classes.categoryList} key={i}>
           {arrLi.map((liTitle, i) => {
             return (
               <li

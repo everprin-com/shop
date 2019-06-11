@@ -81,6 +81,12 @@ const styles = theme => ({
     fontSize: '18px',
     fontWeight: 'bold',
     verticalAlign: 'middle',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '16px',
+     },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 0
+     },
   },
   dialog: {
     // maxWidth: 900
@@ -91,7 +97,10 @@ const styles = theme => ({
       display: "flex",
       alignItems: "center",
       flexDirection: "column",
-      margin: 5
+      margin: 5,
+      [theme.breakpoints.down('sm')]: {
+        margin: 10
+       },
     }
   },
   cardTitleBlock: {

@@ -12,8 +12,6 @@ import fetchGetWithParams from "../api/fetchGetWithParams"
 const mapDispatchToProps = dispatch => {
     return {
       addFilter: filter => dispatch({ type: 'ADD_FILTER', filter }),
-      resetAndAddProducts: products => dispatch({ type: 'RESET_AND_ADD_PRODUCTS', products }),
-      requestAndAddProducts: params => dispatch({ type: 'REQUEST_AND_ADD_PRODUCTS', params, afterReset: true}),
     }
   }
 
@@ -46,17 +44,15 @@ class Filter extends React.PureComponent {
   };
 
   handleChange = name => event => {
-    this.setState({ search_color: [...this.state.search_color, name] });
+    if (this.state.search_color.includes(name)) {
+      this.setState({
+       search_color: [...this.state.search_color.filter(color => color !== name)]
+    }, () => { this.props.addFilter({...this.state}) })
+    } else {
+        this.setState({ search_color: [...this.state.search_color, name]
+        }, () => { this.props.addFilter({...this.state}) });
+      }
   };
-
-  onApplay = () => {
-    this.props.addFilter({...this.state})
-    // fetchGetWithParams("items/", {search_color: this.state.color}, true)
-    //   .then(products=> {
-    //     this.props.resetAndAddProducts(products);
-    //     this.setState({ applayed: !this.state.applayed });
-    //   })
-  }
 
   formItem = ({label, value, color}) => {
     return (
@@ -79,19 +75,13 @@ class Filter extends React.PureComponent {
 
     return (
       <FormGroup row className={classes.root}>
-        <div className={classes.title}>Выберите сезон</div>
+        <div className={classes.title}>Цвет</div>
         <div className={classes.container}>
-        {this.formItem({label:"Зеленый", value:"Зеленый", color:"secondary"})}
-        {this.formItem({label:"Синий", value:"Синий", color:"secondary"})}
-        {this.formItem({label:"Красный", value:"Красный", color:"secondary"})}
-        {this.formItem({label:"Черный", value:"Черный", color:"secondary"})}
-        {this.formItem({label:"Белый", value:"Белый", color:"secondary"})}
-          <Button
-            variant={this.state.applayed ? "contained" : "outlined"}
-            color="primary"
-            onClick={this.onApplay}>
-            Применить
-          </Button>
+          {this.formItem({label:"Зеленый", value:"Зеленый", color:"secondary"})}
+          {this.formItem({label:"Синий", value:"Синий", color:"secondary"})}
+          {this.formItem({label:"Красный", value:"Красный", color:"secondary"})}
+          {this.formItem({label:"Черный", value:"Черный", color:"secondary"})}
+          {this.formItem({label:"Белый", value:"Белый", color:"secondary"})}
         </div>
       </FormGroup>
     );

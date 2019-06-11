@@ -14,6 +14,7 @@ const styles = theme => ({
     overflowX: 'auto',
     borderColor: 'transparent',
     boxShadow: 'none',
+    display: 'none',
   },
   cell:{
     fontSize: 14,
@@ -21,7 +22,18 @@ const styles = theme => ({
     border:'none',
   },
   table: {
-    minWidth: 700,
+    [theme.breakpoints.down('sm')]: {
+      minWidth: 300,
+    },
+    [theme.breakpoints.up('sm')]: {
+      minWidth: 375,
+    },
+    [theme.breakpoints.up('md')]: {
+      minWidth: 600,
+    },
+    [theme.breakpoints.up('lg')]: {
+      minWidth: 700,
+    },
   },
   title: {
     fontWeight: "bold",
@@ -35,10 +47,20 @@ const styles = theme => ({
     fontSize: 20,
     fontWeight: "bold",
   },
+  forMobile:{
+    [theme.breakpoints.down('xs')]: {
+      display: 'block'
+    },
+  },
+  forDesktop:{
+    [theme.breakpoints.up('sm')]: {
+      display: 'block'
+    },
+  }, 
 });
 
 function AboutProduct(props) {
-  const { classes, productData } = props;
+  const { classes, productData, forMobile } = props;
   let mapKeys ={
     category: "Категория",
     name: "Наименование",
@@ -59,7 +81,7 @@ function AboutProduct(props) {
      formatedProductData[key] = { title: mapKeys[key], value: productData[key] }
     })
   return (
-    <Paper className={classes.root}>
+    <Paper className={forMobile ? `${classes.root} ${classes.forMobile}` : `${classes.root} ${classes.forDesktop}` }>
       <Table className={classes.table}>
         <TableBody>
         <div className={classes.aboutProduct}>

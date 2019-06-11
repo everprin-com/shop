@@ -61,12 +61,11 @@ class ChooseSize extends React.PureComponent {
       const { dialog, products, setActiveSize, classes, closeDialog, putToCart } = this.props
       const product = products.find(product => product.id == dialog.size.id) || {}
       const { size, activeSize, id } =  product
-      const sizes = getSizes(size) // need del in feature 
       return (
           <div className={classes.root}>
               <div className={classes.title}>Размеры:</div>
               <div className={classes.content}>
-              {sizes && sizes.map(sizeItem => { return (
+              {size && size.map(sizeItem => { return (
                   <Button
                       variant="outlined"
                       className={`${classes.sizeItem} ${activeSize===sizeItem ? classes.active : ""}`}

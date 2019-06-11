@@ -92,8 +92,6 @@ function ArrPrev(props){
     )
 }
 
-
-
 const Item = props => {
     const {picture, name, price, classes, id} = props
 return (
@@ -128,6 +126,32 @@ function myCarousel({title, products, ...props}) {
     const settings = {
         nextArrow: <ArrNext />,
         prevArrow: <ArrPrev />,
+        responsive: [
+            {
+              breakpoint: 1024,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true,
+                dots: true
+              }
+            },
+            {
+              breakpoint: 960,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2,
+                initialSlide: 2
+              }
+            },
+            {
+              breakpoint: 600,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+              }
+            }
+          ]
     }
     return (
         <div>

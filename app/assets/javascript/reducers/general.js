@@ -16,6 +16,10 @@ export default function (state = {}, action) {
         return {...state, lastPage: action.page}
       case 'DELETE_LAST_PAGE' :
         return {...state, lastPage: null}
+      case 'ADD_CURRENT_PRODUCT' :
+        return {...state, currentProduct: action.product}
+      case 'DELETE_CURRENT_PRODUCT' :
+        return {...state, currentProduct: null}
       default:
         return state
     }

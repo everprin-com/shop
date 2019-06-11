@@ -3,7 +3,7 @@ export default function (state = [], action) {
       case 'ADD_PRODUCTS':
         return [...state, ...action.products] 
       case 'ADD_PRODUCT':
-        return [...state, action.product] 
+        return  state.some(product=>product.id==action.product.id) ? [...state] : [...state, action.product] 
       case 'RESET_PRODUCTS':
         return []
       case 'RESET_AND_ADD_PRODUCTS':

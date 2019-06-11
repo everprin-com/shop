@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import MenuGenderPanel from './MenuGenderPanel'
 import Panel from './Panel'
 import DropDownMenu from './DropDownMenu';
+import Drawer from './Drawer';
 
 function TabContainer(props) {
   return (
@@ -52,6 +53,9 @@ const styles = theme => ({
   },
   tab: {
     fontSize: '16px',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '12px',
+    },
   },
   tab_content: {
     fontSize: '15px',
@@ -90,22 +94,43 @@ const styles = theme => ({
   },
   flexContainer: {
     alignItems: 'center'
-  }
+  },
 });
 
 class Header extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    this.dropDownRef = React.createRef()
+  }
+
   state = {
-    value: 100,
+    value: false,
   };
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside, false);
+  }
+  
+  componentWillMount() {
+    document.addEventListener('click', this.handleClickOutside, false);
+  }
+  
+  handleClickOutside = event => {
+    const domNode = this.dropDownRef.current
+    
+    if ((!domNode || !domNode.contains(event.target))) {
+        this.resetDropDown()
+    }
+  }
 
   handleChange = (event, value) => this.setState({ value });
 
   hoverOn = value => this.handleChange("", value)
 
-  resetDropDown = () => this.setState({ value: 100});
+  resetDropDown = () => this.setState({ value: false});
 
   render() {
-    const { classes, redirectToRoot } = this.props;
+    const { classes, redirectToRoot, withSmallMenu } = this.props;
     const { value } = this.state;
 
     return (
@@ -131,10 +156,9 @@ class Header extends React.PureComponent {
                 <Panel />
               </Tabs>
             </AppBar>
-
-            {this.state.value !==100 && <div className={classes.dropdownMenu} onMouseLeave={this.resetDropDown}>
+            {this.state.value !== false && <div className={classes.dropdownMenu} ref={this.dropDownRef} onMouseLeave={this.resetDropDown}>
               {true  && <TabContainer className={classes.tab_content}>
-                <DropDownMenu redirectToRoot={redirectToRoot} />
+                <DropDownMenu redirectToRoot={redirectToRoot} resetDropDown={this.resetDropDown} />
               </TabContainer>}
               {/* {value === 1 && <TabContainer className={classes.tab_content}>
                 {this.clothesList()}  
@@ -143,6 +167,7 @@ class Header extends React.PureComponent {
                 {this.clothesList()}  
               </TabContainer>} */}
             </div>}
+            {withSmallMenu && <Drawer />} 
           </div>
         </div>
       </header>

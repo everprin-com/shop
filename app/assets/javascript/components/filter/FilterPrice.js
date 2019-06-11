@@ -1,16 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { InputNumber } from 'antd';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Slider from 'rc-slider';
-import fetchGetWithParams from "../api/fetchGetWithParams"
 import { connect } from 'react-redux';
+import Divider from '@material-ui/core/Divider';
 
 const mapDispatchToProps = dispatch => {
   return {
     resetAndAddProducts: products => dispatch({ type: 'RESET_AND_ADD_PRODUCTS', products }),
     requestAndAddProducts: params => dispatch({ type: 'REQUEST_AND_ADD_PRODUCTS', params, afterReset: true}),
+    addFilter: filter => dispatch({ type: 'ADD_FILTER', filter }),
   }
 }
 
@@ -19,7 +17,7 @@ const Range = Slider.Range;
 const styles  = {
   root: {
     pointerEvents: 'auto', 
-    width: '200px',
+    width: '100%',
     height: '100px',
     padding: '10px 0',
     textAlign: 'center',
@@ -32,18 +30,44 @@ const styles  = {
   },
   slider: {
     margin: '10px 0 5px',
+  },
+  range: {
+    cursor: 'pointer',
+  },
+  activeRange: {
+    fontWeight: 'bold',
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 16,
+    width: '100%',
+  },
+  divider: {
+    width: '100%',
+    backgroundColor: `rgba(0, 0, 0, 0.2)`
   }
+}
+function RangePrice ({classes, onApplay, min, max, title, active}) {
+  const isActive = active === `${min}-${max}` || false
+  return (
+  <div
+    className={`${classes.range} ${isActive ? classes.activeRange : ""}`}
+    onClick={ () => onApplay(min, max) }
+  >
+    {title}
+  </div>
+  )
 }
 
 class FilterPrice extends React.PureComponent {
-  state = {
-    applayed: false,
-    inputValue: [0,10],
-  };
+  state = { active: null }
 
-  onApplay = () => {
-    requestAndAddProducts({price_search_from: this.state.inputValue[0], price_search_to: this.state.inputValue[1], })
-      this.setState({ applayed: !this.state.applayed });
+  onApplay = (from, to) => {
+    this.setState({ active: `${from}-${to}`});
+    this.props.addFilter({
+      price_search_from: from,
+      price_search_to: to
+    })
   }
   
   onChangeFromSlider = (value) => {
@@ -62,12 +86,13 @@ class FilterPrice extends React.PureComponent {
   }
 
   render() {
-    const { inputValue } = this.state;
+    // const { inputValue } = this.state;
     const { classes } = this.props;
 
     return (
       <div className={classes.root}>
-        <InputNumber
+      <div className={classes.title}>Цена</div>
+        {/* <InputNumber
             min={1}
             max={5000}
             style={{ marginLeft: 16 }}
@@ -82,14 +107,13 @@ class FilterPrice extends React.PureComponent {
             value={inputValue[1]}
             className={classes.inputRight}
             onChange={(value)=>{this.onChangeFromInput(value, 1)}}
-        />
-        <Range allowCross={false} value={inputValue} className={classes.slider} onChange={this.onChangeFromSlider} />
-        <Button
-          variant={this.state.applayed ? "contained" : "outlined"}
-          color="primary"
-          onClick={this.onApplay}>
-          Применить
-        </Button>
+        /> */}
+        {/* <Range allowCross={false} value={inputValue} className={classes.slider} onChange={this.onChangeFromSlider} /> */}
+          <RangePrice classes={classes} onApplay={this.onApplay} min={0} max={300} title="До 300 грн" active={this.state.active} />
+          <RangePrice classes={classes} onApplay={this.onApplay} min={300} max={500} title="300 - 500 грн" active={this.state.active} />
+          <RangePrice classes={classes} onApplay={this.onApplay} min={500} max={800} title="500 - 800 грн" active={this.state.active} />
+          <RangePrice classes={classes} onApplay={this.onApplay} min={800} max={1000} title="800 - 1000 грн" active={this.state.active} />
+          <Divider className={classes.divider} />
       </div>
     );
   }

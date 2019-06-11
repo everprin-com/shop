@@ -23,6 +23,17 @@ $black: #333;
 $white: #eee;  */
 
 /* For demo */
+
+html{
+  width: 100%;  
+}
+
+@media (max-width: 600px) { 
+  #root{
+    width: 100vw;
+  }
+ }
+
 .ant-carousel .slick-slide {
   text-align: center;
   overflow: hidden;
@@ -64,8 +75,8 @@ font-size: 20px;
 
   .fluid__instructions {
     flex: 0 0 auto;
-    margin: 0 20px;
-    margin-top: 150px;
+    // margin: 0 20px;
+    // margin-top: 150px;
   }
 
   .fixed__instructions {
@@ -100,7 +111,6 @@ font-size: 20px;
 
     .fluid__instructions {
       flex: 0 0 50%;
-      padding-top: 30px;
     }
 
     .fixed__instructions {
