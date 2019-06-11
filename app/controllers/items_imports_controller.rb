@@ -9,6 +9,7 @@ class ItemsImportsController < ApplicationController
   def create
     @items_import = ItemsImport.new(params[:items_import])
     if @items_import.save
+      Item.create_header
       redirect_to items_path
     else
       render :new

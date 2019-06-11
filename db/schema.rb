@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190519072133) do
+ActiveRecord::Schema.define(version: 20190604174645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,14 @@ ActiveRecord::Schema.define(version: 20190519072133) do
   end
 
   add_index "configurables", ["name"], name: "index_configurables_on_name", using: :btree
+
+  create_table "headers", force: :cascade do |t|
+    t.integer  "count_items"
+    t.string   "catalogue"
+    t.string   "group"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "identities", force: :cascade do |t|
     t.integer  "user_id"
