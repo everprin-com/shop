@@ -20,6 +20,7 @@ db/schema.rb
 config/database.yml
 config/secrets.yml/public/packs
 /public/packs-test
+/node_modules
 yarn-debug.log*
 .yarn-integrity
 /public/packs/
