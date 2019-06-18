@@ -17,7 +17,7 @@ class Home extends React.PureComponent {
         return (
         <div className={classes.root}>
             <SideBar isMainSideBar />
-            <ProductList />
+            <ProductList  productsParams={{ search_category: "Женские кардиганы" }} />
         </div>
         )
     }
