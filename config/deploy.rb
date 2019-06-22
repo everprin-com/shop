@@ -77,7 +77,7 @@ task :deploy do
     invoke :'rails:db_migrate'
     #npm rebuild node-sass
     command %{npm rebuild node-sass}
-    command %{yarn install}
+    command %{yarn}
     command %{NODE_ENV=production RAILS_ENV=production ./bin/webpack}
     #invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
