@@ -16,7 +16,8 @@ class ItemsController < ApplicationController
     items = items.paginate(page: params[:page], per_page: per_page(params[:per_page]))
     serialized_items = items.map { |item| ItemSerializer.new(item) }
     #render json: { items: items, total_pages: items.total_pages }
-    render json: { total_pages: items.total_pages, items: serialized_items }
+    #byebug
+    render json: { total_pages: items.total_pages, filters_options: generate_filters(items), items: serialized_items }
   end
 
   def show
@@ -28,6 +29,18 @@ class ItemsController < ApplicationController
   end
 
    private
+
+   def generate_filters(items)
+     prices = items.map{|item| item.price}
+     {
+       size: items.map{|item| item.size}.flatten.uniq!,
+       price_min: prices.min,
+       price_max: prices.max,
+       brand: items.map{|item| item.brand}.uniq!,
+       season: items.map{|item| item.season}.uniq!,
+       color:  items.map{|item| item.color}.uniq!,
+     }
+   end
 
    def per_page(per_page)
      per_page ? per_page : Item::DEFAULT_PAGE
