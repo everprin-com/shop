@@ -87,8 +87,8 @@ config.webpacker.check_yarn_integrity = false
   config.active_record.dump_schema_after_migration = false
 
   # ADDDD
-  #config.serve_static_files = true
-  #config.assets.css_compressor = :sass
-  #config.assets.compile = true
+  config.serve_static_files = true
+  config.assets.css_compressor = :sass
+  config.assets.compile = true
   config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 end
