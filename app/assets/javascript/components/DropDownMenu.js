@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import categories from './constants/categories'
+import fetchGet from "./api/fetchGet"
 import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import imgCategoryMap from './constants/imgCategoryMap'
@@ -9,6 +10,7 @@ import imgCategoryMap from './constants/imgCategoryMap'
 const mapDispatchToProps = dispatch => {
   return {
     requestAndAddProducts: params => dispatch({ type: 'REQUEST_AND_ADD_PRODUCTS', params, afterReset: true}),
+    addMetaDatas: meta_datas => dispatch({ type: 'ADD_META_DATAS', meta_datas }),
     // startScroll: () =>{  window.scroll({ top: 0, behavior: 'smooth' }) }
   }
 }
@@ -59,6 +61,22 @@ class DropDownMenu extends React.PureComponent {
 
   hoverOn = value => imgCategoryMap[value] && this.setState({imgCategory: imgCategoryMap[value]})
 
+  componentDidMount() {
+     this.getMetaDatas()
+  }
+
+  getMetaDatas = () => {
+      fetchGet("/meta_datas")
+      .then(data => {
+          this.setState(
+              {data},
+              () => {
+                this.props.addMetaDatas(data)
+              }
+          )
+      })
+  }
+
   onChangeCategory = category => {
     const {requestAndAddProducts, redirectToRoot, startScroll, resetDropDown} = this.props
     requestAndAddProducts({search_category: category})
@@ -91,7 +109,7 @@ class DropDownMenu extends React.PureComponent {
             )})
           }
         </ul>
-      ) 
+      )
     })
   }
 
@@ -106,7 +124,8 @@ class DropDownMenu extends React.PureComponent {
   render() {
     const { classes } = this.props;
     const { imgCategory } = this.state;
-
+    console.log("addMetaDatas")
+    console.log(this.props.addMetaDatas())
     return (
         <div  className={classes.categoryBlock}>
           {this.ulWithSpecialCountLi(categories, 5)}

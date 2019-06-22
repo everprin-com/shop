@@ -1,4 +1,4 @@
-class MetaDataController < ApplicationController
+class MetaDatasController < ApplicationController
 
   def index
     meta_datas = Header.all

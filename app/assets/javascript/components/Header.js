@@ -110,14 +110,14 @@ class Header extends React.PureComponent {
   componentWillUnmount() {
     document.removeEventListener('click', this.handleClickOutside, false);
   }
-  
+
   componentWillMount() {
     document.addEventListener('click', this.handleClickOutside, false);
   }
-  
+
   handleClickOutside = event => {
     const domNode = this.dropDownRef.current
-    
+
     if ((!domNode || !domNode.contains(event.target))) {
         this.resetDropDown()
     }
@@ -138,7 +138,7 @@ class Header extends React.PureComponent {
         <div className="header-content">
           <div className={classes.root}>
             <MenuGenderPanel />
-            
+
             <AppBar position="static" color="default" className={classes.chooseCategoryMenu}>
               <Tabs
                 value={value}
@@ -161,13 +161,13 @@ class Header extends React.PureComponent {
                 <DropDownMenu redirectToRoot={redirectToRoot} resetDropDown={this.resetDropDown} />
               </TabContainer>}
               {/* {value === 1 && <TabContainer className={classes.tab_content}>
-                {this.clothesList()}  
+                {this.clothesList()}
               </TabContainer>}
               {value === 2 && <TabContainer className={classes.tab_content}>
-                {this.clothesList()}  
+                {this.clothesList()}
               </TabContainer>} */}
             </div>}
-            {withSmallMenu && <Drawer />} 
+            {withSmallMenu && <Drawer />}
           </div>
         </div>
       </header>
