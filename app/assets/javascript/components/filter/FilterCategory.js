@@ -29,6 +29,9 @@ const styles  = {
     textAlign: 'center',
     fontSize: 16,
     width: '100%',
+    background: '#eef',
+    fontWeight: 'bold',
+    padding: 5,
   },
   container: {
     flexWrap: 'wrap',

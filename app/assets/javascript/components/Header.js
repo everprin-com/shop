@@ -70,6 +70,8 @@ const styles = theme => ({
   },
   chooseCategoryMenu: {
     position: 'relative',
+    display: 'flex',
+    flexDirection: 'row',
   },
   header: {
     // position: 'sticky',
@@ -95,7 +97,17 @@ const styles = theme => ({
   flexContainer: {
     alignItems: 'center'
   },
+  logo: {
+    width: 200
+  }
 });
+
+function Logo({classes}){
+  return ( <div>
+    <img src="/imgs/logo.png" className={classes.logo} />
+  </div>
+  )
+}
 
 class Header extends React.PureComponent {
   constructor(props) {
@@ -140,6 +152,7 @@ class Header extends React.PureComponent {
             <MenuGenderPanel />
             
             <AppBar position="static" color="default" className={classes.chooseCategoryMenu}>
+            <Logo classes={classes} />
               <Tabs
                 value={value}
                 onChange={this.handleChange}
@@ -150,9 +163,25 @@ class Header extends React.PureComponent {
                   scroller: classes.overflow,
                   flexContainer: classes.flexContainer}}
               >
-                <Tab className={classes.tab} label="Одежда" icon={<CastomIcon classes={classes} src="clothes.png" />} onMouseEnter={this.hoverOn.bind(this, 0)} />
-                <Tab className={classes.tab} label="Обувь" icon={<CastomIcon classes={classes} src="shoe.png" />} onMouseEnter={this.hoverOn.bind(this, 1)} />
-                <Tab className={classes.tab} label="Аксессуары" icon={<CastomIcon classes={classes} src="watch.svg" />} onMouseEnter={this.hoverOn.bind(this, 2)} />
+                
+                <Tab
+                  className={classes.tab}
+                  label="Одежда"
+                  icon={<CastomIcon classes={classes} src="clothes.png" />}
+                  onMouseEnter={this.hoverOn.bind(this, 0)}
+                />
+                <Tab
+                  className={classes.tab}
+                  label="Обувь"
+                  icon={<CastomIcon classes={classes} src="shoe.png" />}
+                  onMouseEnter={this.hoverOn.bind(this, 1)}
+                />
+                <Tab
+                  className={classes.tab}
+                  label="Аксессуары"
+                  icon={<CastomIcon classes={classes} src="watch.svg" />}
+                  onMouseEnter={this.hoverOn.bind(this, 2)}
+                />
                 <Panel />
               </Tabs>
             </AppBar>

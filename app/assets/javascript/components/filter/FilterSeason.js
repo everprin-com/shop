@@ -14,11 +14,15 @@ const styles  = {
       color: green[500],
     },
     pointerEvents: 'auto',
+    magrinTop: 10,
   },
   title: {
     textAlign: 'center',
     fontSize: 16,
     width: '100%',
+    background: '#eef',
+    fontWeight: 'bold',
+    padding: 5,
   },
   container: {
     flexWrap: 'wrap',
@@ -101,7 +105,7 @@ class CheckboxLabels extends React.PureComponent {
             label="Зима"
           />
         </div>
-        <Divider className={classes.divider} />
+        {/* <Divider className={classes.divider} /> */}
       </FormGroup>
     );
   }

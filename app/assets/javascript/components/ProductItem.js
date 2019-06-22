@@ -42,14 +42,14 @@ const styles = theme => ({
   },
   title: {
     color: '#333',
-    fontSize: '16px',
+    fontSize: '14px',
     fontWeight: 'bold',
     
   },
   category: {
     color: '#888',
     fontSize: '14px',
-    margin: '5px'
+    margin: '0 auto 5px'
   },
   oldPrice:{
     color: '#a6a5a5',
@@ -59,11 +59,12 @@ const styles = theme => ({
   },
   newPrice:{
     color: 'f74137',
-    fontSize: '16px',
+    fontSize: '17px',
+    marginLeft: 15,
   },
   price: {
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
   },
   media: {
     height: 190,
@@ -72,6 +73,7 @@ const styles = theme => ({
   },
   actions: {
     display: 'flex',
+    padding: '0 4px 7px'
   },
   productItemLink: {
     display: 'block',
@@ -82,8 +84,8 @@ const styles = theme => ({
     },
   },
   button: {
-    margin: '15px auto',
-    width: '100%',
+    margin: '0px auto 15px',
+    width: '90%',
     fontSize: '15px',
   },
   cardIn:{
@@ -129,10 +131,12 @@ class ProductItem extends React.PureComponent {
 
   render() {
     const { classes, inCard, data } = this.props;
-    const { picture, price, name, category, id, size, activeSize } = data;
+    let { picture, price, name, category, id, size, activeSize } = data;
+    price = Math.round(+price)
     const oldPrice = Math.round(+price + +price/2 + +price/10)
     const windowWidth = window.innerWidth
     const shouldShowBottom = this.state.hover || windowWidth < 1000
+    const withoutSizeName = name.replace(/[0-9-]*$/g, "")
     return (
       <Card
         className={classes.card}
@@ -149,13 +153,13 @@ class ProductItem extends React.PureComponent {
           <CardMedia
             className={classes.media}
             image={picture}
-            title={name}
+            title={withoutSizeName}
           />
 
           <CardContent className={classes.cardContent}>
             <Typography component="div" className ={classes.cardDesctiption} >
               <div className={classes.title}>
-                {name}
+                {withoutSizeName}
               </div>
               <div className={classes.category}>
                 {category}
@@ -177,7 +181,7 @@ class ProductItem extends React.PureComponent {
                 <ProductItemSizes id={id} sizes={size} activeSize={activeSize} />
             </CardActions>
             <Button variant="contained" color="primary" className={classes.button} onClick={this.putToCart}>
-          {"Добавить в корзину"} 
+            {"Купить"} 
             </Button>
           </div>}
       </Card>

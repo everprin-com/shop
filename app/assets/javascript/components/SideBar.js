@@ -22,7 +22,7 @@ import FilterCategory from './filter/FilterCategory';
 const styles = theme => ({
   root: {
     position: 'fixed',
-    marginTop: 75,
+    marginTop: 100,
     width: '100%',
     maxWidth: 260,
     backgroundColor: theme.palette.background.paper,

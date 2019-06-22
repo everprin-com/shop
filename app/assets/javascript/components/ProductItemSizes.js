@@ -25,7 +25,8 @@ const styles = theme => ({
         flexWrap: 'wrap',
     },
     title: {
-        marginBottom: '10px',
+        marginBottom: '5px',
+        fontSize: 14,
     },
     sizeItem: {
         display: 'inline-block',
@@ -37,6 +38,7 @@ const styles = theme => ({
         backgroundRolor: '#ffffff',
         cursor: 'pointer',
         boxShadow: '0 1px 2px 0 rgba(0,0,0,0.11)',
+        fontSize: 12,
         '&:hover': {
             background: '#2C9925',
             color: '#fff',
@@ -82,7 +84,7 @@ class ProductItemSizes extends React.PureComponent {
         if (!sizes || sizes.length < 1 || !sizes.length) return null
         return (
             <div className={classes.root}>
-                <div className={classes.title}>Размеры:</div>
+                <div className={classes.title}>Размер:</div>
                 <div className={format ? classes.contentForBig : classes.content}>
                 {sizes.map(sizeItem => { return (
                     <Button

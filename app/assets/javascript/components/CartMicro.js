@@ -70,12 +70,15 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     marginTop: 20,
+  },
+  paperRoot: {
+    padding: 5
   }
 });
 
 function MicroCart(props) {
   const { classes, card, redirToOrderForm, deleteFromCart, closeCart } = props;
-  const totalPrice = card.data.reduce((prev, next)=> { return (prev + next.price)}, 0)
+  const totalPrice = card.data.reduce((prev, next)=> { return (prev + +next.price)}, 0)
   const renderProducts = card.data.map( cartDataItem => {
     const {picture, title, amount, price} = cartDataItem
     return  (<div className={classes.root} elevation={1} key={cartDataItem.id}>
@@ -91,10 +94,11 @@ function MicroCart(props) {
         </div>
       </div>
     </div>
+    <hr className={classes.hrProduct} />
     </div>)
     })
     return (
-      <Paper>
+      <Paper className={classes.paperRoot}>
         {renderProducts}
         <div className={classes.totalBlock}>
             <div className={classes.totalPrice}>
