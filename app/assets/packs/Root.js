@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import reducers from "../javascript/reducers"
 import App from "../javascript/components/App"
-
+import fetchGet from "../javascript/components/api/fetchGet"
 import { BrowserRouter as Router, Route, Link, withRouter, Switch } from "react-router-dom";
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
@@ -43,6 +43,13 @@ const DProductCart = Loadable({
   loader: () => import('../javascript/components/ProductCart'),
   loading: Loading
 });
+
+(() => {
+  fetchGet("/meta_datas")
+  .then(meta_datas => {
+    store.dispatch({ type: 'ADD_META_DATAS', meta_datas })
+  })
+})()
 
 const DOrderForm = Loadable({
   loader: () => import('../javascript/components/OrderForm'),
