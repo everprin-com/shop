@@ -15,6 +15,12 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    headers: state.metaData.headers,
+  }
+}
+
 const styles = theme => ({
   root: {
     marginTop: '10px',
@@ -66,15 +72,15 @@ class DropDownMenu extends React.PureComponent {
   }
 
   getMetaDatas = () => {
-      fetchGet("/meta_datas")
-      .then(data => {
-          this.setState(
-              {data},
-              () => {
-                this.props.addMetaDatas(data)
-              }
-          )
-      })
+    fetchGet("/meta_datas")
+    .then(data => {
+      this.setState(
+        {data},
+        () => {
+          this.props.addMetaDatas(data)
+        }
+      )
+    })
   }
 
   onChangeCategory = category => {
@@ -114,7 +120,10 @@ class DropDownMenu extends React.PureComponent {
   }
 
   clothesList = () => {
-    const { classes } = this.props;
+    const { classes, headers } = this.props;
+    header = headers.filter(header => header.group == "clothes")
+    console.log(header)
+    console.log("header")
     return (
     <div  className={classes.categoryBlock}>
       {this.ulWithSpecialCountLi(categories, 5)}
@@ -122,12 +131,12 @@ class DropDownMenu extends React.PureComponent {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, headers } = this.props;
     const { imgCategory } = this.state;
     console.log("addMetaDatas")
-    console.log(this.props.addMetaDatas())
+    console.log(this.props)
     return (
-        <div  className={classes.categoryBlock}>
+        <div className={classes.categoryBlock}>
           {this.ulWithSpecialCountLi(categories, 5)}
           <Paper className={classes.cardImg}>
             <img
@@ -145,4 +154,4 @@ DropDownMenu.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(DropDownMenu))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(DropDownMenu))
