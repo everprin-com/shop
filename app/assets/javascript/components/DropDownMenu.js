@@ -7,16 +7,9 @@ import Paper from '@material-ui/core/Paper';
 import imgCategoryMap from './constants/imgCategoryMap'
 
 const mapDispatchToProps = dispatch => {
-  console.log("dispatch")
   return {
     requestAndAddProducts: params => dispatch({ type: 'REQUEST_AND_ADD_PRODUCTS', params, afterReset: true}),
     // startScroll: () =>{  window.scroll({ top: 0, behavior: 'smooth' }) }
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    headers: state.metaData.headers,
   }
 }
 
@@ -102,27 +95,22 @@ class DropDownMenu extends React.PureComponent {
     })
   }
 
-  clothesList = () => {
-    const { classes, headers } = this.props;
-    console.log("headers")
-    if (!headers) return
-    console.log(headers.filter(header => header.group == "clothes"))
-    //console.log(headers.filter( i => ids.includes( i.empid ) );)
-    console.log("header")
+  productTypeList = () => {
+    const { classes, productTypeList} = this.props;
+    console.log("productTypeList")
+    console.log(productTypeList)
     return (
     <div  className={classes.categoryBlock}>
-      {this.ulWithSpecialCountLi(categories, 5)}
+      {this.ulWithSpecialCountLi(productTypeList, 5)}
     </div>)
   }
 
   render() {
     const { classes, headers } = this.props;
     const { imgCategory } = this.state;
-    console.log("addMetaDatas")
-    console.log(this.props)
     return (
         <div className={classes.categoryBlock}>
-          {this.clothesList()}
+          {this.productTypeList()}
           <Paper className={classes.cardImg}>
             <img
               className={classes.img}
@@ -139,4 +127,4 @@ DropDownMenu.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(DropDownMenu))
+export default connect(null, mapDispatchToProps)(withStyles(styles)(DropDownMenu))

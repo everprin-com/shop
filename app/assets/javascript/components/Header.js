@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -9,6 +10,12 @@ import MenuGenderPanel from './MenuGenderPanel'
 import Panel from './Panel'
 import DropDownMenu from './DropDownMenu';
 import Drawer from './Drawer';
+
+const mapStateToProps = state => {
+  return {
+    headers: state.metaData.headers,
+  }
+}
 
 function TabContainer(props) {
   return (
@@ -115,11 +122,19 @@ class Header extends React.PureComponent {
     document.addEventListener('click', this.handleClickOutside, false);
   }
 
+  productTypeList = type => {
+    const { headers } = this.props;
+    if (!headers) return
+    const typeCategory = headers.filter(header => header.group == type)
+    const catalogues = Object.keys(typeCategory).map(key => typeCategory[key]["catalogue"])
+    return catalogues
+  }
+
   handleClickOutside = event => {
     const domNode = this.dropDownRef.current
 
     if ((!domNode || !domNode.contains(event.target))) {
-        this.resetDropDown()
+      this.resetDropDown()
     }
   }
 
@@ -157,15 +172,15 @@ class Header extends React.PureComponent {
               </Tabs>
             </AppBar>
             {this.state.value !== false && <div className={classes.dropdownMenu} ref={this.dropDownRef} onMouseLeave={this.resetDropDown}>
-              {true  && <TabContainer className={classes.tab_content}>
-                <DropDownMenu redirectToRoot={redirectToRoot} resetDropDown={this.resetDropDown} />
+              {value === 0  && <TabContainer className={classes.tab_content}>
+                <DropDownMenu productTypeList={this.productTypeList("clothes")} redirectToRoot={redirectToRoot} resetDropDown={this.resetDropDown} />
               </TabContainer>}
-              {/* {value === 1 && <TabContainer className={classes.tab_content}>
-                {this.clothesList()}
+              {value === 1 && <TabContainer className={classes.tab_content}>
+                <DropDownMenu productTypeList={this.productTypeList("footwear")} redirectToRoot={redirectToRoot} resetDropDown={this.resetDropDown} />
               </TabContainer>}
               {value === 2 && <TabContainer className={classes.tab_content}>
-                {this.clothesList()}
-              </TabContainer>} */}
+                <DropDownMenu productTypeList={this.productTypeList("accessories")} redirectToRoot={redirectToRoot} resetDropDown={this.resetDropDown} />
+              </TabContainer>}
             </div>}
             {withSmallMenu && <Drawer />}
           </div>
@@ -180,4 +195,4 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Header)
+export default connect(mapStateToProps, null)(withStyles(styles)(Header))
