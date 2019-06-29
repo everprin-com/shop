@@ -3,6 +3,7 @@ class ItemsController < ApplicationController
 
   def index
     items = Item.all
+    generate_filters = generate_filters(items, params[:search_category])
     items = items.name_search(params[:search_name]) if params[:search_name].present?
     items = items.where("price >= ?", params[:price_search_from]) if params[:price_search_from].present?
     items = items.where("price <= ?", params[:price_search_to]) if params[:price_search_to].present?
@@ -17,7 +18,7 @@ class ItemsController < ApplicationController
     serialized_items = items.map { |item| ItemSerializer.new(item) }
     #render json: { items: items, total_pages: items.total_pages }
     #byebug
-    render json: { total_pages: items.total_pages, filters_options: generate_filters(items), items: serialized_items }
+    render json: { total_pages: items.total_pages, filters_options: generate_filters, items: serialized_items }
   end
 
   def show
@@ -30,15 +31,16 @@ class ItemsController < ApplicationController
 
    private
 
-   def generate_filters(items)
-     prices = items.map{|item| item.price}
+   def generate_filters(all_items, search_category)
+     items = search_category.present? ? all_items.where(category: search_category) : all_items
+     prices = items.map { |item| item.price}
      {
-       size: items.map{|item| item.size}.flatten.uniq!,
+       size: items.map { |item| item.size}.flatten.uniq!,
        price_min: prices.min,
        price_max: prices.max,
-       brand: items.map{|item| item.brand}.uniq!,
-       season: items.map{|item| item.season}.uniq!,
-       color:  items.map{|item| item.color}.uniq!,
+       brand: items.map { |item| item.brand}.uniq!,
+       season: items.map { |item| item.season}.uniq!,
+       color:  items.map { |item| item.color}.uniq!,
      }
    end
 
