@@ -39,21 +39,23 @@ const styles  = {
 }
 
 class FilterGeneral extends React.PureComponent {
-  state={}
+  state={[`search_${this.props.type}`]: []}
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.checked });
   }
 
   handleChange = name => event => {
-      console.log(name)
       const { type, addFilter } = this.props
-      addFilter({
-        [`search_${type}`]: name
-      })
-    //   this.setState({
-    //    search_color: [...this.state.search_color.filter(color => color !== name)]
-    // }, () => { this.props.addFilter({...this.state}) })
+      if (this.state[`search_${type}`].includes(name)) {
+
+        this.setState({
+         [`search_${type}`]: [...this.state[`search_${type}`].filter(color => color !== name)]
+      }, () => { addFilter({...this.state}) })
+      } else {
+          this.setState({ [`search_${type}`]: [...this.state[`search_${type}`], name]
+          }, () => { addFilter({...this.state}) });
+        }
   }
 
   generateFilterItem = ({label, color="primary"}) => {

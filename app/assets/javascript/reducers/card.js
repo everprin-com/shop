@@ -13,7 +13,7 @@ export default function (state = { data: [], isOpen: false, withProduct: false }
         
         if (prevAmount && isSizeEquel){
           const witoutProduct = {...state, data: [...state.data.filter(product => {
-            return product.id !== action.product.id && product.activeSize !== action.product.activeSize
+            return product.id === action.product.id && product.activeSize != action.product.activeSize
           })]}
         console.log(witoutProduct)
           return {
