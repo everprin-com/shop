@@ -5,7 +5,7 @@ import card from "./card"
 import product from "./product"
 import orderform from "./orderform"
 import dialog from "./dialog"
-import filter from "./filter"
+import filterData from "./filterData"
 import general from "./general"
 import slider from "./slider"
 
@@ -15,7 +15,7 @@ export default combineReducers({
     product,
     orderform,
     dialog,
-    filter,
+    filterData,
     general,
     slider,
 })
