@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Input from './Input'
 import Tooltip from './Tooltip'
 import { ShoppingCart } from '@material-ui/icons'
-import Cart from './CartItem';
+import Cart from './Cart';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -70,7 +70,7 @@ const styles = theme => ({
     justifyContent: 'space-around',
   },
   panel: {
-    width: 700
+    width: 560
   },
   icon: {
       fontSize: '40px',
@@ -97,7 +97,7 @@ const styles = theme => ({
       display: "flex",
       alignItems: "center",
       flexDirection: "column",
-      margin: 5,
+      margin: '5px 5px 5px 15px',
       [theme.breakpoints.down('sm')]: {
         margin: 10
        },
@@ -119,12 +119,12 @@ class Panel extends React.PureComponent {
   render(){
     const { classes, card, closeCart, openCart } = this.props;
     const cardLengh = card.data.length
-    const cardSum = card.data.reduce( (prev, next) => prev + next.price, 0 )
+    const cardSum = card.data.reduce( (prev, next) => prev + +next.price, 0 )
     return (
       <div className={classes.panel}>
           <Toolbar className={classes.root}>
               <Input />
-              <Tooltip title = {!!cardLengh ? `В вашей корзине ${cardLengh} товаров на сумму ${cardSum} грн` : "Ваша корзина пуста"  } >
+              <Tooltip title = {!!cardLengh ? `В вашей корзине ${cardLengh} товар${cardLengh>1 ? "ов" : ""} на сумму ${cardSum} грн` : "Ваша корзина пуста"  } >
                 <div className={classes.cardBlock} onClick={openCart}>
                   <Badge className={classes.margin} invisible={!cardLengh} badgeContent={cardLengh} color="primary">
                     <ShoppingCart className={classes.icon} />

@@ -5,21 +5,19 @@ import green from '@material-ui/core/colors/green';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
-import fetchGetWithParams from "../api/fetchGetWithParams"
-import categories from '../constants/categories'
+
 
 const mapDispatchToProps = dispatch => {
-    return {
-      addFilter: filter => dispatch({ type: 'ADD_FILTER', filter }),
-      resetAndAddProducts: products => dispatch({ type: 'RESET_AND_ADD_PRODUCTS', products }),
-    }
+  return {
+    addFilter: filter => dispatch({ type: 'ADD_FILTER', filter }),
   }
+}
 
 const styles  = {
   root: {
     color: '#111',
+    width: '100%',
     '&$checked': {
       color: green[500],
     },
@@ -38,32 +36,32 @@ const styles  = {
     display: 'flex',
     justifyContent: 'center',
   },
-  checked: {},
 }
 
-
-
-class Filter extends React.PureComponent {
-  state = {
-    search_category: [],
-  };
+class FilterGeneral extends React.PureComponent {
+  state={[`search_${this.props.type}`]: []}
 
   handleChange = name => event => {
-    this.setState({ search_category: [...this.state.search_category, name] });
-  };
-
-  onApplay = () => {
-    this.props.addFilter({...this.state})
-    // fetchGetWithParams("items/", {search_category: this.state.search_category}, true)
-    //   .then(products=> {
-    //     this.props.resetAndAddProducts(products);
-    //     this.setState({ applayed: !this.state.applayed });
-    //   })
+    this.setState({ [name]: event.target.checked });
   }
 
-  formItem = ({label, color}) => {
+  handleChange = name => event => {
+      const { type, addFilter } = this.props
+      if (this.state[`search_${type}`].includes(name)) {
+
+        this.setState({
+         [`search_${type}`]: [...this.state[`search_${type}`].filter(color => color !== name)]
+      }, () => { addFilter({...this.state}) })
+      } else {
+          this.setState({ [`search_${type}`]: [...this.state[`search_${type}`], name]
+          }, () => { addFilter({...this.state}) });
+        }
+  }
+
+  generateFilterItem = ({label, color="primary"}) => {
     return (
           <FormControlLabel
+              key={label}
               control={
                 <Checkbox
                   checked={this.state[label]}
@@ -78,27 +76,26 @@ class Filter extends React.PureComponent {
 }
 
   render() {
-    const { classes } = this.props;
+    const { classes, filterOptions, title } = this.props;
+
+    if (!filterOptions) return null
 
     return (
       <FormGroup row className={classes.root}>
-        <div className={classes.title}>Выберите сезон</div>
-        <div className={classes.container}>
-        {categories.map(category => this.formItem({label: category, color:"primary"}))}
-          <Button
-            variant={this.state.applayed ? "contained" : "outlined"}
-            color="primary"
-            onClick={this.onApplay}>
-            Применить
-          </Button>
+        <div className={classes.title}>
+            {title}
         </div>
+        <div className={classes.container}>
+            {filterOptions.map(filterItem => this.generateFilterItem({ label: filterItem }))}
+        </div>
+        {/* <Divider className={classes.divider} /> */}
       </FormGroup>
     );
   }
 }
 
-Filter.propTypes = {
+FilterGeneral.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(Filter))
+export default withStyles(styles)(connect(null, mapDispatchToProps)(FilterGeneral));

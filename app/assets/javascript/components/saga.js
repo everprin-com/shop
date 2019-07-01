@@ -21,11 +21,16 @@ function* checkSetSize(action){
   } 
 }
 
-function* getFilteredProducts(action) {
+function* getFilteredProducts() {
   try {
-     const state = yield select();
-     const products = yield call(fetchGetWithParams, "/items/", {...state.filter, page:1}, true)
-     yield put({type: "CHANGE_LAST_PARAMS", lastRequestParams: {...state.filter, page:1}})
+     const state = yield select()
+     const products = yield call(
+       fetchGetWithParams,
+       "/items/",
+       { ...state.general.lastRequestParams, ...state.filterData.filter, page:1 },
+       true
+      )
+     yield put({type: "CHANGE_LAST_PARAMS", lastRequestParams: {  ...state.general.lastRequestParams, ...state.filterData.filter, page:1 }})
      yield put({type: "RESET_AND_ADD_PRODUCTS", products: products.items})
   } catch (error) {
      yield put({type: "FETCH_FAILED", error})
@@ -40,8 +45,10 @@ function* requestAndAddProducts(action = {}, params = {page: 1}) {
     yield put({type: "CHANGE_LAST_PARAMS", lastRequestParams: queryParams})
     if (action.afterReset) {
       yield put({type: "RESET_AND_ADD_PRODUCTS", products: products.items})
+      yield put({type: "ADD_FILTER_OPTIONS", filterOptions: products.filters_options})
     } else {
       yield put({type: "ADD_PRODUCTS", products: products.items})
+      yield put({type: "ADD_FILTER_OPTIONS", filterOptions: products.filters_options})
     }
     yield put({type: "LOADING_OFF"})
 }

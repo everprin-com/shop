@@ -18,9 +18,9 @@ const styles  = {
   root: {
     pointerEvents: 'auto', 
     width: '100%',
-    height: '100px',
     padding: '10px 0',
     textAlign: 'center',
+    magrinTop: 10,
   },
   inputLeft: {
     marginLeft: '0 !important',
@@ -41,6 +41,9 @@ const styles  = {
     textAlign: 'center',
     fontSize: 16,
     width: '100%',
+    background: '#eef',
+    fontWeight: 'bold',
+    padding: 5,
   },
   divider: {
     width: '100%',
@@ -113,7 +116,7 @@ class FilterPrice extends React.PureComponent {
           <RangePrice classes={classes} onApplay={this.onApplay} min={300} max={500} title="300 - 500 грн" active={this.state.active} />
           <RangePrice classes={classes} onApplay={this.onApplay} min={500} max={800} title="500 - 800 грн" active={this.state.active} />
           <RangePrice classes={classes} onApplay={this.onApplay} min={800} max={1000} title="800 - 1000 грн" active={this.state.active} />
-          <Divider className={classes.divider} />
+          {/* <Divider className={classes.divider} /> */}
       </div>
     );
   }

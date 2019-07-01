@@ -18,11 +18,19 @@ import FilterPrice from './filter/FilterPrice';
 import FilterSeason from './filter/FilterSeason';
 import FilterColor from './filter/FilterColor';
 import FilterCategory from './filter/FilterCategory';
+import FilterGeneral from './filter/FilterGeneral';
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => {
+  return {
+    filterOptions: state.filterData.filterOptions ,
+  }
+}
 
 const styles = theme => ({
   root: {
     position: 'fixed',
-    marginTop: 75,
+    marginTop: 100,
     width: '100%',
     maxWidth: 260,
     backgroundColor: theme.palette.background.paper,
@@ -55,7 +63,7 @@ class SideBar extends React.PureComponent {
   };
 
   render() {
-    const { classes, isMainSideBar } = this.props;
+    const { classes, isMainSideBar, filterOptions = {} } = this.props;
 
     return (
       <List
@@ -63,11 +71,15 @@ class SideBar extends React.PureComponent {
         className={isMainSideBar ? `${classes.root} ${classes.mainSideBar}` : `${classes.root} ${classes.smallSideBar}` }
       >
 
-        <ListItem className={classes.item}> 
+        {/* <ListItem className={classes.item}> 
           <ListItemIcon>
             <SendIcon />
           </ListItemIcon>
-          <ListItemText inset primary="Фильтр по размеру" />
+          <ListItemText inset primary="Размеры" />
+        </ListItem> */}
+
+        <ListItem className={classes.item}>
+            <FilterGeneral title="Бренды" type="brand" filterOptions={filterOptions.brand}  />
         </ListItem>
 
         <ListItem className={classes.item}>
@@ -81,22 +93,27 @@ class SideBar extends React.PureComponent {
         <ListItem className={classes.item}>
           <FilterPrice />
         </ListItem>
-
+{/* 
         <ListItem className={classes.item}>
           <FilterColor />
-        </ListItem>
+        </ListItem> */}
 
         <ListItem className={classes.item}>
-            <FilterPanel title="Фильтр по категории" Filter={FilterCategory} />
+            <FilterPanel title="Категории" Filter={FilterCategory} />
         </ListItem>
 
-        <ListItem onClick={this.handleClick} className={classes.item}>
+
+        <ListItem className={classes.item}>
+            <FilterGeneral title="Размеры" filterOptions={filterOptions.size}  />
+        </ListItem>
+
+        {/* <ListItem onClick={this.handleClick} className={classes.item}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
           <ListItemText inset primary="Inbox" />
           {this.state.open ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
+        </ListItem> */}
         
         {/* <Collapse in={this.state.open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
@@ -117,4 +134,4 @@ SideBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SideBar);
+export default withStyles(styles)(connect(mapStateToProps)(SideBar));
