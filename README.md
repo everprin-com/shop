@@ -57,6 +57,10 @@ postgres=# \du # to list all users
 postgres=# ALTER ROLE user CREATEROLE SUPERUSER;
 ALTER ROLE # this was the result
 
+CONVERT EXCEL
+1) ложим в папку файлы public/excel/origin "xls"
+2)  bundle exec rake convert_excel:convert_excel
+3)  получаем в папке public/excel/converted/
 
 server
 
