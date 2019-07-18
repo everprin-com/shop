@@ -5,7 +5,9 @@ gem 'rails', '4.2.11'
 
 gem "haml-rails"
 gem 'uglifier', '>= 1.3.0'
-
+gem 'rubyzip'
+gem 'axlsx'
+gem 'axlsx_rails'
 gem 'bootstrap_form'
 
 gem 'coffee-rails'
