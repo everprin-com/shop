@@ -121,7 +121,7 @@ return (
 
 const CarouselItem = withStyles(styles)(Item)
 
-function myCarousel({title, products, ...props}) {
+function myCarousel({title, simple, products, ...props}) {
     if (!products) return null
     const settings = {
         nextArrow: <ArrNext />,
@@ -157,7 +157,13 @@ function myCarousel({title, products, ...props}) {
         <div>
             <div className="titleSlider">{title}</div>
             <Carousel {...settings} afterChange={onChange} {...props}>
-                {products.map((product, i) => < CarouselItem {...product} redirect={props.redirect} key={i} />)}
+                {products.map((product, i) => {
+                  if (simple) {
+                    return product
+                  } else {
+                    return < CarouselItem {...product} redirect={props.redirect} key={i} />
+                  }}
+                )}
             </Carousel>
         </div>
     )

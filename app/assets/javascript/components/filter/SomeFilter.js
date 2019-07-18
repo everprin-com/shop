@@ -61,7 +61,7 @@ class CheckboxLabels extends React.PureComponent {
                   value="checkedA"
                 />
               }
-              label="Мужчинам"
+              label="Мужской"
           />
           <FormControlLabel
             control={
@@ -72,7 +72,7 @@ class CheckboxLabels extends React.PureComponent {
                 color="primary"
               />
             }
-            label="Женщинам"
+            label="Женский"
           />
         </div>
         {/* <Divider className={classes.divider} /> */}
