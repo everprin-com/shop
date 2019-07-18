@@ -1,61 +1,60 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import SendIcon from '@material-ui/icons/Send';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-import FilterPanel from './filter/FilterPanel';
-import FilterPanelNew from './filter/FilterPanelNew';
-import SomeFilter from './filter/SomeFilter';
-import FilterPrice from './filter/FilterPrice';
-import FilterSeason from './filter/FilterSeason';
-import FilterColor from './filter/FilterColor';
-import FilterCategory from './filter/FilterCategory';
-import FilterGeneral from './filter/FilterGeneral';
-import { connect } from 'react-redux';
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Collapse from "@material-ui/core/Collapse";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import SendIcon from "@material-ui/icons/Send";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import StarBorder from "@material-ui/icons/StarBorder";
+import FilterPanel from "./filter/FilterPanel";
+import FilterPanelNew from "./filter/FilterPanelNew";
+import SomeFilter from "./filter/SomeFilter";
+import FilterPrice from "./filter/FilterPrice";
+import FilterSeason from "./filter/FilterSeason";
+import FilterCategory from "./filter/FilterCategory";
+import FilterGeneral from "./filter/FilterGeneral";
+import { connect } from "react-redux";
 
 const mapStateToProps = state => {
   return {
-    filterOptions: state.filterData.filterOptions ,
-  }
-}
+    filterOptions: state.filterData.filterOptions
+  };
+};
 
 const styles = theme => ({
   root: {
-    position: 'fixed',
+    position: "fixed",
     marginTop: 100,
-    width: '100%',
+    width: "100%",
     maxWidth: 260,
     backgroundColor: theme.palette.background.paper,
-    display: 'inline-block',
-    zIndex: 2,
+    display: "inline-block",
+    zIndex: 2
   },
   mainSideBar: {
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
-    },
+    [theme.breakpoints.down("sm")]: {
+      display: "none"
+    }
   },
   smallSideBar: {
     width: 300
   },
   nested: {
-    paddingLeft: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing.unit * 4
   },
   item: {
-    padding: 0,
+    padding: 0
   }
 });
 
 class SideBar extends React.PureComponent {
   state = {
-    open: true,
+    open: true
   };
 
   handleClick = () => {
@@ -68,9 +67,12 @@ class SideBar extends React.PureComponent {
     return (
       <List
         component="nav"
-        className={isMainSideBar ? `${classes.root} ${classes.mainSideBar}` : `${classes.root} ${classes.smallSideBar}` }
+        className={
+          isMainSideBar
+            ? `${classes.root} ${classes.mainSideBar}`
+            : `${classes.root} ${classes.smallSideBar}`
+        }
       >
-
         {/* <ListItem className={classes.item}> 
           <ListItemIcon>
             <SendIcon />
@@ -79,11 +81,15 @@ class SideBar extends React.PureComponent {
         </ListItem> */}
 
         <ListItem className={classes.item}>
-            <FilterGeneral title="Бренды" type="brand" filterOptions={filterOptions.brand}  />
+          <FilterGeneral
+            title="Бренды"
+            type="brand"
+            filterOptions={filterOptions.brand}
+          />
         </ListItem>
 
         <ListItem className={classes.item}>
-            <SomeFilter />
+          <SomeFilter />
         </ListItem>
 
         <ListItem className={classes.item}>
@@ -91,20 +97,19 @@ class SideBar extends React.PureComponent {
         </ListItem>
 
         <ListItem className={classes.item}>
-          <FilterPrice />
-        </ListItem>
-{/* 
-        <ListItem className={classes.item}>
-          <FilterColor />
-        </ListItem> */}
-
-        <ListItem className={classes.item}>
-            <FilterPanel title="Категории" Filter={FilterCategory} />
+          <FilterPrice filterOptions={filterOptions.size} />
         </ListItem>
 
+        <ListItem className={classes.item}>
+          <FilterPanel title="Категории" Filter={FilterCategory} />
+        </ListItem>
 
         <ListItem className={classes.item}>
-            <FilterGeneral title="Размеры" filterOptions={filterOptions.size}  />
+          <FilterGeneral
+            title="Размеры"
+            style={{ maxHeight: "130px", overflowY: "auto" }}
+            filterOptions={filterOptions.size}
+          />
         </ListItem>
 
         {/* <ListItem onClick={this.handleClick} className={classes.item}>
@@ -114,7 +119,7 @@ class SideBar extends React.PureComponent {
           <ListItemText inset primary="Inbox" />
           {this.state.open ? <ExpandLess /> : <ExpandMore />}
         </ListItem> */}
-        
+
         {/* <Collapse in={this.state.open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItem className={classes.nested} className={classes.item}>
@@ -131,7 +136,7 @@ class SideBar extends React.PureComponent {
 }
 
 SideBar.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(connect(mapStateToProps)(SideBar));

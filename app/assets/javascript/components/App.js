@@ -38,6 +38,9 @@ const styles = theme => ({
     margin: '0 auto',
     positon: 'relative',
   },
+  appInner: {
+    padding: '0 12px 12px 12px !important',
+  }
 });
 
 class App extends React.PureComponent{
@@ -54,7 +57,7 @@ render(){
   return (
     <div className={classes.root}>
       <Grid container spacing={24}>
-          <Grid item xs={12}>
+          <Grid className={classes.appInner} item xs={12}>
             <Header withSmallMenu />
             <Home />
             <Footer />
