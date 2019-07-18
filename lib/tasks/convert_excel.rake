@@ -1,7 +1,7 @@
 require 'roo'
 require 'spreadsheet'
 
-must_be_key_excel = [
+MUST_BE_KEY_EXCEL = [
   "article", "name", "description", "price", "color", "picture", "brand", "season", "male",
   "size", "country", "category", "presence", "size_world", "drop_ship", "composition", "drop_ship_price"
 ]
@@ -27,7 +27,7 @@ namespace :convert_excel do
           break if row.length < 1
           sorted_array = []
           row.each_with_index do |row_new, index_new|
-            sicking_key_index = @current_key_excel.index(must_be_key_excel[index_new])
+            sicking_key_index = @current_key_excel.index(MUST_BE_KEY_EXCEL[index_new])
             sorted_array.push(row[sicking_key_index])
           end
           new_book.worksheet(0).insert_row(index, sorted_array)
