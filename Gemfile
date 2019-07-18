@@ -5,7 +5,7 @@ gem 'rails', '4.2.11'
 
 gem "haml-rails"
 gem 'uglifier', '>= 1.3.0'
-
+gem 'rubyzip'
 gem 'bootstrap_form'
 
 gem 'coffee-rails'
@@ -73,6 +73,7 @@ gem "rest-client"
 # convert excel
 gem "roo"
 gem "roo-xls"
+gem "spreadsheet"
 
 group :development, :test do
   gem 'capybara'
