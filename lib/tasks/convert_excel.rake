@@ -28,6 +28,7 @@ namespace :convert_excel do
           sorted_array = []
           row.each_with_index do |row_new, index_new|
             sicking_key_index = @current_key_excel.index(MUST_BE_KEY_EXCEL[index_new])
+            next if !sicking_key_index
             sorted_array.push(row[sicking_key_index])
           end
           new_book.worksheet(0).insert_row(index, sorted_array)
