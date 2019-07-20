@@ -22,6 +22,7 @@ const styles = theme => ({
     border:'none',
   },
   table: {
+    overflow: "hidden",
     [theme.breakpoints.down('sm')]: {
       minWidth: 300,
     },
@@ -78,6 +79,10 @@ function AboutProduct(props) {
   var formatedProductData = {}
   Object.keys(productData).forEach(key => {
     if (!mapKeys[key] || !productData[key]) return
+    if (key == "price") {
+      formatedProductData[key] = { title: mapKeys[key], value: Math.round(productData[key]) }
+      return null
+    }
      formatedProductData[key] = { title: mapKeys[key], value: productData[key] }
     })
   return (

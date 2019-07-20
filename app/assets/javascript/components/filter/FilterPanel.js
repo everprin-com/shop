@@ -53,7 +53,7 @@ class CustomizedTooltips extends React.PureComponent {
             disableTouchListener
             title={<Filter />}
             placement="right"
-            classes={{  tooltip: classes.lightTooltip }}>
+            classes={{tooltip: classes.lightTooltip}}>
             <Button
               className={classes.button}>
               {title}

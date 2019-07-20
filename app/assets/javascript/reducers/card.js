@@ -1,18 +1,28 @@
 export default function (state = { data: [], isOpen: false, withProduct: false }, action) {
     switch (action.type) {
       case 'PUT_TO_CART':
-        const product = state.data.find(product => product.id ===  action.product.id) || {}
+        let productWithSameActiveSize = state.data.find(product => {
+         return product.id === action.product.id && product.activeSize == action.product.activeSize
+        })
+        const product = productWithSameActiveSize ? productWithSameActiveSize
+        : state.data.find(product => product.id ===  action.product.id) || {}
         let prevAmount = product.amount
-        if (prevAmount){
-          const witoutProduct = {...state, data: [...state.data.filter(product => product.id !==  action.product.id)]}
+        const isSizeEquel = product.activeSize == action.product.activeSize
+        console.log(isSizeEquel)
+        console.log(prevAmount)
         
+        if (prevAmount && isSizeEquel){
+          const witoutProduct = {...state, data: [...state.data.filter(product => {
+            return product.id === action.product.id && product.activeSize != action.product.activeSize
+          })]}
+        console.log(witoutProduct)
           return {
             ...witoutProduct,
             data: [
               ...witoutProduct.data,
               {
                 ...action.product,
-                activeSize:[...product.activeSize, action.product.activeSize],
+                activeSize: product.activeSize,
                 amount: ++prevAmount
               }
             ]

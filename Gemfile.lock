@@ -530,11 +530,13 @@ DEPENDENCIES
   rubocop
   rubocop-config-umbrellio
   rubocop-rspec
+  rubyzip
   sass-rails
   shoulda-matchers
   simplecov
   slim
   slim-rails
+  spreadsheet
   tele_notify
   thin
   uglifier (>= 1.3.0)
