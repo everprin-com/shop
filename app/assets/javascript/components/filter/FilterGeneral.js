@@ -33,7 +33,18 @@ const styles = {
   container: {
     flexWrap: "wrap",
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingLeft: 10,
+  },
+  checkbox:{
+    padding: 0
+  },
+  list: {
+    paddingLeft: 10,
+    display: "block",
+  },
+  label: {
+    fontSize: `15px`,
   }
 };
 
@@ -68,31 +79,35 @@ class FilterGeneral extends React.PureComponent {
   };
 
   generateFilterItem = ({ label, color = "primary" }) => {
+   const { classes } = this.props 
     return (
-      <FormControlLabel
-        key={label}
-        control={
-          <Checkbox
-            checked={this.state[label]}
-            onChange={this.handleChange(label)}
-            value={label}
-            color={color}
-          />
-        }
-        label={label}
-      />
+      <div className={classes.option}>
+        <FormControlLabel
+          key={label}
+          control={
+            <Checkbox
+              checked={this.state[label]}
+              onChange={this.handleChange(label)}
+              value={label}
+              color={color}
+              className={classes.checkbox}
+            />
+          }
+          label={<span className={classes.label}>{label}</span>}
+        />
+      </div>
     );
   };
 
   render() {
-    const { classes, filterOptions, title, style } = this.props;
+    const { classes, filterOptions, title, isList, style } = this.props;
 
     if (!filterOptions) return null;
 
     return (
       <FormGroup row className={classes.root}>
         <div className={classes.title}>{title}</div>
-        <div className={classes.container} style={{...style}}>
+        <div className={`${classes.container} ${isList ? classes.list : ""}`} style={{...style}}>
           {filterOptions.map(filterItem =>
             this.generateFilterItem({ label: filterItem })
           )}

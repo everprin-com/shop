@@ -11,6 +11,7 @@ import ProductItemSizes from "./ProductItemSizes";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getSizes } from "./Utils";
+import Badge from '@material-ui/core/Badge';
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -110,6 +111,10 @@ const styles = theme => ({
     "&:last-child": {
       paddingBottom: 0
     }
+  },
+  badge: {
+    float: `left`,
+    margin: `20px 30px`,
   }
 });
 
@@ -132,12 +137,15 @@ class ProductItem extends React.PureComponent {
     const { classes, inCard, data } = this.props;
     let { picture, price, name, category, id, size, activeSize } = data;
     price = Math.round(+price);
-    const oldPrice = Math.round(+price + +price / 2 + +price / 10);
+    const sales = [30 ,40, 50, 25, 55, 60, 45, 35, 65, 40]
+    const sale = sales[(""+price).split("")[(""+price).split("").length-1]]
+    const oldPrice = Math.round(price + price*sale/100)
+    const saleShow = 100-Math.round((price*100)/oldPrice)
     const windowWidth = window.innerWidth;
     const shouldShowBottom = this.state.hover || windowWidth < 1000;
     const withoutSizeName = name.replace(/[0-9-]*$/g, "");
     return (
-      <Card
+     <Card
         className={classes.card}
         onMouseOver={this.onHover}
         onMouseLeave={this.onLive}
@@ -148,13 +156,19 @@ class ProductItem extends React.PureComponent {
             pathname: `/productcart/${id}`,
             state: { data }
           }}
-        >
+        >           
+        <Badge
+        invisible={id%3!=0}
+        className={classes.badge}
+        badgeContent={`-${saleShow}%`}
+        color="secondary"
+        />
           <CardMedia
             className={classes.media}
             image={picture}
             title={withoutSizeName}
           />
-
+   
           <CardContent className={classes.cardContent}>
             <Typography component="div" className={classes.cardDesctiption}>
               <div className={classes.title}>{withoutSizeName}</div>
@@ -177,7 +191,7 @@ class ProductItem extends React.PureComponent {
               className={classes.button}
               onClick={this.putToCart}
             >
-              "Купить"
+              Купить
             </Button>
           </div>
         )}

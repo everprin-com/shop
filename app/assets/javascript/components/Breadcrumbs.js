@@ -7,6 +7,7 @@ const styles = () => ({
     root: {
         justifyContent: 'center',
         flexWrap: 'wrap',
+        marginTop: 150,
       },
   });
 

@@ -11,14 +11,11 @@ import SendIcon from "@material-ui/icons/Send";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
-import FilterPanel from "./filter/FilterPanel";
-import FilterPanelNew from "./filter/FilterPanelNew";
 import SomeFilter from "./filter/SomeFilter";
 import FilterPrice from "./filter/FilterPrice";
-import FilterSeason from "./filter/FilterSeason";
-import FilterCategory from "./filter/FilterCategory";
 import FilterGeneral from "./filter/FilterGeneral";
 import { connect } from "react-redux";
+import categories from './constants/categories'
 
 const mapStateToProps = state => {
   return {
@@ -73,12 +70,6 @@ class SideBar extends React.PureComponent {
             : `${classes.root} ${classes.smallSideBar}`
         }
       >
-        {/* <ListItem className={classes.item}> 
-          <ListItemIcon>
-            <SendIcon />
-          </ListItemIcon>
-          <ListItemText inset primary="Размеры" />
-        </ListItem> */}
 
         <ListItem className={classes.item}>
           <FilterGeneral
@@ -92,23 +83,30 @@ class SideBar extends React.PureComponent {
           <SomeFilter />
         </ListItem>
 
-        <ListItem className={classes.item}>
+        {/* <ListItem className={classes.item}>
           <FilterSeason />
-        </ListItem>
+        </ListItem> */}
 
         <ListItem className={classes.item}>
           <FilterPrice filterOptions={filterOptions.size} />
         </ListItem>
 
         <ListItem className={classes.item}>
-          <FilterPanel title="Категории" Filter={FilterCategory} />
+          <FilterGeneral
+            title="Размеры"
+            type="size"
+            style={{ maxHeight: "130px", overflowY: "auto" }}
+            filterOptions={filterOptions.size}
+          />
         </ListItem>
 
         <ListItem className={classes.item}>
           <FilterGeneral
-            title="Размеры"
+            title="Категории"
+            type="category"
             style={{ maxHeight: "130px", overflowY: "auto" }}
-            filterOptions={filterOptions.size}
+            filterOptions={categories}
+            isList
           />
         </ListItem>
 

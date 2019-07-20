@@ -32,6 +32,12 @@ const styles  = {
   divider: {
     width: '100%',
     backgroundColor: `rgba(0, 0, 0, 0.2)`
+  },
+  label: {
+    marginRight: 10
+  },
+  checkbox:{
+    padding: 4
   }
 }
 
@@ -59,9 +65,11 @@ class CheckboxLabels extends React.PureComponent {
                   checked={this.state.checkedA}
                   onChange={this.handleChange('checkedA')}
                   value="checkedA"
+                  className={classes.checkbox}
                 />
               }
               label="Мужской"
+              className={classes.label}
           />
           <FormControlLabel
             control={
@@ -70,9 +78,11 @@ class CheckboxLabels extends React.PureComponent {
                 onChange={this.handleChange('checkedB')}
                 value="checkedB"
                 color="primary"
+                className={classes.checkbox}
               />
             }
             label="Женский"
+            className={classes.label}
           />
         </div>
         {/* <Divider className={classes.divider} /> */}
