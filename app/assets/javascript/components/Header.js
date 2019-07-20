@@ -9,6 +9,7 @@ import MenuGenderPanel from "./MenuGenderPanel";
 import Panel from "./Panel";
 import DropDownMenu from "./DropDownMenu";
 import Drawer from "./Drawer";
+import { Link } from "react-router-dom";
 
 function TabContainer(props) {
   return (
@@ -75,14 +76,14 @@ const styles = theme => ({
   },
   header: {
     // position: 'sticky',
-    top: '0px',
+    top: "0px",
     position: "fixed",
     zIndex: 3,
     background: "#ffff",
     paddingTop: 12
   },
   overflow: {
-    overflow: "visible",
+    overflow: "visible !important",
     maxWidth: "100%"
   },
   tabs: {
@@ -100,15 +101,18 @@ const styles = theme => ({
     alignItems: "center"
   },
   logo: {
-    width: 200
+    width: 200,
+    cursor: "pointer"
   }
 });
 
 function Logo({ classes }) {
   return (
-    <div>
-      <img src="/imgs/logo.png" className={classes.logo} />
-    </div>
+    <Link to="/">
+      <div>
+        <img src="/imgs/logo.png" className={classes.logo} />
+      </div>
+    </Link>
   );
 }
 

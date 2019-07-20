@@ -14,13 +14,8 @@ import { getSizes } from "./Utils";
 import Slider from "./Slider";
 import { withRouter } from "react-router-dom";
 import ProductList from "./ProductList";
-// import ReactSlick from 'react-slick';
 import ReactSlick from "./ReactSlick"
 import Breadcrumbs from "./Breadcrumbs"
-
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
-
 
 const mapStateToProps = state => {
   return {
@@ -78,6 +73,8 @@ const styles = theme => ({
   },
   mainContentInner: {
     display: "flex",
+    maxHeight: `600px`,
+    overflow: `hidden`,
     [theme.breakpoints.between("xs", "xs")]: {
       flexDirection: "column"
     }
@@ -86,15 +83,11 @@ const styles = theme => ({
     width: "100%"
   },
   img: {
-    [theme.breakpoints.down("sm")]: {
-      marginTop: 150
-    },
     [theme.breakpoints.between("xs", "xs")]: {
       flexDirection: "column"
     }
   },
   textContent: {
-    marginTop: 150,
     marginLeft: 20,
     [theme.breakpoints.down("xs")]: {
       marginTop: 0
@@ -167,9 +160,9 @@ class ProductCart extends React.PureComponent {
         />
         <div className={classes.mainContent}>
           <div className={classes.mainContentInner}>
-            <div className={`${classes.img} fluid__image-container`}>
+            <div className={`${classes.img} fluid__image-container product-show`}>
             {/* <ReactSlick /> */}
-               <ReactImageMagnify
+               {/* <ReactImageMagnify
                   {...{
                     smallImage: {
                       alt: "Wristwatch by Ted Baker London",
@@ -181,15 +174,13 @@ class ProductCart extends React.PureComponent {
                       width: 1200,
                       height: 1800
                     },
-                    // enlargedImagePortalId: 'portal',
                     enlargedImageContainerDimensions: {
                         width: '200%',
                         height: '100%'
                     }
                   }}
-                />
-            {/* <Slider
-            title="Вы просматривали:"
+                /> */}
+            <Slider
             slidesToShow={1}
             slidesToScroll={1}
             simple
@@ -206,7 +197,11 @@ class ProductCart extends React.PureComponent {
                       src: picture,
                       width: 1200,
                       height: 1800
-                    }
+                    },
+                    enlargedImageContainerDimensions: {
+                      width: '200%',
+                      height: '100%'
+                  }
                   }}
                 />,
                 <ReactImageMagnify
@@ -214,20 +209,26 @@ class ProductCart extends React.PureComponent {
                     smallImage: {
                       alt: "Wristwatch by Ted Baker London",
                       isFluidWidth: true,
-                      src: picture
+                      src: "http://vsestilno.com.ua/modules/catalog_items/uploads/original/5602_f3c53e9d3085355.jpg"
                     },
                     largeImage: {
-                      src: picture,
+                      src: "http://vsestilno.com.ua/modules/catalog_items/uploads/original/5602_f3c53e9d3085355.jpg",
                       width: 1200,
                       height: 1800
-                    }
+                    },
+                    enlargedImageContainerDimensions: {
+                      width: '200%',
+                      height: '100%'
+                  }
                   }}
                 />
             ] 
             }
             draggable
             arrows
-          /> */}
+            effect="fade"
+            vertical
+          />
  
               {/* </ReactSlick> */}
             </div>
@@ -260,7 +261,7 @@ class ProductCart extends React.PureComponent {
           <AboutProduct productData={productData} forMobile />
         </div>
 
-        <div className={classes.slider}>
+        <div className={`${classes.slider} horizontal-slider`}>
           <Slider
             title="Вы просматривали:"
             slidesToShow={4}

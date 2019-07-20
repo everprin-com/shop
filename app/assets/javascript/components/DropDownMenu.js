@@ -42,6 +42,9 @@ const styles = theme => ({
   cardImg: {
     maxHeight: 200,
     width: 'auto',
+    marginTop: 30,
+    marginLeft: 50,
+    boxShadow: "5px 5px 10px #ccc, -5px -5px 10px #ccc",
   },
   img: {
     maxHeight: 200,
