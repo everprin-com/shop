@@ -7,6 +7,7 @@ import fetchGetWithParams from "./api/fetchGetWithParams";
 import { connect } from "react-redux";
 import Paper from "@material-ui/core/Paper";
 import { Link } from "react-router-dom";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -65,7 +66,7 @@ const styles = theme => ({
     fontSize: "15px"
   },
   inputBase: {
-    width: 400
+    width: `400px !important`
   }
 });
 
@@ -151,6 +152,7 @@ class CustomizedInputs extends React.PureComponent {
   onChange = (e, dep) => {
     const val = e.target.value;
     this.setState({ searchCity: val });
+    this.props.changeCity(val);
     if (val.length < 2) return;
     this.sendNP(val, dep).then(res =>
       this.setState({
@@ -164,6 +166,7 @@ class CustomizedInputs extends React.PureComponent {
   changeCity = city => {
     this.setState({ city, searchCity: city }, () =>
       this.sendNP(city, true).then(res => {
+        this.props.changeCity(city);
         const departments = res.data.map(d => d.Description);
         this.setState({
           departments,
@@ -189,6 +192,7 @@ class CustomizedInputs extends React.PureComponent {
     this.setState({
       serchDepartment: val
     });
+    this.props.changeDepartament(val);
   };
 
   sendNP = (city, dep) => {
@@ -212,23 +216,32 @@ class CustomizedInputs extends React.PureComponent {
 
   closeDropDown = () => this.setState({ isOpenDropDown: false });
 
+  errorHelper = field => {
+    if (!this.props.errors[field]) return null;
+    return (
+      <FormHelperText className={this.props.classesFromOrder.error}>
+        {this.props.errors[field]}
+      </FormHelperText>
+    );
+  };
+
   render() {
-    const { classes, classesFromOrder } = this.props;
+    const { classes, classesFromOrder, errorHelper } = this.props;
     return (
       <div>
         <div className={classes.inputWrap}>
           <TextField
-            classes={{
-              root: classes.inputBase
-            }}
             label="Город/Населенный пункт"
             className={`${classesFromOrder.textField} ${classes.root}`}
             onChange={this.onChange}
             value={this.state.searchCity}
             type="text"
             margin="normal"
+            fullWidth
+            error={this.props.errors.city}
             // inputRef={this.cityRef}
           />
+          {this.errorHelper("city")}
           {this.state.isOpenDropDown && (
             <DropDown
               changeCity={this.changeCity}
@@ -241,11 +254,7 @@ class CustomizedInputs extends React.PureComponent {
 
         <div className={classes.inputWrap}>
           <TextField
-            InputBase={{
-              classes: {
-                root: classes.inputBase
-              }
-            }}
+            fullWidth
             label="Отделение Новой Почты"
             className={`${classes.root}`}
             value={this.state.serchDepartment}
@@ -254,7 +263,9 @@ class CustomizedInputs extends React.PureComponent {
             margin="normal"
             className={classesFromOrder.textField}
             inputRef={this.departmentRef}
+            error={this.props.errors.departament}
           />
+          {this.errorHelper("departament")}
           {this.state.filteredDepartments && (
             <DropDown
               classes={classes}

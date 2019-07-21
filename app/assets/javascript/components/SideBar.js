@@ -75,6 +75,7 @@ class SideBar extends React.PureComponent {
           <FilterGeneral
             title="Бренды"
             type="brand"
+            style={{ maxHeight: "130px", overflowY: "auto" }}
             filterOptions={filterOptions.brand}
           />
         </ListItem>

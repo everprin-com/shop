@@ -40,7 +40,7 @@ const styles = theme => ({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    minHeight: "100vh",
+    // minHeight: "100vh",
     [theme.breakpoints.down("xs")]: {
       justifyContent: "center"
     }
