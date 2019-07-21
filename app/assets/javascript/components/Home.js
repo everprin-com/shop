@@ -17,10 +17,10 @@ class Home extends React.PureComponent {
         return (
         <div className={classes.root}>
             <SideBar isMainSideBar />
-            <ProductList  productsParams={{ search_category: "Женские кардиганы" }} />
+            <ProductList productsParams={{ shuffled_products: true }}/>
         </div>
         )
     }
   }
- 
+
   export default withStyles(styles)(Home);

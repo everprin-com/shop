@@ -94,25 +94,26 @@ class DropDownMenu extends React.PureComponent {
             )})
           }
         </ul>
-      ) 
+      )
     })
   }
 
-  clothesList = () => {
-    const { classes } = this.props;
+  productTypeList = () => {
+    const { classes, productTypeList} = this.props;
+    console.log("productTypeList")
+    console.log(productTypeList)
     return (
     <div  className={classes.categoryBlock}>
-      {this.ulWithSpecialCountLi(categories, 5)}
+      {this.ulWithSpecialCountLi(productTypeList, 5)}
     </div>)
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, headers } = this.props;
     const { imgCategory } = this.state;
-
     return (
-        <div  className={classes.categoryBlock}>
-          {this.ulWithSpecialCountLi(categories, 5)}
+        <div className={classes.categoryBlock}>
+          {this.productTypeList()}
           <Paper className={classes.cardImg}>
             <img
               className={classes.img}

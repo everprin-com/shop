@@ -9,7 +9,7 @@ class Item < ActiveRecord::Base
 
   GROUP = {
     clothes: [
-      "Зимние женские куртки", "Женские плащи",
+      "Зимние женские куртки", "Женские плащи", "Одежда",
       "Туники", "Костюмы женские", "Женские спортивные костюмы",
       "Женские брюки", "Женские пиджаки", "Женские свитера",
       "Блузки и рубашки", "Леггинсы и лосины",
@@ -18,7 +18,7 @@ class Item < ActiveRecord::Base
       "Женские футболки и майки", "Жилетки", "Женские юбки"
     ],
     footwear: ["Обувь"],
-    accessories: ["asddas"]
+    accessories: ["Сумки", "Аксессуары"]
   }
 
   def self.create_header
@@ -26,7 +26,7 @@ class Item < ActiveRecord::Base
     catalogues = Item.select(:category).uniq.map(&:category)
     catalogues.map do |catalogue|
       count = Item.where(category: catalogue).count
-      group = GROUP.select{ |key, hash| hash.include?(catalogue) }.keys[0].to_s
+      group = GROUP.select{ |key, hash| hash.include?(catalogue.capitalize) }.keys[0].to_s
       Header.create!(count_items: count, catalogue: catalogue, group: group)
     end
   end
