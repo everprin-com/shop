@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  require 'will_paginate/array'
   protect_from_forgery with: :null_session, if: proc { |c| c.request.format == 'application/json' }
   include CurrentCart
 

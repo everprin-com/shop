@@ -35,10 +35,9 @@ class ItemsImport
        row = Hash[[HEADER, spreadsheet.row(i)[0..HEADER.size-1]].transpose]
        item = Item.find_by_id(row["id"]) || Item.new
        item.attributes = row.to_hash
-       #conver_size_to_array(row)
        item["size"] = conver_size_to_array(row)
        item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
-       item["picture"] = row["picture"]&.split(",")
+       item["picture"] = row["picture"]&.split(" ")&.split(",")&.flatten
        item
     end
   end
@@ -67,10 +66,16 @@ class ItemsImport
     end
   end
 
+  def delete_old_drop_ship(imported_items)
+    old_drop_ships = imported_items.map(&:drop_ship).uniq
+    Item.where(drop_ship: old_drop_ships).delete_all
+  end
+
   def save
     if imported_items.map(&:valid?).all?
       delete_null(imported_items)
       capitalize_fields(imported_items)
+      delete_old_drop_ship(imported_items)
       imported_items.each(&:save!)
       true
     else

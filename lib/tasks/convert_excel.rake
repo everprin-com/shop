@@ -25,6 +25,8 @@ namespace :convert_excel do
             next
           end
           break if row.length < 1
+          p "index"
+          p index
           sorted_array = []
           row.each_with_index do |row_new, index_new|
             sicking_key_index = @current_key_excel.index(MUST_BE_KEY_EXCEL[index_new])
