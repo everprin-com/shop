@@ -144,6 +144,7 @@ class ProductItem extends React.PureComponent {
     const windowWidth = window.innerWidth;
     const shouldShowBottom = this.state.hover || windowWidth < 1000;
     const withoutSizeName = name.replace(/[0-9-]*$/g, "");
+    const srcPicture = Array.isArray(picture) ? picture[0] : picture
     return (
      <Card
         className={classes.card}
@@ -165,7 +166,7 @@ class ProductItem extends React.PureComponent {
         />
           <CardMedia
             className={classes.media}
-            image={picture}
+            image={srcPicture}
             title={withoutSizeName}
           />
    

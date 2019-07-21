@@ -14,8 +14,8 @@ import { getSizes } from "./Utils";
 import Slider from "./Slider";
 import { withRouter } from "react-router-dom";
 import ProductList from "./ProductList";
-import ReactSlick from "./ReactSlick"
-import Breadcrumbs from "./Breadcrumbs"
+import ReactSlick from "./ReactSlick";
+import Breadcrumbs from "./Breadcrumbs";
 
 const mapStateToProps = state => {
   return {
@@ -133,6 +133,30 @@ class ProductCart extends React.PureComponent {
 
   redirectToRoot = () => this.props.history.push("/");
 
+  sliderItem = (srcPicture, alt) => {
+    return (
+      <ReactImageMagnify
+        {...{
+          smallImage: {
+            alt,
+            isFluidWidth: true,
+            src: srcPicture
+          },
+          largeImage: {
+            alt,
+            src: srcPicture,
+            width: 1200,
+            height: 1800
+          },
+          enlargedImageContainerDimensions: {
+            width: "200%",
+            height: "100%"
+          }
+        }}
+      />
+    );
+  };
+
   render() {
     const {
       classes,
@@ -151,91 +175,38 @@ class ProductCart extends React.PureComponent {
     return (
       <div className={classes.root}>
         <Header redirectToRoot={this.redirectToRoot} />
-        {/* <External /> */}
         <Breadcrumbs
           links={[
-            {href: "/", title: "Главная"},
-            {href: "/orderform", title: "Форма заказа"}
+            { href: "/", title: "Главная" },
+            { href: "/orderform", title: "Форма заказа" }
           ]}
         />
         <div className={classes.mainContent}>
           <div className={classes.mainContentInner}>
-            <div className={`${classes.img} fluid__image-container product-show`}>
-            {/* <ReactSlick /> */}
-               {/* <ReactImageMagnify
-                  {...{
-                    smallImage: {
-                      alt: "Wristwatch by Ted Baker London",
-                      isFluidWidth: true,
-                      src: picture
-                    },
-                    largeImage: {
-                      src: picture,
-                      width: 1200,
-                      height: 1800
-                    },
-                    enlargedImageContainerDimensions: {
-                        width: '200%',
-                        height: '100%'
-                    }
-                  }}
-                /> */}
-            <Slider
-            slidesToShow={1}
-            slidesToScroll={1}
-            simple
-            products={
-              [
-                <ReactImageMagnify
-                  {...{
-                    smallImage: {
-                      alt: "Wristwatch by Ted Baker London",
-                      isFluidWidth: true,
-                      src: picture
-                    },
-                    largeImage: {
-                      src: picture,
-                      width: 1200,
-                      height: 1800
-                    },
-                    enlargedImageContainerDimensions: {
-                      width: '200%',
-                      height: '100%'
-                  }
-                  }}
-                />,
-                <ReactImageMagnify
-                  {...{
-                    smallImage: {
-                      alt: "Wristwatch by Ted Baker London",
-                      isFluidWidth: true,
-                      src: "http://vsestilno.com.ua/modules/catalog_items/uploads/original/5602_f3c53e9d3085355.jpg"
-                    },
-                    largeImage: {
-                      src: "http://vsestilno.com.ua/modules/catalog_items/uploads/original/5602_f3c53e9d3085355.jpg",
-                      width: 1200,
-                      height: 1800
-                    },
-                    enlargedImageContainerDimensions: {
-                      width: '200%',
-                      height: '100%'
-                  }
-                  }}
-                />
-            ] 
-            }
-            draggable
-            arrows
-            effect="fade"
-            vertical
-          />
- 
-              {/* </ReactSlick> */}
+            <div
+              className={`${classes.img} fluid__image-container product-show`}
+            >
+              <Slider
+                slidesToShow={1}
+                slidesToScroll={1}
+                simple
+                products={
+                  Array.isArray(picture)
+                    ? picture.map(srcPicture => this.sliderItem(srcPicture))
+                    : picture
+                }
+                draggable
+                arrows
+                effect="fade"
+                vertical
+              />
             </div>
 
             <div className={`${classes.textContent} fluid__instructions`}>
               <h3>{productData.name}</h3>
-              <p className={classes.price}>{`${Math.round(productData.price)} грн`}</p>
+              <p className={classes.price}>{`${Math.round(
+                productData.price
+              )} грн`}</p>
               <p>
                 <ProductItemSizes
                   sizes={size}
