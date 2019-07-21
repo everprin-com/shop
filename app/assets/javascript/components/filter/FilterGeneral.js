@@ -108,7 +108,7 @@ class FilterGeneral extends React.PureComponent {
       <FormGroup row className={classes.root}>
         <div className={classes.title}>{title}</div>
         <div className={`${classes.container} ${isList ? classes.list : ""}`} style={{...style}}>
-          {filterOptions.map(filterItem =>
+          {filterOptions.sort().map(filterItem =>
             this.generateFilterItem({ label: filterItem })
           )}
         </div>

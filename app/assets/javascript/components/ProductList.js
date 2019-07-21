@@ -28,6 +28,7 @@ const styles = theme => ({
     flexWrap: "wrap",
     justifyContent: "space-between",
     minHeight: "100vh",
+    alignItems: "flex-start",
     [theme.breakpoints.down("sm")]: {
       marginLeft: 10,
       justifyContent: "space-around"

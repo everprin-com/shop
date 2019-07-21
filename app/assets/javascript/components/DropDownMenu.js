@@ -75,9 +75,12 @@ class DropDownMenu extends React.PureComponent {
     let ulAmount = Math.ceil((arrLi.length+1) / countLi)
 
     let arrForUl = []
-    for(var i=1, s=0; i < ulAmount; ++i, s=s+countLi){
+    for(var i=1, s=0; i <= ulAmount; ++i, s=s+countLi){
       arrForUl.push(arrLi.slice(s, countLi*i))
     }
+    console.log("arrForUl")
+    console.log(arrForUl)
+    console.log("arrForUl")
     return arrForUl.map((arrLi, i)=> {
       return (
         <ul className={classes.categoryList} key={i}>
