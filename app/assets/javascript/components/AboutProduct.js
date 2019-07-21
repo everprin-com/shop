@@ -70,7 +70,6 @@ function AboutProduct(props) {
     sex: "Принадлежность",
     season: "Сезонность",
     composition: "Состав",
-    color: "Цвет",
     brandCountry: "Страна бренда",
     color: "Цвет",
     weight: "Вес",
@@ -98,7 +97,10 @@ function AboutProduct(props) {
                 {formatedProductData[key]["title"]}
               </TableCell>
               <TableCell align="left" className={classes.cell}>
-                {formatedProductData[key]["value"]}
+                 {
+                   key =="price" ? `${formatedProductData[key]["value"]} грн`
+                  : formatedProductData[key]["value"]
+                 }
               </TableCell>
             </TableRow>
           ))}

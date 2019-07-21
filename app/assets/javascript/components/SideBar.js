@@ -15,7 +15,7 @@ import SomeFilter from "./filter/SomeFilter";
 import FilterPrice from "./filter/FilterPrice";
 import FilterGeneral from "./filter/FilterGeneral";
 import { connect } from "react-redux";
-import categories from './constants/categories'
+import categories from "./constants/categories";
 
 const mapStateToProps = state => {
   return {
@@ -70,12 +70,13 @@ class SideBar extends React.PureComponent {
             : `${classes.root} ${classes.smallSideBar}`
         }
       >
-
         <ListItem className={classes.item}>
           <FilterGeneral
             title="Бренды"
             type="brand"
+            style={{ maxHeight: "130px", overflowY: "auto", width: "100%" }}
             filterOptions={filterOptions.brand}
+            isList
           />
         </ListItem>
 
