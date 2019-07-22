@@ -35,6 +35,8 @@ class ItemsImport
        row = Hash[[HEADER, spreadsheet.row(i)[0..HEADER.size-1]].transpose]
        item = Item.find_by_id(row["id"]) || Item.new
        item.attributes = row.to_hash
+       #conver_size_to_array(row)
+       item["male"] = true if row["male"].present?
        item["size"] = conver_size_to_array(row)
        item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
        item["picture"] = row["picture"]&.split(" ")&.split(",")&.flatten
@@ -44,9 +46,16 @@ class ItemsImport
 
   def conver_size_to_array(row)
     return [] unless row["size"]
-    a = row["size"].split("-")
-    return [] if a[0].to_i == 0 #if string universal return nil
-    (a[0].to_i..a[1].to_i).to_a
+    parser_dash = row["size"].split("-")
+    parser_colon = row["size"].split(" ")
+    type_parser = [parser_dash, parser_colon].max_by(&:length)
+    if type_parser == parser_dash
+      return [] if parser_dash[0].to_i == 0 #if string universal return nil
+      (parser_dash[0].to_i..parser_dash[1].to_i).to_a
+    elsif type_parser == parser_colon
+      return [] if parser_colon[0].to_i == 0
+      [parser_colon[0], parser_colon[3], parser_colon[6], parser_colon[9]].compact
+    end
   end
 
   def imported_items
@@ -60,15 +69,15 @@ class ItemsImport
     end
   end
 
+  def delete_old_drop_ship(imported_items)
+    old_drop_ships = imported_items.map(&:drop_ship).uniq
+    Item.where(drop_ship: old_drop_ships).delete_all
+  end
+
   def capitalize_fields(imported_items)
    CAPITALIZE_FIELDS.each do |field|
       imported_items.each { |item| item.public_send("#{field}=", item.public_send("#{field}")&.capitalize) }
     end
-  end
-
-  def delete_old_drop_ship(imported_items)
-    old_drop_ships = imported_items.map(&:drop_ship).uniq
-    Item.where(drop_ship: old_drop_ships).delete_all
   end
 
   def save
