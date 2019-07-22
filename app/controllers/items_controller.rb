@@ -5,6 +5,7 @@ class ItemsController < ApplicationController
     items = Item.all
     generate_filters = generate_filters(items, params[:search_category])
     items = items.name_search(params[:search_name]) if params[:search_name].present?
+    items = items.group_search(params[:search_group]) if params[:search_group].present?
     items = items.where("price >= ?", params[:price_search_from]) if params[:price_search_from].present?
     items = items.where("price <= ?", params[:price_search_to]) if params[:price_search_to].present?
     items = items.where(color: params[:search_color]) if params[:search_color].present?
