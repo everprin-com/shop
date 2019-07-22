@@ -31,6 +31,11 @@ class Item < ActiveRecord::Base
     end
   end
 
+  def self.group_search(group)
+    selected_group = Item::GROUP.select{|key, value| key.to_s == group}
+    where(category: selected_group.values.flatten)
+  end
+
   def self.name_search(query)
     self.where("similarity(name, ?) > 0.1", query).order("similarity(name, #{ActiveRecord::Base.connection.quote(query)}) DESC")
   end
