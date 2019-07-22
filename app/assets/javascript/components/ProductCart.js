@@ -74,7 +74,7 @@ const styles = theme => ({
   mainContentInner: {
     display: "flex",
     maxHeight: `600px`,
-    overflow: `hidden`,
+    overflow: `visible`,
     [theme.breakpoints.between("xs", "xs")]: {
       flexDirection: "column"
     }
@@ -169,7 +169,7 @@ class ProductCart extends React.PureComponent {
     } = this.props;
     const { id } = match.params;
     const productData = products.find(product => product.id == id) || {};
-    const { size, picture, category } = productData;
+    const { size, picture, category, name, price } = productData;
     const activeSize = productData.activeSize;
     const isInCart = card.data.some(cardItem => cardItem.id == id);
     return (
@@ -177,9 +177,12 @@ class ProductCart extends React.PureComponent {
         <Header redirectToRoot={this.redirectToRoot} />
         <Breadcrumbs
           links={[
-            { href: "/", title: "Главная" },
-            { href: "/orderform", title: "Форма заказа" }
+            { href: "/", title: "Главная"  },
+            { href: "/orderform", title: "Форма заказа"  }
           ]}
+          category={category}
+          name={name}
+          redirectToRoot={this.redirectToRoot}
         />
         <div className={classes.mainContent}>
           <div className={classes.mainContentInner}>
@@ -203,9 +206,9 @@ class ProductCart extends React.PureComponent {
             </div>
 
             <div className={`${classes.textContent} fluid__instructions`}>
-              <h3>{productData.name}</h3>
+              <h3>{name}</h3>
               <p className={classes.price}>{`${Math.round(
-                productData.price
+                price
               )} грн`}</p>
               <p>
                 <ProductItemSizes
