@@ -72,6 +72,7 @@ class DropDownMenu extends React.PureComponent {
 
   ulWithSpecialCountLi = (arrLi, countLi) => {
     const { classes } = this.props;
+    if (!arrLi) return
     let ulAmount = Math.ceil((arrLi.length+1) / countLi)
 
     let arrForUl = []

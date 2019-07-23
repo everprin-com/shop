@@ -1,12 +1,16 @@
-export default function (state = [], action) {
+export default function (state = {}, action) {
   switch (action.type) {
-    case 'ADD_META_DATAS':
-      const meta_datas = action.meta_datas || {}
-      const headers = meta_datas.headers || {}
-      return  { ...state, headers: JSON.parse(headers) }
     case 'ADD_META_DATA':
-      return  state.some(meta_data=>meta_data.id==action.meta_data.id) ? [...state] : [...state, action.product]
-    case 'RESET_META_DATAS':
+      const meta_data = action.meta_data || {}
+      return  {
+        ...state,
+        ...meta_data,
+        headers: {
+        female: JSON.parse(meta_data.headers.female),
+        male: JSON.parse(meta_data.headers.male)
+      },
+    }
+    case 'RESET_META_DATA':
       return []
     default:
       return state

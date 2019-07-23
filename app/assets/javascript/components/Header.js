@@ -13,9 +13,11 @@ import Drawer from "./Drawer";
 import { Link } from "react-router-dom";
 
 const mapStateToProps = state => {
-  return {
-    headers: state.metaData.headers,
+  const isFemale = state.general.sex == "female"
+  if (state.metaData.headers) return {
+    headers: state.metaData.headers[isFemale ? "female" : "male"],
   }
+  return {}
 }
 
 function TabContainer(props) {
@@ -143,7 +145,7 @@ class Header extends React.PureComponent {
 
   productTypeList = type => {
     const { headers } = this.props;
-    if (!headers) return
+    if (!headers || !headers.filter) return
     const typeCategory = headers.filter(header => header.group == type)
     const catalogues = Object.keys(typeCategory).map(key => typeCategory[key]["catalogue"])
     return catalogues

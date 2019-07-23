@@ -5,9 +5,12 @@ import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 
 const mapStateToProps = state => {
-  return {
-    headers: state.metaData.headers
-  };
+  const isFemale = state.general.sex == "female"
+  if (state.metaData.headers)
+    return {
+      headers: state.metaData.headers[isFemale ? "female" : "male"]
+    };
+  return {};
 };
 
 const mapDispatchToProps = dispatch => {
@@ -39,12 +42,13 @@ function SimpleBreadcrumbs({
     accessories: "Аксессуары"
   };
   const getGroup = en => {
-    const catalogue = headers
-      ? headers.find(header => header.catalogue == category)
-      : "";
+    const catalogue =
+      headers && headers.find
+        ? headers.find(header => header.catalogue == category)
+        : "";
     const group = catalogue ? catalogue.group : "";
-    if (en) return group
-    return mapCategory[group]
+    if (en) return group;
+    return mapCategory[group];
   };
 
   const toMain = e => {
@@ -56,13 +60,13 @@ function SimpleBreadcrumbs({
     e.preventDefault();
     requestAndAddProducts({ search_category });
     redirectToRoot && redirectToRoot();
-  }
+  };
 
   const toGroup = (e, search_group) => {
     e.preventDefault();
     requestAndAddProducts({ search_group });
-    // redirectToRoot && redirectToRoot();
-  }
+    redirectToRoot && redirectToRoot();
+  };
 
   return (
     <div className={classes.root}>
@@ -70,11 +74,18 @@ function SimpleBreadcrumbs({
         <Link to="/" onClick={toMain}>
           Главная
         </Link>{" "}
-        /<Link to="/" onClick={e => toGroup(e, getGroup("en"))}>{getGroup()}</Link> /
+        /
+        <Link to="/" onClick={e => toGroup(e, getGroup("en"))}>
+          {getGroup()}
+        </Link>{" "}
+        /
         <Link to="/" onClick={e => toCategory(e, category)}>
           {category}
         </Link>{" "}
-        /<Link to="/">{name}</Link>
+        /
+        <Link to="/" onClick={e => e.preventDefault()}>
+          {name}
+        </Link>
       </Paper>
     </div>
   );

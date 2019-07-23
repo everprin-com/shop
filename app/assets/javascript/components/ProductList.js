@@ -8,7 +8,8 @@ const mapStateToProps = state => {
   return {
     products: state.product,
     card: state.card,
-    loading: state.general.loading
+    loading: state.general.loading,
+    firstEnter: state.general.firstEnter
   };
 };
 
@@ -16,7 +17,8 @@ const mapDispatchToProps = dispatch => {
   return {
     requestAndAddProducts: params =>
       dispatch({ type: "REQUEST_AND_ADD_PRODUCTS", params }),
-    handlePagination: () => dispatch({ type: "HANDLE_PAGINATION" })
+    handlePagination: () => dispatch({ type: "HANDLE_PAGINATION" }),
+    fistEnterOff: () => dispatch({ type: "FIRST_ENTER_OFF" })
   };
 };
 
@@ -58,8 +60,17 @@ class ProductList extends React.PureComponent {
   state = { scroll: 0 };
 
   componentDidMount() {
-    const { requestAndAddProducts, products, productsParams } = this.props;
-    if (productsParams) requestAndAddProducts(productsParams);
+    const {
+      requestAndAddProducts,
+      products,
+      productsParams,
+      firstEnter,
+      fistEnterOff
+    } = this.props;
+    if (productsParams && firstEnter) {
+      requestAndAddProducts(productsParams);
+      fistEnterOff();
+    }
     window.onscroll = () => this.scrollChange();
   }
 
