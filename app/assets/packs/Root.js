@@ -46,8 +46,8 @@ const DProductCart = Loadable({
 
 (() => {
   fetchGet("/meta_datas")
-  .then(meta_datas => {
-    store.dispatch({ type: 'ADD_META_DATAS', meta_datas })
+  .then(meta_data => {
+    store.dispatch({ type: 'ADD_META_DATA', meta_data })
   })
 })()
 

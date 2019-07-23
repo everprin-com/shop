@@ -1,27 +1,97 @@
-import React from 'react';
-import Paper from '@material-ui/core/Paper';
+import React from "react";
+import Paper from "@material-ui/core/Paper";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
+
+const mapStateToProps = state => {
+  const isFemale = state.general.sex == "female"
+  if (state.metaData.headers)
+    return {
+      headers: state.metaData.headers[isFemale ? "female" : "male"]
+    };
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    requestAndAddProducts: params =>
+      dispatch({ type: "REQUEST_AND_ADD_PRODUCTS", params, afterReset: true })
+  };
+};
 
 const styles = () => ({
-    root: {
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-        marginTop: 150,
-      },
-  });
+  root: {
+    justifyContent: "center",
+    flexWrap: "wrap",
+    marginTop: 150
+  }
+});
 
- function SimpleBreadcrumbs({classes, links}) {
+function SimpleBreadcrumbs({
+  classes,
+  category,
+  name,
+  headers,
+  redirectToRoot,
+  requestAndAddProducts
+}) {
+  var mapCategory = {
+    footwear: "Обувь",
+    clothes: "Одежда",
+    accessories: "Аксессуары"
+  };
+  const getGroup = en => {
+    const catalogue =
+      headers && headers.find
+        ? headers.find(header => header.catalogue == category)
+        : "";
+    const group = catalogue ? catalogue.group : "";
+    if (en) return group;
+    return mapCategory[group];
+  };
+
+  const toMain = e => {
+    e.preventDefault();
+    redirectToRoot && redirectToRoot();
+  };
+
+  const toCategory = (e, search_category) => {
+    e.preventDefault();
+    requestAndAddProducts({ search_category });
+    redirectToRoot && redirectToRoot();
+  };
+
+  const toGroup = (e, search_group) => {
+    e.preventDefault();
+    requestAndAddProducts({ search_group });
+    redirectToRoot && redirectToRoot();
+  };
 
   return (
     <div className={classes.root}>
       <Paper elevation={0} className={classes.paper}>
-          {links.map((link, index)=> <Link to={link.href} >
-            {`${link.title} ${links.length-1 == index ? " " : " /"}`}
-          </Link>)}
+        <Link to="/" onClick={toMain}>
+          Главная
+        </Link>{" "}
+        /
+        <Link to="/" onClick={e => toGroup(e, getGroup("en"))}>
+          {getGroup()}
+        </Link>{" "}
+        /
+        <Link to="/" onClick={e => toCategory(e, category)}>
+          {category}
+        </Link>{" "}
+        /
+        <Link to="/" onClick={e => e.preventDefault()}>
+          {name}
+        </Link>
       </Paper>
     </div>
   );
 }
 
-export default withStyles(styles)(SimpleBreadcrumbs)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(SimpleBreadcrumbs));

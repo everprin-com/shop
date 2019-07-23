@@ -72,15 +72,13 @@ class DropDownMenu extends React.PureComponent {
 
   ulWithSpecialCountLi = (arrLi, countLi) => {
     const { classes } = this.props;
+    if (!arrLi) return
     let ulAmount = Math.ceil((arrLi.length+1) / countLi)
 
     let arrForUl = []
     for(var i=1, s=0; i <= ulAmount; ++i, s=s+countLi){
       arrForUl.push(arrLi.slice(s, countLi*i))
     }
-    console.log("arrForUl")
-    console.log(arrForUl)
-    console.log("arrForUl")
     return arrForUl.map((arrLi, i)=> {
       return (
         <ul className={classes.categoryList} key={i}>
@@ -103,8 +101,6 @@ class DropDownMenu extends React.PureComponent {
 
   productTypeList = () => {
     const { classes, productTypeList} = this.props;
-    console.log("productTypeList")
-    console.log(productTypeList)
     return (
     <div  className={classes.categoryBlock}>
       {this.ulWithSpecialCountLi(productTypeList, 5)}

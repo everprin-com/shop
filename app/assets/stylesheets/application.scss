@@ -60,7 +60,19 @@ font-size: 20px;
   transition: none !important;
   width: 400px !important;
   height: 600px !important;
+  display: flex !important;
+  align-items: center !important;
 } 
+
+.product-show .arrSlider.prev{
+  left: -26px;
+}
+
+.arrSlider.prev:hover,
+.arrSlider.next:hover{
+  background-color: #3f51b5;
+  color: #fff;
+}
 
 .product-show .slick-list{
   overflow: visible;
