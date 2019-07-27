@@ -80,7 +80,8 @@ const styles = theme => ({
     }
   },
   slider: {
-    width: "100%"
+    width: "100%",
+    zIndex: 2,
   },
   img: {
     [theme.breakpoints.between("xs", "xs")]: {

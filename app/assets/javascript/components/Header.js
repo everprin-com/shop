@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import MenuGenderPanel from "./MenuGenderPanel";
 import Panel from "./Panel";
@@ -13,12 +13,13 @@ import Drawer from "./Drawer";
 import { Link } from "react-router-dom";
 
 const mapStateToProps = state => {
-  const isFemale = state.general.sex == "female"
-  if (state.metaData.headers) return {
-    headers: state.metaData.headers[isFemale ? "female" : "male"],
-  }
-  return {}
-}
+  const isFemale = state.general.sex == "female";
+  if (state.metaData.headers)
+    return {
+      headers: state.metaData.headers[isFemale ? "female" : "male"]
+    };
+  return {};
+};
 
 function TabContainer(props) {
   return (
@@ -43,7 +44,7 @@ function CastomIcon({ src, classes }) {
 const styles = theme => ({
   root: {
     [theme.breakpoints.up("xs")]: {
-      width: "320px"
+      width: "345px"
     },
     [theme.breakpoints.up("sm")]: {
       width: "600px"
@@ -67,8 +68,9 @@ const styles = theme => ({
       fontSize: "12px"
     }
   },
-  tab_content: {
-    fontSize: "15px"
+  tabContent: {
+    fontSize: "15px",
+    padding: 5,
   },
   dropdownMenu: {
     position: "absolute",
@@ -111,14 +113,25 @@ const styles = theme => ({
   },
   logo: {
     width: 200,
-    cursor: "pointer"
+    cursor: "pointer",
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "-5px",
+      marginLeft: "-30px"
+    }
+  },
+  logoWrap: {
+    [theme.breakpoints.down("xs")]: {
+      width: 70,
+      height: 70,
+      overflow: "hidden"
+    }
   }
 });
 
 function Logo({ classes }) {
   return (
     <Link to="/">
-      <div>
+      <div className={classes.logoWrap}>
         <img src="/imgs/logo.png" className={classes.logo} />
       </div>
     </Link>
@@ -145,11 +158,13 @@ class Header extends React.PureComponent {
 
   productTypeList = type => {
     const { headers } = this.props;
-    if (!headers || !headers.filter) return
-    const typeCategory = headers.filter(header => header.group == type)
-    const catalogues = Object.keys(typeCategory).map(key => typeCategory[key]["catalogue"])
-    return catalogues
-  }
+    if (!headers || !headers.filter) return;
+    const typeCategory = headers.filter(header => header.group == type);
+    const catalogues = Object.keys(typeCategory).map(
+      key => typeCategory[key]["catalogue"]
+    );
+    return catalogues;
+  };
 
   handleClickOutside = event => {
     const domNode = this.dropDownRef.current;
@@ -213,38 +228,33 @@ class Header extends React.PureComponent {
                 <Panel />
               </Tabs>
             </AppBar>
-            {this.state.value !== false && (
+            {/* {this.state.value !== false && ( */}
+              {this.state.value !== 9 && (
               <div
                 className={classes.dropdownMenu}
                 ref={this.dropDownRef}
                 onMouseLeave={this.resetDropDown}
               >
                 {value === 0 && (
-                  <TabContainer className={classes.tab_content}>
                     <DropDownMenu
                       redirectToRoot={redirectToRoot}
                       productTypeList={this.productTypeList("clothes")}
                       resetDropDown={this.resetDropDown}
                     />
-                  </TabContainer>
                 )}
                 {value === 1 && (
-                  <TabContainer className={classes.tab_content}>
                     <DropDownMenu
                       redirectToRoot={redirectToRoot}
                       productTypeList={this.productTypeList("footwear")}
                       resetDropDown={this.resetDropDown}
                     />
-                  </TabContainer>
                 )}
                 {value === 2 && (
-                  <TabContainer className={classes.tab_content}>
                     <DropDownMenu
                       redirectToRoot={redirectToRoot}
                       productTypeList={this.productTypeList("accessories")}
                       resetDropDown={this.resetDropDown}
                     />
-                  </TabContainer>
                 )}
               </div>
             )}
@@ -260,4 +270,7 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, null)(withStyles(styles)(Header))
+export default connect(
+  mapStateToProps,
+  null
+)(withStyles(styles)(Header));
