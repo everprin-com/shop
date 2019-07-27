@@ -1,26 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import { connect } from 'react-redux';
-import { Close } from '@material-ui/icons'
-import TextField from '@material-ui/core/TextField';
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
+import { Close } from "@material-ui/icons";
+import TextField from "@material-ui/core/TextField";
 
 const mapStateToProps = state => {
   return {
     card: state.card
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
-    closeCart: () => dispatch({ type: 'CLOSE_CART'}),
-    redirToOrderForm: () => dispatch({ type: 'OPEN_ORDER_FORM'}),
-    deleteFromCart: id => dispatch({ type: 'DELETE_FROM_CART', id}),
-    setAmount: (id, amount)=> dispatch({ type: 'SET_AMOUTN', id, amount}),
-  }
-}
+    closeCart: () => dispatch({ type: "CLOSE_CART" }),
+    redirToOrderForm: () => dispatch({ type: "OPEN_ORDER_FORM" }),
+    deleteFromCart: id => dispatch({ type: "DELETE_FROM_CART", id }),
+    setAmount: (id, amount) => dispatch({ type: "SET_AMOUTN", id, amount })
+  };
+};
 
 const styles = theme => ({
   root: {
@@ -28,24 +28,25 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     maxWidth: 800,
-    margin: '10 0',
+    margin: "10 0"
   },
   content: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-around"
   },
   title: {
-    margin: '0 30px'
+    margin: "0 30px"
   },
-  totalBlock:{
+  totalBlock: {
     margin: 20,
     // flexDirection: 'column',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    fontFamily: 'Arial,Helvetica,FreeSans,"Liberation Sans","Nimbus Sans",sans-serif',
-    fontSize: 24,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    fontFamily:
+      'Arial,Helvetica,FreeSans,"Liberation Sans","Nimbus Sans",sans-serif',
+    fontSize: 24
   },
   button: {
     fontSize: 16
@@ -53,14 +54,15 @@ const styles = theme => ({
   imageWrapper: {
     width: 150,
     height: 150,
+    overflow: "hidden"
   },
   image: {
-    height: '100%',
+    height: "100%"
   },
   buttonClose: {
-    borderRadius: '50%',
+    borderRadius: "50%",
     width: 64,
-    height: 64,
+    height: 64
   },
   totalPrice: {
     marginBottom: 5
@@ -68,69 +70,114 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 50,
-  },
+    width: 50
+  }
 });
 
-function Cart(props) {
-  const { classes, card, redirToOrderForm, deleteFromCart, closeCart } = props;
-  const totalPrice = card.data.reduce((prev, next)=> { return (prev + next.price*next.amount)}, 0)
-  const renderProducts = card.data.map( cartDataItem => {
-    const handleChange = event => {
-      props.setAmount(cartDataItem.id, event.target.value) 
-    };
-    return  (<Paper className={classes.root} key={cartDataItem.id} elevation={1}>
-    <div className={classes.content}>
-      <div className={classes.imageWrapper}>
-          <img src={cartDataItem.picture} className={classes.image}/>
-      </div>
-      <div className={classes.title}>{cartDataItem.name}</div>
-      <div className={classes.price}>
-        <TextField
-            id="standard-number"
-            value={cartDataItem.amount}
-            onChange={handleChange}
-            type="number"
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            margin="normal"
-        />
-      </div>
-      <div className={classes.price}>{`${cartDataItem.price * cartDataItem.amount} грн`}</div>
-      <div className={classes.price}>
-        <Button className={classes.buttonClose} onClick={deleteFromCart.bind(null, cartDataItem.id)}>
-          <Close />
-        </Button>
-      </div>
-    </div>
-    </Paper>)
-    })
+class Cart extends React.PureComponent {
+  // componentDidUpdate() {
+  //   if (this.props.card.data.length < 1) this.props.closeCart();
+  // }
+
+  deleteProduct = id => {
+    this.props.deleteFromCart(id);
+    console.log(this.props.card.data.length < 1);
+    console.log(this.props.card);
+    console.log(this.props.card.data);
+    console.log(this.props.card.data.length);
+    if (this.props.card.data.length < 1) this.props.closeCart();
+  };
+
+  renderProducts = () => {
+    const { classes, card, setAmount } = this.props;
+    return card.data.map(cartDataItem => {
+      const handleChange = event => {
+        setAmount(cartDataItem.id, event.target.value);
+      };
+
+      const srcImg = Array.isArray(cartDataItem.picture)
+        ? cartDataItem.picture[0]
+        : cartDataItem.picture;
+
+      return (
+        <Paper className={classes.root} key={cartDataItem.id} elevation={1}>
+          <div className={classes.content}>
+            <div className={classes.imageWrapper}>
+              <img src={srcImg} className={classes.image} />
+            </div>
+            <div className={classes.title}>{cartDataItem.name}</div>
+            <div className={classes.price}>
+              <TextField
+                id="standard-number"
+                value={cartDataItem.amount}
+                onChange={handleChange}
+                type="number"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                margin="normal"
+                inputProps={{ min: "1", max: "20", step: "1" }}
+              />
+            </div>
+            <div className={classes.price}>{`${cartDataItem.price *
+              cartDataItem.amount} грн`}</div>
+            <div className={classes.price}>
+              <Button
+                className={classes.buttonClose}
+                onClick={() => this.deleteProduct(cartDataItem.id)}
+              >
+                <Close />
+              </Button>
+            </div>
+          </div>
+        </Paper>
+      );
+    });
+  };
+  render() {
+    const { classes, redirToOrderForm, closeCart, card } = this.props;
+    const totalPrice = card.data.reduce((prev, next) => {
+      return prev + next.price * next.amount;
+    }, 0);
+
     return (
       <div>
-        {renderProducts}
+        {this.renderProducts()}
         <div className={classes.totalBlock}>
-        <div>
-            <Button variant="contained" className={classes.button} onClick={closeCart}>
+          <div>
+            <Button
+              variant="contained"
+              className={classes.button}
+              onClick={closeCart}
+            >
               Продолжить покупки
             </Button>
           </div>
           <div>
-            <div className={classes.totalPrice}>
-              {`Итого: ${totalPrice} грн`}
-            </div>
-            <Button variant="contained" color="secondary" className={classes.button} onClick={redirToOrderForm}>
+            <div
+              className={classes.totalPrice}
+            >{`Итого: ${totalPrice} грн`}</div>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+              onClick={redirToOrderForm}
+            >
               Оформить заказ
             </Button>
           </div>
         </div>
       </div>
     );
+  }
 }
 
 Cart.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Cart));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Cart));

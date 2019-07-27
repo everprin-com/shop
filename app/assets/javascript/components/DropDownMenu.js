@@ -26,28 +26,39 @@ const styles = theme => ({
     fontSize: '16px',
     margin: '15px',
     cursor: 'pointer',
+    textTransform: "lowercase",
     [theme.breakpoints.down('sm')]: {
       margin: '0px',
       fontSize: '12px',
     },
+    [theme.breakpoints.down('xs')]: {
+      margin: '0px',
+      fontSize: '10px',
+    },
+    "&:hover": {
+      color: "#3f51b5"
+    }
   },
   categoryList: {
     [theme.breakpoints.down('sm')]: {
-      paddingLeft: 20,
+      paddingLeft: 15,
     },
   },
   categoryBlock: {
     display: 'flex',
+    [theme.breakpoints.down('xs')]: {
+      padding: '0 10px',
+    },
   },
   cardImg: {
-    maxHeight: 200,
+    maxHeight: 185,
     width: 'auto',
-    marginTop: 30,
+    marginTop: 20,
     marginLeft: 50,
     boxShadow: "5px 5px 10px #ccc, -5px -5px 10px #ccc",
   },
   img: {
-    maxHeight: 200,
+    maxHeight: 185,
     width: 'auto',
   }
 });

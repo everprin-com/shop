@@ -28,7 +28,6 @@ export default function(
             })
           ]
         };
-        console.log(witoutProduct);
         return {
           ...witoutProduct,
           data: [
@@ -57,24 +56,19 @@ export default function(
         ...state,
         data: [...state.data.filter(product => product.id !== action.id)]
       };
+    case "RESET_CART":
+      return { ...state, data: [], withProduct: false };
     case "OPEN_CART":
       return { ...state, isOpen: true, withProduct: action.withProduct };
     case "CLOSE_CART":
       return { ...state, isOpen: false };
     case "SET_AMOUTN":
+      let { data } = state;
       const findedProduct =
-        state.data.find(product => product.id === action.id) || {};
-      const witoutProduct = {
-        ...state,
-        data: [...state.data.filter(product => product.id !== action.id)]
-      };
-      return {
-        ...witoutProduct,
-        data: [
-          ...witoutProduct.data,
-          { ...findedProduct, amount: action.amount }
-        ]
-      };
+        data.find(product => product.id === action.id) || {};
+      const productIndex = data.indexOf(findedProduct);
+      data[productIndex] = { ...findedProduct, amount: action.amount };
+      return { ...state, data };
     default:
       return state;
   }

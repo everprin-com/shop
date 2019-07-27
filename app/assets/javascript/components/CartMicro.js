@@ -102,12 +102,13 @@ function MicroCart(props) {
           <TableBody >
             {card.data.map(cartDataItem => {
               const { picture, name, amount, price, activeSize } = cartDataItem;
+              const srcImg = Array.isArray(picture) ? picture[0] : picture;
               const withoutSizeName = name.replace(/[0-9-]*$/g, "");
               return (
                 <TableRow key={cartDataItem.id}>
                   <TableCell component="th" scope="row">
                     <div className={classes.imageWrapper}>
-                      <img src={picture} className={classes.image} />
+                      <img src={srcImg} className={classes.image} />
                     </div>
                   </TableCell>
                   <TableCell className={classes.name}>
