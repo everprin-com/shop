@@ -28,7 +28,10 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     maxWidth: 800,
-    margin: "10 0"
+    margin: "10 0",
+    [theme.breakpoints.down("sm")]: {
+      margin: 0,
+    }
   },
   content: {
     display: "flex",
@@ -36,7 +39,11 @@ const styles = theme => ({
     justifyContent: "space-around"
   },
   title: {
-    margin: "0 30px"
+    margin: "0 30px",
+    [theme.breakpoints.down("sm")]: {
+      margin: "0 2px",
+      fontSize: 14,
+    }
   },
   totalBlock: {
     margin: 20,
@@ -46,10 +53,17 @@ const styles = theme => ({
     alignItems: "flex-end",
     fontFamily:
       'Arial,Helvetica,FreeSans,"Liberation Sans","Nimbus Sans",sans-serif',
-    fontSize: 24
+    fontSize: 24,
+    [theme.breakpoints.down("sm")]: {
+      margin: "0 3px",
+    }
   },
   button: {
-    fontSize: 16
+    fontSize: 16,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 14,
+      padding: "4px 6px",
+    }
   },
   imageWrapper: {
     width: 150,
@@ -70,21 +84,26 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 50
+    width: 50, 
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 14,
+    }
+  },
+  price: {
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 14,
+    }
+  },
+  inputAmount: {
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 14,
+    }
   }
 });
 
 class Cart extends React.PureComponent {
-  // componentDidUpdate() {
-  //   if (this.props.card.data.length < 1) this.props.closeCart();
-  // }
-
   deleteProduct = id => {
     this.props.deleteFromCart(id);
-    console.log(this.props.card.data.length < 1);
-    console.log(this.props.card);
-    console.log(this.props.card.data);
-    console.log(this.props.card.data.length);
     if (this.props.card.data.length < 1) this.props.closeCart();
   };
 
@@ -115,6 +134,9 @@ class Cart extends React.PureComponent {
                 className={classes.textField}
                 InputLabelProps={{
                   shrink: true
+                }}
+                InputProps={{
+                  className: classes.inputAmount
                 }}
                 margin="normal"
                 inputProps={{ min: "1", max: "20", step: "1" }}

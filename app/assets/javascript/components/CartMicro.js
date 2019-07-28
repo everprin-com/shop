@@ -83,7 +83,7 @@ const styles = theme => ({
 function MicroCart(props) {
   const { classes, card, redirToOrderForm, deleteFromCart, closeCart } = props;
   const totalPrice = card.data.reduce((prev, next) => {
-    return prev + +next.price;
+    return prev + +next.price * next.amount;
   }, 0);
 
   const renderProducts = () => {
