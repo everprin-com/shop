@@ -228,8 +228,7 @@ class Header extends React.PureComponent {
                 <Panel />
               </Tabs>
             </AppBar>
-            {/* {this.state.value !== false && ( */}
-              {this.state.value !== 9 && (
+            {this.state.value !== false && (
               <div
                 className={classes.dropdownMenu}
                 ref={this.dropDownRef}

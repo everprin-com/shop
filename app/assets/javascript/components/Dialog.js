@@ -47,7 +47,12 @@ const styles = theme => ({
   },
   title: {
     textAlign: 'center',
-  }
+  },
+  dialog: {
+    [theme.breakpoints.down("xs")]: {
+      margin: 0,
+    }
+  },
 });
 
 class DialogWindow extends React.PureComponent {
@@ -60,6 +65,9 @@ class DialogWindow extends React.PureComponent {
         open={dialog[type].status}
         className={classes.dialog}
         maxWidth="lg"
+        classes={{
+          paper: classes.dialog
+        }}
       >
         <DialogTitle
           id="customized-dialog-title"
@@ -68,7 +76,7 @@ class DialogWindow extends React.PureComponent {
         >
           {title}
         </DialogTitle>
-        <DialogContent>
+        <DialogContent className={classes.dialogContent} >
             <Component />
         </DialogContent>
         <DialogActions>

@@ -1,74 +1,81 @@
-import React from 'react';
-import { createMuiTheme } from '@material-ui/core/styles';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/icons/Menu';
-import green from '@material-ui/core/colors/green';
-import SideBar from './SideBar';
-import { withStyles } from '@material-ui/core/styles';
+import React from "react";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/icons/Menu";
+import SideBar from "./SideBar";
+import { withStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
+
+const mapStateToProps = state => {
+  return {
+    sideBarOpen: state.general.mobileSideBar
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    openSideBar: () => dispatch({ type: "MOBILE_SIDEBAR_ON" }),
+    closeSideBar: () => dispatch({ type: "MOBILE_SIDEBAR_OFF" })
+  };
+};
 
 const styles = theme => ({
   list: {
-    width: 250,
+    width: 250
   },
   fullList: {
-    width: 'auto',
+    width: "auto"
   },
   icon: {
-    fontSize: 35,
+    fontSize: 35
   },
   smallMenu: {
-    position: 'absolute',
-    bottom: '-56px',
+    position: "absolute",
+    bottom: "-56px",
     left: 0,
-    display: 'none',
-    [theme.breakpoints.down('sm')]: {
-      display: 'block'
-    },
+    display: "none",
+    [theme.breakpoints.down("sm")]: {
+      display: "block"
+    }
   },
   button: {
     minWidth: 50,
-    background: '#eee',
+    background: "#eee"
   },
   sideBarWrap: {
-    width: 300
-  },
+    width: 265
+  }
 });
 
-function SwipeableTemporaryDrawer({classes}) {
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
-
-  const toggleDrawer = (side, open) => event => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-
-    setState({ ...state, [side]: open });
-  };
-
-  return (
-    <div className={classes.smallMenu}>
-      <Button className={classes.button} onClick={toggleDrawer('left', true)}>
-        <Menu className={classes.icon} />
-      </Button>
-      <SwipeableDrawer
-        open={state.left}
-        onClose={toggleDrawer('left', false)}
-        onOpen={toggleDrawer('left', true)}
-        className={classes.sideBarWrap}
-        classes={{
-          paper: classes.sideBarWrap,
-        }}
-      >
-        <SideBar />
-      </SwipeableDrawer>
-    </div>
-  );
+class SwipeableTemporaryDrawer extends React.PureComponent {
+  render() {
+    const {
+      props: { classes, sideBarOpen, openSideBar, closeSideBar }
+    } = this;
+    return (
+      <div className={classes.smallMenu}>
+        <Button className={classes.button} onClick={openSideBar}>
+          <Menu className={classes.icon} />
+        </Button>
+        <SwipeableDrawer
+          open={sideBarOpen}
+          onClose={closeSideBar}
+          onOpen={openSideBar}
+          className={classes.sideBarWrap}
+          classes={{
+            paper: classes.sideBarWrap
+          }}
+        >
+          <SideBar />
+        </SwipeableDrawer>
+      </div>
+    );
+  }
 }
 
-export default withStyles(styles)(SwipeableTemporaryDrawer)
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SwipeableTemporaryDrawer)
+);

@@ -1,4 +1,4 @@
-export default function (state = {firstEnter: true, sex: "female"}, action) {
+export default function (state = {firstEnter: true, sex: "female", mobileSideBar: false}, action) {
     switch (action.type) {
       case 'CHANGE_LAST_PARAMS':
         return {...state, lastRequestParams: action.lastRequestParams} 
@@ -28,6 +28,10 @@ export default function (state = {firstEnter: true, sex: "female"}, action) {
         return {...state, currentProduct: action.product}
       case 'DELETE_CURRENT_PRODUCT' :
         return {...state, currentProduct: null}
+      case 'MOBILE_SIDEBAR_OFF' :
+        return {...state, mobileSideBar: false}
+      case 'MOBILE_SIDEBAR_ON' :
+        return {...state, mobileSideBar: true}
       default:
         return state
     }
