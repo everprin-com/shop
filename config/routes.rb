@@ -32,8 +32,8 @@ Rails.application.routes.draw do
   resources :items
   resources :items_imports, only: [:new, :create]
   resources :meta_datas, defaults: {format: 'json'}, only: [:index]
-  resources :infos, :messagestoadministrators, :answerfrommoderators, :orders, :line_items, :carts
-
+  resources :infos, :messagestoadministrators, :answerfrommoderators, :line_items, :carts
+  resources :orders, defaults: {format: 'json'}
   #post '/852875250:AAEMa_qRzOs4LdRDvgOWJYOIBpcIy_zM9vs' => 'application#webhook'
   # get '/message' => 'some#message'
   # post '/send_message_to_all' => 'some#send_message_to_all'
