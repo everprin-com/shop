@@ -1,7 +1,8 @@
 class OrdersController < ApplicationController
-  include ControllerRails
-  include CurrentCart
-  before_action :only_admin_or_moderator, only: :update
+  #include ControllerRails
+  #include CurrentCart
+  #before_action :only_admin_or_moderator, only: :update
+  respond_to :html, :js, :json
   #before_action :set_cart
   #respond_to :html, :js, :json
 
@@ -16,11 +17,10 @@ class OrdersController < ApplicationController
   def create
     order = Order.new(resource_params)
     if order.save!
-      params = {order: { name: "kolya", phone: "", address: "asffsd", line_items: [{proudct_id: 5256, size: "45", quantity: 3 }, {proudct_id: 5256, size: "50", quantity: 1 }] }}
-      params[:order][:line_items].each do |line_item|
-        item = Item.find(line_item[:proudct_id])
+      line_item_params[:cards].each do |line_item|
+        item = Item.find(line_item[:id])
         return unless item
-        line_item = LineItem.new(size: line_item[:size], order_id: order.id, quantity: line_item[:quantity])
+        line_item = LineItem.new(size: line_item[:activeSize].to_s, order_id: order.id, quantity: line_item[:amount])
         line_item.copy_attrs_from(item)
         line_item.save!
         order.update_attributes(
@@ -70,11 +70,10 @@ class OrdersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def line_item_params
-    byebug
-    params.require(:line_item).permit(:order_id, :price, :quantity)
+    params.require(:line_items).permit(:cards => [:id, :amount, activeSize: []])
   end
 
   def resource_params
-    params.require(:order).permit(:name, :address, :phone, :status)
+    params.require(:order).permit(:name, :address, :phone, :status, :departament)
   end
 end
