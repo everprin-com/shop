@@ -32,11 +32,11 @@ const styles = theme => ({
     minHeight: "100vh",
     alignItems: "flex-start",
     [theme.breakpoints.down("sm")]: {
-      marginLeft: 10,
+      marginLeft: 0,
       justifyContent: "space-around"
     },
     [theme.breakpoints.down("xs")]: {
-      justifyContent: "center"
+      justifyContent: "flex-start"
     }
   },
   rootCart: {
@@ -53,6 +53,9 @@ const styles = theme => ({
     justifyContent: "center",
     padding: 50,
     marginLeft: 260
+  },
+  wraper:{
+    zIndex: 2,
   }
 });
 
@@ -103,7 +106,7 @@ class ProductList extends React.PureComponent {
   render() {
     const { classes, loading, forCart } = this.props;
     return (
-      <div>
+      <div className={classes.wraper}>
         <div
           className={`${forCart ? classes.rootCart : classes.root} productList`}
         >

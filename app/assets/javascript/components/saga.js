@@ -21,7 +21,7 @@ function* openCart(action) {
 function* checkSetSize(action) {
   //checkProduct.activeSize ? action.product.size.includes("универсальный") : false
   const checkProduct = action.product;
-  if (!checkProduct.activeSize) {
+  if (!checkProduct.activeSize && checkProduct.size.length > 0) {
     yield put({ type: "SHOW_SET_SIZE_WINDOW", id: action.product.id });
   } else {
     yield put({ type: "PUT_TO_CART", product: action.product });
@@ -94,6 +94,13 @@ function* requestAndAddProductsToSlider() {
   yield put({ type: "ADD_PRODUCTS_TO_SLIDER", products: products.items });
 }
 
+function* handleCloseCart() {
+  const state = yield select();
+  if (state.card.data.length < 1) {
+    yield put({ type: "CLOSE_CART" });
+  }
+}
+
 function* handleScroll() {
   setTimeout(() => {
     put({ type: "SCROLL_OFF" });
@@ -141,6 +148,10 @@ function* watchOpenCart() {
   yield takeEvery("TRY_OPEN_CART", handleOpenCart);
 }
 
+function* watchDeleteFromCart() {
+  yield takeEvery("DELETE_FROM_CART", handleCloseCart);
+}
+
 export default function* rootSaga() {
   yield all([
     watchTryPutCart(),
@@ -150,6 +161,7 @@ export default function* rootSaga() {
     watchHandlePagination(),
     watchRequestAndAddProductsToSlider(),
     watchScroll(),
-    watchOpenCart()
+    watchOpenCart(),
+    watchDeleteFromCart()
   ]);
 }

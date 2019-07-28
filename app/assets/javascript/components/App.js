@@ -20,7 +20,7 @@ const mapStateToProps = state => {
 const styles = theme => ({
   root: {
     [theme.breakpoints.up('xs')]: {
-      width: '320px',
+      width: '375px',
     },
     [theme.breakpoints.up('sm')]: {
       width: '600px',
