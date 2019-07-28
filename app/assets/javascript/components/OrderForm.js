@@ -10,6 +10,12 @@ import SuccessOrder from "./SuccessOrder";
 import AdressInput from "./AdressInput";
 import FormHelperText from "@material-ui/core/FormHelperText";
 
+const mapStateToProps = state => {
+  return {
+    card: state.card
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     closeOrderForm: () => dispatch({ type: "CLOSE_ORDER_FORM" }),
@@ -127,7 +133,7 @@ class OrderForm extends React.PureComponent {
       let currentErrors = {}
       for (var key in isValid) {
         if(!isValid[key]) { currentErrors[key] = ERRORS.text[key] }
-      } 
+      }
 
       this.setState({ errors: currentErrors });
     } else {
@@ -137,17 +143,24 @@ class OrderForm extends React.PureComponent {
   };
 
   sendOrder = () => {
+    console.log("data")
+    window.vasa = this.props.card.data
+    const line_items = this.props.card.data.map(element => return { id: element.id, amount: element.amount, activeSize: element.activeSize })
+    consolr.log(line_items)
     if (this.validateData()) {
       fetch("/orders", {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          order: {
-            name: this.state.name,
-            phone: this.state.phone,
-            city: this.state.city,
-            departament: this.state.departament
-          }
+            order: {
+              name: this.state.name,
+              phone: this.state.phone,
+              address: this.state.city,
+              departament: this.state.departament,
+            },
+            line_items: {
+              cards: this.props.card.data,
+            },
         })
       });
       this.props.showSuccess();
@@ -155,7 +168,7 @@ class OrderForm extends React.PureComponent {
     }
   };
 
- 
+
 
   sendQuestion = () => {
     fetch("/messagestoadministrators", {
@@ -300,6 +313,6 @@ OrderForm.propTypes = {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withStyles(styles)(OrderForm));
