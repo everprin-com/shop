@@ -31,7 +31,7 @@ const styles = theme => ({
     maxWidth: 260,
     backgroundColor: theme.palette.background.paper,
     display: "inline-block",
-    zIndex: 2
+    zIndex: 3
   },
   mainSideBar: {
     [theme.breakpoints.down("sm")]: {
