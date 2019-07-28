@@ -143,10 +143,7 @@ class OrderForm extends React.PureComponent {
   };
 
   sendOrder = () => {
-    console.log("data")
-    window.vasa = this.props.card.data
-    const line_items = this.props.card.data.map(element => return { id: element.id, amount: element.amount, activeSize: element.activeSize })
-    consolr.log(line_items)
+    const line_items = this.props.card.data.map(function(element){return {id: element.id, amount: element.amount, activeSize: element.activeSize}})
     if (this.validateData()) {
       fetch("/orders", {
         method: "post",
@@ -159,7 +156,7 @@ class OrderForm extends React.PureComponent {
               departament: this.state.departament,
             },
             line_items: {
-              cards: this.props.card.data,
+              cards: line_items,
             },
         })
       });
