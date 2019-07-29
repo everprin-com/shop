@@ -84,7 +84,7 @@ const styles = theme => ({
   },
   inputWrap: {
     position: 'relative',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       display: 'none'
     },
   },

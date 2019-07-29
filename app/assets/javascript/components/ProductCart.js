@@ -10,11 +10,9 @@ import DialogWindow from "./Dialog";
 import ChooseSize from "./ChooseSize";
 import Footer from "./Footer";
 import fetchGet from "./api/fetchGet";
-import { getSizes } from "./Utils";
 import Slider from "./Slider";
 import { withRouter } from "react-router-dom";
 import ProductList from "./ProductList";
-import ReactSlick from "./ReactSlick";
 import Breadcrumbs from "./Breadcrumbs";
 
 const mapStateToProps = state => {
@@ -47,7 +45,7 @@ const styles = theme => ({
     minHeight: "100vh",
     justifyContent: "space-between",
     [theme.breakpoints.up("xs")]: {
-      maxWidth: "320px"
+      maxWidth: "360px"
     },
     [theme.breakpoints.up("sm")]: {
       maxWidth: "600px"
@@ -77,6 +75,9 @@ const styles = theme => ({
     overflow: `visible`,
     [theme.breakpoints.between("xs", "xs")]: {
       flexDirection: "column"
+    },
+    [theme.breakpoints.down("xs")]: {
+      maxHeight: `none`,
     }
   },
   slider: {
@@ -86,6 +87,9 @@ const styles = theme => ({
   img: {
     [theme.breakpoints.between("xs", "xs")]: {
       flexDirection: "column"
+    },
+    [theme.breakpoints.down("xs")]: {
+      maxHeight: 600,
     }
   },
   textContent: {

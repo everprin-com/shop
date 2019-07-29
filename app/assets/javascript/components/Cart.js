@@ -29,8 +29,9 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 2,
     maxWidth: 800,
     margin: "10 0",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       margin: 0,
+      padding: 4,
     }
   },
   content: {
@@ -40,7 +41,7 @@ const styles = theme => ({
   },
   title: {
     margin: "0 30px",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       margin: "0 2px",
       fontSize: 14,
     }
@@ -54,13 +55,13 @@ const styles = theme => ({
     fontFamily:
       'Arial,Helvetica,FreeSans,"Liberation Sans","Nimbus Sans",sans-serif',
     fontSize: 24,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       margin: "0 3px",
     }
   },
   button: {
     fontSize: 16,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       fontSize: 14,
       padding: "4px 6px",
     }
@@ -68,7 +69,11 @@ const styles = theme => ({
   imageWrapper: {
     width: 150,
     height: 150,
-    overflow: "hidden"
+    overflow: "hidden",
+    [theme.breakpoints.down("xs")]: {
+      width: 100,
+      height: 100,
+    }
   },
   image: {
     height: "100%"
@@ -79,23 +84,26 @@ const styles = theme => ({
     height: 64
   },
   totalPrice: {
-    marginBottom: 5
+    marginBottom: 5,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 20,
+    }
   },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: 50, 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       fontSize: 14,
     }
   },
   price: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       fontSize: 14,
     }
   },
   inputAmount: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       fontSize: 14,
     }
   }
@@ -142,8 +150,9 @@ class Cart extends React.PureComponent {
                 inputProps={{ min: "1", max: "20", step: "1" }}
               />
             </div>
-            <div className={classes.price}>{`${cartDataItem.price *
-              cartDataItem.amount} грн`}</div>
+            <div className={classes.price}>
+            {`${cartDataItem.price * cartDataItem.amount} грн`}
+              </div>
             <div className={classes.price}>
               <Button
                 className={classes.buttonClose}
