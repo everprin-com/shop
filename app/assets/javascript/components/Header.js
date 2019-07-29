@@ -212,18 +212,21 @@ class Header extends React.PureComponent {
                   label="Одежда"
                   icon={<CastomIcon classes={classes} src="clothes.png" />}
                   onMouseEnter={this.hoverOn.bind(this, 0)}
+                  onClick={this.hoverOn.bind(this, 0)}
                 />
                 <Tab
                   className={classes.tab}
                   label="Обувь"
                   icon={<CastomIcon classes={classes} src="shoe.png" />}
                   onMouseEnter={this.hoverOn.bind(this, 1)}
+                  onClick={this.hoverOn.bind(this, 1)}
                 />
                 <Tab
                   className={classes.tab}
                   label="Аксессуары"
                   icon={<CastomIcon classes={classes} src="watch.svg" />}
                   onMouseEnter={this.hoverOn.bind(this, 2)}
+                  onClick={this.hoverOn.bind(this, 2)}
                 />
                 <Panel />
               </Tabs>
