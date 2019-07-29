@@ -94,12 +94,18 @@ const styles = theme => ({
   },
   dialog: {
     [theme.breakpoints.down("xs")]: {
+      width: '100vw',
+    }
+  },
+  paper: {
+    [theme.breakpoints.down("xs")]: {
       margin: 0
     }
   },
     dialogContent: {
     [theme.breakpoints.down("xs")]: {
-      minWidth: "auto"
+      minWidth: "auto",
+      padding: 5,
     }
   },
   cardBlock: {
@@ -118,11 +124,19 @@ const styles = theme => ({
     display: "flex"
   },
   cardTitle: {
-    display: "inline-flex"
+    display: "inline-flex",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "20px",
+      display: "block",
+    },
   },
   addedProduct: {
     marginLeft: 110,
-    display: "inline-flex"
+    display: "inline-flex",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "20px",
+      marginLeft: 0,
+    },
   }
 });
 
@@ -164,7 +178,7 @@ class Panel extends React.PureComponent {
           className={classes.dialog}
           maxWidth="lg"
           classes={{
-            paper: classes.dialog
+            paper: classes.paper
           }}
         >
           <DialogTitle className={classes.cardTitleBlock} onClose={closeCart}>

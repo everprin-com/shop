@@ -13,6 +13,7 @@ const styles = theme => ({
     marginTop: 15,
     display: 'flex',
     justifyContent: 'space-around',
+    overflow: "hidden",
   },
   list: {
     listStyle: 'none',
