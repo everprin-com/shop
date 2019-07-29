@@ -13,8 +13,8 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 const mapStateToProps = state => {
   return {
     card: state.card
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -26,18 +26,21 @@ const mapDispatchToProps = dispatch => {
 
 const ERRORS = {
   text: {
-    name: "Введите пожалуйста буквы без спец. символов и цифр в количестве от 6 до 24.\n Например: Иван Иванов",
-    phone: "Введите пожалуйста цифры без спец. символов в количестве от 7 до 16.\n Например: 0952599558",
+    name:
+      "Введите пожалуйста буквы без спец. символов и цифр в количестве от 6 до 24.\n Например: Иван Иванов",
+    phone:
+      "Введите пожалуйста цифры без спец. символов в количестве от 7 до 16.\n Например: 0952599558",
     city: "Введите пожалуйста буквы в количестве от 3 до 24.\n Например: Киев",
-    departament: "Введите пожалуйста буквы/цифры в количестве от 6 до 120.\n Например: Отделение №10: ул. Василия Жуковского, 22А",
+    departament:
+      "Введите пожалуйста буквы/цифры в количестве от 6 до 120.\n Например: Отделение №10: ул. Василия Жуковского, 22А"
   },
   regExp: {
     name: /^[а-яєії" -]{6,24}$/i,
     phone: /^[0-9 +-]{7,16}$/i,
     city: /^[а-яєії" .(),]{3,24}$/i,
-    departament: /^[а-яєії"0-9 a-z.()№,:-]{6,120}$/i,
+    departament: /^[а-яєії"0-9 a-z.()№,:-]{6,120}$/i
   }
-}
+};
 
 const styles = theme => ({
   container: {
@@ -49,16 +52,37 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     width: 400,
     fontSize: "16px !important",
-    display: "block"
+    display: "block",
+    [theme.breakpoints.down("xs")]: {
+      width: 375,
+    }
+  },
+  title: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    }
   },
   root: {
     width: "900px",
-    margin: "70px auto 0"
+    margin: "70px auto 0",
+    boxSizing: "border-box",
+    [theme.breakpoints.up("xs")]: {
+      width: "375px",
+      padding: 5,
+      margin: "10px auto 0"
+    },
+    [theme.breakpoints.up("sm")]: {
+      width: "600px"
+    }
   },
   content: {
     marginTop: 50,
     display: "flex",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column-reverse",
+      marginTop: 10
+    }
   },
   button: {
     marginTop: 15
@@ -69,6 +93,25 @@ const styles = theme => ({
   error: {
     color: "d00",
     width: 400
+  },
+  cartMicro: {
+    [theme.breakpoints.down("xs")]: {
+      maxWidth: "100vw"
+    }
+  },
+  imgWrap: {
+    [theme.breakpoints.down("xs")]: {
+      height: 100
+    }
+  },
+  logo: {
+    [theme.breakpoints.down("xs")]: {
+      height: "100%",
+      width: "auto"
+    }
+  },
+  form: {
+    overflow: "hidden"
   }
 });
 
@@ -125,14 +168,16 @@ class OrderForm extends React.PureComponent {
       name: ERRORS.regExp.name.test(name),
       phone: ERRORS.regExp.phone.test(phone),
       city: ERRORS.regExp.city.test(city),
-      departament: ERRORS.regExp.departament.test(departament),
-    }
+      departament: ERRORS.regExp.departament.test(departament)
+    };
 
     if (Object.values(isValid).some(validItem => !validItem)) {
       withoutErrors = false;
-      let currentErrors = {}
+      let currentErrors = {};
       for (var key in isValid) {
-        if(!isValid[key]) { currentErrors[key] = ERRORS.text[key] }
+        if (!isValid[key]) {
+          currentErrors[key] = ERRORS.text[key];
+        }
       }
 
       this.setState({ errors: currentErrors });
@@ -143,29 +188,33 @@ class OrderForm extends React.PureComponent {
   };
 
   sendOrder = () => {
-    const line_items = this.props.card.data.map(function(element){return {id: element.id, amount: element.amount, activeSize: element.activeSize}})
+    const line_items = this.props.card.data.map(function(element) {
+      return {
+        id: element.id,
+        amount: element.amount,
+        activeSize: element.activeSize
+      };
+    });
     if (this.validateData()) {
       fetch("/orders", {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            order: {
-              name: this.state.name,
-              phone: this.state.phone,
-              address: this.state.city,
-              departament: this.state.departament,
-            },
-            line_items: {
-              cards: line_items,
-            },
+          order: {
+            name: this.state.name,
+            phone: this.state.phone,
+            address: this.state.city,
+            departament: this.state.departament
+          },
+          line_items: {
+            cards: line_items
+          }
         })
       });
       this.props.showSuccess();
-      setTimeout(this.redirectToMain, 4000)
+      setTimeout(this.redirectToMain, 4000);
     }
   };
-
-
 
   sendQuestion = () => {
     fetch("/messagestoadministrators", {
@@ -191,8 +240,8 @@ class OrderForm extends React.PureComponent {
   };
 
   redirectToMain = () => {
-    this.props.history.push("/")
-  }
+    this.props.history.push("/");
+  };
 
   render() {
     const { classes } = this.props;
@@ -203,7 +252,7 @@ class OrderForm extends React.PureComponent {
           <img src="/imgs/logo.png" className={classes.logo} />
         </div>
         <div className={classes.content}>
-          <form noValidate autoComplete="off">
+          <form noValidate autoComplete="off" className={classes.form}>
             <div className={classes.title}>Оформление заказа</div>
             <TextField
               label="Имя и Фамилия"
