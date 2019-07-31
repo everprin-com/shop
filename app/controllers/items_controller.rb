@@ -13,7 +13,7 @@ class ItemsController < ApplicationController
     items = items.where(brand: params[:search_brand]) if params[:search_brand].present?
     items = items.where(category: params[:search_category]) if params[:search_category].present?
     #items = items.search_category(params[:search_category]) if params[:search_category].present?
-    items = items.where(male: true) if params[:male].present?
+    items = items.where('sex && ARRAY[?]::varchar[]', params[:sex]) if params[:sex].present?
     items = items.where(season: params[:season]) if params[:season].present?
     items = items.shuffle if params[:shuffled_products]
     items = items.paginate(page: params[:page], per_page: per_page(params[:per_page]))

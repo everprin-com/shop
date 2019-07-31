@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190727052736) do
+ActiveRecord::Schema.define(version: 20190731194348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20190727052736) do
     t.decimal  "drop_ship_price",   precision: 8, scale: 2,                 null: false
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
+    t.string   "sex",                                       default: [],                 array: true
   end
 
   add_index "items", ["name"], name: "items_on_name_gin_trgm_idx", using: :gin
