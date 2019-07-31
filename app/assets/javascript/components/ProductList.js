@@ -54,8 +54,8 @@ const styles = theme => ({
     padding: 50,
     marginLeft: 260
   },
-  wraper:{
-    zIndex: 2,
+  wraper: {
+    zIndex: 2
   }
 });
 
@@ -79,9 +79,11 @@ class ProductList extends React.PureComponent {
 
   getElemntsHeight = () => {
     const heightProductList = document.getElementsByClassName("productList")[0]
-      .offsetHeight;
+      ? document.getElementsByClassName("productList")[0].offsetHeight
+      : 0;
     const heightHeader = document.getElementsByClassName("header")[0]
-      .offsetHeight;
+      ? document.getElementsByClassName("header")[0].offsetHeight
+      : 0;
     return heightProductList + heightHeader;
   };
 

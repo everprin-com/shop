@@ -39,7 +39,8 @@ const styles = theme => ({
     }
   },
   smallSideBar: {
-    width: 300
+    width: 265,
+    marginTop: 0,
   },
   nested: {
     paddingLeft: theme.spacing.unit * 4

@@ -50,6 +50,7 @@ function* getFilteredProducts() {
       }
     });
     yield put({ type: "RESET_AND_ADD_PRODUCTS", products: products.items });
+    yield put({ type: "MOBILE_SIDEBAR_OFF" });
   } catch (error) {
     yield put({ type: "FETCH_FAILED", error });
   }

@@ -56,7 +56,10 @@ const styles = theme => ({
     height: "100%"
   },
   totalPrice: {
-    marginBottom: 5
+    marginBottom: 5,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 18,
+    }
   },
   contentText: {
     display: "flex",
@@ -72,18 +75,23 @@ const styles = theme => ({
     fontSize: 16
   },
   headerCell: {
-    padding: 7,
+    padding: 7
   },
-  table:{
-    overflowY: 'auto',
-    maxHeight: 500,
+  table: {
+    overflowY: "auto",
+    maxHeight: 500
+  },
+  cell: {
+    [theme.breakpoints.down("xs")]: {
+      padding: "7px 3px 7px 3px"
+    }
   }
 });
 
 function MicroCart(props) {
   const { classes, card, redirToOrderForm, deleteFromCart, closeCart } = props;
   const totalPrice = card.data.reduce((prev, next) => {
-    return prev + +next.price;
+    return prev + +next.price * next.amount;
   }, 0);
 
   const renderProducts = () => {
@@ -93,30 +101,42 @@ function MicroCart(props) {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell className={classes.headerCell}>Название</TableCell>
-              <TableCell className={classes.headerCell}>Кол-во</TableCell>
-              <TableCell className={classes.headerCell}>Размер</TableCell>
-              <TableCell className={classes.headerCell}>Цена</TableCell>
+              <TableCell className={`${classes.headerCell} ${classes.cell}`}>
+                Название
+              </TableCell>
+              <TableCell className={`${classes.headerCell} ${classes.cell}`}>
+                Кол-во
+              </TableCell>
+              <TableCell className={`${classes.headerCell} ${classes.cell}`}>
+                Размер
+              </TableCell>
+              <TableCell className={`${classes.headerCell} ${classes.cell}`}>
+                Цена
+              </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody >
+          <TableBody>
             {card.data.map(cartDataItem => {
               const { picture, name, amount, price, activeSize } = cartDataItem;
               const srcImg = Array.isArray(picture) ? picture[0] : picture;
               const withoutSizeName = name.replace(/[0-9-]*$/g, "");
               return (
                 <TableRow key={cartDataItem.id}>
-                  <TableCell component="th" scope="row">
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    className={classes.cell}
+                  >
                     <div className={classes.imageWrapper}>
                       <img src={srcImg} className={classes.image} />
                     </div>
                   </TableCell>
-                  <TableCell className={classes.name}>
+                  <TableCell className={`${classes.name} ${classes.cell}`}>
                     {withoutSizeName}
                   </TableCell>
-                  <TableCell>{amount}</TableCell>
-                  <TableCell>{activeSize}</TableCell>
-                  <TableCell>{`${
+                  <TableCell className={classes.cell}>{amount}</TableCell>
+                  <TableCell className={classes.cell}>{activeSize}</TableCell>
+                  <TableCell className={classes.cell}>{`${
                     amount ? price * amount : price
                   } грн`}</TableCell>
                 </TableRow>
