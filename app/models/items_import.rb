@@ -36,7 +36,8 @@ class ItemsImport
        item = Item.find_by_id(row["id"]) || Item.new
        item.attributes = row.to_hash
        #conver_size_to_array(row)
-       item["male"] = true if row["male"].present?
+       sex = row["male"]&.split(" ")&.split(",")&.flatten
+       item["sex"] = sex ? sex : ["man", "wooman"]
        item["size"] = conver_size_to_array(row)
        item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
        item["picture"] = row["picture"]&.split(" ")&.split(",")&.flatten

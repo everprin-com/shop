@@ -6,6 +6,7 @@ ruby 2.5.1
 rails version 4.2.11
 
 root@178.62.6.75
+ssh rails-demo@178.62.6.75
 
 rubocop
 
@@ -40,7 +41,7 @@ Parser
 7 (G) :brand
 8 (H) :season, null: false
 зима - 1, весна - 2, лето - 3, осень - 4
-9 (I) :male, boolean man: true, wooman-false
+9 (I) :male, array man: man, wooman-wooman
 10 (J) :size
 11 (K) :country
 12 (L) :category
