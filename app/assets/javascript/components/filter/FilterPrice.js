@@ -170,8 +170,8 @@ class FilterPrice extends React.PureComponent {
           classes={classes}
           onApplay={this.onApplay}
           min={800}
-          max={1000}
-          title="800 - 1000 грн"
+          max={9999}
+          title="От 800 грн"
           active={this.state.active}
         />
         {/* <Divider className={classes.divider} /> */}

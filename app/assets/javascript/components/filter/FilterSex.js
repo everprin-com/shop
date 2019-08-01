@@ -6,6 +6,13 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Divider from '@material-ui/core/Divider';
+import { connect } from "react-redux";
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addFilter: filter => dispatch({ type: "ADD_FILTER", filter })
+  };
+};
 
 const styles  = {
   root: {
@@ -43,13 +50,15 @@ const styles  = {
 
 class CheckboxLabels extends React.PureComponent {
   state = {
-    checkedA: true,
-    checkedB: true,
-    applayed: false
+    female: true,
+    male: false,
   };
 
   handleChange = name => event => {
-    this.setState({ [name]: event.target.checked });
+    this.setState(
+      { [name]: event.target.checked },
+      () => this.props.addFilter({male: this.state.male})
+      );
   };
 
   render() {
@@ -62,26 +71,26 @@ class CheckboxLabels extends React.PureComponent {
           <FormControlLabel
               control={
                 <Checkbox
-                  checked={this.state.checkedA}
-                  onChange={this.handleChange('checkedA')}
-                  value="checkedA"
+                  checked={this.state.female}
+                  onChange={this.handleChange('female')}
+                  value="female"
                   className={classes.checkbox}
                 />
               }
-              label="Мужской"
+              label="Женский"
               className={classes.label}
           />
           <FormControlLabel
             control={
               <Checkbox
-                checked={this.state.checkedB}
-                onChange={this.handleChange('checkedB')}
-                value="checkedB"
+                checked={this.state.male}
+                onChange={this.handleChange('male')}
+                value="male"
                 color="primary"
                 className={classes.checkbox}
               />
             }
-            label="Женский"
+            label="Мужской"
             className={classes.label}
           />
         </div>
@@ -95,4 +104,4 @@ CheckboxLabels.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CheckboxLabels);
+export default connect(null, mapDispatchToProps)(withStyles(styles)(CheckboxLabels))
