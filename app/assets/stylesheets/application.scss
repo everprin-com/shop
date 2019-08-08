@@ -17,6 +17,35 @@
     width: 400px;
     height: 600px;
   }
+
+  .fluid__image-container.gallery{
+    width: 1000px;
+    height: 700px;
+  }
+}
+
+.gallery .slick-dots {
+  right: 30px !important;
+  height: 100% !important;
+  overflow: auto;
+  width: 100px;
+}
+
+.slick-dots li{
+  width: 100px;
+  height: 100px;
+}
+
+.slick-dots li a{
+  height: 100px;
+  width: 100px;
+  display: inline-block;
+}
+
+.slick-dots img {
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 //adaptation*******************************************************
@@ -57,10 +86,6 @@ font-size: 20px;
 
 .ant-carousel .slick-slide h3 {
   color: #fff;
-}
-
-.horizontal-slider .ant-carousel{
-  height: 250px;
 }
 
 .product-show .slick-slide {
@@ -107,6 +132,10 @@ font-size: 20px;
   z-index: 1;
   top: 50%;
   transform: translate(0, -50%);
+}
+
+.gallery .arrSlider.prev{
+  left: -26px;
 }
 
 .navSlider {
@@ -522,6 +551,11 @@ textarea.ant-input-number {
   padding: 0;
   overflow: hidden;
 }
+
+.product-cart .ant-carousel .slick-list{
+  overflow: visible;
+}
+
 .ant-carousel .slick-list:focus {
   outline: none;
 }

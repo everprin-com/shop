@@ -106,7 +106,7 @@ class SideBar extends React.PureComponent {
         </ListItem> */}
 
         <ListItem className={classes.item}>
-          <FilterPrice filterOptions={filterOptions.size} />
+          <FilterPrice priceMin={filterOptions.price_min} priceMax={filterOptions.price_max} />
         </ListItem>
 
         <ListItem className={classes.item}>

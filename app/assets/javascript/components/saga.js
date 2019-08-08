@@ -12,7 +12,10 @@ import fetchGetWithParams from "./api/fetchGetWithParams";
 
 function* openCart(action) {
   try {
+    const state = yield select();
     yield put({ type: "OPEN_CART", withProduct: true });
+    // need refactoring
+    localStorage.setItem('card', JSON.stringify(state.card))
   } catch (e) {
     console.log("err");
   }
@@ -96,10 +99,15 @@ function* requestAndAddProductsToSlider() {
   yield put({ type: "ADD_PRODUCTS_TO_SLIDER", products: products.items });
 }
 
-function* handleCloseCart() {
+function* handleCloseCart(action) {
   const state = yield select();
+  const card = JSON.parse(localStorage.getItem('card'))
+  const { data } = card
+  const newData = data.filter(product=> product.id != action.id)
+   localStorage.setItem('card', JSON.stringify({...card, data: newData}))
   if (state.card.data.length < 1) {
     yield put({ type: "CLOSE_CART" });
+    localStorage.removeItem('card')
   }
 }
 
@@ -113,6 +121,10 @@ function* handleOpenCart() {
   const state = yield select();
   if (state.card.data.length < 1) return;
   yield put({ type: "OPEN_CART" });
+}
+
+function* handleResetCart() {
+  localStorage.removeItem('card')
 }
 
 function* watchTryPutCart() {
@@ -154,6 +166,10 @@ function* watchDeleteFromCart() {
   yield takeEvery("DELETE_FROM_CART", handleCloseCart);
 }
 
+function* watchResetCart() {
+  yield takeEvery("RESET_CART", handleResetCart);
+}
+
 export default function* rootSaga() {
   yield all([
     watchTryPutCart(),
@@ -164,6 +180,7 @@ export default function* rootSaga() {
     watchRequestAndAddProductsToSlider(),
     watchScroll(),
     watchOpenCart(),
-    watchDeleteFromCart()
+    watchDeleteFromCart(),
+    watchResetCart(),
   ]);
 }

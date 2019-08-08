@@ -30,7 +30,8 @@ const mapDispatchToProps = dispatch => {
     putToCart: product => dispatch({ type: "TRY_PUT_TO_CART", product }),
     requestAndAddSlider: category =>
       dispatch({ type: "REQUEST_AND_ADD_PRODUCTS_TO_SLIDER", category }),
-    addProduct: product => dispatch({ type: "ADD_PRODUCT", product })
+    addProduct: product => dispatch({ type: "ADD_PRODUCT", product }),
+    openGallery: () => dispatch({ type: "SHOW_SLIDER_WINDOW" })
   };
 };
 
@@ -71,25 +72,26 @@ const styles = theme => ({
   },
   mainContentInner: {
     display: "flex",
-    maxHeight: `600px`,
+    // maxHeight: `600px`,
     overflow: `visible`,
     [theme.breakpoints.between("xs", "xs")]: {
       flexDirection: "column"
     },
     [theme.breakpoints.down("xs")]: {
-      maxHeight: `none`,
+      maxHeight: `none`
     }
   },
   slider: {
     width: "100%",
     zIndex: 2,
+    height: 250
   },
   img: {
     [theme.breakpoints.between("xs", "xs")]: {
       flexDirection: "column"
     },
     [theme.breakpoints.down("xs")]: {
-      maxHeight: 600,
+      maxHeight: 600
     }
   },
   textContent: {
@@ -97,11 +99,62 @@ const styles = theme => ({
     [theme.breakpoints.down("xs")]: {
       marginTop: 0
     }
+  },
+  gelleryItem: {
+    objectFit: "contain",
+  },
+  gelleryItemWrap: {
+    maxWidth: "1000px",
+    maxHeight: "700px",
+    display: "flex !important",
+    justifyContent: "center",
+  },
+  galleryDot: {
+    width: 40,
+    height: 40,
   }
 });
 
+function SliderItem({ src, classes }) {
+  return (
+    <div className={classes.gelleryItemWrap}>
+      <img src={src} className={classes.gelleryItem} />
+    </div>
+  );
+}
+
+function SliderS({ picture, classes }) {
+  return (
+    <div className={`${classes.img} fluid__image-container gallery`}>
+      <Slider
+        slidesToShow={1}
+        slidesToScroll={1}
+        simple
+        products={
+          Array.isArray(picture)
+            ? picture.map(src => SliderItem({ src, classes }))
+            : picture
+        }
+        draggable
+        arrows
+        effect="fade"
+        vertical
+        customPaging={function(i) {
+          return (
+            <a>
+              <img src={picture[i]} />
+            </a>
+          );
+        }}
+        dots
+        dotsClass={"slick-dots slick-thumb"}
+      />
+    </div>
+  );
+}
+
 class ProductCart extends React.PureComponent {
-  state = {};
+  state = { data: {} };
 
   componentDidMount() {
     this.getProduct();
@@ -137,6 +190,12 @@ class ProductCart extends React.PureComponent {
   redirectToOrderForm = () => this.props.history.push("/orderform");
 
   redirectToRoot = () => this.props.history.push("/");
+
+  openGallery = e => {
+    const windowWidth = window.innerWidth;
+    if (e.target.nodeName == "svg" || e.target.nodeName == "path" || windowWidth < 1000) return
+    this.props.openGallery()
+  };
 
   sliderItem = (srcPicture, alt) => {
     return (
@@ -174,16 +233,16 @@ class ProductCart extends React.PureComponent {
     } = this.props;
     const { id } = match.params;
     const productData = products.find(product => product.id == id) || {};
-    const { size, picture, category, name, price } = productData;
+    const { size, picture, name, category, price } = productData;
     const activeSize = productData.activeSize;
     const isInCart = card.data.some(cardItem => cardItem.id == id);
     return (
-      <div className={classes.root}>
+      <div className={`${classes.root} product-cart`}>
         <Header redirectToRoot={this.redirectToRoot} />
         <Breadcrumbs
           links={[
-            { href: "/", title: "Главная"  },
-            { href: "/orderform", title: "Форма заказа"  }
+            { href: "/", title: "Главная" },
+            { href: "/orderform", title: "Форма заказа" }
           ]}
           category={category}
           name={name}
@@ -193,6 +252,7 @@ class ProductCart extends React.PureComponent {
           <div className={classes.mainContentInner}>
             <div
               className={`${classes.img} fluid__image-container product-show`}
+              onClick={this.openGallery}
             >
               <Slider
                 slidesToShow={1}
@@ -212,9 +272,7 @@ class ProductCart extends React.PureComponent {
 
             <div className={`${classes.textContent} fluid__instructions`}>
               <h3>{name}</h3>
-              <p className={classes.price}>{`${Math.round(
-                price
-              )} грн`}</p>
+              <p className={classes.price}>{`${Math.round(price)} грн`}</p>
               <p>
                 <ProductItemSizes
                   sizes={size}
@@ -240,7 +298,7 @@ class ProductCart extends React.PureComponent {
           <AboutProduct productData={productData} forMobile />
         </div>
 
-        <div className={`${classes.slider} horizontal-slider`}>
+        {/* <div className={`${classes.slider} horizontal-slider`}>
           <Slider
             title="Вы просматривали:"
             slidesToShow={4}
@@ -249,13 +307,22 @@ class ProductCart extends React.PureComponent {
             draggable
             arrows
           />
-        </div>
-        <ProductList forCart productsParams={{ search_category: category }} />
+        </div> */}
+        <ProductList
+          forCart
+          productsParams={{ search_category: category }}
+          title="С этим товаром смотрят"
+        />
         <Footer />
         <DialogWindow
           title="Выберите размер"
           Component={ChooseSize}
           type="size"
+        />
+        <DialogWindow
+          title="Галерея товара"
+          Component={() => SliderS({ picture, classes })}
+          type="slider"
         />
       </div>
     );

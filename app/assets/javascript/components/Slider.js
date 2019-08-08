@@ -159,7 +159,7 @@ function myCarousel({title, simple, products, ...props}) {
             <Carousel {...settings} afterChange={onChange} {...props}>
                 {products.map((product, i) => {
                   if (simple) {
-                    return product
+                    return  product
                   } else {
                     return < CarouselItem {...product} redirect={props.redirect} key={i} />
                   }}

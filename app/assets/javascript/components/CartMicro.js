@@ -27,7 +27,7 @@ const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
     padding: 5,
-    maxWidth: 800,
+    maxWidth: 550,
     margin: "10 0"
   },
   content: {
@@ -49,8 +49,9 @@ const styles = theme => ({
     justifyContent: "flex-end"
   },
   imageWrapper: {
-    width: 100,
-    height: 100
+    width: 130,
+    height: 100,
+    overflow: 'hidden',
   },
   image: {
     height: "100%"
@@ -82,6 +83,7 @@ const styles = theme => ({
     maxHeight: 500
   },
   cell: {
+    padding: 10,
     [theme.breakpoints.down("xs")]: {
       padding: "7px 3px 7px 3px"
     }

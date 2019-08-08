@@ -98,10 +98,26 @@ const styles = theme => ({
     marginLeft: 15,
   },
   linkItem: {
-    tesxtDecoration: 'none'
+    textDecoration: 'none',
+      overflow: "hidden",
+      textShadow: "0px 30px 0px transparent",
+      boxShadow: "0px 1px 3px 0px #cdcecf",
+      transition: "all 300ms linear 0ms",
   },
   category: {
-    fontSize: '15px'
+    fontSize: '15px',
+    color: "#333",
+    textDecoration: "none",
+  },
+  title: {
+    color: "#333",
+    textDecoration: "none",
+  },
+  paperItem: {
+    marginBottom: 5,
+    "&:hover": {
+      background: "#eee"
+    }
   }
 });
 
@@ -132,7 +148,7 @@ class DropDown extends React.PureComponent {
     return (
       <div className={classes.dropDown} ref={this.dropDownRef} >
         <Paper>
-              {data.map((product, id )=> <Link to={`/productcart/${product.id}`} className={classes.linkItem} key={id}>
+              {data.map((product, id )=> <Paper className={classes.paperItem}><Link to={`/productcart/${product.id}`} className={classes.linkItem} key={id}>
                 <div className={classes.item}>
                   <div className={classes.imgWrap}>
                     <img className={classes.img} src={product.picture}/>
@@ -146,7 +162,7 @@ class DropDown extends React.PureComponent {
                     </div>
                   </div>
                 </div>
-              </Link>)}
+              </Link></Paper>)}
         </Paper>
       </div>
     )

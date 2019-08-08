@@ -1,7 +1,10 @@
-export default function(
-  state = { data: [], isOpen: false, withProduct: false },
-  action
-) {
+const initialCard = JSON.parse(localStorage.getItem("card")) || {
+  data: [],
+  isOpen: false,
+  withProduct: false
+};
+
+export default function(state = initialCard, action) {
   switch (action.type) {
     case "PUT_TO_CART":
       let productWithSameActiveSize = state.data.find(product => {

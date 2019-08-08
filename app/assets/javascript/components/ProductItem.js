@@ -212,7 +212,6 @@ class ProductItem extends React.PureComponent {
   };
 
   linkHandler = e => {
-    console.log(e.target.nodeName);
     if (e.target.nodeName == "svg" || e.target.nodeName == "path") {
       e.preventDefault();
     }

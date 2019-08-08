@@ -9,6 +9,7 @@ import Dialog from "./Dialog";
 import SuccessOrder from "./SuccessOrder";
 import AdressInput from "./AdressInput";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = state => {
   return {
@@ -63,17 +64,17 @@ const styles = theme => ({
     }
   },
   root: {
-    width: "900px",
+    width: "950px",
     margin: "70px auto 0",
     boxSizing: "border-box",
-    [theme.breakpoints.up("xs")]: {
+    [theme.breakpoints.down("xs")]: {
       width: "375px",
       padding: 5,
       margin: "10px auto 0"
     },
-    [theme.breakpoints.up("sm")]: {
-      width: "600px"
-    }
+    // [theme.breakpoints.down("xs")]: {
+    //   width: "600px"
+    // }
   },
   content: {
     marginTop: 50,
@@ -95,6 +96,7 @@ const styles = theme => ({
     width: 400
   },
   cartMicro: {
+    maxWidth: 550,
     [theme.breakpoints.down("xs")]: {
       maxWidth: "100vw"
     }
@@ -248,9 +250,11 @@ class OrderForm extends React.PureComponent {
 
     return (
       <div className={classes.root}>
-        <div className={classes.imgWrap}>
-          <img src="/imgs/logo.png" className={classes.logo} />
-        </div>
+        <Link to="/">
+          <div className={classes.imgWrap}>
+            <img src="/imgs/logo.png" className={classes.logo} />
+          </div>
+        </Link>
         <div className={classes.content}>
           <form noValidate autoComplete="off" className={classes.form}>
             <div className={classes.title}>Оформление заказа</div>

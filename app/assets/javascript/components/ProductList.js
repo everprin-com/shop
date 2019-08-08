@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => {
 const styles = theme => ({
   root: {
     marginLeft: 260,
-    marginTop: 103,
+    marginTop: 10,
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-between",
@@ -56,6 +56,11 @@ const styles = theme => ({
   },
   wraper: {
     zIndex: 2
+  },
+  title: {
+    textAlign: "center",
+    fontSize: 25,
+    padding: 30
   }
 });
 
@@ -68,13 +73,23 @@ class ProductList extends React.PureComponent {
       products,
       productsParams,
       firstEnter,
-      fistEnterOff
+      fistEnterOff,
     } = this.props;
     if (productsParams && firstEnter) {
       requestAndAddProducts(productsParams);
       fistEnterOff();
     }
     window.onscroll = () => this.scrollChange();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.productsParams &&
+      prevProps.productsParams.search_category !=
+        this.props.productsParams.search_category
+    ) {
+      this.props.requestAndAddProducts(this.props.productsParams);
+    }
   }
 
   getElemntsHeight = () => {
@@ -106,9 +121,10 @@ class ProductList extends React.PureComponent {
   }
 
   render() {
-    const { classes, loading, forCart } = this.props;
+    const { classes, loading, forCart, title } = this.props;
     return (
       <div className={classes.wraper}>
+        {title && <div className={classes.title}>{title}</div>}
         <div
           className={`${forCart ? classes.rootCart : classes.root} productList`}
         >
