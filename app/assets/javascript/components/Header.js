@@ -70,7 +70,7 @@ const styles = theme => ({
   },
   tabContent: {
     fontSize: "15px",
-    padding: 5,
+    padding: 5
   },
   dropdownMenu: {
     position: "absolute",
@@ -89,7 +89,7 @@ const styles = theme => ({
     // position: 'sticky',
     top: "0px",
     position: "fixed",
-    zIndex: 3,
+    zIndex: 5,
     background: "#ffff",
     paddingTop: 12
   },
@@ -142,6 +142,7 @@ class Header extends React.PureComponent {
   constructor(props) {
     super(props);
     this.dropDownRef = React.createRef();
+    this.tabsRef = React.createRef();
   }
 
   state = {
@@ -168,8 +169,12 @@ class Header extends React.PureComponent {
 
   handleClickOutside = event => {
     const domNode = this.dropDownRef.current;
+    const tabs = this.tabsRef.current;
 
-    if (!domNode || !domNode.contains(event.target)) {
+    if (
+      !domNode ||
+      (!domNode.contains(event.target) && !tabs.contains(event.target))
+    ) {
       this.resetDropDown();
     }
   };
@@ -178,7 +183,9 @@ class Header extends React.PureComponent {
 
   hoverOn = value => this.handleChange("", value);
 
-  resetDropDown = () => this.setState({ value: false });
+  resetDropDown = () => {
+    this.setState({ value: false });
+  };
 
   render() {
     const { classes, redirectToRoot, withSmallMenu } = this.props;
@@ -196,40 +203,42 @@ class Header extends React.PureComponent {
               className={classes.chooseCategoryMenu}
             >
               <Logo classes={classes} />
-              <Tabs
-                value={value}
-                onChange={this.handleChange}
-                indicatorColor="primary"
-                textColor="primary"
-                classes={{
-                  root: classes.tabs,
-                  scroller: classes.overflow,
-                  flexContainer: classes.flexContainer
-                }}
-              >
-                <Tab
-                  className={classes.tab}
-                  label="Одежда"
-                  icon={<CastomIcon classes={classes} src="clothes.png" />}
-                  onMouseEnter={this.hoverOn.bind(this, 0)}
-                  onClick={this.hoverOn.bind(this, 0)}
-                />
-                <Tab
-                  className={classes.tab}
-                  label="Обувь"
-                  icon={<CastomIcon classes={classes} src="shoe.png" />}
-                  onMouseEnter={this.hoverOn.bind(this, 1)}
-                  onClick={this.hoverOn.bind(this, 1)}
-                />
-                <Tab
-                  className={classes.tab}
-                  label="Аксессуары"
-                  icon={<CastomIcon classes={classes} src="watch.svg" />}
-                  onMouseEnter={this.hoverOn.bind(this, 2)}
-                  onClick={this.hoverOn.bind(this, 2)}
-                />
-                <Panel />
-              </Tabs>
+              <div ref={this.tabsRef}>
+                <Tabs
+                  value={value}
+                  onChange={this.handleChange}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  classes={{
+                    root: classes.tabs,
+                    scroller: classes.overflow,
+                    flexContainer: classes.flexContainer
+                  }}
+                >
+                  <Tab
+                    className={classes.tab}
+                    label="Одежда"
+                    icon={<CastomIcon classes={classes} src="clothes.png" />}
+                    onMouseEnter={this.hoverOn.bind(this, 0)}
+                    onClick={this.hoverOn.bind(this, 0)}
+                  />
+                  <Tab
+                    className={classes.tab}
+                    label="Обувь"
+                    icon={<CastomIcon classes={classes} src="shoe.png" />}
+                    onMouseEnter={this.hoverOn.bind(this, 1)}
+                    onClick={this.hoverOn.bind(this, 1)}
+                  />
+                  <Tab
+                    className={classes.tab}
+                    label="Аксессуары"
+                    icon={<CastomIcon classes={classes} src="watch.svg" />}
+                    onMouseEnter={this.hoverOn.bind(this, 2)}
+                    onClick={this.hoverOn.bind(this, 2)}
+                  />
+                  <Panel />
+                </Tabs>
+              </div>
             </AppBar>
             {this.state.value !== false && (
               <div
@@ -238,25 +247,25 @@ class Header extends React.PureComponent {
                 onMouseLeave={this.resetDropDown}
               >
                 {value === 0 && (
-                    <DropDownMenu
-                      redirectToRoot={redirectToRoot}
-                      productTypeList={this.productTypeList("clothes")}
-                      resetDropDown={this.resetDropDown}
-                    />
+                  <DropDownMenu
+                    redirectToRoot={redirectToRoot}
+                    productTypeList={this.productTypeList("clothes")}
+                    resetDropDown={this.resetDropDown}
+                  />
                 )}
                 {value === 1 && (
-                    <DropDownMenu
-                      redirectToRoot={redirectToRoot}
-                      productTypeList={this.productTypeList("footwear")}
-                      resetDropDown={this.resetDropDown}
-                    />
+                  <DropDownMenu
+                    redirectToRoot={redirectToRoot}
+                    productTypeList={this.productTypeList("footwear")}
+                    resetDropDown={this.resetDropDown}
+                  />
                 )}
                 {value === 2 && (
-                    <DropDownMenu
-                      redirectToRoot={redirectToRoot}
-                      productTypeList={this.productTypeList("accessories")}
-                      resetDropDown={this.resetDropDown}
-                    />
+                  <DropDownMenu
+                    redirectToRoot={redirectToRoot}
+                    productTypeList={this.productTypeList("accessories")}
+                    resetDropDown={this.resetDropDown}
+                  />
                 )}
               </div>
             )}

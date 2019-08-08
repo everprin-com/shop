@@ -53,14 +53,27 @@ const styles = {
     backgroundColor: `rgba(0, 0, 0, 0.2)`
   },
   inputWrap: {
-    margin: '10px 0',
+    margin: "10px 0",
+    fontSize: 17,
   },
   fromTo: {
-    margin: '0 5px',
+    margin: "0 4px"
   }
 };
-function RangePrice({ classes, onApplay, min, max, title, active }) {
+function RangePrice({
+  classes,
+  onApplay,
+  min,
+  max,
+  title,
+  active,
+  priceMax,
+  priceMin
+}) {
   const isActive = active === `${min}-${max}` || false;
+  const shouldRenderRange =
+    (priceMin < min && priceMax > min) || (priceMin < max && priceMax > max);
+  if (!shouldRenderRange) return null;
   return (
     <div
       className={`${classes.range} ${isActive ? classes.activeRange : ""}`}
@@ -108,15 +121,13 @@ class FilterPrice extends React.PureComponent {
 
   render() {
     const { inputValue = [] } = this.state;
-    const { classes } = this.props;
+    const { classes, priceMin, priceMax } = this.props;
 
     return (
       <div className={classes.root}>
         <div className={classes.title}>Цена</div>
         <div className={classes.inputWrap}>
-          <span className={classes.fromTo}>
-            От
-          </span>
+          <span className={classes.fromTo}>От</span>
           <InputNumber
             min={1}
             max={5000}
@@ -127,9 +138,7 @@ class FilterPrice extends React.PureComponent {
               this.onChangeFromInput(value, 0);
             }}
           />
-          <span className={classes.fromTo}>
-            До
-          </span>
+          <span className={classes.fromTo}>До</span>
           <InputNumber
             min={1}
             max={5000}
@@ -147,6 +156,8 @@ class FilterPrice extends React.PureComponent {
           onApplay={this.onApplay}
           min={0}
           max={300}
+          priceMin={priceMin}
+          priceMax={priceMax}
           title="До 300 грн"
           active={this.state.active}
         />
@@ -155,6 +166,8 @@ class FilterPrice extends React.PureComponent {
           onApplay={this.onApplay}
           min={300}
           max={500}
+          priceMin={priceMin}
+          priceMax={priceMax}
           title="300 - 500 грн"
           active={this.state.active}
         />
@@ -163,6 +176,8 @@ class FilterPrice extends React.PureComponent {
           onApplay={this.onApplay}
           min={500}
           max={800}
+          priceMin={priceMin}
+          priceMax={priceMax}
           title="500 - 800 грн"
           active={this.state.active}
         />
@@ -170,8 +185,10 @@ class FilterPrice extends React.PureComponent {
           classes={classes}
           onApplay={this.onApplay}
           min={800}
-          max={1000}
-          title="800 - 1000 грн"
+          max={9999}
+          priceMin={priceMin}
+          priceMax={priceMax}
+          title="От 800 грн"
           active={this.state.active}
         />
         {/* <Divider className={classes.divider} /> */}

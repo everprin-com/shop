@@ -11,17 +11,25 @@ import SendIcon from "@material-ui/icons/Send";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
-import SomeFilter from "./filter/SomeFilter";
+import FilterSex from "./filter/FilterSex";
 import FilterPrice from "./filter/FilterPrice";
 import FilterGeneral from "./filter/FilterGeneral";
 import { connect } from "react-redux";
-import categories from "./constants/categories";
+// import categories from "./constants/categories";
 
 const mapStateToProps = state => {
+  const isFemale = state.general.sex == "female";
+  if (state.metaData.headers){
+    return {
+      categories: state.metaData.headers[isFemale ? "female" : "male"].map(i=>i.catalogue),
+      filterOptions: state.filterData.filterOptions
+    };
+  }
   return {
     filterOptions: state.filterData.filterOptions
   };
 };
+
 
 const styles = theme => ({
   root: {
@@ -31,7 +39,9 @@ const styles = theme => ({
     maxWidth: 260,
     backgroundColor: theme.palette.background.paper,
     display: "inline-block",
-    zIndex: 2
+    zIndex: 3,
+    overflow: 'auto',
+    maxHeight: '100vh',
   },
   mainSideBar: {
     [theme.breakpoints.down("sm")]: {
@@ -60,7 +70,7 @@ class SideBar extends React.PureComponent {
   };
 
   render() {
-    const { classes, isMainSideBar, filterOptions = {} } = this.props;
+    const { classes, isMainSideBar, filterOptions = {}, categories } = this.props;
 
     return (
       <List
@@ -82,7 +92,13 @@ class SideBar extends React.PureComponent {
         </ListItem>
 
         <ListItem className={classes.item}>
-          <SomeFilter />
+          <FilterSex />
+          {/* <FilterGeneral
+            title="Пол"
+            type="male"
+            style={{ maxHeight: "130px", overflowY: "auto" }}
+            filterOptions={filterOptions.size}
+          /> */}
         </ListItem>
 
         {/* <ListItem className={classes.item}>
@@ -90,7 +106,7 @@ class SideBar extends React.PureComponent {
         </ListItem> */}
 
         <ListItem className={classes.item}>
-          <FilterPrice filterOptions={filterOptions.size} />
+          <FilterPrice priceMin={filterOptions.price_min} priceMax={filterOptions.price_max} />
         </ListItem>
 
         <ListItem className={classes.item}>

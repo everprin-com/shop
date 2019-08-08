@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 
 const mapStateToProps = state => {
-  const isFemale = state.general.sex == "female"
+  const isFemale = state.general.sex == "female";
   if (state.metaData.headers)
     return {
       headers: state.metaData.headers[isFemale ? "female" : "male"]
@@ -24,7 +24,11 @@ const styles = () => ({
   root: {
     justifyContent: "center",
     flexWrap: "wrap",
-    marginTop: 150
+    marginTop: 150,
+    padding: 15
+  },
+  link: {
+    textDecoration: "none"
   }
 });
 
@@ -71,19 +75,27 @@ function SimpleBreadcrumbs({
   return (
     <div className={classes.root}>
       <Paper elevation={0} className={classes.paper}>
-        <Link to="/" onClick={toMain}>
+        <Link to="/" onClick={toMain} className={classes.link}>
           Главная
         </Link>{" "}
         /
-        <Link to="/" onClick={e => toGroup(e, getGroup("en"))}>
+        <Link
+          to="/"
+          onClick={e => toGroup(e, getGroup("en"))}
+          className={classes.link}
+        >
           {getGroup()}
         </Link>{" "}
-        /
-        <Link to="/" onClick={e => toCategory(e, category)}>
+        {getGroup() && "/"}
+        <Link
+          to="/"
+          onClick={e => toCategory(e, category)}
+          className={classes.link}
+        >
           {category}
         </Link>{" "}
         /
-        <Link to="/" onClick={e => e.preventDefault()}>
+        <Link to="/" onClick={e => e.preventDefault()} className={classes.link}>
           {name}
         </Link>
       </Paper>
