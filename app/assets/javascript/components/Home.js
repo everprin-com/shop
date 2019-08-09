@@ -75,8 +75,7 @@ class Home extends React.PureComponent {
       return (
         <CategoryItem
           title={o[0]}
-          // src={o[1]}
-          src={"https://vsestilno.com.ua/modules/catalog_items/uploads/original/5560_768837edf4641f2.jpg"}
+          src={o[1]}
           click={requestAndAddProducts}
           classes={classes}
         />

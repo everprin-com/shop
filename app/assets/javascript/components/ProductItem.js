@@ -262,7 +262,7 @@ class ProductItem extends React.PureComponent {
 
             <CardMedia
               className={classes.media}
-              image={"https://vsestilno.com.ua/modules/catalog_items/uploads/original/5560_768837edf4641f2.jpg"}
+              image={this.state.currentImg}
               title={withoutSizeName}
             />
             {shouldShowArr && (
