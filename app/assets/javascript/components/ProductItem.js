@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import ProductItemSizes from "./ProductItemSizes";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getSizes, isEqualArr } from "./Utils";
+import { convertPrice, isEqualArr } from "./Utils";
 import Badge from "@material-ui/core/Badge";
 import NavigateBefore from "@material-ui/icons/NavigateBefore";
 import NavigateNext from "@material-ui/icons/NavigateNext";
@@ -117,7 +117,7 @@ const styles = theme => ({
     boxShadow: "1px 1px rgba(0,0,0, 0.1), -1px 1px rgba(0,0,0,0.1)",
     [theme.breakpoints.down("xs")]: {
       position: "static",
-      marginTop: 40,
+      marginTop: 40
     }
   },
   cardContent: {
@@ -218,16 +218,18 @@ class ProductItem extends React.PureComponent {
   };
 
   render() {
-    const { classes, inCard, data } = this.props;
-    let { picture, price, name, category, id, size, activeSize } = data;
-    price = Math.round(+price);
-    const sales = [30, 40, 50, 25, 55, 60, 45, 35, 65, 40];
-    const sale =
-      sales[("" + price).split("")[("" + price).split("").length - 1]];
-    const oldPrice = Math.round(price + (price * sale) / 100);
-    const saleShow = 100 - Math.round((price * 100) / oldPrice);
-    const windowWidth = window.innerWidth;
-    const shouldShowBottom = this.state.hover || windowWidth < 1000;
+    const { classes, inCard, data, windowWidthLess1000 } = this.props;
+    let {
+      picture,
+      price: notConvertedPrice,
+      name,
+      category,
+      id,
+      size,
+      activeSize
+    } = data;
+    const { price, saleShow, oldPrice } = convertPrice(notConvertedPrice);
+    const shouldShowBottom = this.state.hover || windowWidthLess1000;
     const withoutSizeName = name.replace(/[0-9-]*$/g, "");
     const shouldShowArr =
       Array.isArray(picture) && picture.length > 1 && shouldShowBottom;
@@ -240,10 +242,7 @@ class ProductItem extends React.PureComponent {
         {" "}
         <Link
           className={classes.productItemLink}
-          to={{
-            pathname: `/productcart/${id}`,
-            state: { data }
-          }}
+          to={`/productcart/${id}`}
           onClick={this.linkHandler}
         >
           <div className={classes.imgWrap}>

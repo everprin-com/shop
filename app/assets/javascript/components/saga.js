@@ -4,11 +4,13 @@ import {
   takeEvery,
   takeLatest,
   select,
-  all
+  all,
 } from "redux-saga/effects";
 import regeneratorRuntime from "regenerator-runtime";
 import fetchGetWithParams from "./api/fetchGetWithParams";
 // import Api from '...'
+
+const delay = (ms) => new Promise(res => setTimeout(res, ms))
 
 function* openCart(action) {
   try {
@@ -34,6 +36,11 @@ function* checkSetSize(action) {
 function* getFilteredProducts() {
   try {
     const state = yield select();
+    yield put({ type: "SCROLL_ON" });
+    if (Object.values(state.filterData.filter).flat(2).length > 0){
+      yield put({ type: "FIRST_ENTER_OFF" });
+    } else { yield put({ type: "FIRST_ENTER_ON" }); }
+    
     const products = yield call(
       fetchGetWithParams,
       "/items/",
@@ -112,9 +119,8 @@ function* handleCloseCart(action) {
 }
 
 function* handleScroll() {
-  setTimeout(() => {
-    put({ type: "SCROLL_OFF" });
-  }, 4000);
+    yield delay(6000)
+    yield put({ type: "SCROLL_OFF" });
 }
 
 function* handleOpenCart() {

@@ -84,7 +84,7 @@ class SideBar extends React.PureComponent {
         <ListItem className={classes.item}>
           <FilterGeneral
             title="Бренды"
-            type="brand"
+            keyFilter="search_brand"
             style={{ maxHeight: "130px", overflowY: "auto", width: "100%" }}
             filterOptions={filterOptions.brand}
             isList
@@ -112,7 +112,7 @@ class SideBar extends React.PureComponent {
         <ListItem className={classes.item}>
           <FilterGeneral
             title="Размеры"
-            type="size"
+            keyFilter="search_size"
             style={{ maxHeight: "130px", overflowY: "auto" }}
             filterOptions={filterOptions.size}
           />
@@ -121,7 +121,7 @@ class SideBar extends React.PureComponent {
         <ListItem className={classes.item}>
           <FilterGeneral
             title="Категории"
-            type="category"
+            keyFilter="search_category"
             style={{ maxHeight: "130px", overflowY: "auto" }}
             filterOptions={categories}
             isList

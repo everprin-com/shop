@@ -21,6 +21,12 @@ const mapStateToProps = state => {
   return {};
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    resetFilter: () => dispatch({ type: "RESET_FILTER" })
+  };
+};
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -128,9 +134,14 @@ const styles = theme => ({
   }
 });
 
-function Logo({ classes }) {
+function Logo({ classes, redirectToRoot, resetFilter }) {
+  const handleClink = e => {
+    e.preventDefault();
+    resetFilter();
+    redirectToRoot && redirectToRoot();
+  };
   return (
-    <Link to="/">
+    <Link to="/" onClick={redirectToRoot ? handleClink : null}>
       <div className={classes.logoWrap}>
         <img src="/imgs/logo.png" className={classes.logo} />
       </div>
@@ -188,7 +199,7 @@ class Header extends React.PureComponent {
   };
 
   render() {
-    const { classes, redirectToRoot, withSmallMenu } = this.props;
+    const { classes, redirectToRoot, withSmallMenu, resetFilter } = this.props;
     const { value } = this.state;
 
     return (
@@ -202,7 +213,11 @@ class Header extends React.PureComponent {
               color="default"
               className={classes.chooseCategoryMenu}
             >
-              <Logo classes={classes} />
+              <Logo
+                classes={classes}
+                resetFilter={resetFilter}
+                redirectToRoot={redirectToRoot}
+              />
               <div ref={this.tabsRef}>
                 <Tabs
                   value={value}
@@ -251,6 +266,7 @@ class Header extends React.PureComponent {
                     redirectToRoot={redirectToRoot}
                     productTypeList={this.productTypeList("clothes")}
                     resetDropDown={this.resetDropDown}
+                    mainPage={withSmallMenu}
                   />
                 )}
                 {value === 1 && (
@@ -258,6 +274,7 @@ class Header extends React.PureComponent {
                     redirectToRoot={redirectToRoot}
                     productTypeList={this.productTypeList("footwear")}
                     resetDropDown={this.resetDropDown}
+                    mainPage={withSmallMenu}
                   />
                 )}
                 {value === 2 && (
@@ -265,6 +282,7 @@ class Header extends React.PureComponent {
                     redirectToRoot={redirectToRoot}
                     productTypeList={this.productTypeList("accessories")}
                     resetDropDown={this.resetDropDown}
+                    mainPage={withSmallMenu}
                   />
                 )}
               </div>
@@ -283,5 +301,5 @@ Header.propTypes = {
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(withStyles(styles)(Header));

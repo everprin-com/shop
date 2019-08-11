@@ -18,7 +18,7 @@ const mapDispatchToProps = dispatch => {
     requestAndAddProducts: params =>
       dispatch({ type: "REQUEST_AND_ADD_PRODUCTS", params }),
     handlePagination: () => dispatch({ type: "HANDLE_PAGINATION" }),
-    fistEnterOff: () => dispatch({ type: "FIRST_ENTER_OFF" })
+    // fistEnterOff: () => dispatch({ type: "FIRST_ENTER_OFF" })
   };
 };
 
@@ -73,11 +73,11 @@ class ProductList extends React.PureComponent {
       products,
       productsParams,
       firstEnter,
-      fistEnterOff,
+      // fistEnterOff
     } = this.props;
     if (productsParams && firstEnter) {
       requestAndAddProducts(productsParams);
-      fistEnterOff();
+      // fistEnterOff();
     }
     window.onscroll = () => this.scrollChange();
   }
@@ -111,24 +111,32 @@ class ProductList extends React.PureComponent {
     }
   }
 
-  renderProductList() {
+  renderProductList(windowWidthLess1000) {
     const { products, card } = this.props;
     return products.map((product, _i) => {
       const inCard =
         card.data && card.data.some(cardItem => cardItem.id == product.id);
-      return <ProductItem data={product} inCard={inCard} key={_i} />;
+      return (
+        <ProductItem
+          data={product}
+          windowWidthLess1000={windowWidthLess1000}
+          inCard={inCard}
+          key={_i}
+        />
+      );
     });
   }
 
   render() {
     const { classes, loading, forCart, title } = this.props;
+    const windowWidthLess1000 = window.innerWidth < 1000;
     return (
       <div className={classes.wraper}>
         {title && <div className={classes.title}>{title}</div>}
         <div
           className={`${forCart ? classes.rootCart : classes.root} productList`}
         >
-          {this.renderProductList()}
+          {this.renderProductList(windowWidthLess1000)}
         </div>
         {loading && (
           <div className={classes.loader}>
