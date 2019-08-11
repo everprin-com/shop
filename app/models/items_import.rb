@@ -6,10 +6,10 @@ class ItemsImport
   HEADER = %w[
     article name description price color picture brand
     season male size country category available_product size_world
-    drop_ship composition drop_ship_price
+    drop_ship composition drop_ship_price small_picture link
   ]
 
-  attr_accessor :file
+  attr_accessor :file, :link
 
   def initialize(attributes={})
     attributes.each { |name, value| send("#{name}=", value) }
@@ -33,19 +33,32 @@ class ItemsImport
     header = spreadsheet.row(5)
     (6..spreadsheet.last_row).map do |i|
        row = Hash[[HEADER, spreadsheet.row(i)[0..HEADER.size-1]].transpose]
-       item = Item.find_by_id(row["id"]) || Item.new
+       #item = Item.find_by_id(row["id"]) || Item.new
+       p "item"
+       p i
+       item = Item.new
        item.attributes = row.to_hash
-       #conver_size_to_array(row)
-       byebug
-       doc = Nokogiri::HTML(open('https://issaplus.com/mayka-45-45_printovannyy/', :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
-       doc.css('nav.breadcrumbs span a').children
-       doc.css('nav.breadcrumbs span a').children[1].text
-       #"Женская одежда"
-       #doc.css('nav.breadcrumbs span a').children[2].text
-
-       sex = row["male"]&.split(" ")&.split(",")&.flatten
-       item["sex"] = sex ? sex : ["man", "wooman"]
-       item["size"] = conver_size_to_array(row)
+       if item["drop_ship"] == "issaplus"
+         doc = Nokogiri::HTML(open(row["link"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
+         doc.css('nav.breadcrumbs span a').children
+         parsed_sex = doc.css('nav.breadcrumbs span a')&.children[1]&.text
+         sex =
+           if parsed_sex == "Женская одежда"
+             ["wooman"]
+           elsif parsed_sex == "Мужская одежда"
+             ["man"]
+           end
+         item["sex"] = sex ? sex : ["man", "wooman"]
+         item["category"] = doc.css('nav.breadcrumbs span a')&.children[2]&.text
+         item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
+         row["drop_ship_price"] = row["drop_ship_price"] * 0.85
+         item["size"] = row["size"].to_s.split(",")
+         item["small_picture"] = row["small_picture"]&.split(" ")&.split(",")&.flatten
+       else
+         sex = row["male"]&.split(" ")&.split(",")&.flatten
+         item["sex"] = sex ? sex : ["man", "wooman"]
+         item["size"] = conver_size_to_array(row)
+       end
        item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
        item["picture"] = row["picture"]&.split(" ")&.split(",")&.flatten
        item

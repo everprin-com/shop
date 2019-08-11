@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190731194348) do
+ActiveRecord::Schema.define(version: 20190811143242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,10 +42,10 @@ ActiveRecord::Schema.define(version: 20190731194348) do
     t.integer  "info_id"
     t.string   "image_comment_file_name"
     t.string   "image_comment_content_type"
-    t.integer  "image_comment_file_size",    limit: 8
+    t.integer  "image_comment_file_size"
     t.datetime "image_comment_updated_at"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "configurables", force: :cascade do |t|
@@ -83,15 +83,15 @@ ActiveRecord::Schema.define(version: 20190731194348) do
     t.string   "telephone"
     t.string   "data"
     t.string   "bio"
-    t.boolean  "send_new_film",                   default: false
-    t.boolean  "send_comments_to_film",           default: false
-    t.boolean  "ban",                             default: false
+    t.boolean  "send_new_film",         default: false
+    t.boolean  "send_comments_to_film", default: false
+    t.boolean  "ban",                   default: false
     t.string   "photo_file_name"
     t.string   "photo_content_type"
-    t.integer  "photo_file_size",       limit: 8
+    t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   add_index "infos", ["user_id"], name: "index_infos_on_user_id", using: :btree
@@ -117,6 +117,7 @@ ActiveRecord::Schema.define(version: 20190731194348) do
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
     t.string   "sex",                                       default: [],                 array: true
+    t.string   "small_picture",                             default: [],                 array: true
   end
 
   add_index "items", ["name"], name: "items_on_name_gin_trgm_idx", using: :gin
@@ -169,13 +170,13 @@ ActiveRecord::Schema.define(version: 20190731194348) do
     t.text     "description"
     t.string   "uploaded_file_file_name"
     t.string   "uploaded_file_content_type"
-    t.integer  "uploaded_file_file_size",    limit: 8
+    t.integer  "uploaded_file_file_size"
     t.datetime "uploaded_file_updated_at"
     t.string   "category"
-    t.decimal  "price",                                precision: 8, scale: 2
+    t.decimal  "price",                      precision: 8, scale: 2
     t.text     "full_description"
-    t.datetime "created_at",                                                   null: false
-    t.datetime "updated_at",                                                   null: false
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
   end
 
   create_table "searches", force: :cascade do |t|
@@ -243,6 +244,5 @@ ActiveRecord::Schema.define(version: 20190731194348) do
   end
 
   add_foreign_key "identities", "users"
-  add_foreign_key "infos", "users"
   add_foreign_key "line_items", "orders"
 end
