@@ -36,6 +36,13 @@ class ItemsImport
        item = Item.find_by_id(row["id"]) || Item.new
        item.attributes = row.to_hash
        #conver_size_to_array(row)
+       byebug
+       doc = Nokogiri::HTML(open('https://issaplus.com/mayka-45-45_printovannyy/', :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
+       doc.css('nav.breadcrumbs span a').children
+       doc.css('nav.breadcrumbs span a').children[1].text
+       #"Женская одежда"
+       #doc.css('nav.breadcrumbs span a').children[2].text
+
        sex = row["male"]&.split(" ")&.split(",")&.flatten
        item["sex"] = sex ? sex : ["man", "wooman"]
        item["size"] = conver_size_to_array(row)
