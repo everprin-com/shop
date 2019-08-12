@@ -6,10 +6,10 @@ class ItemsImport
   HEADER = %w[
     article name description price color picture brand
     season male size country category available_product size_world
-    drop_ship composition drop_ship_price small_picture link
+    drop_ship composition drop_ship_price small_picture
   ]
 
-  attr_accessor :file, :link
+  attr_accessor :file
 
   def initialize(attributes={})
     attributes.each { |name, value| send("#{name}=", value) }
@@ -39,7 +39,7 @@ class ItemsImport
        item = Item.new
        item.attributes = row.to_hash
        if item["drop_ship"] == "issaplus"
-         doc = Nokogiri::HTML(open(row["link"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
+         doc = Nokogiri::HTML(open(row["article"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
          doc.css('nav.breadcrumbs span a').children
          parsed_sex = doc.css('nav.breadcrumbs span a')&.children[1]&.text
          sex =

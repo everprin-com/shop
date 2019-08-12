@@ -7,8 +7,6 @@ class Item < ActiveRecord::Base
   pg_search_scope :search_category, against: [:category]
   pg_search_scope :search_brand, against: [:brand]
 
-  attr_accessor :link
-
   GROUP = {
     clothes: [
       "Колготки", "Платья", "Майки", "Юбки", "Футболки", "Капри", "Спортивные штаны",
