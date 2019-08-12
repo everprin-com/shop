@@ -1,6 +1,8 @@
 class ItemsImport
   include ActiveModel::Model
   require 'roo'
+  WOOMAN_CATEGORIES = ["Женская одежда", "Женские аксессуары", "Женская обувь"]
+  MAN_CATEGORIES = ["Мужская одежда", "Мужские аксессуары", "Мужская обувь"]
   CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
   CANT_BE_NULL = ["article", "name", "price", "picture", "drop_ship", "drop_ship_price"]
   HEADER = %w[
@@ -42,17 +44,17 @@ class ItemsImport
          doc = Nokogiri::HTML(open(row["article"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
          doc.css('nav.breadcrumbs span a').children
          parsed_sex = doc.css('nav.breadcrumbs span a')&.children[1]&.text
-         sex =
-           if parsed_sex == "Женская одежда"
+         item["sex"] =
+           if WOOMAN_CATEGORIES.include?(parsed_sex)
              ["wooman"]
-           elsif parsed_sex == "Мужская одежда"
+           elsif MAN_CATEGORIES.include?(parsed_sex)
              ["man"]
            end
-         item["sex"] = sex ? sex : ["man", "wooman"]
          item["category"] = doc.css('nav.breadcrumbs span a')&.children[2]&.text
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
          row["drop_ship_price"] = row["drop_ship_price"] * 0.85
          item["size"] = row["size"].to_s.split(",")
+         item["color"] = row["color"].to_s.split("_").last
          item["small_picture"] = row["small_picture"]&.split(" ")&.split(",")&.flatten
        else
          sex = row["male"]&.split(" ")&.split(",")&.flatten
@@ -85,7 +87,6 @@ class ItemsImport
 
   def delete_null(imported_items)
     CANT_BE_NULL.each do |field|
-      #byebug
       imported_items.reject! { |item| item[field.to_sym] == nil }
     end
   end
