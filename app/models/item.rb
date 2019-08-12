@@ -7,8 +7,6 @@ class Item < ActiveRecord::Base
   pg_search_scope :search_category, against: [:category]
   pg_search_scope :search_brand, against: [:brand]
 
-  attr_accessor :link
-
   GROUP = {
     clothes: [
       "Колготки", "Платья", "Майки", "Юбки", "Футболки", "Капри", "Спортивные штаны",
@@ -32,17 +30,16 @@ class Item < ActiveRecord::Base
 
   def self.create_header
     Header.delete_all
-    wooman_catalogues = Item.where('sex && ARRAY[?]::varchar[]', "wooman").select(:category).uniq.map(&:category)
-
+    wooman_catalogues = Item.where('sex && ARRAY[?]::varchar[]', "wooman").select(:category).uniq.map(&:category).compact
     wooman_catalogues.map do |catalogue|
       count = Item.where(category: catalogue).count
-      group = GROUP.select{ |key, hash| hash.include?(catalogue.capitalize) }.keys[0].to_s
+      group = GROUP.select{ |key, hash| hash.include?(catalogue&.capitalize) }.keys[0].to_s
       Header.create!(count_items: count, catalogue: catalogue, group: group, male: false)
     end
-    man_catalogues = Item.where('sex && ARRAY[?]::varchar[]', "man").select(:category).uniq.map(&:category)
+    man_catalogues = Item.where('sex && ARRAY[?]::varchar[]', "man").select(:category).uniq.map(&:category).compact
     man_catalogues.map do |catalogue|
       count = Item.where(category: catalogue).count
-      group = GROUP.select{ |key, hash| hash.include?(catalogue.capitalize) }.keys[0].to_s
+      group = GROUP.select{ |key, hash| hash.include?(catalogue&.capitalize) }.keys[0].to_s
       Header.create!(count_items: count, catalogue: catalogue, group: group, male: true)
     end
   end
