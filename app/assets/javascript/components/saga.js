@@ -133,6 +133,7 @@ function* handleResetCart() {
   localStorage.removeItem('card')
 }
 
+
 function* watchTryPutCart() {
   yield takeEvery("TRY_PUT_TO_CART", checkSetSize);
 }
