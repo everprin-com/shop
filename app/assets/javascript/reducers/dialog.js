@@ -2,7 +2,7 @@ export default function(
   state = {
     size: { status: false, id: null },
     successOrder: { status: false },
-    slider: { status: false },
+    slider: { status: false }
   },
   action
 ) {
@@ -10,17 +10,27 @@ export default function(
     case "SHOW_SET_SIZE_WINDOW":
       return {
         size: { id: action.id, status: true },
-        successOrder: { ...state.successOrder }
+        successOrder: { ...state.successOrder },
+        slider: { status: false }
       };
     case "CLOSE_SET_SIZE_WINDOW":
       return {
         size: { id: null, status: false },
-        successOrder: { ...state.successOrder }
+        successOrder: { ...state.successOrder },
+        slider: { status: false }
       };
     case "SHOW_SUCCESS_WINDOW":
-      return { size: { ...state.size }, successOrder: { status: true } };
+      return {
+        size: { ...state.size },
+        successOrder: { status: true },
+        slider: { status: false }
+      };
     case "CLOSE_SUCCESS_WINDOW":
-      return { size: { ...state.size }, successOrder: { status: false } };
+      return {
+        size: { ...state.size },
+        successOrder: { status: false },
+        slider: { status: false }
+      };
     case "SHOW_SLIDER_WINDOW":
       return { ...state, slider: { status: true } };
     case "CLOSE_SLIDER_WINDOW":

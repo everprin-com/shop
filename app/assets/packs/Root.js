@@ -3,60 +3,57 @@
 // of the page.
 // add raect  https://cognitiveclass.ai/blog/react-on-rails-tutorial-integrating-react-and-ruby-on-rails/
 
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import reducers from "../javascript/reducers"
-import App from "../javascript/components/App"
-import fetchGet from "../javascript/components/api/fetchGet"
-import { BrowserRouter as Router, Route, Link, withRouter, Switch } from "react-router-dom";
-import { createStore, applyMiddleware } from 'redux'
-import createSagaMiddleware from 'redux-saga'
-import ProductCart from "../javascript/components/ProductCart"
-import OrderForm from "../javascript/components/OrderForm"
-import ConvertXml from "../javascript/components/ConvertXml"
-import RegistrationForm from "../javascript/components/RegistrationForm"
-import rootSaga from '../javascript/components/saga'
-import ScrollToTopRoute from "../javascript/components/ScrollToTopRoute"
-import Loadable from 'react-loadable';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import reducers from "../javascript/reducers";
+import App from "../javascript/components/App/App";
+import fetchGet from "../javascript/components/api/fetchGet";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { createStore, applyMiddleware } from "redux";
+import createSagaMiddleware from "redux-saga";
+import ProductCart from "../javascript/components/ProductCart/ProductCart";
+import OrderForm from "../javascript/components/OrderForm/OrderForm";
+import ConvertXml from "../javascript/components/ConvertXml/ConvertXml";
+import RegistrationForm from "../javascript/components/RegistrationForm/RegistrationForm";
+import rootSaga from "../javascript/components/saga";
+import ScrollToTopRoute from "../javascript/components/ScrollToTopRoute/ScrollToTopRoute";
+import Loadable from "react-loadable";
 
 // create the saga middleware
-const sagaMiddleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware();
 
-const store = createStore(
-  reducers,
-  applyMiddleware(sagaMiddleware)
-)
+const store = createStore(reducers, applyMiddleware(sagaMiddleware));
 
-sagaMiddleware.run(rootSaga)
+sagaMiddleware.run(rootSaga);
 
-window.store = store
+window.store = store;
 
 const Loading = () => <div>Loading...</div>;
 
-const DApp = Loadable({
-  loader: () => import('../javascript/components/App'),
-  loading: Loading
-});
+// const DApp = Loadable({
+//   loader: () => import("../javascript/components/App"),
+//   loading: Loading
+// });
 
-const DProductCart = Loadable({
-  loader: () => import('../javascript/components/ProductCart'),
-  loading: Loading
-});
+// const DProductCart = Loadable({
+//   loader: () => import("../javascript/components/ProductCart"),
+//   loading: Loading
+// });
+
+// const DOrderForm = Loadable({
+//   loader: () => import("../javascript/components/OrderForm"),
+//   loading: Loading
+// });
 
 (() => {
-  fetchGet("/meta_datas")
-  .then(meta_data => {
-    store.dispatch({ type: 'ADD_META_DATA', meta_data })
-  })
-})()
+  fetchGet("/meta_datas").then(meta_data => {
+    store.dispatch({ type: "ADD_META_DATA", meta_data });
+  });
+})();
 
-const DOrderForm = Loadable({
-  loader: () => import('../javascript/components/OrderForm'),
-  loading: Loading
-});
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
     <Provider store={store}>
       <Router>
@@ -70,15 +67,5 @@ document.addEventListener('DOMContentLoaded', () => {
       </Router>
     </Provider>,
     document.getElementById("root")
-  )
-})
-
-// Usage in App.jsx
-{/* <Router history={History}>
-  <Switch>
-    <ScrollToTopRoute exact path="/" component={Home}/>
-    <ScrollToTopRoute exact path="/about" component={About}/>
-    <ScrollToTopRoute exact path="/search" component={Search}/>
-    <ScrollToTopRoute exact component={NoMatch}/>
-  </Switch>
-</Router> */}
+  );
+});

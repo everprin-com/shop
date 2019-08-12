@@ -28,7 +28,11 @@
   right: 30px !important;
   height: 100% !important;
   overflow: auto;
-  width: 100px;
+  width: 150px !important;
+}
+
+.gallery .slick-dots li.slick-active img {
+ border: 1px solid #3f51b5
 }
 
 .slick-dots li{
@@ -74,14 +78,13 @@
   }
  }
 
-// .ant-carousel .slick-slide {
-//   text-align: center;
-//   overflow: hidden;
-//   height: 100%;
-// }
-
 .titleSlider{
 font-size: 20px;
+}
+
+.main-page-slider .titleSlider{
+  font-size: 25px;
+  margin-bottom: 20px
 }
 
 .ant-carousel .slick-slide h3 {
@@ -125,6 +128,10 @@ font-size: 20px;
   top: 50%;
   transform: translate(0, -50%);
   float: right;
+}
+
+.main-page-slider .arrSlider.next {
+  right: 2px;
 }
 
 .arrSlider.prev{
