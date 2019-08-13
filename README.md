@@ -7,6 +7,8 @@ rails version 4.2.11
 
 root@178.62.6.75
 ssh rails-demo@178.62.6.75
+RAILS_ENV=production bundle exec rails c
+tail -f ~/app/shared/log/*
 
 rubocop
 
