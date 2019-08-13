@@ -13,6 +13,12 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+const mapStateToProps = state => {
+  return {
+    filter: state.filterData.filter ? state.filterData.filter : {}
+  };
+};
+
 const styles = {
   root: {
     color: "#111",
@@ -34,59 +40,51 @@ const styles = {
     flexWrap: "wrap",
     display: "flex",
     justifyContent: "center",
-    paddingLeft: 10,
+    paddingLeft: 10
   },
-  checkbox:{
+  checkbox: {
     padding: 0
   },
   list: {
     paddingLeft: 10,
-    display: "block",
+    display: "block"
   },
   label: {
-    fontSize: `15px`,
+    fontSize: `15px`
   }
 };
 
 class FilterGeneral extends React.PureComponent {
-  state = { [`search_${this.props.type}`]: [] };
-
   handleChange = name => event => {
     this.setState({ [name]: event.target.checked });
   };
 
   handleChange = name => event => {
-    const { type, addFilter } = this.props;
-    if (this.state[`search_${type}`].includes(name)) {
-      this.setState(
-        {
-          [`search_${type}`]: [
-            ...this.state[`search_${type}`].filter(color => color !== name)
-          ]
-        },
-        () => {
-          addFilter({ ...this.state });
-        }
-      );
+    const { addFilter, keyFilter, filter } = this.props;
+    if (filter[keyFilter] && filter[keyFilter].includes(name)) {
+      addFilter({
+        [keyFilter]: filter[keyFilter].filter(item => item !== name)
+      });
     } else {
-      this.setState(
-        { [`search_${type}`]: [...this.state[`search_${type}`], name] },
-        () => {
-          addFilter({ ...this.state });
-        }
-      );
+      if (filter[keyFilter]) {
+        addFilter({ [keyFilter]: [...filter[keyFilter], name] });
+      } else {
+        addFilter({ [keyFilter]: [name] });
+      }
     }
   };
 
   generateFilterItem = ({ label, color = "primary" }) => {
-   const { classes } = this.props 
+    const { classes, keyFilter, filter } = this.props;
     return (
       <div className={classes.option}>
         <FormControlLabel
           key={label}
           control={
             <Checkbox
-              checked={this.state[label]}
+              checked={
+                filter[keyFilter] ? filter[keyFilter].includes(label) : false
+              }
               onChange={this.handleChange(label)}
               value={label}
               color={color}
@@ -107,10 +105,13 @@ class FilterGeneral extends React.PureComponent {
     return (
       <FormGroup row className={classes.root}>
         <div className={classes.title}>{title}</div>
-        <div className={`${classes.container} ${isList ? classes.list : ""}`} style={{...style}}>
-          {filterOptions.sort().map(filterItem =>
-            this.generateFilterItem({ label: filterItem })
-          )}
+        <div
+          className={`${classes.container} ${isList ? classes.list : ""}`}
+          style={{ ...style }}
+        >
+          {filterOptions
+            .sort()
+            .map(filterItem => this.generateFilterItem({ label: filterItem }))}
         </div>
       </FormGroup>
     );
@@ -123,7 +124,7 @@ FilterGeneral.propTypes = {
 
 export default withStyles(styles)(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )(FilterGeneral)
 );
