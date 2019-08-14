@@ -4,7 +4,7 @@ class ItemsImport
   WOOMAN_CATEGORIES = ["Женская одежда", "Женские аксессуары", "Женская обувь"]
   MAN_CATEGORIES = ["Мужская одежда", "Мужские аксессуары", "Мужская обувь"]
   CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
-  CANT_BE_NULL = ["article", "name", "price", "picture", "drop_ship", "drop_ship_price"]
+  CANT_BE_NULL = ["article", "name", "price", "picture", "drop_ship", "drop_ship_price", "sex"]
   HEADER = %w[
     article name description price color picture brand
     season male size country category available_product size_world
