@@ -14,7 +14,10 @@ import { Link } from "react-router-dom";
 import styles from "./styles";
 
 const mapStateToProps = state => {
-  const isFemale = state.general.sex == "female";
+  const isFemale =
+    state.filterData.filter.sex &&
+    state.filterData.filter.sex.includes("wooman");
+    console.log(isFemale)
   if (state.metaData.headers)
     return {
       headers: state.metaData.headers[isFemale ? "female" : "male"]
@@ -84,6 +87,7 @@ class Header extends React.PureComponent {
 
   productTypeList = type => {
     const { headers } = this.props;
+    console.log(headers)
     if (!headers || !headers.filter) return;
     const typeCategory = headers.filter(header => header.group == type);
     const catalogues = Object.keys(typeCategory).map(

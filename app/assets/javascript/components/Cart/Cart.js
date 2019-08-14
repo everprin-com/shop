@@ -82,7 +82,13 @@ class Cart extends React.PureComponent {
     });
   };
   render() {
-    const { classes, redirToOrderForm, closeCart, card } = this.props;
+    const {
+      classes,
+      redirToOrderForm,
+      closeCart,
+      card,
+      orderForm
+    } = this.props;
     const totalPrice = card.data.reduce((prev, next) => {
       return prev + next.price * next.amount;
     }, 0);
@@ -92,13 +98,15 @@ class Cart extends React.PureComponent {
         {this.renderProducts()}
         <div className={classes.totalBlock}>
           <div>
-            <Button
-              variant="contained"
-              className={classes.button}
-              onClick={closeCart}
-            >
-              Продолжить покупки
-            </Button>
+            {!orderForm && (
+              <Button
+                variant="contained"
+                className={classes.button}
+                onClick={closeCart}
+              >
+                Продолжить покупки
+              </Button>
+            )}
           </div>
           <div>
             <div
@@ -108,7 +116,7 @@ class Cart extends React.PureComponent {
               variant="contained"
               color="secondary"
               className={classes.button}
-              onClick={redirToOrderForm}
+              onClick={orderForm ? closeCart : redirToOrderForm}
             >
               Оформить заказ
             </Button>

@@ -4,29 +4,33 @@ import {
   takeEvery,
   takeLatest,
   select,
-  all,
+  all
 } from "redux-saga/effects";
 import regeneratorRuntime from "regenerator-runtime";
 import fetchGetWithParams from "./api/fetchGetWithParams";
 // import Api from '...'
 
-const delay = (ms) => new Promise(res => setTimeout(res, ms))
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 function* openCart(action) {
   try {
     const state = yield select();
     yield put({ type: "OPEN_CART", withProduct: true });
     // need refactoring
-    localStorage.setItem('card', JSON.stringify(state.card))
+    localStorage.setItem("card", JSON.stringify(state.card));
   } catch (e) {
     console.log("err");
   }
 }
 
 function* checkSetSize(action) {
-  //checkProduct.activeSize ? action.product.size.includes("универсальный") : false
   const checkProduct = action.product;
-  if (!checkProduct.activeSize && checkProduct.size.length > 0) {
+  //checkProduct.activeSize ? action.product.size.includes("универсальный") : false
+  if (
+    !checkProduct.size.includes("Universal") &&
+    !checkProduct.activeSize &&
+    checkProduct.size.length > 0
+  ) {
     yield put({ type: "SHOW_SET_SIZE_WINDOW", id: action.product.id });
   } else {
     yield put({ type: "PUT_TO_CART", product: action.product });
@@ -37,10 +41,12 @@ function* getFilteredProducts() {
   try {
     const state = yield select();
     yield put({ type: "SCROLL_ON" });
-    if (Object.values(state.filterData.filter).flat(2).length > 0){
+    if (Object.values(state.filterData.filter).flat(2).length > 0) {
       yield put({ type: "FIRST_ENTER_OFF" });
-    } else { yield put({ type: "FIRST_ENTER_ON" }); }
-    
+    } else {
+      yield put({ type: "FIRST_ENTER_ON" });
+    }
+
     const products = yield call(
       fetchGetWithParams,
       "/items/",
@@ -60,7 +66,10 @@ function* getFilteredProducts() {
       }
     });
     yield put({ type: "RESET_AND_ADD_PRODUCTS", products: products.items });
-    yield put({ type: "ADD_FILTER_OPTIONS", filterOptions: products.filters_options });
+    yield put({
+      type: "ADD_FILTER_OPTIONS",
+      filterOptions: products.filters_options
+    });
     yield put({ type: "MOBILE_SIDEBAR_OFF" });
   } catch (error) {
     yield put({ type: "FETCH_FAILED", error });
@@ -108,19 +117,19 @@ function* requestAndAddProductsToSlider() {
 
 function* handleCloseCart(action) {
   const state = yield select();
-  const card = JSON.parse(localStorage.getItem('card'))
-  const { data } = card
-  const newData = data.filter(product=> product.id != action.id)
-   localStorage.setItem('card', JSON.stringify({...card, data: newData}))
+  const card = JSON.parse(localStorage.getItem("card"));
+  const { data } = card;
+  const newData = data.filter(product => product.id != action.id);
+  localStorage.setItem("card", JSON.stringify({ ...card, data: newData }));
   if (state.card.data.length < 1) {
     yield put({ type: "CLOSE_CART" });
-    localStorage.removeItem('card')
+    localStorage.removeItem("card");
   }
 }
 
 function* handleScroll() {
-    yield delay(6000)
-    yield put({ type: "SCROLL_OFF" });
+  yield delay(6000);
+  yield put({ type: "SCROLL_OFF" });
 }
 
 function* handleOpenCart() {
@@ -130,9 +139,8 @@ function* handleOpenCart() {
 }
 
 function* handleResetCart() {
-  localStorage.removeItem('card')
+  localStorage.removeItem("card");
 }
-
 
 function* watchTryPutCart() {
   yield takeEvery("TRY_PUT_TO_CART", checkSetSize);
@@ -188,6 +196,6 @@ export default function* rootSaga() {
     watchScroll(),
     watchOpenCart(),
     watchDeleteFromCart(),
-    watchResetCart(),
+    watchResetCart()
   ]);
 }
