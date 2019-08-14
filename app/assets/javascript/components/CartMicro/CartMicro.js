@@ -18,14 +18,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    closeCart: () => dispatch({ type: "CLOSE_CART" }),
-    redirToOrderForm: () => dispatch({ type: "OPEN_ORDER_FORM" }),
-    deleteFromCart: id => dispatch({ type: "DELETE_FROM_CART", id })
+    openCart: () => dispatch({ type: "OPEN_CART" })
   };
 };
 
 function MicroCart(props) {
-  const { classes, card, redirToOrderForm, deleteFromCart, closeCart } = props;
+  const { classes, card, openCart } = props;
   const totalPrice = card.data.reduce((prev, next) => {
     return prev + +next.price * next.amount;
   }, 0);
@@ -87,6 +85,9 @@ function MicroCart(props) {
     <Paper className={classes.paperRoot}>
       {renderProducts()}
       <div className={classes.totalBlock}>
+        <div className={classes.editOrder} onClick={openCart}>
+          Редактировать заказ
+        </div>
         <div className={classes.totalPrice}>{`Итого: ${totalPrice} грн`}</div>
       </div>
     </Paper>
