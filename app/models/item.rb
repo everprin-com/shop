@@ -2,10 +2,61 @@ class Item < ActiveRecord::Base
   DEFAULT_PAGE = 16
   #include ActiveModel::Serialization
   include PgSearch
-  #pg_search_scope :search_name, against: [:name]
-  pg_search_scope :search_color, against: [:color]
+  pg_search_scope :search_color,
+    against: [:color],
+    :using => {
+      :tsearch => {:any_word => true}
+    }
   pg_search_scope :search_category, against: [:category]
   pg_search_scope :search_brand, against: [:brand]
+
+  COLOR_SHADES = {
+    black: [
+      "Черный", "Черный-красный", "Черный-голубой", "Антрацит",
+    ],
+    yellow: [
+      "Желтый", "Коралловый", "Оранжевый", "Золотой", "Хаки", "Горчичный",
+      "Персиковый", "Корал", "Оливковый",  "Телесный",
+    ],
+    brown: [
+      "Светло-коричневый", "Темно-коричневый", "Коричневый", "Мокка",
+    ],
+    blue: [
+      "Электрик", "Синий", "Светло-синий", "Черный-голубой", "Темно-синий",
+      "Бирюзовый", "Хаки-голубой",
+    ],
+    lilac: [
+       "Сиреневый",
+    ],
+    printed: [
+      "Принтованный", "Принт",
+    ],
+    grey: [
+      "Серый", "Темно-серый", "Cd-137-серый", "Светло-серый", "Антрацит", "Серебряный",
+      "Серебрянный",
+    ],
+    red: [
+      "Малиновый", "Красный", "Черный-красный", "Бордовый", "Бордо", "Хаки-красный",
+    ],
+    cell: [
+      "Клетка",
+    ],
+    multicolor: [
+      "Мультиколор",
+    ],
+    purple: [
+      "Фиолетовый",
+    ],
+    green: [
+      "Мятный", "Зеленый", "Салатовый", "Темно-зеленый", "Оливковый",
+    ],
+    pink: [
+      "Розовый", "Коралловый", "Корал",
+    ],
+    white: [
+      "Белый", "Бежевый", "Молочный",
+    ],
+  }
 
   GROUP = {
     clothes: [
