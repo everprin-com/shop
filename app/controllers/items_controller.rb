@@ -8,7 +8,7 @@ class ItemsController < ApplicationController
     items = items.group_search(params[:search_group]) if params[:search_group].present?
     items = items.where("price >= ?", params[:price_search_from]) if params[:price_search_from].present?
     items = items.where("price <= ?", params[:price_search_to]) if params[:price_search_to].present?
-    items = items.search_color(params[:search_color]) if params[:search_color].present?
+    items = items.search_color(shadow_collors(params[:search_color])) if params[:search_color].present?
     items = items.where('size && ARRAY[?]::varchar[]', params[:search_size]) if params[:search_size].present?
     items = items.where(brand: params[:search_brand]) if params[:search_brand].present?
     items = items.where(category: params[:search_category]) if params[:search_category].present?
@@ -32,6 +32,14 @@ class ItemsController < ApplicationController
   end
 
    private
+
+   def shadow_collors(main_colors)
+     collors_shades = []
+     main_colors.map do |main_color|
+       collors_shades.push(Item::COLOR_SHADES[main_color.to_s])
+     end
+     collors_shades.uniq
+   end
 
    def generate_filters(all_items, search_category)
      items = search_category.present? ? all_items.where(category: search_category) : all_items

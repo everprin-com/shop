@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20190814165844) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_trgm"
 
   create_table "answerfrommoderators", force: :cascade do |t|
     t.integer  "user_id"
@@ -119,6 +120,7 @@ ActiveRecord::Schema.define(version: 20190814165844) do
     t.string   "small_picture",                             default: [],                 array: true
   end
 
+  add_index "items", ["name"], name: "items_on_name_gin_trgm_idx", using: :gin
   add_index "items", ["size"], name: "index_items_on_size", using: :gin
 
   create_table "line_items", force: :cascade do |t|
