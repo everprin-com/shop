@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import CartMicro from "../CartMicro/CartMicro";
 import { connect } from "react-redux";
 import Dialog from "../Dialog/Dialog";
+import CartWithDialog from "../Cart/CartWithDialog";
 import SuccessOrder from "../SuccessOrder/SuccessOrder";
 import AdressInput from "../AdressInput/AdressInput";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -53,12 +54,14 @@ class OrderForm extends React.PureComponent {
     name_question: "",
     telephone: "",
     message: "",
-    errors: {}
+    errors: {},
+    wasTrySend: false,
   };
 
   handleChange = name => event => {
     if (name == "address") this.sendNP(event.target.value);
     this.setState({ [name]: event.target.value });
+    if (this.state.wasTrySend) this.validateData()
   };
 
   sendNP = city => {
@@ -117,14 +120,15 @@ class OrderForm extends React.PureComponent {
   };
 
   sendOrder = () => {
-    const line_items = this.props.card.data.map(function(element) {
-      return {
-        id: element.id,
-        amount: element.amount,
-        activeSize: element.activeSize
-      };
-    });
+    this.setState({wasTrySend:true})
     if (this.validateData()) {
+      const line_items = this.props.card.data.map(function(element) {
+        return {
+          id: element.id,
+          amount: element.amount,
+          activeSize: element.activeSize
+        };
+      });
       fetch("/orders", {
         method: "post",
         headers: { "Content-Type": "application/json" },
@@ -279,6 +283,7 @@ class OrderForm extends React.PureComponent {
             Component={SuccessOrder}
             type="successOrder"
           />
+          <CartWithDialog orderForm />
         </div>
       </div>
     );

@@ -90,6 +90,16 @@ class SideBar extends React.PureComponent {
             isList
           />
         </ListItem>
+
+        <ListItem className={classes.item}>
+          <FilterGeneral
+            title="Цвета"
+            keyFilter="search_color"
+            style={{ maxHeight: "130px", overflowY: "auto" }}
+            filterOptions={filterOptions.color}
+            isList
+          />
+        </ListItem>
       </List>
     );
   }

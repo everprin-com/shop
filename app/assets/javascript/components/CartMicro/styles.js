@@ -17,11 +17,11 @@ const styles = theme => ({
       margin: 20,
       // flexDirection: 'column',
       display: "flex",
-      alignItems: "flex-end",
+      // alignItems: "flex-end",
       fontFamily:
         'Arial,Helvetica,FreeSans,"Liberation Sans","Nimbus Sans",sans-serif',
       fontSize: 24,
-      justifyContent: "flex-end"
+      justifyContent: "space-between"
     },
     imageWrapper: {
       width: 130,
@@ -62,6 +62,13 @@ const styles = theme => ({
       [theme.breakpoints.down("xs")]: {
         padding: "7px 3px 7px 3px"
       }
+    },
+    editOrder: {
+      fontSize: 17,
+      cursor:"pointer",
+      display: "flex",
+      color: "#3f51b5",
+      alignItems: "center",
     }
   });
 

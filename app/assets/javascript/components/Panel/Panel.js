@@ -2,16 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import Input from "../Input/Input";
 import Tooltip from "../Tooltip/Tooltip";
 import { ShoppingCart } from "@material-ui/icons";
-import Cart from "../Cart/Cart";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
+import CartWithDialog from "../Cart/CartWithDialog";
 import Badge from "@material-ui/core/Badge";
 import { connect } from "react-redux";
 import styles from "./styles";
@@ -29,48 +23,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const DialogTitle = withStyles(theme => ({
-  root: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-    margin: 0,
-    padding: theme.spacing.unit * 2
-  },
-  closeButton: {
-    position: "absolute",
-    right: theme.spacing.unit,
-    top: theme.spacing.unit,
-    color: theme.palette.grey[500]
-  }
-}))(props => {
-  const { children, classes, onClose } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton
-          aria-label="Close"
-          className={classes.closeButton}
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-});
-
-const DialogContent = withStyles(theme => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing.unit * 2,
-    maxWidth: 900,
-    minWidth: 700
-  }
-}))(MuiDialogContent);
-
 class Panel extends React.PureComponent {
   render() {
-    const { classes, card, closeCart, openCart } = this.props;
+    const { classes, card, openCart } = this.props;
     const cardLengh = card.data.length;
     const cardSum = card.data.reduce((prev, next) => prev + +next.price, 0);
     return (
@@ -99,28 +54,7 @@ class Panel extends React.PureComponent {
             </div>
           </Tooltip>
         </Toolbar>
-        <Dialog
-          onClose={closeCart}
-          aria-labelledby="customized-dialog-title"
-          open={card.isOpen}
-          className={classes.dialog}
-          maxWidth="lg"
-          classes={{
-            paper: classes.paper
-          }}
-        >
-          <DialogTitle className={classes.cardTitleBlock} onClose={closeCart}>
-            <div className={classes.cardTitle}>Корзина</div>
-            {card.withProduct && (
-              <div className={classes.addedProduct}>
-                Вы добавили товар в корзину
-              </div>
-            )}
-          </DialogTitle>
-          <DialogContent className={classes.dialogContent}>
-            <Cart />
-          </DialogContent>
-        </Dialog>
+        <CartWithDialog />
       </div>
     );
   }
