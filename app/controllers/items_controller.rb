@@ -56,14 +56,14 @@ class ItemsController < ApplicationController
    end
 
    def current_main_colors(items)
-     all_colors = items.map { |item| item.color}.uniq!
-     uniq_colors = all_colors.map { |color| color.split("/") }.flatten.map(&:capitalize).uniq!
+     all_colors = items.map { |item| item.color}.uniq
+     uniq_colors = all_colors.map { |color| color.split("/") }.flatten.map(&:capitalize).uniq
      current_main_colors = []
      uniq_colors.each do |color|
        include_color = Item::COLOR_SHADES.select{|key, hash| hash.include?(color) }
        current_main_colors << (include_color.keys)[0].to_s if include_color.present?
      end
-     current_main_colors.uniq!
+     current_main_colors.uniq
   end
 
    def per_page(per_page)
