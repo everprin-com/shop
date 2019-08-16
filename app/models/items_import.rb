@@ -33,7 +33,7 @@ class ItemsImport
   def load_imported_items
     spreadsheet = open_spreadsheet
     header = spreadsheet.row(5)
-    (6..spreadsheet.last_row).map do |i|
+    (1..spreadsheet.last_row).map do |i|
        row = Hash[[HEADER, spreadsheet.row(i)[0..HEADER.size-1]].transpose]
        #item = Item.find_by_id(row["id"]) || Item.new
        p "item"
@@ -53,9 +53,9 @@ class ItemsImport
          item["category"] = doc.css('nav.breadcrumbs span a')&.children[2]&.text
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
          row["drop_ship_price"] = row["drop_ship_price"] * 0.85
-         item["size"] = row["size"].to_s.split(",")
+         item["size"] = row["size"].is_a?(Float) ? [row["size"].round] : row["size"].to_s.split(",")
          item["color"] = row["color"].to_s.split("_").last
-         item["small_picture"] = row["small_picture"]&.split(" ")&.split(",")&.flatten
+         item["small_picture"] = row["small_picture"]&.split(",")&.flatten
        else
          sex = row["male"]&.split(" ")&.split(",")&.flatten
          item["sex"] = sex ? sex : ["man", "wooman"]
