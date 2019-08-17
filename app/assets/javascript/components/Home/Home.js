@@ -3,7 +3,7 @@ import ProductList from "../ProductList/ProductList";
 import SideBar from "../SideBar/SideBar";
 import { withStyles } from "@material-ui/core/styles";
 import Slider from "../Slider/Slider";
-import imgCategoryMap from "../constants/imgCategoryMap";
+import imgCategoryMap from "../constants/categoriesMap";
 import { connect } from "react-redux";
 import fetchGetWithParams from "../api/fetchGetWithParams";
 import { convertPrice } from "../Utils";
@@ -11,7 +11,11 @@ import { Link } from "react-router-dom";
 import styles from "./styles";
 
 const mapStateToProps = state => {
+  const isFemale =
+    state.filterData.filter.sex &&
+    state.filterData.filter.sex.includes("wooman");
   return {
+    sex: isFemale ? "female" : "male",
     sliderProducts: state.product,
     firstEnter: state.general.firstEnter
   };
@@ -84,8 +88,8 @@ class Home extends React.PureComponent {
   }
 
   render() {
-    const { classes, requestAndAddProducts, firstEnter } = this.props;
-    const products = Object.entries(imgCategoryMap).map(o => {
+    const { classes, requestAndAddProducts, firstEnter, sex } = this.props;
+    const products = Object.entries(imgCategoryMap[sex]).map(o => {
       return (
         <CategoryItem
           title={o[0]}

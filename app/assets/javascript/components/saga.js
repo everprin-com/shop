@@ -142,6 +142,10 @@ function* handleResetCart() {
   localStorage.removeItem("card");
 }
 
+function* handleResetFilter() {
+  yield put({ type: "REQUEST_AND_ADD_PRODUCTS" });
+}
+
 function* watchTryPutCart() {
   yield takeEvery("TRY_PUT_TO_CART", checkSetSize);
 }
@@ -185,6 +189,10 @@ function* watchResetCart() {
   yield takeEvery("RESET_CART", handleResetCart);
 }
 
+function* watchResetFilter() {
+  yield takeEvery("RESET_FILTER", handleResetFilter);
+}
+
 export default function* rootSaga() {
   yield all([
     watchTryPutCart(),
@@ -196,6 +204,7 @@ export default function* rootSaga() {
     watchScroll(),
     watchOpenCart(),
     watchDeleteFromCart(),
-    watchResetCart()
+    watchResetCart(),
+    watchResetFilter()
   ]);
 }

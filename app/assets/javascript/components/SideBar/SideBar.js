@@ -8,9 +8,12 @@ import FilterPrice from "../filter/FilterPrice";
 import FilterGeneral from "../filter/FilterGeneral";
 import { connect } from "react-redux";
 import styles from "./styles";
+import colorMap from "../constants/colorMap"
 
 const mapStateToProps = state => {
-  const isFemale = state.general.sex == "female";
+  const isFemale =
+    state.filterData.filter.sex &&
+    state.filterData.filter.sex.includes("wooman");
   if (state.metaData.headers) {
     return {
       categories: state.metaData.headers[isFemale ? "female" : "male"].map(
@@ -97,6 +100,17 @@ class SideBar extends React.PureComponent {
             keyFilter="search_color"
             style={{ maxHeight: "130px", overflowY: "auto" }}
             filterOptions={filterOptions.color}
+            isList
+            withMap={colorMap}
+          />
+        </ListItem>
+
+        <ListItem className={classes.item}>
+          <FilterGeneral
+            title="Сезон"
+            keyFilter="season"
+            style={{ maxHeight: "130px", overflowY: "auto" }}
+            filterOptions={filterOptions.season}
             isList
           />
         </ListItem>

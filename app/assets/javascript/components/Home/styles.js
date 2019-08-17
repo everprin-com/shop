@@ -24,7 +24,7 @@ const styles = theme => ({
     img: {
       height: "100%",
       margin: "0 auto",
-      borderRadius: "50%"
+      borderRadius: "30%"
     },
     recImg: {
       height: "100%",

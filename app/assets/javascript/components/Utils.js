@@ -33,4 +33,9 @@ const convertPrice = price => {
   return {price, oldPrice, saleShow }
 }
 
-export { getSizes, isEqualArr, convertPrice };
+const textWithDots = (str, litCount = 60) => {
+  if (str.length < litCount) return str
+ return str.slice(0,litCount) + "..."
+ }
+
+export { getSizes, isEqualArr, convertPrice, textWithDots };

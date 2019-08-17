@@ -8,7 +8,7 @@ const styles = theme => ({
     display: "inline-block",
     zIndex: 3,
     overflow: "auto",
-    maxHeight: "100vh"
+    maxHeight: "calc(100vh - 260px)",
   },
   mainSideBar: {
     [theme.breakpoints.down("sm")]: {

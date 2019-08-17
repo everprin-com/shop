@@ -47,7 +47,8 @@ const styles = {
   },
   list: {
     paddingLeft: 10,
-    display: "block"
+    display: "block",
+    width: "100%"
   },
   label: {
     fontSize: `15px`
@@ -75,7 +76,7 @@ class FilterGeneral extends React.PureComponent {
   };
 
   generateFilterItem = ({ label, color = "primary" }) => {
-    const { classes, keyFilter, filter } = this.props;
+    const { classes, keyFilter, filter, withMap } = this.props;
     return (
       <div className={classes.option}>
         <FormControlLabel
@@ -91,7 +92,11 @@ class FilterGeneral extends React.PureComponent {
               className={classes.checkbox}
             />
           }
-          label={<span className={classes.label}>{label}</span>}
+          label={
+            <span className={classes.label}>
+              {withMap && withMap[label] ? withMap[label] : label}
+            </span>
+          }
         />
       </div>
     );
