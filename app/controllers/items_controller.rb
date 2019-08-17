@@ -6,9 +6,9 @@ class ItemsController < ApplicationController
     generate_filters = generate_filters(items, params[:search_category])
     items = items.name_search(params[:search_name]) if params[:search_name].present?
     items = items.group_search(params[:search_group]) if params[:search_group].present?
-    items = items.where("price >= ?", params[:price_search_from]) if params[:price_search_from].present?
-    items = items.where("price <= ?", params[:price_search_to]) if params[:price_search_to].present?
-
+    items = search_by_price(items) if params[:price_search].present?
+    # items = items.where("price >= ?", params[:price_search_from]) if params[:price_search_from].present?
+    # items = items.where("price <= ?", params[:price_search_to]) if params[:price_search_to].present?
     items = items.search_color(shadow_collors(params[:search_color])) if params[:search_color].present?
     items = items.where('size && ARRAY[?]::varchar[]', params[:search_size]) if params[:search_size].present?
     items = items.where(brand: params[:search_brand]) if params[:search_brand].present?
@@ -20,7 +20,6 @@ class ItemsController < ApplicationController
     items = items.paginate(page: params[:page], per_page: per_page(params[:per_page]))
     serialized_items = items.map { |item| ItemSerializer.new(item) }
     #render json: { items: items, total_pages: items.total_pages }
-    #byebug
     render json: { total_pages: items.total_pages, filters_options: generate_filters, items: serialized_items }
   end
 
@@ -33,6 +32,15 @@ class ItemsController < ApplicationController
   end
 
    private
+
+   def search_by_price(items)
+     #price_search= [{from: 450, to: 500}, {from: 800, to: 1000}]
+     current_search_string = []
+     params[:price_search].map do |price|
+       current_search_string.push("where('price BETWEEN ? AND ?', #{price[:from]}, #{price[:to]})")
+     end
+     items.where(items.instance_eval(current_search_string.join(".")).where_values.join("OR"))
+   end
 
    def shadow_collors(main_colors)
      collors_shades = []

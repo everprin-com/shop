@@ -55,14 +55,19 @@ class ItemsImport
          row["drop_ship_price"] = row["drop_ship_price"] * 0.85
          item["size"] = row["size"].is_a?(Float) ? [row["size"].round] : row["size"].to_s.split(",")
          item["color"] = row["color"].to_s.split("_").last
-         item["small_picture"] = row["small_picture"]&.split(",")&.flatten
+         item["description"] = doc.css(".col-md-5.body_inf p")&.children[0]&.text
+         row["composition"] = row["description"]  + "," +  row["composition"]
+         picture = row["picture"]&.split(" ")&.split(",")&.flatten
+         small_picture = row["small_picture"]&.split(",")&.flatten
+         item["picture"] = picture + small_picture
        else
          sex = row["male"]&.split(" ")&.split(",")&.flatten
          item["sex"] = sex ? sex : ["man", "wooman"]
          item["size"] = conver_size_to_array(row)
+         item["picture"] = row["picture"]&.split(" ")&.split(",")&.flatten
        end
        item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
-       item["picture"] = row["picture"]&.split(" ")&.split(",")&.flatten
+
        item
     end
   end
