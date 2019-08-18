@@ -198,7 +198,7 @@ class FilterPrice extends React.PureComponent {
     return (
       <div className={classes.root}>
         <div className={classes.title}>Цена</div>
-        <div className={classes.inputWrap}>
+        {/* <div className={classes.inputWrap}>
           <span className={classes.fromTo}>От</span>
           <InputNumber
             min={1}
@@ -221,7 +221,7 @@ class FilterPrice extends React.PureComponent {
               this.onChangeFromInput(value, 1);
             }}
           />
-        </div>
+        </div> */}
         {/* <Range allowCross={false} value={inputValue} className={classes.slider} onChange={this.onChangeFromSlider} /> */}
         <RangePrice
           classes={classes}

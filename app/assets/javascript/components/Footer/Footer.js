@@ -2,43 +2,66 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import { Link } from "react-router-dom";
 import styles from "./styles";
+import Delivery from "../conditions/Delivery";
+import Return from "../conditions/Return";
+import Payment from "../conditions/Payment";
+import { connect } from "react-redux";
+import Dialog from "../Dialog/Dialog";
 
-function Item({ title, link, classes }) {
+const mapDispatchToProps = dispatch => {
+  return {
+    showDelivery: () => dispatch({ type: "SHOW_DELIVERY_WINDOW" }),
+    showReturn: () => dispatch({ type: "SHOW_RETURN_WINDOW" }),
+    showPayment: () => dispatch({ type: "SHOW_PAYMENT_WINDOW" }),
+  };
+};
+
+function Item({ title, classes, onClick }) {
   return (
-    <li className={classes.item}>
-      <Link to={link} className={classes.link}>
-        {title}
-      </Link>
+    <li className={classes.item} onClick={onClick}>
+      {title}
     </li>
   );
 }
 
 function Footer(props) {
-  const { classes } = props;
+  const { classes, showDelivery, showReturn, showPayment } = props;
 
   return (
     <div>
       <Paper className={classes.root} elevation={1}>
         <ul className={classes.list}>
-          <Item title="Доставка и оплата" classes={classes} />
+          <Item
+            title="Условия доставки"
+            onClick={showDelivery}
+            classes={classes}
+          />
+          <Item
+            title="Условия возврата"
+            classes={classes}
+            onClick={showReturn}
+          />
+          <Item
+            title="Оплата"
+            classes={classes}
+            onClick={showPayment}
+          />
           <Item title="Вопросы и ответы" classes={classes} />
           <Item title="Контакты" classes={classes} />
-          <Item title="Возврат товара" classes={classes} />
         </ul>
         <div className={classes.contacts}>
           Киев, №1. Ул Чешская 9, 201/203, БЦ modnaVilla, 1 этаж +380 (044)
-          249-55-55 kilo@gmail.com
+          249-55-55 info@kilo.com.ua
         </div>
         <ul className={classes.list}>
           <Item title="О нас" classes={classes} />
-          <Item title="Условия использования сайта" classes={classes} />
-          <Item title="Вакансии" classes={classes} />
           <Item title="Контакты" classes={classes} />
         </ul>
       </Paper>
+      <Dialog title="Условия доставки" Component={Delivery} type="delivery" />
+      <Dialog title="Условия Возврата" Component={Return} type="return" />
+      <Dialog title="Оплата" Component={Payment} type="payment" />
     </div>
   );
 }
@@ -47,4 +70,7 @@ Footer.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Footer);
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(styles)(Footer));

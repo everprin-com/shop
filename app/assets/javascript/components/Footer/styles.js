@@ -19,6 +19,12 @@ const styles = theme => ({
       padding:20,
       margin: '0 20px',
     },
+    item: {
+      cursor:"pointer",
+      "&:hover": {
+        color: "#303f9f"
+      },
+    }
   })
 
 export default styles
