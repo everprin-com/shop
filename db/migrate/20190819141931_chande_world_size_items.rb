@@ -1,7 +1,7 @@
 class ChandeWorldSizeItems < ActiveRecord::Migration
   def self.up
     change_table :items do |t|
-      t.change :size_world, :json, 'json USING CAST(size_world AS json)'
+      t.change :size_world, :text
     end
   end
   def self.down
