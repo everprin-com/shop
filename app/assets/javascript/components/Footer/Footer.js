@@ -51,8 +51,8 @@ function Footer(props) {
           <Item title="Контакты" classes={classes} />
         </ul>
         <div className={classes.contacts}>
-          Киев, №1. Ул Чешская 9, 201/203, БЦ modnaVilla, 1 этаж +380 (044)
-          249-55-55 info@kilo.com.ua
+          Киев, №1. Ул Чешская 9, 201/203, БЦ modnaVilla, 1 этаж +38 (095)
+          755-25-73 info@kilo.com.ua
         </div>
         <ul className={classes.list}>
           <Item title="О нас" classes={classes} />
