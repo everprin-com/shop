@@ -41,6 +41,8 @@ class ItemsImport
        item = Item.new
        item.attributes = row.to_hash
        if item["drop_ship"] == "issaplus"
+         #https://issaplus.com/sportivnyy-kostyum-gn-03-gn-03_temno-siniy/
+         #"https://issaplus.com/sportivnyy-kostyum-11000-11000_fioletovyy/"
          doc = Nokogiri::HTML(open(row["article"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
          doc.css('nav.breadcrumbs span a').children
          parsed_sex = doc.css('nav.breadcrumbs span a')&.children[1]&.text
@@ -50,6 +52,23 @@ class ItemsImport
            elsif MAN_CATEGORIES.include?(parsed_sex)
              ["man"]
            end
+         table = doc.css('.tab-content .information_tovar b')
+         if table.present?
+           if table.length == 3 && doc.css('.tab-content .information_tovar table.table').length == 2
+             first_table_name = table[1]&.children&.map(&:text)
+             second_table_name = table[2]&.children&.map(&:text)
+           else
+             first_table_name = table[0]&.children&.map(&:text)
+             second_table_name = table[1]&.children&.map(&:text)
+           end
+           first_table_data = doc.css('.tab-content .information_tovar table.table')[0]&.css('tr')&.children&.map(&:text)
+           second_table_data = doc.css('.tab-content .information_tovar table.table')[1]&.css('tr')&.children&.map(&:text)
+           size_world = { "#{first_table_name[0]}": first_table_data }
+           if second_table_name.present?
+             size_world= size_world.merge({ "#{second_table_name[0]}": second_table_data })
+          end
+          item["size_world"]  = size_world
+         end
          item["category"] = doc.css('nav.breadcrumbs span a')&.children[2]&.text
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
          row["drop_ship_price"] = row["drop_ship_price"] * 0.85
