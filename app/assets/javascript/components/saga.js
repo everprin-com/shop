@@ -47,12 +47,20 @@ function* getFilteredProducts() {
       yield put({ type: "FIRST_ENTER_ON" });
     }
 
+    const formatedFilter =
+      "price_search" in state.filterData.filter
+        ? {
+            ...state.filterData.filter,
+            price_search: JSON.stringify(state.filterData.filter.price_search)
+          }
+        : state.filterData.filter;
+
     const products = yield call(
       fetchGetWithParams,
       "/items/",
       {
         ...state.general.lastRequestParams,
-        ...state.filterData.filter,
+        ...formatedFilter,
         page: 1
       },
       true
@@ -77,9 +85,16 @@ function* getFilteredProducts() {
 }
 
 function* requestAndAddProducts(action = {}, params = { page: 1 }) {
-  let queryParams = { ...action.params, ...params };
   yield put({ type: "LOADING_ON" });
-  const products = yield call(fetchGetWithParams, "/items/", queryParams);
+  let queryParams = { ...action.params, ...params };
+  const formatedParams =
+    "price_search" in queryParams
+      ? {
+          ...queryParams,
+          price_search: JSON.stringify(queryParams.price_search)
+        }
+      : queryParams;
+  const products = yield call(fetchGetWithParams, "/items/", formatedParams);
   yield put({ type: "CHANGE_LAST_PAGE", page: products.total_pages });
   yield put({ type: "CHANGE_LAST_PARAMS", lastRequestParams: queryParams });
   if (action.afterReset) {

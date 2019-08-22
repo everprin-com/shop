@@ -6,7 +6,7 @@ class ItemsController < ApplicationController
     generate_filters = generate_filters(items, params[:search_category])
     items = items.name_search(params[:search_name]) if params[:search_name].present?
     items = items.group_search(params[:search_group]) if params[:search_group].present?
-    items = search_by_price(items) if params[:price_search].present?
+    items = search_by_price(items) if (params[:price_search] && JSON.parse(params[:price_search]).present?)
     # items = items.where("price >= ?", params[:price_search_from]) if params[:price_search_from].present?
     # items = items.where("price <= ?", params[:price_search_to]) if params[:price_search_to].present?
     items = items.search_color(shadow_collors(params[:search_color])) if params[:search_color].present?
@@ -36,10 +36,10 @@ class ItemsController < ApplicationController
    def search_by_price(items)
      #price_search= [{from: 450, to: 500}, {from: 800, to: 1000}]
      current_search_string = []
-     params[:price_search].map do |price|
-       current_search_string.push("where('price BETWEEN ? AND ?', #{price[:from]}, #{price[:to]})")
+     JSON.parse(params[:price_search]).map do |price|
+       current_search_string.push("where('price BETWEEN ? AND ?', #{price["from"]}, #{price["to"]})")
      end
-     items.where(items.instance_eval(current_search_string.join(".")).where_values.join("OR"))
+     items.where(items.instance_eval(current_search_string.join(".")).where_values.join(" OR "))
    end
 
    def shadow_collors(main_colors)

@@ -32,7 +32,7 @@ const styles = {
     pointerEvents: "auto"
   },
   title: {
-    textAlign: "center",
+    // textAlign: "center",
     fontSize: 16,
     width: "100%",
     background: "#eef",
@@ -60,7 +60,7 @@ class CheckboxLabels extends React.PureComponent {
     const isWooman = sex == "wooman";
     return (
       <FormGroup row className={classes.root}>
-        <div className={classes.title}>Пол</div>
+        <div className={classes.title}>Пол:</div>
         <div className={classes.container}>
           <FormControlLabel
             control={
