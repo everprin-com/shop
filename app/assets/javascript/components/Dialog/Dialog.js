@@ -13,12 +13,18 @@ const mapTypeAndActionDiolog = {
   close: {
     size: "CLOSE_SET_SIZE_WINDOW",
     successOrder: "CLOSE_SUCCESS_WINDOW",
-    slider: "CLOSE_SLIDER_WINDOW"
+    slider: "CLOSE_SLIDER_WINDOW",
+    delivery: "CLOSE_DELIVERY_WINDOW",
+    return: "CLOSE_RETURN_WINDOW",
+    payment: "CLOSE_PAYMENT_WINDOW",
   },
   open: {
     size: "OPEN_SET_SIZE_WINDOW",
     successOrder: "SHOW_SUCCESS_WINDOW",
-    slider: "SHOW_SLIDER_WINDOW"
+    slider: "SHOW_SLIDER_WINDOW",
+    delivery: "SHOW_DELIVERY_WINDOW",
+    return: "SHOW_RETURN_WINDOW",
+    payment: "SHOW_PAYMENT_WINDOW",
   }
 };
 
@@ -41,7 +47,7 @@ class DialogWindow extends React.PureComponent {
       <Dialog
         onClose={() => closeDialog(type)}
         aria-labelledby="customized-dialog-title"
-        open={dialog[type].status}
+        open={dialog[type] && dialog[type].status}
         className={`${classes.dialog} ${
           type == "slider" ? classes.gallery : ""
         }`}

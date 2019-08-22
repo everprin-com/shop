@@ -35,6 +35,18 @@ export default function(
       return { ...state, slider: { status: true } };
     case "CLOSE_SLIDER_WINDOW":
       return { ...state, slider: { status: false } };
+    case "SHOW_DELIVERY_WINDOW":
+      return { ...state, delivery: { status: true } };
+    case "CLOSE_DELIVERY_WINDOW":
+      return { ...state, delivery: { status: false } };
+    case "SHOW_PAYMENT_WINDOW":
+      return { ...state, payment: { status: true } };
+    case "CLOSE_PAYMENT_WINDOW":
+      return { ...state, payment: { status: false } };
+    case "SHOW_RETURN_WINDOW":
+      return { ...state, return: { status: true } };
+    case "CLOSE_RETURN_WINDOW":
+      return { ...state, return: { status: false } };
     default:
       return state;
   }

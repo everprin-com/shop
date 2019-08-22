@@ -34,7 +34,7 @@ class App extends React.PureComponent {
       <div className={classes.root}>
         <Grid container spacing={24}>
           <Grid className={classes.appInner} item xs={12}>
-            <Header withSmallMenu />
+            <Header withSmallMenu resetFilter />
             <Home />
             <Footer />
           </Grid>
