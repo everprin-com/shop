@@ -2,9 +2,7 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Slider from "rc-slider";
 import { connect } from "react-redux";
-// import Divider from '@material-ui/core/Divider';
 import { InputNumber } from "antd";
-import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
@@ -30,8 +28,6 @@ const styles = {
   root: {
     pointerEvents: "auto",
     width: "100%",
-    padding: "10px",
-    // textAlign: "center",
     magrinTop: 10
   },
   inputLeft: {
@@ -50,7 +46,9 @@ const styles = {
     fontWeight: "bold"
   },
   title: {
-    textAlign: "center",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
     fontSize: 16,
     width: "100%",
     background: "#eef",
@@ -87,12 +85,20 @@ const styles = {
   },
   inputNumber: {
     width: 70
+  },
+  contentWrap: {
+    padding: 10
+  },
+  titleReset: {
+    fontSize: 13,
+    cursor: "pointer",
+    fontWeight: "normal",
+    paddingRight: 10,
   }
 };
 
 function RangePrice({
   classes,
-  onApplay,
   min,
   max,
   title,
@@ -103,7 +109,6 @@ function RangePrice({
   color = "primary",
   handleChange
 }) {
-  const isActive = active === `${min}-${max}` || false;
   const shouldRenderRange =
     (priceMin < min && priceMax > min) || (priceMin < max && priceMax > max);
   if (!shouldRenderRange) return null;
@@ -133,36 +138,55 @@ function RangePrice({
 }
 
 class FilterPrice extends React.PureComponent {
-  state = { active: null, inputValue: [] };
+  state = { currentFilterPriceItem: {}, inputValue: [] };
 
-  onApplay = (from, to) => {
-    this.setState({ active: `${from}-${to}` });
-    this.props.addFilter({
-      price_search_from: from,
-      price_search_to: to
-    });
-  };
-
-  handleChange = curremtFilterPriceItem => {
+  handleChange = (currentFilterPriceItem, input) => {
     const { filter, addFilter } = this.props;
     if (
+      !input &&
       filter.price_search &&
       filter.price_search.some(
-        filterPirceItem => filterPirceItem.from == curremtFilterPriceItem.from
+        filterPirceItem => filterPirceItem.from == currentFilterPriceItem.from
       )
     ) {
       addFilter({
         price_search: filter.price_search.filter(
-          filterPirceItem => filterPirceItem.from != curremtFilterPriceItem.from
+          filterPirceItem => filterPirceItem.from != currentFilterPriceItem.from
         )
       });
     } else {
-      if (filter.price_search) {
+      if (filter.price_search && !input) {
         addFilter({
-          price_search: [...filter.price_search, curremtFilterPriceItem]
+          price_search: [...filter.price_search, currentFilterPriceItem]
         });
+      } else if (filter.price_search && input) {
+        let {
+          currentFilterPriceItem,
+          inputValue: [from = 0, to = 9999]
+        } = this.state;
+        let indexCurrentFilterPriceItem;
+        filter.price_search.forEach((item, index) => {
+          if (
+            item.from == currentFilterPriceItem.from &&
+            item.to == currentFilterPriceItem.to
+          ) {
+            indexCurrentFilterPriceItem = index;
+          }
+        });
+
+        const newFilterPriceItem = { from, to };
+
+        let newArr = [...filter.price_search];
+        if (!indexCurrentFilterPriceItem) {
+          newArr.push(newFilterPriceItem);
+        } else {
+          newArr[indexCurrentFilterPriceItem] = newFilterPriceItem;
+        }
+        addFilter({ price_search: newArr });
+        this.setState({ currentFilterPriceItem: newFilterPriceItem });
       } else {
-        addFilter({ price_search: [curremtFilterPriceItem] });
+        addFilter({ price_search: [currentFilterPriceItem] });
+        if (input) this.setState({ currentFilterPriceItem });
       }
     }
   };
@@ -180,133 +204,82 @@ class FilterPrice extends React.PureComponent {
     let newInputValue = [...this.state.inputValue];
     newInputValue[n] = +value;
     this.setState({ inputValue: newInputValue }, () => {
-      const [price_search_from, price_search_to] = this.state.inputValue;
-      let searchQuery =
-        price_search_from && price_search_to
-          ? { price_search_from, price_search_to }
-          : price_search_from
-          ? { price_search_from }
-          : { price_search_to };
-      this.props.addFilter(searchQuery);
+      const [from = 0, to = 9999] = this.state.inputValue;
+      let searchQuery = { from, to };
+      if (value < 40 || from > to) return;
+      this.handleChange(searchQuery, true);
+    });
+  };
+
+  rangePriceGenerator = arr => {
+    const { classes, priceMin, priceMax, filter } = this.props;
+    return arr.map(({ min, max, title }) => {
+      return (
+        <RangePrice
+          classes={classes}
+          min={min}
+          max={max}
+          priceMin={priceMin}
+          priceMax={priceMax}
+          title={title}
+          active={this.state.active}
+          filter={filter}
+          handleChange={this.handleChange}
+        />
+      );
     });
   };
 
   render() {
     const { inputValue = [] } = this.state;
-    const { classes, priceMin, priceMax, filter } = this.props;
+    const { classes, addFilter } = this.props;
 
     return (
       <div className={classes.root}>
-        <div className={classes.title}>Цена</div>
-        {/* <div className={classes.inputWrap}>
-          <span className={classes.fromTo}>От</span>
-          <InputNumber
-            min={1}
-            max={5000}
-            style={{ marginLeft: 16 }}
-            value={inputValue[0]}
-            className={`${classes.inputLeft} ${classes.inputNumber}`}
-            onChange={value => {
-              this.onChangeFromInput(value, 0);
-            }}
-          />
-          <span className={classes.fromTo}>До</span>
-          <InputNumber
-            min={1}
-            max={5000}
-            style={{ marginLeft: 16 }}
-            value={inputValue[1]}
-            className={`${classes.inputRight} ${classes.inputNumber}`}
-            onChange={value => {
-              this.onChangeFromInput(value, 1);
-            }}
-          />
-        </div> */}
-        {/* <Range allowCross={false} value={inputValue} className={classes.slider} onChange={this.onChangeFromSlider} /> */}
-        <RangePrice
-          classes={classes}
-          onApplay={this.onApplay}
-          min={0}
-          max={300}
-          priceMin={priceMin}
-          priceMax={priceMax}
-          title="До 300 грн"
-          active={this.state.active}
-          filter={filter}
-          handleChange={this.handleChange}
-        />
-        <RangePrice
-          classes={classes}
-          onApplay={this.onApplay}
-          min={300}
-          max={500}
-          priceMin={priceMin}
-          priceMax={priceMax}
-          title="300 - 500 грн"
-          active={this.state.active}
-          filter={filter}
-          handleChange={this.handleChange}
-        />
-        <RangePrice
-          classes={classes}
-          onApplay={this.onApplay}
-          min={500}
-          max={800}
-          priceMin={priceMin}
-          priceMax={priceMax}
-          title="500 - 800 грн"
-          active={this.state.active}
-          filter={filter}
-          handleChange={this.handleChange}
-        />
-        <RangePrice
-          classes={classes}
-          onApplay={this.onApplay}
-          min={800}
-          max={1000}
-          priceMin={priceMin}
-          priceMax={priceMax}
-          title="От 800 до 1000 грн"
-          active={this.state.active}
-          filter={filter}
-          handleChange={this.handleChange}
-        />
-        <RangePrice
-          classes={classes}
-          onApplay={this.onApplay}
-          min={1000}
-          max={1500}
-          priceMin={priceMin}
-          priceMax={priceMax}
-          title="От 1000 до 1500 грн"
-          active={this.state.active}
-          filter={filter}
-          handleChange={this.handleChange}
-        />
-        <RangePrice
-          classes={classes}
-          onApplay={this.onApplay}
-          min={1500}
-          max={2000}
-          priceMin={priceMin}
-          priceMax={priceMax}
-          title="От 1500 до 2000 грн"
-          active={this.state.active}
-          filter={filter}
-          handleChange={this.handleChange}
-        />
-        <RangePrice
-          classes={classes}
-          onApplay={this.onApplay}
-          min={2000}
-          max={9999}
-          priceMin={priceMin}
-          priceMax={priceMax}
-          title="От 2000 грн"
-          active={this.state.active}
-          filter={filter}
-          handleChange={this.handleChange}
-        />
+        <div className={classes.title}>
+        <span className={classes.titleText}>Цена:</span>
+        <span
+          className={classes.titleReset}
+          onClick={() => addFilter({ price_search: [] })}
+        >
+          Очистить фильтр
+        </span>
+        </div>
+        <div className={classes.contentWrap}>
+          <div className={classes.inputWrap}>
+            <span className={classes.fromTo}>От</span>
+            <InputNumber
+              min={1}
+              max={5000}
+              style={{ marginLeft: 16 }}
+              value={inputValue[0]}
+              className={`${classes.inputLeft} ${classes.inputNumber}`}
+              onChange={value => {
+                this.onChangeFromInput(value, 0);
+              }}
+            />
+            <span className={classes.fromTo}>До</span>
+            <InputNumber
+              min={1}
+              max={5000}
+              style={{ marginLeft: 16 }}
+              value={inputValue[1]}
+              className={`${classes.inputRight} ${classes.inputNumber}`}
+              onChange={value => {
+                this.onChangeFromInput(value, 1);
+              }}
+            />
+          </div>
+          {this.rangePriceGenerator([
+            {min: 0, max:300, title: "До 300 грн" },
+            {min: 300, max:500, title: "300 - 500 грн" },
+            {min: 500, max:800, title: "500 - 800 грн" },
+            {min: 800, max:1000, title: "800 - 1000 грн" },
+            {min: 1000, max:1500, title: "От 1000 до 1500 грн" },
+            {min: 1500, max:2000, title: "От 1500 до 2000 грн" },
+            {min: 2000, max:9999, title: "От 2000 грн" },
+          ])}
+        </div>
       </div>
     );
   }

@@ -8,7 +8,7 @@ const createOptionsGet = () => ({
 
 const createOptionsPost = formData => ({
   method: "POST",
-  body: JSON.stringify(formData),
+  body: formData,
   headers: {
     Accept:
       "text/html,application/xhtml+xml,application/xml;" +
@@ -22,13 +22,13 @@ const getUrlWithParams = (route, params, withoutEncode) => {
       if (Array.isArray(params[k])) {
         return params[k]
           .map(val => {
-            return `${k}[]=${JSON.stringify(val)}`
-            // return `${encodeURIComponent(k)}[]=${encodeURIComponent(val)}`;
+            // return `${k}[]=${JSON.stringify(val)}`
+            return `${encodeURIComponent(k)}[]=${encodeURIComponent(val)}`;
           })
           .join("&");
       }
-      return `${k}=${JSON.stringify(params[k])}`
-      // return `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`;
+      // return `${k}=${JSON.stringify(params[k])}`
+      return `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`;
     })
     .join("&");
 

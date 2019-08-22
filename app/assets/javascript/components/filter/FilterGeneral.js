@@ -29,7 +29,9 @@ const styles = {
     pointerEvents: "auto"
   },
   title: {
-    textAlign: "center",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
     fontSize: 16,
     width: "100%",
     background: "#eef",
@@ -52,6 +54,11 @@ const styles = {
   },
   label: {
     fontSize: `15px`
+  },
+  titleReset: {
+    fontSize: 13,
+    cursor: "pointer",
+    fontWeight: "normal",
   }
 };
 
@@ -103,13 +110,30 @@ class FilterGeneral extends React.PureComponent {
   };
 
   render() {
-    const { classes, filterOptions, title, isList, style } = this.props;
+    const {
+      classes,
+      filterOptions,
+      title,
+      isList,
+      style,
+      addFilter,
+      keyFilter
+    } = this.props;
 
     if (!filterOptions) return null;
 
     return (
       <FormGroup row className={classes.root}>
-        <div className={classes.title}>{title}</div>
+        <div className={classes.title}>
+        <span className={classes.titleText}>{title}:</span>
+        <span
+          className={classes.titleReset}
+          onClick={() => addFilter({ [keyFilter]: [] })}
+        >
+          Очистить фильтр
+        </span>
+        </div>
+     
         <div
           className={`${classes.container} ${isList ? classes.list : ""}`}
           style={{ ...style }}
