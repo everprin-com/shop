@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import ProductItemSizes from "../ProductItemSizes/ProductItemSizes";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { convertPrice, isEqualArr } from "../Utils";
+import { convertPrice, isEqualArr, textWithDots } from "../Utils";
 import Badge from "@material-ui/core/Badge";
 import NavigateBefore from "@material-ui/icons/NavigateBefore";
 import NavigateNext from "@material-ui/icons/NavigateNext";
@@ -148,7 +148,7 @@ class ProductItem extends React.PureComponent {
 
           <CardContent className={classes.cardContent}>
             <Typography component="div" className={classes.cardDesctiption}>
-              <div className={classes.title}>{withoutSizeName}</div>
+              <div className={classes.title}>{textWithDots(withoutSizeName, 60)}</div>
               <div className={classes.category}>{category}</div>
               <div className={classes.price}>
                 <div className={classes.oldPrice}>{`${oldPrice} грн`}</div>

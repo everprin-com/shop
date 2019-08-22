@@ -17,7 +17,6 @@ const mapStateToProps = state => {
   const isFemale =
     state.filterData.filter.sex &&
     state.filterData.filter.sex.includes("wooman");
-    console.log(isFemale)
   if (state.metaData.headers)
     return {
       headers: state.metaData.headers[isFemale ? "female" : "male"]
@@ -54,11 +53,14 @@ function CastomIcon({ src, classes }) {
 function Logo({ classes, redirectToRoot, resetFilter }) {
   const handleClink = e => {
     e.preventDefault();
-    resetFilter();
-    redirectToRoot && redirectToRoot();
+    resetFilter && resetFilter();
+    if (redirectToRoot) {
+      redirectToRoot();
+      resetFilter();
+    }
   };
   return (
-    <Link to="/" onClick={redirectToRoot ? handleClink : null}>
+    <Link to="/" onClick={handleClink}>
       <div className={classes.logoWrap}>
         <img src="/imgs/logo.png" className={classes.logo} />
       </div>
@@ -87,7 +89,7 @@ class Header extends React.PureComponent {
 
   productTypeList = type => {
     const { headers } = this.props;
-    console.log(headers)
+    console.log(headers);
     if (!headers || !headers.filter) return;
     const typeCategory = headers.filter(header => header.group == type);
     const catalogues = Object.keys(typeCategory).map(
