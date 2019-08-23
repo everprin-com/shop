@@ -7,7 +7,7 @@ gem "haml-rails"
 gem 'uglifier', '>= 1.3.0'
 gem 'rubyzip'
 gem 'bootstrap_form'
-
+gem 'friendly_id'
 gem 'coffee-rails'
 gem 'jquery-rails'
 

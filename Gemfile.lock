@@ -154,6 +154,8 @@ GEM
     file_validators (2.3.0)
       activemodel (>= 3.2)
       mime-types (>= 1.0)
+    friendly_id (5.2.5)
+      activerecord (>= 4.0.0)
     geocoder (1.5.1)
     gherkin (5.1.0)
     globalid (0.4.2)
@@ -492,6 +494,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   file_validators
+  friendly_id
   geocoder
   gmaps4rails
   gon
@@ -545,3 +548,6 @@ DEPENDENCIES
   webpacker (~> 3)
   whenever
   will_paginate
+
+BUNDLED WITH
+   1.17.3
