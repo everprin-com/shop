@@ -52,13 +52,14 @@ class ItemsController < ApplicationController
 
    def generate_filters(all_items, search_category)
      items = search_category.present? ? all_items.where(category: search_category) : all_items
-     prices = items.map { |item| item.price}
+     prices = items.map { |item| item.price }
+     seasons =  items.map { |item| item.season }.uniq
      {
-       size: items.map { |item| item.size}.flatten.uniq!,
+       size: items.map { |item| item.size }.flatten.uniq,
        price_min: prices.min,
        price_max: prices.max,
-       brand: items.map { |item| item.brand}.uniq!,
-       season: items.map { |item| item.season}.uniq!,
+       brand: items.map { |item| item.brand }.uniq,
+       season: seasons&.map { |season| season.length > 2 ? season : "" }&.reject(&:blank?),
        color: current_main_colors(items),
      }
    end
