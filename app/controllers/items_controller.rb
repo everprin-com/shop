@@ -27,7 +27,7 @@ class ItemsController < ApplicationController
     item = Item.find(params[:id])
     respond_to do |format|
       format.html
-      format.json { render json: item.to_json }
+      format.json { render json: ItemSerializer.new(item) }
     end
   end
 

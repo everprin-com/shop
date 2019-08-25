@@ -73,6 +73,6 @@ class OrdersController < ApplicationController
   end
 
   def resource_params
-    params.require(:order).permit(:name, :address, :phone, :status, :departament)
+    params.require(:order).permit(:name, :address, :phone, :comment, :status, :departament)
   end
 end

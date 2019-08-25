@@ -4,4 +4,8 @@ class ItemSerializer < ActiveModel::Serializer
 
   root false
 
+  def size_world
+    return unless object.size_world
+    eval(object.size_world)
+  end
 end
