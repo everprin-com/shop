@@ -87,13 +87,18 @@ const styles = {
     width: 70
   },
   contentWrap: {
-    padding: 10
+    padding: 10,
+    maxHeight: 130,
+    overflowY: 'auto',
   },
   titleReset: {
     fontSize: 13,
     cursor: "pointer",
     fontWeight: "normal",
     paddingRight: 10,
+    "&:hover": {
+      color: "#555",
+    }
   }
 };
 

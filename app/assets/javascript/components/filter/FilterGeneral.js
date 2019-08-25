@@ -59,6 +59,9 @@ const styles = {
     fontSize: 13,
     cursor: "pointer",
     fontWeight: "normal",
+    "&:hover": {
+      color: "#555",
+    }
   }
 };
 
