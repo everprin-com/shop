@@ -54,6 +54,7 @@ class OrderForm extends React.PureComponent {
     name_question: "",
     telephone: "",
     message: "",
+    comment: "",
     errors: {},
     wasTrySend: false,
   };
@@ -137,6 +138,7 @@ class OrderForm extends React.PureComponent {
             name: this.state.name,
             phone: this.state.phone,
             address: this.state.city,
+            comment: this.state.comment,
             departament: this.state.departament
           },
           line_items: {
@@ -200,6 +202,15 @@ class OrderForm extends React.PureComponent {
               error={this.state.errors.name}
             />
             {this.errorHelper("name")}
+            <TextField
+              label="Комментарий"
+              className={classes.textField}
+              type="text"
+              value={this.state.comment}
+              onChange={this.handleChange("comment")}
+              margin="normal"
+              fullWidth
+            />
             <TextField
               label="Телефон"
               value={this.state.phone}

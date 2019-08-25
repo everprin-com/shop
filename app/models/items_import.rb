@@ -78,7 +78,7 @@ class ItemsImport
          row["composition"] = row["description"]  + "," +  row["composition"]
          picture = row["picture"]&.split(" ")&.split(",")&.flatten
          small_picture = row["small_picture"]&.split(",")&.flatten
-         item["picture"] = picture + small_picture
+         item["picture"] = (picture + small_picture).uniq
        else
          sex = row["male"]&.split(" ")&.split(",")&.flatten
          item["sex"] = sex ? sex : ["man", "wooman"]
