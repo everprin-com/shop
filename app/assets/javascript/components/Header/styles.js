@@ -31,11 +31,11 @@ const styles = theme => ({
     },
     dropdownMenu: {
       position: "absolute",
-      zIndex: 9999,
-      background: "#fff",
+      zIndex: 800,
       boxShadow: "2px 2px 5px #ccc",
       borderRadius: "4px",
-      width: "100%"
+      width: "100%",
+      background: "#fff",
     },
     chooseCategoryMenu: {
       position: "relative",

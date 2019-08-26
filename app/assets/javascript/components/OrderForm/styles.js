@@ -22,6 +22,7 @@ const styles = theme => ({
     width: "950px",
     margin: "70px auto 0",
     boxSizing: "border-box",
+    fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
     [theme.breakpoints.down("xs")]: {
       width: "375px",
       padding: 5,
@@ -68,7 +69,18 @@ const styles = theme => ({
     }
   },
   form: {
-    overflow: "hidden"
+    // overflow: "hidden"
+  },
+  commentTextarea: {
+    resize: "none",
+    width: "100%",
+    padding: 10,
+  },
+  addComment: {
+    fontSize: 16,
+    color: "#303f9f",
+    margin: "10px 0",
+    cursor: "pointer",
   }
 });
 

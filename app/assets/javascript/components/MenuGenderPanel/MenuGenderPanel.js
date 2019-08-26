@@ -21,7 +21,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 function IconLabelButtons(props) {
-  const { classes, addFilter, sex } = props;
+  const { classes, addFilter, sex, redirectToRoot} = props;
   const isFemale = sex == "wooman";
   return (
     <div className={classes.menuGenderPanle}>
@@ -31,7 +31,10 @@ function IconLabelButtons(props) {
         className={`${classes.femaleButton} ${
           isFemale ? classes.activeSex : ""
         }`}
-        onClick={() => addFilter({ sex: ["wooman"] })}
+        onClick={() => {
+          addFilter({ sex: ["wooman"] })
+          redirectToRoot && redirectToRoot()
+        }}
       >
         Женщинам
       </Button>
@@ -39,7 +42,10 @@ function IconLabelButtons(props) {
         variant="contained"
         color="primary"
         className={`${classes.maleButton} ${isFemale ? "" : classes.activeSex}`}
-        onClick={() => addFilter({ sex: ["man"] })}
+        onClick={() => {
+          addFilter({ sex: ["man"] })
+          redirectToRoot && redirectToRoot()
+        }}
       >
         Мужчинам
       </Button>

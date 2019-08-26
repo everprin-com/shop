@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import green from "@material-ui/core/colors/green";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { connect } from "react-redux";
+import styles from "./styles"
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -17,49 +17,6 @@ const mapStateToProps = state => {
   return {
     filter: state.filterData.filter ? state.filterData.filter : {}
   };
-};
-
-const styles = {
-  root: {
-    color: "#111",
-    width: "100%",
-    "&$checked": {
-      color: green[500]
-    },
-    pointerEvents: "auto"
-  },
-  title: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    fontSize: 16,
-    width: "100%",
-    background: "#eef",
-    fontWeight: "bold",
-    padding: 5
-  },
-  container: {
-    flexWrap: "wrap",
-    display: "flex",
-    justifyContent: "center",
-    paddingLeft: 10
-  },
-  checkbox: {
-    padding: 0
-  },
-  list: {
-    paddingLeft: 10,
-    display: "block",
-    width: "100%"
-  },
-  label: {
-    fontSize: `15px`
-  },
-  titleReset: {
-    fontSize: 13,
-    cursor: "pointer",
-    fontWeight: "normal",
-  }
 };
 
 class FilterGeneral extends React.PureComponent {
