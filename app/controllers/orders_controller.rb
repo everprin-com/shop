@@ -28,10 +28,12 @@ class OrdersController < ApplicationController
         )
       end
       order.create_statistic!(ip: request.remote_ip)
-      TeleNotify::TelegramUser.find_by_tg_channel("order").send_message(order.to_json)
+      TeleNotify::TelegramUser.find_by_tg_channel("order")&.send_message(order.to_json)
     end
-    respond_to do |format|
-      format.all { render :nothing => true, :status => 200 }
+    if order.save
+      render json: {order: {id: order.id, departament: order.departament, total_price: order.total_price, name: order.name  } }
+    else
+      format.json { render json: order.errors, status: :unprocessable_entity }
     end
 
     # @cart.line_items.each do |line_item|

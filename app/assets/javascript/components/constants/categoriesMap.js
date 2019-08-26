@@ -1,8 +1,22 @@
 const categoriesMap = {
-    male: {},
+    male: {
+      ["Рубашки"]: "/imgs/categories/male/рубашки.jpg",
+      ["Костюмы"]: "/imgs/categories/male/костюмы.jpg",
+      ["Пиджаки"]: "/imgs/categories/male/пиджаки.jpg",
+      ["Брюки"]: "/imgs/categories/male/брюки.jpg",
+      ["Джинсы"]: "/imgs/categories/male/джинсы.jpg",
+      ["Куртки"]: "/imgs/categories/male/куртки.jpg",
+      ["Свитера"]: "/imgs/categories/male/свитера.jpg",
+      ["Туфли"]: "/imgs/categories/male/туфли_м.jpg",
+      ["Кросовки"]: "/imgs/categories/male/кросовки_м.jpg",
+      ["Лонгсливы"]: "/imgs/categories/male/лонгсливы.jpg",
+    },
     female: {
          ["Платья"]: "/imgs/categories/female/платье2.jpg",
          ["Блузы"]: "/imgs/categories/female/блузы1.jpg",
+         ["Туфли"]: "/imgs/categories/female/туфли.jpg",
+         ["Кросовки"]: "/imgs/categories/female/кросовки.jpg",
+         ["Слипоны"]: "/imgs/categories/female/слипоны.jpg",
          ["Футболки"]: "/imgs/categories/female/футболки1.jpg",
          ["Нижнее белье"]: "/imgs/categories/female/трусики1.jpg",
          ["Топы"]: "/imgs/categories/female/топы1.jpg",
