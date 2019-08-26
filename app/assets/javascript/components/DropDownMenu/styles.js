@@ -9,9 +9,12 @@ const styles = theme => ({
     },
     categoryItem: {
       fontSize: "16px",
-      margin: "15px",
+      margin: "10px",
       cursor: "pointer",
       textTransform: "lowercase",
+      paddingBottom: 7,
+      borderBottom: '1px solid #ccc',
+      textAlign: 'center',
       [theme.breakpoints.down("sm")]: {
         margin: "0px",
         fontSize: "12px"
@@ -31,6 +34,13 @@ const styles = theme => ({
       }
     },
     categoryBlock: {
+      display: "flex",
+      // background: "no-repeat right/29% url('https://alifaq.info/wp-content/uploads/2017/10/odezhda.jpg')",
+      [theme.breakpoints.down("xs")]: {
+        padding: "0 10px"
+      },
+    },
+    categoryTypeList: {
       display: "flex",
       [theme.breakpoints.down("xs")]: {
         padding: "0 10px"

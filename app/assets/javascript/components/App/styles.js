@@ -1,5 +1,6 @@
 const styles = theme => ({
     root: {
+      fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
       [theme.breakpoints.up("xs")]: {
         width: "375px"
       },

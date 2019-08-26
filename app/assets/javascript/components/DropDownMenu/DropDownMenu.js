@@ -23,9 +23,9 @@ class DropDownMenu extends React.PureComponent {
 
   handleChange = (event, value) => this.setState({ value });
 
-  hoverOn = value =>
-    imgCategoryMap[value] &&
-    this.setState({ imgCategory: imgCategoryMap[value] });
+  // hoverOn = value =>
+  //   imgCategoryMap[value] &&
+  //   this.setState({ imgCategory: imgCategoryMap[value] });
 
   onChangeCategory = category => {
     const {
@@ -58,7 +58,7 @@ class DropDownMenu extends React.PureComponent {
                 className={classes.categoryItem}
                 onClick={() => this.onChangeCategory(liTitle)}
                 key={i}
-                onMouseEnter={this.hoverOn.bind(this, liTitle)}
+                // onMouseEnter={this.hoverOn.bind(this, liTitle)}
               >
                 {liTitle.toUpperCase()}
               </li>
@@ -72,7 +72,7 @@ class DropDownMenu extends React.PureComponent {
   productTypeList = () => {
     const { classes, productTypeList } = this.props;
     return (
-      <div className={classes.categoryBlock}>
+      <div className={classes.categoryTypeList}>
         {this.ulWithSpecialCountLi(productTypeList, 5)}
       </div>
     );
@@ -84,9 +84,9 @@ class DropDownMenu extends React.PureComponent {
     return (
       <div className={classes.categoryBlock}>
         {this.productTypeList()}
-        <Paper className={classes.cardImg}>
+        {/* <Paper className={classes.cardImg}>
           <img className={classes.img} src={imgCategory} />
-        </Paper>
+        </Paper> */}
       </div>
     );
   }

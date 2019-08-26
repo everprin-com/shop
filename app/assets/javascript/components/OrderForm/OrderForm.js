@@ -12,6 +12,7 @@ import AdressInput from "../AdressInput/AdressInput";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { Link } from "react-router-dom";
 import styles from "./styles";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 
 const mapStateToProps = state => {
   return {
@@ -56,13 +57,13 @@ class OrderForm extends React.PureComponent {
     message: "",
     comment: "",
     errors: {},
-    wasTrySend: false,
+    wasTrySend: false
   };
 
   handleChange = name => event => {
     if (name == "address") this.sendNP(event.target.value);
     this.setState({ [name]: event.target.value });
-    if (this.state.wasTrySend) this.validateData()
+    if (this.state.wasTrySend) this.validateData();
   };
 
   sendNP = city => {
@@ -121,7 +122,7 @@ class OrderForm extends React.PureComponent {
   };
 
   sendOrder = () => {
-    this.setState({wasTrySend:true})
+    this.setState({ wasTrySend: true });
     if (this.validateData()) {
       const line_items = this.props.card.data.map(function(element) {
         return {
@@ -151,19 +152,7 @@ class OrderForm extends React.PureComponent {
     }
   };
 
-  sendQuestion = () => {
-    fetch("/messagestoadministrators", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        messagestoadministrator: {
-          name: this.state.name_question,
-          telephone: this.state.telephone,
-          message: this.state.message
-        }
-      })
-    });
-  };
+
 
   errorHelper = field => {
     if (!this.state.errors[field]) return null;
@@ -177,6 +166,9 @@ class OrderForm extends React.PureComponent {
   redirectToMain = () => {
     this.props.history.push("/");
   };
+
+  handleCommentStatus = () =>
+    this.setState(prevState => ({ commentStatus: !prevState.commentStatus }));
 
   render() {
     const { classes } = this.props;
@@ -203,15 +195,6 @@ class OrderForm extends React.PureComponent {
             />
             {this.errorHelper("name")}
             <TextField
-              label="Комментарий"
-              className={classes.textField}
-              type="text"
-              value={this.state.comment}
-              onChange={this.handleChange("comment")}
-              margin="normal"
-              fullWidth
-            />
-            <TextField
               label="Телефон"
               value={this.state.phone}
               onChange={this.handleChange("phone")}
@@ -237,6 +220,23 @@ class OrderForm extends React.PureComponent {
               changeDepartament={this.changeDepartament}
               errors={this.state.errors}
             />
+            <div
+              className={classes.addComment}
+              onClick={this.handleCommentStatus}
+            >
+              + Добавтиь комментарий
+            </div>
+            {this.state.commentStatus && (
+              <TextareaAutosize
+                placeholder="Комментарий к заказу"
+                className={classes.commentTextarea}
+                rows={5}
+                rowsMax={7}
+                value={this.state.comment}
+                onChange={this.handleChange("comment")}
+                margin="normal"
+              />
+            )}
             <Button
               variant="contained"
               className={classes.button}
@@ -247,44 +247,6 @@ class OrderForm extends React.PureComponent {
             </Button>
           </form>
 
-          <form noValidate autoComplete="off" className={classes.askForm}>
-            <div className={classes.title}>Вопрос менеджеру</div>
-            <TextField
-              label="Имя"
-              className={classes.textField}
-              type="text"
-              value={this.state.name_question}
-              onChange={this.handleChange("name_question")}
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              label="Телефон"
-              value={this.state.telephone}
-              onChange={this.handleChange("telephone")}
-              className={classes.textField}
-              type="text"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              label="Сообщение"
-              className={classes.textField}
-              type="text"
-              value={this.state.message}
-              onChange={this.handleChange("message")}
-              margin="normal"
-              fullWidth
-            />
-            <Button
-              variant="contained"
-              className={classes.button}
-              onClick={this.sendQuestion}
-              color="primary"
-            >
-              Отправить заказ
-            </Button>
-          </form>
 
           <div className={classes.cartMicro}>
             <CartMicro />

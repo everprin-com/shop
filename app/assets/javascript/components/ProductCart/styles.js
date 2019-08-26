@@ -8,6 +8,7 @@ const styles = theme => ({
     fontSize: "16px",
     minHeight: "100vh",
     justifyContent: "space-between",
+    fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
     [theme.breakpoints.up("xs")]: {
       maxWidth: "360px"
     },
@@ -75,6 +76,9 @@ const styles = theme => ({
   galleryDot: {
     width: 40,
     height: 40
+  },
+  tableSize: {
+    cursor: "pointer"
   }
 });
 

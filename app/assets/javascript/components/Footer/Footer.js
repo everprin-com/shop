@@ -8,12 +8,13 @@ import Return from "../conditions/Return";
 import Payment from "../conditions/Payment";
 import { connect } from "react-redux";
 import Dialog from "../Dialog/Dialog";
+import Logo from "../Logo/Logo";
 
 const mapDispatchToProps = dispatch => {
   return {
     showDelivery: () => dispatch({ type: "SHOW_DELIVERY_WINDOW" }),
     showReturn: () => dispatch({ type: "SHOW_RETURN_WINDOW" }),
-    showPayment: () => dispatch({ type: "SHOW_PAYMENT_WINDOW" }),
+    showPayment: () => dispatch({ type: "SHOW_PAYMENT_WINDOW" })
   };
 };
 
@@ -26,7 +27,13 @@ function Item({ title, classes, onClick }) {
 }
 
 function Footer(props) {
-  const { classes, showDelivery, showReturn, showPayment } = props;
+  const {
+    classes,
+    showDelivery,
+    showReturn,
+    showPayment,
+    redirectToRoot
+  } = props;
 
   return (
     <div>
@@ -42,22 +49,14 @@ function Footer(props) {
             classes={classes}
             onClick={showReturn}
           />
-          <Item
-            title="Оплата"
-            classes={classes}
-            onClick={showPayment}
-          />
-          <Item title="Вопросы и ответы" classes={classes} />
-          <Item title="Контакты" classes={classes} />
+          <Item title="Оплата" classes={classes} onClick={showPayment} />
+          {/* <Item title="Вопросы и ответы" classes={classes} /> */}
         </ul>
         <div className={classes.contacts}>
           Киев, №1. Ул Чешская 9, 201/203, БЦ modnaVilla, 1 этаж +38 (095)
           755-25-73 info@kilo.com.ua
         </div>
-        <ul className={classes.list}>
-          <Item title="О нас" classes={classes} />
-          <Item title="Контакты" classes={classes} />
-        </ul>
+        <Logo classes={classes} redirectToRoot={redirectToRoot} />
       </Paper>
       <Dialog title="Условия доставки" Component={Delivery} type="delivery" />
       <Dialog title="Условия Возврата" Component={Return} type="return" />

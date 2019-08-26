@@ -13,6 +13,7 @@ import fetchGet from "../api/fetchGet";
 import Slider from "../Slider/Slider";
 import ProductList from "../ProductList/ProductList";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
+import TableSize from "../TableSize/TableSize";
 import styles from "./styles";
 
 const mapStateToProps = state => {
@@ -31,7 +32,8 @@ const mapDispatchToProps = dispatch => {
     requestAndAddSlider: category =>
       dispatch({ type: "REQUEST_AND_ADD_PRODUCTS_TO_SLIDER", category }),
     addProduct: product => dispatch({ type: "ADD_PRODUCT", product }),
-    openGallery: () => dispatch({ type: "SHOW_SLIDER_WINDOW" })
+    openGallery: () => dispatch({ type: "SHOW_SLIDER_WINDOW" }),
+    openTableSize: () => dispatch({ type: "TABLE_SIZE_ON" })
   };
 };
 
@@ -93,7 +95,7 @@ class ProductCart extends React.PureComponent {
     const { id } = this.props.match.params;
     fetchGet(`/items/${id}`).then(data => {
       this.setState({ data }, () => {
-        this.props.requestAndAddSlider(this.state.data.category);
+        // this.props.requestAndAddSlider(this.state.data.category);
         this.props.addProduct(data);
       });
     });
@@ -154,7 +156,8 @@ class ProductCart extends React.PureComponent {
       location,
       openCart,
       sliderProducts,
-      products
+      products,
+      openTableSize
     } = this.props;
     const { id } = match.params;
     const productData = products.find(product => product.id == id) || {};
@@ -207,7 +210,11 @@ class ProductCart extends React.PureComponent {
                 />
               </p>
               <p>
-                <a href="#"> Таблица размеров</a>
+                {this.state.data.size_world && (
+                  <span className="tableSize" onClick={openTableSize}>
+                    Таблица размеров
+                  </span>
+                )}
               </p>
               <Button
                 variant="contained"
@@ -240,7 +247,7 @@ class ProductCart extends React.PureComponent {
           productsParams={{ search_category: category }}
           title="С этим товаром смотрят"
         />
-        <Footer />
+        <Footer redirectToRoot={this.redirectToRoot} />
         <DialogWindow
           title="Выберите размер"
           Component={ChooseSize}
@@ -251,6 +258,7 @@ class ProductCart extends React.PureComponent {
           Component={() => SliderS({ picture, classes })}
           type="slider"
         />
+        <TableSize data={this.state.data && this.state.data.size_world} />
       </div>
     );
   }

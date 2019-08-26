@@ -9,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import ChooseSize from "../ChooseSize/ChooseSize";
 import Footer from "../Footer/Footer";
+import WidgetPanel from "../HelpWidget/WidgetPanel"
 import styles from "./styles"
 
 const mapStateToProps = state => {
@@ -35,6 +36,7 @@ class App extends React.PureComponent {
         <Grid container spacing={24}>
           <Grid className={classes.appInner} item xs={12}>
             <Header withSmallMenu resetFilter />
+            <WidgetPanel />
             <Home />
             <Footer />
           </Grid>

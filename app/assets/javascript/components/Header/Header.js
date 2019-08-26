@@ -10,8 +10,8 @@ import MenuGenderPanel from "../MenuGenderPanel/MenuGenderPanel";
 import Panel from "../Panel/Panel";
 import DropDownMenu from "../DropDownMenu/DropDownMenu";
 import Drawer from "../Drawer/Drawer";
-import { Link } from "react-router-dom";
 import styles from "./styles";
+import Logo from "../Logo/Logo"
 
 const mapStateToProps = state => {
   const isFemale =
@@ -50,24 +50,6 @@ function CastomIcon({ src, classes }) {
   );
 }
 
-function Logo({ classes, redirectToRoot, resetFilter }) {
-  const handleClink = e => {
-    e.preventDefault();
-    resetFilter && resetFilter();
-    if (redirectToRoot) {
-      redirectToRoot();
-      resetFilter();
-    }
-  };
-  return (
-    <Link to="/" onClick={handleClink}>
-      <div className={classes.logoWrap}>
-        <img src="/imgs/logo.png" className={classes.logo} />
-      </div>
-    </Link>
-  );
-}
-
 class Header extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -89,7 +71,6 @@ class Header extends React.PureComponent {
 
   productTypeList = type => {
     const { headers } = this.props;
-    console.log(headers);
     if (!headers || !headers.filter) return;
     const typeCategory = headers.filter(header => header.group == type);
     const catalogues = Object.keys(typeCategory).map(
@@ -126,7 +107,7 @@ class Header extends React.PureComponent {
       <header className={`${classes.header} header`}>
         <div className="header-content">
           <div className={classes.root}>
-            <MenuGenderPanel />
+            <MenuGenderPanel redirectToRoot={redirectToRoot} />
 
             <AppBar
               position="static"
