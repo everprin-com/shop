@@ -1,6 +1,7 @@
 class Item < ActiveRecord::Base
   DEFAULT_PAGE = 16
   #include ActiveModel::Serialization
+  attr_accessor :skip
   include PgSearch
   pg_search_scope :search_color,
     against: [:color],

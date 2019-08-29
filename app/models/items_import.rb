@@ -1,14 +1,21 @@
 class ItemsImport
   include ActiveModel::Model
   require 'roo'
-  WOOMAN_CATEGORIES = ["Женская одежда", "Женские аксессуары", "Женская обувь"]
-  MAN_CATEGORIES = ["Мужская одежда", "Мужские аксессуары", "Мужская обувь"]
+  WOOMAN_CATEGORIES = ["Женская одежда", "Женские аксессуары", "Женская обувь", "Для женщин"]
+  MAN_CATEGORIES = ["Мужская одежда", "Мужские аксессуары", "Мужская обувь", "Для мужчин"]
   CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
   CANT_BE_NULL = ["article", "name", "price", "picture", "drop_ship", "drop_ship_price", "sex"]
   HEADER = %w[
-    article name description price color picture brand
-    season male size country category available_product size_world
-    drop_ship composition drop_ship_price small_picture
+    drop_ship_price drop_ship name article color size description brand
+    composition season skip skip1 picture small_picture
+  ]
+
+  HEADER_TIME_OF_STYLE = %w[
+    skip	skip1	drop_ship	name article	skip2	category brand	skip3	size
+    color	country	sex	season	composition	size_world
+    skip4	drop_ship_price	skip5	skip6	skip7	picture
+    small_picture	small_picture1	small_picture2	small_picture3
+    small_picture4	small_picture5
   ]
 
   attr_accessor :file
@@ -33,25 +40,16 @@ class ItemsImport
   def load_imported_items
     spreadsheet = open_spreadsheet
     header = spreadsheet.row(5)
-    (1..spreadsheet.last_row).map do |i|
-       row = Hash[[HEADER, spreadsheet.row(i)[0..HEADER.size-1]].transpose]
+    (3..spreadsheet.last_row).map do |i|
+       row = Hash[[HEADER_TIME_OF_STYLE, spreadsheet.row(i)[0..HEADER_TIME_OF_STYLE.size-1]].transpose]
        #item = Item.find_by_id(row["id"]) || Item.new
        p "item"
        p i
        item = Item.new
-       item.attributes = row.to_hash
        if item["drop_ship"] == "issaplus"
-         #https://issaplus.com/sportivnyy-kostyum-gn-03-gn-03_temno-siniy/
-         #"https://issaplus.com/sportivnyy-kostyum-11000-11000_fioletovyy/"
          doc = Nokogiri::HTML(open(row["article"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
-         doc.css('nav.breadcrumbs span a').children
+         #doc.css('nav.breadcrumbs span a').children
          parsed_sex = doc.css('nav.breadcrumbs span a')&.children[1]&.text
-         item["sex"] =
-           if WOOMAN_CATEGORIES.include?(parsed_sex)
-             ["wooman"]
-           elsif MAN_CATEGORIES.include?(parsed_sex)
-             ["man"]
-           end
          table = doc.css('.tab-content .information_tovar b')
          if table.present?
            if table.length == 3 && doc.css('.tab-content .information_tovar table.table').length == 2
@@ -61,6 +59,12 @@ class ItemsImport
              first_table_name = table[0]&.children&.map(&:text)
              second_table_name = table[1]&.children&.map(&:text)
            end
+           item["sex"] =
+             if WOOMAN_CATEGORIES.include?(parsed_sex)
+               ["wooman"]
+             elsif MAN_CATEGORIES.include?(parsed_sex)
+               ["man"]
+             end
            first_table_data = doc.css('.tab-content .information_tovar table.table')[0]&.css('tr')&.children&.map(&:text)
            second_table_data = doc.css('.tab-content .information_tovar table.table')[1]&.css('tr')&.children&.map(&:text)
            size_world = { "#{first_table_name[0]}": first_table_data }
@@ -71,22 +75,46 @@ class ItemsImport
          end
          item["category"] = doc.css('nav.breadcrumbs span a')&.children[2]&.text
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
-         row["drop_ship_price"] = row["drop_ship_price"] * 0.85
+         item["drop_ship_price"] = row["drop_ship_price"] * 0.85
          item["size"] = row["size"].is_a?(Float) ? [row["size"].round] : row["size"].to_s.split(",")
          item["color"] = row["color"].to_s.split("_").last
          item["description"] = doc.css(".col-md-5.body_inf p")&.children[0]&.text
-         row["composition"] = row["description"]  + "," +  row["composition"]
-         picture = row["picture"]&.split(" ")&.split(",")&.flatten
+         item["composition"] = row["description"].to_s  + "," +  row["composition"].to_s
+         picture = row["picture"]&.split(" ")&.split(",")&.flatten || []
          small_picture = row["small_picture"]&.split(",")&.flatten
          item["picture"] = (picture + small_picture).uniq
        else
-         sex = row["male"]&.split(" ")&.split(",")&.flatten
-         item["sex"] = sex ? sex : ["man", "wooman"]
-         item["size"] = conver_size_to_array(row)
+         #sex = row["male"]&.split(" ")&.split(",")&.flatten
+         #item["sex"] = sex ? sex : ["man", "wooman"]
+         item["size"] = row["size"].is_a?(Float) ? [row["size"].round] : row["size"].to_s.split("/")
          item["picture"] = row["picture"]&.split(" ")&.split(",")&.flatten
+         item["drop_ship_price"] = row["drop_ship_price"]
+         item["category"] = row["category"]
+         item["color"] = row["color"]
+         item["sex"] =
+           if WOOMAN_CATEGORIES.include?(row["sex"])
+             ["wooman"]
+           elsif MAN_CATEGORIES.include?(row["sex"])
+             ["man"]
+           end
+         item["composition"] = row["composition"]
+         item["size_world"] = row["size_world"]
+         picture = [row["picture"]]
+         [
+           row["small_picture"], row["small_picture1"],	row["small_picture2"],
+           row["small_picture3"], row["small_picture4"], row["small_picture5"],
+         ].map do |small_picture|
+           picture.push(small_picture).compact.uniq
+        end
+        item["picture"] = picture.compact
        end
+       item["country"] = row["country"]
        item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
-
+       item["name"] = row["name"]
+       item["brand"] = row["brand"]
+       item["season"] = row["season"]
+       item["drop_ship"] = row["drop_ship"]
+       item["article"] = row["article"]
        item
     end
   end
