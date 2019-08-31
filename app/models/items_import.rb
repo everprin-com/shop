@@ -4,7 +4,7 @@ class ItemsImport
   WOOMAN_CATEGORIES = ["Женская одежда", "Женские аксессуары", "Женская обувь", "Для женщин"]
   MAN_CATEGORIES = ["Мужская одежда", "Мужские аксессуары", "Мужская обувь", "Для мужчин"]
   CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
-  CANT_BE_NULL = ["article", "name", "price", "picture", "drop_ship", "drop_ship_price", "sex"]
+  CANT_BE_NULL = ["article", "name", "category", "price", "picture", "drop_ship", "drop_ship_price", "sex"]
   HEADER = %w[
     drop_ship_price drop_ship name article color size description brand
     composition season skip skip1 picture small_picture
@@ -39,14 +39,14 @@ class ItemsImport
 
   def load_imported_items
     spreadsheet = open_spreadsheet
-    header = spreadsheet.row(5)
+    #header = spreadsheet.row(5)
     (3..spreadsheet.last_row).map do |i|
        row = Hash[[HEADER_TIME_OF_STYLE, spreadsheet.row(i)[0..HEADER_TIME_OF_STYLE.size-1]].transpose]
        #item = Item.find_by_id(row["id"]) || Item.new
        p "item"
        p i
        item = Item.new
-       if item["drop_ship"] == "issaplus"
+       if row["drop_ship"] == "issaplus"
          doc = Nokogiri::HTML(open(row["article"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
          #doc.css('nav.breadcrumbs span a').children
          parsed_sex = doc.css('nav.breadcrumbs span a')&.children[1]&.text
@@ -73,7 +73,8 @@ class ItemsImport
           end
           item["size_world"]  = size_world
          end
-         item["category"] = doc.css('nav.breadcrumbs span a')&.children[2]&.text
+         category = doc.css('nav.breadcrumbs span a')&.children[2]&.text
+         item["category"] = set_category(category)
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
          item["drop_ship_price"] = row["drop_ship_price"] * 0.85
          item["size"] = row["size"].is_a?(Float) ? [row["size"].round] : row["size"].to_s.split(",")
@@ -86,10 +87,13 @@ class ItemsImport
        else
          #sex = row["male"]&.split(" ")&.split(",")&.flatten
          #item["sex"] = sex ? sex : ["man", "wooman"]
+         # if i == 5
+         #   byebug
+         # end
          item["size"] = row["size"].is_a?(Float) ? [row["size"].round] : row["size"].to_s.split("/")
          item["picture"] = row["picture"]&.split(" ")&.split(",")&.flatten
          item["drop_ship_price"] = row["drop_ship_price"]
-         item["category"] = row["category"]
+         item["category"] = set_category(row["category"])
          item["color"] = row["color"]
          item["sex"] =
            if WOOMAN_CATEGORIES.include?(row["sex"])
@@ -117,6 +121,12 @@ class ItemsImport
        item["article"] = row["article"]
        item
     end
+  end
+
+  def set_category(category)
+    return unless category
+    synonim_category = Item::SYNONIM_NAMES_CATEGORIES.select{ |key, hash| hash.include?(category&.capitalize) }.keys[0].to_s
+    synonim_category.present? ? synonim_category : category
   end
 
   def conver_size_to_array(row)
