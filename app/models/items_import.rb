@@ -5,7 +5,7 @@ class ItemsImport
   MAN_CATEGORIES = ["Мужская одежда", "Мужские аксессуары", "Мужская обувь", "Для мужчин"]
   CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
   CANT_BE_NULL = ["article", "name", "category", "price", "picture", "drop_ship", "drop_ship_price", "sex"]
-  HEADER = %w[
+  HEADER_ISSA_PLUS = %w[
     drop_ship_price drop_ship name article color size description brand
     composition season skip skip1 picture small_picture
   ]
@@ -20,8 +20,9 @@ class ItemsImport
 
   attr_accessor :file
 
-  def initialize(attributes={})
+  def initialize(attributes={}, name_drop_ship)
     attributes.each { |name, value| send("#{name}=", value) }
+    @name_drop_ship = name_drop_ship
   end
 
   def persisted?
@@ -37,19 +38,34 @@ class ItemsImport
     end
   end
 
+  def find_drop_shiper
+    case @name_drop_ship
+    when "issaplus"
+      HEADER_ISSA_PLUS
+    when "timeforstyle"
+      HEADER_TIME_OF_STYLE
+    else
+      return
+    end
+  end
+
   def load_imported_items
     spreadsheet = open_spreadsheet
     #header = spreadsheet.row(5)
     (3..spreadsheet.last_row).map do |i|
-       row = Hash[[HEADER_TIME_OF_STYLE, spreadsheet.row(i)[0..HEADER_TIME_OF_STYLE.size-1]].transpose]
-       #item = Item.find_by_id(row["id"]) || Item.new
+       row = Hash[[find_drop_shiper, spreadsheet.row(i)[0..find_drop_shiper.size-1]].transpose]
        p "item"
        p i
        item = Item.new
-       if row["drop_ship"] == "issaplus"
+       if @name_drop_ship == "issaplus"
          doc = Nokogiri::HTML(open(row["article"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
-         #doc.css('nav.breadcrumbs span a').children
          parsed_sex = doc.css('nav.breadcrumbs span a')&.children[1]&.text
+         item["sex"] =
+           if WOOMAN_CATEGORIES.include?(parsed_sex)
+             ["wooman"]
+           elsif MAN_CATEGORIES.include?(parsed_sex)
+             ["man"]
+           end
          table = doc.css('.tab-content .information_tovar b')
          if table.present?
            if table.length == 3 && doc.css('.tab-content .information_tovar table.table').length == 2
@@ -59,12 +75,6 @@ class ItemsImport
              first_table_name = table[0]&.children&.map(&:text)
              second_table_name = table[1]&.children&.map(&:text)
            end
-           item["sex"] =
-             if WOOMAN_CATEGORIES.include?(parsed_sex)
-               ["wooman"]
-             elsif MAN_CATEGORIES.include?(parsed_sex)
-               ["man"]
-             end
            first_table_data = doc.css('.tab-content .information_tovar table.table')[0]&.css('tr')&.children&.map(&:text)
            second_table_data = doc.css('.tab-content .information_tovar table.table')[1]&.css('tr')&.children&.map(&:text)
            size_world = { "#{first_table_name[0]}": first_table_data }
@@ -85,11 +95,6 @@ class ItemsImport
          small_picture = row["small_picture"]&.split(",")&.flatten
          item["picture"] = (picture + small_picture).uniq
        else
-         #sex = row["male"]&.split(" ")&.split(",")&.flatten
-         #item["sex"] = sex ? sex : ["man", "wooman"]
-         # if i == 5
-         #   byebug
-         # end
          item["size"] = row["size"].is_a?(Float) ? [row["size"].round] : row["size"].to_s.split("/")
          item["picture"] = row["picture"]&.split(" ")&.split(",")&.flatten
          item["drop_ship_price"] = row["drop_ship_price"]
@@ -117,6 +122,7 @@ class ItemsImport
        item["name"] = row["name"]
        item["brand"] = row["brand"]
        item["season"] = row["season"]
+       # item["drop_ship"] = @name_drop_ship
        item["drop_ship"] = row["drop_ship"]
        item["article"] = row["article"]
        item
@@ -149,7 +155,9 @@ class ItemsImport
 
   def delete_null(imported_items)
     CANT_BE_NULL.each do |field|
-      imported_items.reject! { |item| item[field.to_sym] == nil }
+      imported_items.reject! do |item|
+        item[field.to_sym] == nil || item[:picture].length == 0
+      end
     end
   end
 
