@@ -59,7 +59,7 @@ class ItemsController < ApplicationController
        price_min: prices.min,
        price_max: prices.max,
        brand: items.map { |item| item.brand }.uniq,
-       season: seasons&.map { |season| season.length > 2 ? season : "" }&.reject(&:blank?),
+       season: seasons&.map { |season| (season&.length && season&.length > 2) ? season : "" }&.reject(&:blank?),
        color: current_main_colors(items),
      }
    end

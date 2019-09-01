@@ -1,20 +1,28 @@
 class ItemsImport
   include ActiveModel::Model
   require 'roo'
-  WOOMAN_CATEGORIES = ["Женская одежда", "Женские аксессуары", "Женская обувь"]
-  MAN_CATEGORIES = ["Мужская одежда", "Мужские аксессуары", "Мужская обувь"]
+  WOOMAN_CATEGORIES = ["Женская одежда", "Женские аксессуары", "Женская обувь", "Для женщин"]
+  MAN_CATEGORIES = ["Мужская одежда", "Мужские аксессуары", "Мужская обувь", "Для мужчин"]
   CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
-  CANT_BE_NULL = ["article", "name", "price", "picture", "drop_ship", "drop_ship_price", "sex"]
-  HEADER = %w[
-    article name description price color picture brand
-    season male size country category available_product size_world
-    drop_ship composition drop_ship_price small_picture
+  CANT_BE_NULL = ["article", "name", "category", "price", "picture", "drop_ship", "drop_ship_price", "sex"]
+  HEADER_ISSA_PLUS = %w[
+    drop_ship_price drop_ship name article color size description brand
+    composition season skip skip1 picture small_picture
+  ]
+
+  HEADER_TIME_OF_STYLE = %w[
+    skip	skip1	drop_ship	name article	skip2	category brand	skip3	size
+    color	country	sex	season	composition	size_world
+    skip4	drop_ship_price	skip5	skip6	skip7	picture
+    small_picture	small_picture1	small_picture2	small_picture3
+    small_picture4	small_picture5
   ]
 
   attr_accessor :file
 
-  def initialize(attributes={})
+  def initialize(attributes={}, name_drop_ship)
     attributes.each { |name, value| send("#{name}=", value) }
+    @name_drop_ship = name_drop_ship
   end
 
   def persisted?
@@ -30,21 +38,27 @@ class ItemsImport
     end
   end
 
+  def find_drop_shiper
+    case @name_drop_ship
+    when "issaplus"
+      HEADER_ISSA_PLUS
+    when "timeforstyle"
+      HEADER_TIME_OF_STYLE
+    else
+      return
+    end
+  end
+
   def load_imported_items
     spreadsheet = open_spreadsheet
-    header = spreadsheet.row(5)
-    (1..spreadsheet.last_row).map do |i|
-       row = Hash[[HEADER, spreadsheet.row(i)[0..HEADER.size-1]].transpose]
-       #item = Item.find_by_id(row["id"]) || Item.new
+    #header = spreadsheet.row(5)
+    (3..spreadsheet.last_row).map do |i|
+       row = Hash[[find_drop_shiper, spreadsheet.row(i)[0..find_drop_shiper.size-1]].transpose]
        p "item"
        p i
        item = Item.new
-       item.attributes = row.to_hash
-       if item["drop_ship"] == "issaplus"
-         #https://issaplus.com/sportivnyy-kostyum-gn-03-gn-03_temno-siniy/
-         #"https://issaplus.com/sportivnyy-kostyum-11000-11000_fioletovyy/"
+       if @name_drop_ship == "issaplus"
          doc = Nokogiri::HTML(open(row["article"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
-         doc.css('nav.breadcrumbs span a').children
          parsed_sex = doc.css('nav.breadcrumbs span a')&.children[1]&.text
          item["sex"] =
            if WOOMAN_CATEGORIES.include?(parsed_sex)
@@ -69,26 +83,56 @@ class ItemsImport
           end
           item["size_world"]  = size_world
          end
-         item["category"] = doc.css('nav.breadcrumbs span a')&.children[2]&.text
+         category = doc.css('nav.breadcrumbs span a')&.children[2]&.text
+         item["category"] = set_category(category)
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
-         row["drop_ship_price"] = row["drop_ship_price"] * 0.85
+         item["drop_ship_price"] = row["drop_ship_price"] * 0.85
          item["size"] = row["size"].is_a?(Float) ? [row["size"].round] : row["size"].to_s.split(",")
          item["color"] = row["color"].to_s.split("_").last
          item["description"] = doc.css(".col-md-5.body_inf p")&.children[0]&.text
-         row["composition"] = row["description"]  + "," +  row["composition"]
-         picture = row["picture"]&.split(" ")&.split(",")&.flatten
+         item["composition"] = row["description"].to_s  + "," +  row["composition"].to_s
+         picture = row["picture"]&.split(" ")&.split(",")&.flatten || []
          small_picture = row["small_picture"]&.split(",")&.flatten
          item["picture"] = (picture + small_picture).uniq
        else
-         sex = row["male"]&.split(" ")&.split(",")&.flatten
-         item["sex"] = sex ? sex : ["man", "wooman"]
-         item["size"] = conver_size_to_array(row)
+         item["size"] = row["size"].is_a?(Float) ? [row["size"].round] : row["size"].to_s.split("/")
          item["picture"] = row["picture"]&.split(" ")&.split(",")&.flatten
+         item["drop_ship_price"] = row["drop_ship_price"]
+         item["category"] = set_category(row["category"])
+         item["color"] = row["color"]
+         item["sex"] =
+           if WOOMAN_CATEGORIES.include?(row["sex"])
+             ["wooman"]
+           elsif MAN_CATEGORIES.include?(row["sex"])
+             ["man"]
+           end
+         item["composition"] = row["composition"]
+         item["size_world"] = row["size_world"]
+         picture = [row["picture"]]
+         [
+           row["small_picture"], row["small_picture1"],	row["small_picture2"],
+           row["small_picture3"], row["small_picture4"], row["small_picture5"],
+         ].map do |small_picture|
+           picture.push(small_picture).compact.uniq
+        end
+        item["picture"] = picture.compact
        end
+       item["country"] = row["country"]
        item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
-
+       item["name"] = row["name"]
+       item["brand"] = row["brand"]
+       item["season"] = row["season"]
+       # item["drop_ship"] = @name_drop_ship
+       item["drop_ship"] = row["drop_ship"]
+       item["article"] = row["article"]
        item
     end
+  end
+
+  def set_category(category)
+    return unless category
+    synonim_category = Item::SYNONIM_NAMES_CATEGORIES.select{ |key, hash| hash.include?(category&.capitalize) }.keys[0].to_s
+    synonim_category.present? ? synonim_category : category
   end
 
   def conver_size_to_array(row)
@@ -111,7 +155,9 @@ class ItemsImport
 
   def delete_null(imported_items)
     CANT_BE_NULL.each do |field|
-      imported_items.reject! { |item| item[field.to_sym] == nil }
+      imported_items.reject! do |item|
+        item[field.to_sym] == nil || item[:picture].length == 0
+      end
     end
   end
 
