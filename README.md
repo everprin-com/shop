@@ -31,6 +31,10 @@ id: TeleNotify::TelegramUser.find(2)
 1) #<TeleNotify::TelegramUser id: 1, telegram_id: -363760774, first_name: "newtrex", username: "newtrex_bot", created_at: "2019-05-09 20:53:20", updated_at: "2019-05-09 20:53:20">
 2) => #<TeleNotify::TelegramUser id: 2, telegram_id: -374400962, first_name: "newtrex", username: "newtrex_bot", created_at: "2019-05-09 21:06:13", updated_at: "2019-05-09 21:06:13">
 
+https://convertio.co/ru/csv-xls/
+parse issaplus insert url
+https://issaplus.com/load/csv3.php
+
 Parser
 валидация по полям name, price, picture
 Расположение по порядку

@@ -73,7 +73,7 @@ gem "rest-client"
 # convert excel
 gem "roo"
 gem "roo-xls"
-gem "spreadsheet"
+#gem "spreadsheet"
 
 group :development, :test do
   gem 'capybara'

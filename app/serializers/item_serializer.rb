@@ -6,10 +6,6 @@ class ItemSerializer < ActiveModel::Serializer
 
   def size_world
     return unless object.size_world
-    if object.drop_ship == "Timeforstyle"
-      object.size_world
-    else
-      eval(object.size_world)
-    end
+    eval(object.size_world)
   end
 end

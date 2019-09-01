@@ -6,12 +6,12 @@ class ItemsImport
   CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
   CANT_BE_NULL = ["article", "name", "category", "price", "picture", "drop_ship", "drop_ship_price", "sex"]
   HEADER_ISSA_PLUS = %w[
-    drop_ship_price drop_ship name article color size description brand
+    drop_ship_price currency name article color size description brand
     composition season skip skip1 picture small_picture
   ]
 
   HEADER_TIME_OF_STYLE = %w[
-    skip	skip1	drop_ship	name article	skip2	category brand	skip3	size
+    skip	skip1	code	name article	skip2	category brand	skip3	size
     color	country	sex	season	composition	size_world
     skip4	drop_ship_price	skip5	skip6	skip7	picture
     small_picture	small_picture1	small_picture2	small_picture3
@@ -31,7 +31,7 @@ class ItemsImport
 
   def open_spreadsheet
     case File.extname(file.original_filename)
-    when ".csv" then Csv.new(file.path)
+    when ".csv" then Roo::CSV.new(file.path, csv_options: {col_sep: "\t"})
     when ".xls" then Roo::Excel.new(file.path)
     when ".xlsx" then Roo::Excelx.new(file.path)
     else raise "Unknown file type: #{file.original_filename}"
@@ -52,7 +52,7 @@ class ItemsImport
   def load_imported_items
     spreadsheet = open_spreadsheet
     #header = spreadsheet.row(5)
-    (3..spreadsheet.last_row).map do |i|
+    (2..spreadsheet.last_row).map do |i|
        row = Hash[[find_drop_shiper, spreadsheet.row(i)[0..find_drop_shiper.size-1]].transpose]
        p "item"
        p i
@@ -96,7 +96,6 @@ class ItemsImport
          item["picture"] = (picture + small_picture).uniq
        else
          item["size"] = row["size"].is_a?(Float) ? [row["size"].round] : row["size"].to_s.split("/")
-         item["picture"] = row["picture"]&.split(" ")&.split(",")&.flatten
          item["drop_ship_price"] = row["drop_ship_price"]
          item["category"] = set_category(row["category"])
          item["color"] = row["color"]
@@ -107,7 +106,7 @@ class ItemsImport
              ["man"]
            end
          item["composition"] = row["composition"]
-         item["size_world"] = row["size_world"]
+         item["size_world"] = { "#{row['category']}": row["size_world"] }
          picture = [row["picture"]]
          [
            row["small_picture"], row["small_picture1"],	row["small_picture2"],
@@ -115,15 +114,14 @@ class ItemsImport
          ].map do |small_picture|
            picture.push(small_picture).compact.uniq
         end
-        item["picture"] = picture.compact
+        item["picture"] = picture.compact.uniq
        end
        item["country"] = row["country"]
        item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
        item["name"] = row["name"]
        item["brand"] = row["brand"]
        item["season"] = row["season"]
-       # item["drop_ship"] = @name_drop_ship
-       item["drop_ship"] = row["drop_ship"]
+       item["drop_ship"] = @name_drop_ship
        item["article"] = row["article"]
        item
     end
