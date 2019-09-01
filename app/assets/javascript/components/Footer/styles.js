@@ -11,7 +11,7 @@ const styles = theme => ({
     position: "fixed",
     bottom: 0,
     fontSize: 15,
-    padding: "5px !important",
+    padding: "0px !important",
     zIndex: 2,
     [theme.breakpoints.up("xs")]: {
       width: "375px"
@@ -28,7 +28,7 @@ const styles = theme => ({
   },
   list: {
     listStyle: "none",
-    margin: 5
+    margin: 2
   },
   link: {
     textDecoration: "none"
