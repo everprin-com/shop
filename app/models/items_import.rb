@@ -106,7 +106,7 @@ class ItemsImport
              ["man"]
            end
          item["composition"] = row["composition"]
-         item["size_world"] = { "#{row['category']}": row["size_world"] }
+         item["size_world"] = { "#{row['category']}": [row["size_world"]] }
          picture = [row["picture"]]
          [
            row["small_picture"], row["small_picture1"],	row["small_picture2"],
