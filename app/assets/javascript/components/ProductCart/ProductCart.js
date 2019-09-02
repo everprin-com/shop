@@ -164,6 +164,9 @@ class ProductCart extends React.PureComponent {
     const { size, picture, name, category, price } = productData;
     const activeSize = productData.activeSize;
     const isInCart = card.data.some(cardItem => cardItem.id == id);
+    console.log("vasa111111111111")
+    window.vasa = this.state.data.size_world
+    console.log(this.state.data.size_world)
     return (
       <div className={`${classes.root} product-cart`}>
         <Header redirectToRoot={this.redirectToRoot} />

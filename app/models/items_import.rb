@@ -81,7 +81,7 @@ class ItemsImport
            if second_table_name.present?
              size_world= size_world.merge({ "#{second_table_name[0]}": second_table_data })
           end
-          item["size_world"]  = size_world
+          item["size_world"]  = size_world.to_json
          end
          category = doc.css('nav.breadcrumbs span a')&.children[2]&.text
          item["category"] = set_category(category)
@@ -106,7 +106,7 @@ class ItemsImport
              ["man"]
            end
          item["composition"] = row["composition"]
-         item["size_world"] = { "#{row['category']}": [row["size_world"]] }
+         item["size_world"] = ({ "#{row['category']}": [row["size_world"]] }).to_json
          picture = [row["picture"]]
          [
            row["small_picture"], row["small_picture1"],	row["small_picture2"],
