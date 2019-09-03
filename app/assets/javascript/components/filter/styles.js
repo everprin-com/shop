@@ -52,7 +52,7 @@ const styles = {
     fontSize: 17
   },
   fromTo: {
-    margin: "0 7px"
+    margin: "0 4px"
   },
   inputNumber: {
     width: "65px !important"

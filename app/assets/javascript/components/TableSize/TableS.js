@@ -20,6 +20,8 @@ function splitIntoSubArray(arr, count) {
 }
 
 const createTable = (objTableData, classes) => {
+  console.log("objTableData")
+  console.log(objTableData)
   if (!objTableData) return null;
 
   return Object.entries(objTableData).map(([tableTitle, tableData]) => {
