@@ -3,4 +3,8 @@ class HeaderSerializer < ActiveModel::Serializer
 
   root false
 
+  def catalogue
+    return unless object.catalogue
+    eval(object.catalogue)
+  end
 end

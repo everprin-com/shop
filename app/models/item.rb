@@ -1,6 +1,7 @@
 class Item < ActiveRecord::Base
   DEFAULT_PAGE = 16
   #include ActiveModel::Serialization
+  #serialize :size_world
   attr_accessor :skip
   include PgSearch
   pg_search_scope :search_color,
@@ -111,6 +112,7 @@ class Item < ActiveRecord::Base
     "Толстовки": ["Толстовки", "Толстовка",],
     "Шлепанцы": ["Шлепанцы", "Женские вьетнамки, сланцы", "Вьетнамки",],
   }
+   #1-поло
    #children: "Для девочек", "Детские шапки", "Детские платья", "Детские перчатки и варежки",
    # "Детская одежда",
 

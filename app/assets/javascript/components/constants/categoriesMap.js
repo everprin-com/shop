@@ -15,7 +15,7 @@ const categoriesMap = {
          ["Платья"]: "/imgs/categories/female/платье2.jpg",
          ["Блузы"]: "/imgs/categories/female/блузы1.jpg",
          ["Туфли"]: "/imgs/categories/female/туфли.jpg",
-         ["Кросовки"]: "/imgs/categories/female/кросовки.jpg",
+         ["Кроссовки"]: "/imgs/categories/female/кросовки.jpg",
          ["Слипоны"]: "/imgs/categories/female/слипоны.jpg",
          ["Футболки"]: "/imgs/categories/female/футболки1.jpg",
          ["Топы"]: "/imgs/categories/female/топы1.jpg",
