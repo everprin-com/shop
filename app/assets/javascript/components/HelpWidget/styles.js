@@ -46,6 +46,12 @@ const styles = {
     top: "-5px",
     fontSize: 14,
     width: 25
+  },
+  messageTextarea: {
+    padding: "10px",
+    width: "100%",
+    marginTop: "40px",
+    height: "100px",
   }
 };
 
