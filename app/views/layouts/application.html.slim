@@ -1,0 +1,36 @@
+DOCTYPE
+  html
+    head
+      /= current_user&.id
+      - if only_admin
+        = link_to "Admin", admin_admins_path
+        = link_to 'Log out',  destroy_user_session_path, :method => :delete
+      /= meta name: "viewport", content: "width=device-width, initial-scale=1.0"
+      /= meta name: "google-site-verification", content: "YN8vIiLRjn2JJWEHj2ptLmr_IGlhWQbP0II_sTyFieY"
+      = javascript_pack_tag "Root"
+      javascript:
+        async src="https://www.googletagmanager.com/gtag/js?id=G-3NDWMFT0EZ"
+      javascript:
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-3NDWMFT0EZ');
+
+
+      title
+        = "KILO магазин одежды и обуви"
+
+    -# = stylesheet_pack_tag "styles", media: "all"
+    body
+      = csrf_meta_tags
+      div#modal-holder
+      div#root
+    /- if user_signed_in?
+
+
+    /= yield
+
+  -# =render "devise/registrations/form_new"
+  -# =render "devise/sessions/form_new"
+  /=render "devise/registrations/form_new"
+  /=render "devise/sessions/form_new"
