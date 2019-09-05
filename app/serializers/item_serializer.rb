@@ -4,4 +4,7 @@ class ItemSerializer < ActiveModel::Serializer
 
   root false
 
+  def size_world
+    object.size_world&.to_s
+  end
 end
