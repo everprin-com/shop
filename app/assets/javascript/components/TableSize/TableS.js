@@ -20,11 +20,9 @@ function splitIntoSubArray(arr, count) {
 }
 
 const createTable = (objTableData, classes) => {
-  console.log("objTableData")
-  console.log(objTableData)
   if (!objTableData) return null;
 
-  return Object.entries(objTableData).map(([tableTitle, tableData]) => {
+  return Object.entries(JSON.parse(objTableData)).map(([tableTitle, tableData]) => {
     if (!Array.isArray(tableData)) return null;
     const countCellInRow = tableData.findIndex(i => !/[а-я:,;]{3,}/i.test(i));
     const convertedArr = splitIntoSubArray(tableData, countCellInRow);
