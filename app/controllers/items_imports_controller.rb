@@ -11,6 +11,7 @@ class ItemsImportsController < ApplicationController
     @items_import = ItemsImport.new(params[:items_import], params[:drop_ship_name])
     if @items_import.save
       Item.update_size_same_items
+      Item.delete_bad_products
       Item.create_header
       redirect_to items_path
     else

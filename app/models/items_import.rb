@@ -79,15 +79,15 @@ class ItemsImport
            second_table_data = doc.css('.tab-content .information_tovar table.table')[1]&.css('tr')&.children&.map(&:text)
            size_world = { "#{first_table_name[0]}": first_table_data }
            if second_table_name.present?
-             size_world= size_world.merge({ "#{second_table_name[0]}": second_table_data })
+             size_world = size_world.merge({ "#{second_table_name[0]}": second_table_data })
           end
-          item["size_world"]  = size_world.to_json
+          first_table_data.present? ? item["size_world"] = size_world.to_json : ""
          end
          category = doc.css('nav.breadcrumbs span a')&.children[2]&.text
          item["category"] = set_category(category)
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
          item["drop_ship_price"] = row["drop_ship_price"] * 0.85
-         item["size"] = row["size"].is_a?(Float) ? [row["size"].round] : row["size"].to_s.split(",")
+         item["size"] = conver_size_to_array(row["size"])
          item["color"] = row["color"].to_s.split("_").last
          item["description"] = doc.css(".col-md-5.body_inf p")&.children[0]&.text
          item["composition"] = row["description"].to_s  + "," +  row["composition"].to_s
@@ -95,7 +95,7 @@ class ItemsImport
          small_picture = row["small_picture"]&.split(",")&.flatten
          item["picture"] = (picture + small_picture).uniq
        else
-         item["size"] = row["size"].is_a?(Float) ? [row["size"].round] : row["size"].to_s.split("/")
+         item["size"] = conver_size_to_array(row["size"])
          item["drop_ship_price"] = row["drop_ship_price"]
          item["category"] = set_category(row["category"])
          item["color"] = row["color"]
@@ -106,7 +106,9 @@ class ItemsImport
              ["man"]
            end
          item["composition"] = row["composition"]
-         item["size_world"] = ({ "#{row['category']}": [row["size_world"]] }).to_json
+         if row["size_world"].present?
+           item["size_world"] = ({ "#{row['category']}": [row["size_world"]] }).to_json
+         end
          picture = [row["picture"]]
          [
            row["small_picture"], row["small_picture1"],	row["small_picture2"],
@@ -133,19 +135,38 @@ class ItemsImport
     synonim_category.present? ? synonim_category : category
   end
 
-  def conver_size_to_array(row)
-    return [] unless row["size"]
-    parser_dash = row["size"].split("-")
-    parser_colon = row["size"].split(" ")
-    type_parser = [parser_dash, parser_colon].max_by(&:length)
-    if type_parser == parser_dash
-      return [] if parser_dash[0].to_i == 0 #if string universal return nil
-      (parser_dash[0].to_i..parser_dash[1].to_i).to_a
-    elsif type_parser == parser_colon
-      return [] if parser_colon[0].to_i == 0
-      [parser_colon[0], parser_colon[3], parser_colon[6], parser_colon[9]].compact
-    end
+  def conver_size_to_array(size)
+    return [] unless size
+    converted_size = size.is_a?(Float) ? [size.round.to_s] : size.to_s.split(",")&.flatten
+    converted_size =
+      converted_size&.flatten.map do |size|
+        size.split("/")
+      end
+    # make from "34-36" => ["34", "35", "36"]
+    converted_size =
+      converted_size&.flatten.map do |size|
+        if size.include?("-") && size.size > 1 && size.split("-")[0].to_i != 0 # one "-" && prevent "S-M"
+          (size.split("-")[0]..size.split("-")[1])&.to_a
+        else
+          size
+        end
+      end
+    converted_size.flatten
   end
+
+  # def conver_size_to_array(row)
+  #   return [] unless row["size"]
+  #   parser_dash = row["size"].split("-")
+  #   parser_colon = row["size"].split(" ")
+  #   type_parser = [parser_dash, parser_colon].max_by(&:length)
+  #   if type_parser == parser_dash
+  #     return [] if parser_dash[0].to_i == 0 #if string universal return nil
+  #     (parser_dash[0].to_i..parser_dash[1].to_i).to_a
+  #   elsif type_parser == parser_colon
+  #     return [] if parser_colon[0].to_i == 0
+  #     [parser_colon[0], parser_colon[3], parser_colon[6], parser_colon[9]].compact
+  #   end
+  # end
 
   def imported_items
     @imported_items ||= load_imported_items
