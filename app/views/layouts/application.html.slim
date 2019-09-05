@@ -7,12 +7,10 @@ html
       gtag('js', new Date());
       gtag('config', 'G-3NDWMFT0EZ');
 
-    /= current_user&.id
     - if only_admin
       = link_to "Admin", admin_admins_path
       = link_to 'Log out',  destroy_user_session_path, :method => :delete
-    /= meta name: "viewport", content: "width=device-width, initial-scale=1.0"
-    /= meta name: "google-site-verification", content: "YN8vIiLRjn2JJWEHj2ptLmr_IGlhWQbP0II_sTyFieY"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
     = javascript_pack_tag "Root"
 
     title
