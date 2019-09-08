@@ -13,6 +13,7 @@ import fetchGet from "../api/fetchGet";
 import Slider from "../Slider/Slider";
 import ProductList from "../ProductList/ProductList";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
+import SliderS from "../Slider/SliderS";
 import TableSize from "../TableSize/TableSize";
 import styles from "./styles";
 
@@ -36,44 +37,6 @@ const mapDispatchToProps = dispatch => {
     openTableSize: () => dispatch({ type: "TABLE_SIZE_ON" })
   };
 };
-
-function SliderItem({ src, classes }) {
-  return (
-    <div className={classes.gelleryItemWrap}>
-      <img src={src} className={classes.gelleryItem} />
-    </div>
-  );
-}
-
-function SliderS({ picture, classes }) {
-  return (
-    <div className={`${classes.img} fluid__image-container gallery`}>
-      <Slider
-        slidesToShow={1}
-        slidesToScroll={1}
-        simple
-        products={
-          Array.isArray(picture)
-            ? picture.map(src => SliderItem({ src, classes }))
-            : picture
-        }
-        draggable
-        arrows
-        effect="fade"
-        vertical
-        customPaging={function(i) {
-          return (
-            <a>
-              <img src={picture[i]} />
-            </a>
-          );
-        }}
-        dots
-        dotsClass={"slick-dots slick-thumb"}
-      />
-    </div>
-  );
-}
 
 class ProductCart extends React.PureComponent {
   state = { data: {} };
@@ -115,9 +78,12 @@ class ProductCart extends React.PureComponent {
 
   openGallery = e => {
     const windowWidth = window.innerWidth;
+    const nodeName = e.target.nodeName;
     if (
-      e.target.nodeName == "svg" ||
-      e.target.nodeName == "path" ||
+      nodeName == "svg" ||
+      nodeName == "path" ||
+      nodeName == "BUTTON" ||
+      nodeName == "SPAN" ||
       windowWidth < 1000
     )
       return;
@@ -164,9 +130,9 @@ class ProductCart extends React.PureComponent {
     const { size, picture, name, category, price } = productData;
     const activeSize = productData.activeSize;
     const isInCart = card.data.some(cardItem => cardItem.id == id);
-    console.log("vasa111111111111")
-    window.vasa = this.state.data.size_world
-    console.log(this.state.data.size_world)
+    console.log("vasa111111111111");
+    window.vasa = this.state.data.size_world;
+    console.log(this.state.data.size_world);
     return (
       <div className={`${classes.root} product-cart`}>
         <Header redirectToRoot={this.redirectToRoot} />
@@ -196,8 +162,7 @@ class ProductCart extends React.PureComponent {
                 }
                 draggable
                 arrows
-                effect="fade"
-                vertical
+                fade
               />
             </div>
 
@@ -214,7 +179,7 @@ class ProductCart extends React.PureComponent {
               </p>
               <p>
                 {this.state.data.size_world && (
-                  <span className="tableSize" onClick={openTableSize}>
+                  <span className={classes.tableSize} onClick={openTableSize}>
                     Таблица размеров
                   </span>
                 )}
@@ -261,7 +226,10 @@ class ProductCart extends React.PureComponent {
           Component={() => SliderS({ picture, classes })}
           type="slider"
         />
-        <TableSize data={this.state.data && this.state.data.size_world} />
+        <TableSize
+          dropShip={this.state.data && this.state.data.drop_ship}
+          data={this.state.data && this.state.data.size_world}
+        />
       </div>
     );
   }

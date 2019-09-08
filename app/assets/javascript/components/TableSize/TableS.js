@@ -19,11 +19,27 @@ function splitIntoSubArray(arr, count) {
   return newArray;
 }
 
-const createTable = (objTableData, classes) => {
+const createTable = (objTableData, dropShip, classes) => {
   if (!objTableData) return null;
+  const parsedObjTableData =
+    typeof objTableData == "string" ? JSON.parse(objTableData) : objTableData;
 
-  return Object.entries(JSON.parse(objTableData)).map(([tableTitle, tableData]) => {
+  return Object.entries(parsedObjTableData).map(([tableTitle, tableData]) => {
     if (!Array.isArray(tableData)) return null;
+    if (dropShip != "Issaplus") {
+      return (
+        <div className={classes.sizeDescriptionWrap}>
+          <Paper className={classes.root}>
+            <div className={classes.sizeDescriptionTitle}>
+              {`${tableTitle}`}
+            </div>
+            <div className={classes.sizeDescriptionContent}>
+              {tableData}
+            </div>
+          </Paper>
+        </div>
+      );
+    }
     const countCellInRow = tableData.findIndex(i => !/[а-я:,;]{3,}/i.test(i));
     const convertedArr = splitIntoSubArray(tableData, countCellInRow);
 
@@ -63,7 +79,7 @@ const createTable = (objTableData, classes) => {
 
 function SimpleTable(props) {
   const classes = useStyles();
-  return <div>{createTable(props.data, classes)}</div>;
+  return <div>{createTable(props.data, props.dropShip, classes)}</div>;
 }
 
 export default SimpleTable;

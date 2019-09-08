@@ -21,10 +21,10 @@ const mapDispatchToProps = dispatch => {
 class SwipeableTemporaryDrawer extends React.PureComponent {
   render() {
     const {
-      props: { classes, tableSizeOpen, openTableSize, closeTableSize, data }
+      props: { classes, tableSizeOpen, openTableSize, closeTableSize, data, dropShip }
     } = this;
     return (
-      <div>
+      <div >
         <SwipeableDrawer
           open={tableSizeOpen}
           onClose={closeTableSize}
@@ -35,7 +35,7 @@ class SwipeableTemporaryDrawer extends React.PureComponent {
             paper: classes.sideBarWrap
           }}
         >
-          <TableS data={data} />
+          <TableS data={data} dropShip={dropShip} />
         </SwipeableDrawer>
       </div>
     );

@@ -1,8 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-function Logo({ classes, redirectToRoot, resetFilter }) {
-    console.log(classes)
+const mapStateToProps = state => {
+  return {
+    pageWidth: state.general.pageWidth
+  };
+};
+
+function Logo({ classes, redirectToRoot, resetFilter, pageWidth, className }) {
   const handleClink = e => {
     e.preventDefault();
     resetFilter && resetFilter();
@@ -12,12 +18,15 @@ function Logo({ classes, redirectToRoot, resetFilter }) {
     }
   };
   return (
-    <Link to="/" onClick={handleClink}>
+    <Link to="/" onClick={handleClink} className={className}>
       <div className={classes.logoWrap}>
-        <img src="/imgs/logo.png" className={classes.logo} />
+        <img
+          src={pageWidth < 1000 ? "/imgs/logo-min.png" : "/imgs/logo.png"}
+          className={classes.logo}
+        />
       </div>
     </Link>
   );
 }
 
-export default Logo;
+export default connect(mapStateToProps)(Logo);

@@ -1,5 +1,6 @@
 import React from "react";
-import { Carousel } from "antd";
+import Slider from "react-slick";
+
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
@@ -7,10 +8,6 @@ import { Link } from "react-router-dom";
 import NavigateBefore from "@material-ui/icons/NavigateBefore";
 import NavigateNext from "@material-ui/icons/NavigateNext";
 import styles from "./styles";
-
-function onChange(a, b, c) {
-  console.log(a, b, c);
-}
 
 function ArrNext(props) {
   const { className, style, onClick } = props;
@@ -99,7 +96,7 @@ function myCarousel({
   return (
     <div className={className}>
       <div className="titleSlider">{title}</div>
-      <Carousel {...settings} afterChange={onChange} {...props}>
+      <Slider {...settings} {...props}>
         {products.map((product, i) => {
           if (simple) {
             return product;
@@ -109,7 +106,7 @@ function myCarousel({
             );
           }
         })}
-      </Carousel>
+      </Slider>
     </div>
   );
 }

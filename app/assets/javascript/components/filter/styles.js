@@ -55,7 +55,11 @@ const styles = {
     margin: "0 4px"
   },
   inputNumber: {
-    width: "65px !important"
+    width: "65px !important",
+    padding: 5,
+    borderRadius: 5,
+    outline: "none",
+    border: "solid #ccc 1px",
   },
   inputLeft: {
     marginLeft: "5px !important"

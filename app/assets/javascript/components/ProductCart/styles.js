@@ -2,7 +2,6 @@ const styles = theme => ({
   root: {
     margin: "0 auto",
     display: "flex",
-    fontFamily: "Arial",
     flexDirection: "column",
     lineHeight: "1.3",
     fontSize: "16px",
@@ -78,7 +77,8 @@ const styles = theme => ({
     height: 40
   },
   tableSize: {
-    cursor: "pointer"
+    cursor: "pointer",
+    color: "#303f9f",
   }
 });
 

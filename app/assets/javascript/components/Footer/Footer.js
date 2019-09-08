@@ -36,7 +36,6 @@ function Footer(props) {
   } = props;
 
   return (
-    <div>
       <Paper className={classes.root} elevation={1}>
         <ul className={classes.list}>
           <Item
@@ -56,12 +55,11 @@ function Footer(props) {
           Киев, №1. Ул Чешская 9, 201/203, БЦ modnaVilla, 1 этаж +38 (095)
           755-25-73 info@kilo.com.ua
         </div>
-        <Logo classes={classes} redirectToRoot={redirectToRoot} />
+        <Logo classes={classes} className={classes.logo} redirectToRoot={redirectToRoot} />
+        <Dialog title="Условия доставки" Component={Delivery} type="delivery" />
+        <Dialog title="Условия Возврата" Component={Return} type="return" />
+        <Dialog title="Оплата" Component={Payment} type="payment" />
       </Paper>
-      <Dialog title="Условия доставки" Component={Delivery} type="delivery" />
-      <Dialog title="Условия Возврата" Component={Return} type="return" />
-      <Dialog title="Оплата" Component={Payment} type="payment" />
-    </div>
   );
 }
 

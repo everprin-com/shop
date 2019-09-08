@@ -144,9 +144,7 @@ class Home extends React.PureComponent {
             dots={false}
             mainPage
             firstEnter={firstEnter}
-            className={`${classes.slider} ${
-              classes.recSlider
-            } horizontal-slider main-page-slider`}
+            className={`${classes.slider} ${classes.recSlider} horizontal-slider main-page-slider`}
           />
           <ProductList
             productsParams={{

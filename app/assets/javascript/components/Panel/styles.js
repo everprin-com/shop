@@ -1,10 +1,13 @@
 const styles = theme => ({
     root: {
       display: "flex",
-      justifyContent: "space-around"
+      justifyContent: "space-around",
+      [theme.breakpoints.down("xs")]: {
+        paddingLeft: 0,
+      }
     },
     panel: {
-      width: 560
+      maxWidth: 560
     },
     icon: {
       fontSize: "40px",
