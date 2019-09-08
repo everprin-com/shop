@@ -4,10 +4,9 @@ const styles = theme => ({
       marginTop: "60px"
     },
     slider: {
-      marginLeft: 260,
       padding: 10,
-      width: "calc(100% - 240px)",
       height: 305,
+      position: "relative",
       [theme.breakpoints.down("sm")]: {
         width: "100%",
         marginLeft: 0
@@ -15,7 +14,11 @@ const styles = theme => ({
     },
     main: {
       width: "100%",
-      paddingTop: 103
+      paddingTop: 70,
+      boxSizing: "border-box",
+      [theme.breakpoints.up("md")]: {
+        paddingLeft: 260,
+      },
     },
     sliderItem: {
       height: 250,

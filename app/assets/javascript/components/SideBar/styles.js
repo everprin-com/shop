@@ -1,14 +1,14 @@
 const styles = theme => ({
   root: {
     position: "fixed",
-    marginTop: 100,
+    marginTop: 70,
     width: "100%",
     maxWidth: 260,
     backgroundColor: theme.palette.background.paper,
     display: "inline-block",
     zIndex: 3,
     overflow: "auto",
-    maxHeight: "calc(100vh - 260px)",
+    maxHeight: "calc(100vh - 220px)",
   },
   mainSideBar: {
     [theme.breakpoints.down("sm")]: {

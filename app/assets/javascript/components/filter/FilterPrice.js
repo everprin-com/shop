@@ -1,8 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import Slider from "rc-slider";
 import { connect } from "react-redux";
-import { InputNumber } from "antd";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import styles from "./styles";
@@ -22,8 +20,6 @@ const mapDispatchToProps = dispatch => {
     addFilter: filter => dispatch({ type: "ADD_FILTER", filter })
   };
 };
-
-const Range = Slider.Range;
 
 function RangePrice({
   classes,
@@ -124,7 +120,8 @@ class FilterPrice extends React.PureComponent {
     });
   };
 
-  onChangeFromInput = (value, n) => {
+  onChangeFromInput = (e, n) => {
+    const value = e.target.value
     if (Number.isNaN(value)) {
       return;
     }
@@ -175,25 +172,27 @@ class FilterPrice extends React.PureComponent {
         <div className={classes.contentWrap}>
           <div className={classes.inputWrap}>
             <span className={classes.fromTo}>От</span>
-            <InputNumber
+            <input
+              type="number"
               min={1}
               max={5000}
               style={{ marginLeft: 16 }}
               value={inputValue[0]}
               className={`${classes.inputLeft} ${classes.inputNumber}`}
-              onChange={value => {
-                this.onChangeFromInput(value, 0);
+              onChange={e => {
+                this.onChangeFromInput(e, 0);
               }}
             />
             <span className={classes.fromTo}>До</span>
-            <InputNumber
+            <input
+              type="number"
               min={1}
               max={5000}
               style={{ marginLeft: 16 }}
               value={inputValue[1]}
               className={`${classes.inputRight} ${classes.inputNumber}`}
-              onChange={value => {
-                this.onChangeFromInput(value, 1);
+              onChange={e => {
+                this.onChangeFromInput(e, 1);
               }}
             />
           </div>

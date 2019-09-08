@@ -1,6 +1,5 @@
 const styles = theme => ({
   root: {
-    marginLeft: 260,
     marginTop: 10,
     display: "flex",
     flexWrap: "wrap",

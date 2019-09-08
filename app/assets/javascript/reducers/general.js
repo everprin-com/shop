@@ -3,7 +3,7 @@ export default function(
     firstEnter: true,
     lastRequestParams: { sex: ["wooman"] },
     mobileSideBar: false,
-    tableSize: false
+    tableSize: false,
   },
   action
 ) {
@@ -40,6 +40,8 @@ export default function(
       return { ...state, tableSize: false };
     case "TABLE_SIZE_ON":
       return { ...state, tableSize: true };
+    case "SET_PAGE_WIDTH":
+      return { ...state, pageWidth: action.pageWidth };
     default:
       return state;
   }

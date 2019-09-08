@@ -13,8 +13,10 @@ const styles = theme => ({
     fontSize: 15,
     padding: "0px !important",
     zIndex: 2,
+    maxWidth: "100%",
     [theme.breakpoints.up("xs")]: {
-      width: "375px"
+      width: "375px",
+      fontSize: 12,
     },
     [theme.breakpoints.up("sm")]: {
       width: "600px"
@@ -24,11 +26,14 @@ const styles = theme => ({
     },
     [theme.breakpoints.up("lg")]: {
       width: "1240px"
-    }
+    },
   },
   list: {
     listStyle: "none",
-    margin: 2
+    margin: 2,
+    [theme.breakpoints.down("xs")]: {
+      paddingLeft: 10,
+    }
   },
   link: {
     textDecoration: "none"
@@ -38,7 +43,10 @@ const styles = theme => ({
     padding: 5,
     margin: "0 20px",
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    [theme.breakpoints.down("xs")]: {
+      margin: 0,
+    }
   },
   item: {
     cursor: "pointer",
@@ -47,11 +55,14 @@ const styles = theme => ({
     },
   },
   logoWrap: {
-    maxHeight: 80
+    maxHeight: 50
   },
   logo: {
     height: "100%",
-    width: "auto"
+    width: "auto",
+    [theme.breakpoints.down("xs")]: {
+      display: "none",
+    }
   }
 });
 
