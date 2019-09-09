@@ -13,7 +13,7 @@ gem 'jquery-rails'
 
 gem 'jbuilder'
 gem "paperclip"
-
+gem 'actionpack-page_caching'
 gem 'bootstrap-sass'
 gem 'sass-rails'
 gem 'bootstrap_form'

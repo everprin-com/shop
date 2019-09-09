@@ -1,6 +1,8 @@
 
 class ItemsController < ApplicationController
 
+  caches_page :index
+
   def index
     items = Item.all
     generate_filters = generate_filters(items, params[:search_category])
