@@ -17,7 +17,8 @@ const mapStateToProps = state => {
   return {
     sex: isFemale ? "female" : "male",
     sliderProducts: state.product,
-    firstEnter: state.general.firstEnter
+    firstEnter: state.general.firstEnter,
+    pageWidth: state.general.pageWidth,
   };
 };
 
@@ -88,7 +89,7 @@ class Home extends React.PureComponent {
   }
 
   render() {
-    const { classes, requestAndAddProducts, firstEnter, sex } = this.props;
+    const { classes, requestAndAddProducts, firstEnter, sex, pageWidth } = this.props;
     const products = Object.entries(imgCategoryMap[sex]).map(o => {
       return (
         <CategoryItem
@@ -149,7 +150,7 @@ class Home extends React.PureComponent {
           <ProductList
             productsParams={{
               shuffled_products: true,
-              per_page: 12,
+              per_page: pageWidth < 600 ? 3 : 10,
               sex: ["wooman"]
             }}
           />
