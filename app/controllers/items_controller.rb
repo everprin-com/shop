@@ -1,7 +1,7 @@
 
 class ItemsController < ApplicationController
 
-  caches_page :index
+  caches_page :index, :generate_filters
 
   def index
     items = Item.all
@@ -35,6 +35,14 @@ class ItemsController < ApplicationController
 
    private
 
+  def generate_filters(items, search_category)
+     if search_category.present?
+       Item.generate_filters(items, search_category)
+     else
+       FilterOption.first
+     end
+   end
+
    def search_by_price(items)
      #price_search= [{from: 450, to: 500}, {from: 800, to: 1000}]
      current_search_string = []
@@ -51,31 +59,6 @@ class ItemsController < ApplicationController
      end
      collors_shades.uniq
    end
-
-   def generate_filters(all_items, search_category)
-     items = search_category.present? ? all_items.where(category: search_category) : all_items
-     prices = items.map { |item| item.price }
-     seasons =  items.map { |item| item.season }.uniq
-     {
-       size: items.map { |item| item.size }.flatten.uniq,
-       price_min: prices.min,
-       price_max: prices.max,
-       brand: items.map { |item| item.brand }.uniq,
-       season: seasons&.map { |season| (season&.length && season&.length > 2) ? season : "" }&.reject(&:blank?),
-       color: current_main_colors(items),
-     }
-   end
-
-   def current_main_colors(items)
-     all_colors = items.map { |item| item.color}.uniq
-     uniq_colors = all_colors.map { |color| color.split("/") }.flatten.map(&:capitalize).uniq
-     current_main_colors = []
-     uniq_colors.each do |color|
-       include_color = Item::COLOR_SHADES.select{|key, hash| hash.include?(color) }
-       current_main_colors << (include_color.keys)[0].to_s if include_color.present?
-     end
-     current_main_colors.uniq
-  end
 
    def per_page(per_page)
      per_page ? per_page : Item::DEFAULT_PAGE
