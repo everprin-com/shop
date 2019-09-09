@@ -141,6 +141,31 @@ class Item < ActiveRecord::Base
     Item.where(name: Item::BAD_PRODUCTS_NAME).delete_all
   end
 
+  def self.generate_filters(all_items, search_category={})
+    items = search_category.present? ? all_items.where(category: search_category) : all_items
+    prices = items.map { |item| item.price }
+    seasons =  items.map { |item| item.season }.uniq
+    {
+      size: items.map { |item| item.size }.flatten.uniq,
+      price_min: prices.min,
+      price_max: prices.max,
+      brand: items.map { |item| item.brand }.uniq,
+      season: seasons&.map { |season| (season&.length && season&.length > 2) ? season : "" }&.reject(&:blank?),
+      color: Item.current_main_colors(items),
+    }
+  end
+
+  def self.current_main_colors(items)
+    all_colors = items.map { |item| item.color}.uniq
+    uniq_colors = all_colors.map { |color| color.split("/") }.flatten.map(&:capitalize).uniq
+    current_main_colors = []
+    uniq_colors.each do |color|
+      include_color = Item::COLOR_SHADES.select{|key, hash| hash.include?(color) }
+      current_main_colors << (include_color.keys)[0].to_s if include_color.present?
+    end
+    current_main_colors.uniq
+  end
+
   def self.create_header
     Header.delete_all
     wooman_catalogues = Item.where('sex && ARRAY[?]::varchar[]', "wooman").select(:category).uniq.map(&:category).compact
