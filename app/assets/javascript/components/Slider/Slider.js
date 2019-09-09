@@ -64,6 +64,7 @@ function myCarousel({
   if (!products) return null;
   if (mainPage && !firstEnter) return null;
   const settings = {
+    lazyLoad: true,
     nextArrow: <ArrNext />,
     prevArrow: <ArrPrev />,
     responsive: [
