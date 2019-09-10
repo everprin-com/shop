@@ -120,13 +120,18 @@ class ItemsImport
        end
        item["country"] = row["country"]
        item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
-       item["name"] = row["name"]
+       item["name"] = convert_name(row["name"])
        item["brand"] = row["brand"]
        item["season"] = row["season"]
        item["drop_ship"] = @name_drop_ship
        item["article"] = row["article"]
        item
     end
+  end
+
+  def convert_name(name)
+    return unless name
+    name&.split("_")&.join(" ")&.scan(/[^A-Za-z0-9]+/)&.join("")
   end
 
   def set_category(category)
@@ -151,7 +156,7 @@ class ItemsImport
           size
         end
       end
-    converted_size.flatten
+    converted_size&.flatten&.uniq
   end
 
   # def conver_size_to_array(row)
