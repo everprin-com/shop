@@ -42,7 +42,7 @@ class FilterGeneral extends React.PureComponent {
   generateFilterItem = ({ label, color = "primary" }) => {
     const { classes, keyFilter, filter, withMap } = this.props;
     return (
-      <div className={classes.option}>
+      <div className={classes.option} key={label}>
         <FormControlLabel
           key={label}
           control={

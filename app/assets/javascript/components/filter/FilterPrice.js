@@ -36,7 +36,7 @@ function RangePrice({
     (priceMin < min && priceMax > min) || (priceMin < max && priceMax > max);
   if (!shouldRenderRange) return null;
   return (
-    <div className={classes.option}>
+    <div className={classes.option} key={title}>
       <FormControlLabel
         key={title}
         control={
@@ -140,6 +140,7 @@ class FilterPrice extends React.PureComponent {
     return arr.map(({ min, max, title }) => {
       return (
         <RangePrice
+          key={title}
           classes={classes}
           min={min}
           max={max}
