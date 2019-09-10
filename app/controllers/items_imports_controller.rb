@@ -13,6 +13,8 @@ class ItemsImportsController < ApplicationController
       Item.update_size_same_items
       Item.delete_bad_products
       Item.create_header
+      FilterOption.delete_all
+      FilterOption.create!(Item.generate_filters(Item.all))
       redirect_to items_path
     else
       render :new
