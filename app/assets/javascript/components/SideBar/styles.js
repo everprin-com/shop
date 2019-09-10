@@ -9,6 +9,9 @@ const styles = theme => ({
     zIndex: 3,
     overflow: "auto",
     maxHeight: "calc(100vh - 220px)",
+    [theme.breakpoints.down("sm")]: {
+      maxHeight: "100vh",
+    }
   },
   mainSideBar: {
     [theme.breakpoints.down("sm")]: {

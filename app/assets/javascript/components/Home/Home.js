@@ -6,7 +6,7 @@ import Slider from "../Slider/Slider";
 import imgCategoryMap from "../constants/categoriesMap";
 import { connect } from "react-redux";
 import fetchGetWithParams from "../api/fetchGetWithParams";
-import { convertPrice } from "../Utils";
+import { convertPrice, textWithDots } from "../Utils";
 import { Link } from "react-router-dom";
 import styles from "./styles";
 
@@ -63,7 +63,7 @@ function RecomendedProductsItem({
           <div className={classes.recImgWrap}>
             <img className={classes.recImg} src={src} />
           </div>
-          <div className={classes.recTitle}>{title}</div>
+          <div className={classes.recTitle}>{textWithDots(title, 50)}</div>
           <div className={classes.recCategory}>{category}</div>
           <div className={classes.price}>
             <div className={classes.oldPrice}>{`${oldPrice} грн`}</div>
