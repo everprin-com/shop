@@ -19,7 +19,8 @@ import {
   DProductCart,
   DOrderForm,
   DRegistrationForm,
-  DConvertXml
+  DConvertXml,
+  DCategoryPage
 } from "../javascript/components/mainPages"
 import '../components'
 
@@ -54,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <ScrollToTopRoute exact path="/" component={DApp} />
           <ScrollToTopRoute path="/productcart/:id" component={DProductCart} />
           <ScrollToTopRoute path="/orderform/" component={DOrderForm} />
+          <ScrollToTopRoute path="/categoryPage/:category" component={DCategoryPage} />
           <Route path="/registration/" component={DRegistrationForm} />
           <Route path="/convertXml/" component={DConvertXml} />
         </Switch>

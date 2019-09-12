@@ -1,7 +1,26 @@
 const styles = theme => ({
     root: {
       display: "flex",
-      marginTop: "60px"
+      marginTop: "60px",
+      fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
+      [theme.breakpoints.up("xs")]: {
+        width: "375px"
+      },
+      [theme.breakpoints.up("sm")]: {
+        width: "600px"
+      },
+      [theme.breakpoints.up("md")]: {
+        width: "1000px"
+      },
+      [theme.breakpoints.up("lg")]: {
+        width: "1240px"
+      },
+      // [theme.breakpoints.between('lg')]: {
+      //   width: '1240px',
+      // },
+      // width: '1240px',
+      margin: "0 auto",
+      positon: "relative"
     },
     slider: {
       padding: 10,
@@ -22,7 +41,7 @@ const styles = theme => ({
     },
     sliderItem: {
       height: 250,
-      cursor: "pointer",
+      cursor: "pointer"
     },
     img: {
       height: "100%",
@@ -42,11 +61,7 @@ const styles = theme => ({
       textAlign: "center"
     },
     title: {
-      fontSize: 20,
-      color: "#333",
-    },
-    withoutTextDecoration: {
-      textDecoration: "none",
+      fontSize: 20
     },
     recSlider: {
       height: 340,
@@ -80,13 +95,6 @@ const styles = theme => ({
     },
     linkToProductCart: {
       textDecoration: "none"
-    },
-    description: {
-      fontSize: 16,
-      paddingTop: 30,
-    },
-    descriptionTitle: {
-      fontSize: 18,
     }
   });
 
