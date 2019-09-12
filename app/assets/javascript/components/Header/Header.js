@@ -100,7 +100,7 @@ class Header extends React.PureComponent {
   };
 
   render() {
-    const { classes, redirectToRoot, withSmallMenu, resetFilter } = this.props;
+    const { classes, redirectToRoot, redirectToCategory, withSmallMenu, resetFilter } = this.props;
     const { value } = this.state;
 
     return (
@@ -165,6 +165,7 @@ class Header extends React.PureComponent {
                 {value === 0 && (
                   <DropDownMenu
                     redirectToRoot={redirectToRoot}
+                    redirectToCategory={redirectToCategory}
                     productTypeList={this.productTypeList("clothes")}
                     resetDropDown={this.resetDropDown}
                     mainPage={withSmallMenu}
@@ -173,6 +174,7 @@ class Header extends React.PureComponent {
                 {value === 1 && (
                   <DropDownMenu
                     redirectToRoot={redirectToRoot}
+                    redirectToCategory={redirectToCategory}
                     productTypeList={this.productTypeList("footwear")}
                     resetDropDown={this.resetDropDown}
                     mainPage={withSmallMenu}
@@ -181,6 +183,7 @@ class Header extends React.PureComponent {
                 {value === 2 && (
                   <DropDownMenu
                     redirectToRoot={redirectToRoot}
+                    redirectToCategory={redirectToCategory}
                     productTypeList={this.productTypeList("accessories")}
                     resetDropDown={this.resetDropDown}
                     mainPage={withSmallMenu}

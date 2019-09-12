@@ -29,10 +29,16 @@ const DConvertXml = Loadable({
   loading: Loading
 });
 
+const DCategoryPage = Loadable({
+  loader: () => import("./CategoryPage/CategoryPage"),
+  loading: Loading
+});
+
 export {
     DApp,
     DProductCart,
     DOrderForm,
     DRegistrationForm,
     DConvertXml,
+    DCategoryPage,
 }

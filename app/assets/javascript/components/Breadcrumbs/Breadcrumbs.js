@@ -27,7 +27,8 @@ function SimpleBreadcrumbs({
   name,
   headers,
   redirectToRoot,
-  requestAndAddProducts
+  requestAndAddProducts,
+  redirectToCategory
 }) {
   var mapCategory = {
     footwear: "Обувь",
@@ -51,8 +52,7 @@ function SimpleBreadcrumbs({
 
   const toCategory = (e, search_category) => {
     e.preventDefault();
-    requestAndAddProducts({ search_category });
-    redirectToRoot && redirectToRoot();
+    redirectToCategory(search_category);
   };
 
   const toGroup = (e, search_group) => {

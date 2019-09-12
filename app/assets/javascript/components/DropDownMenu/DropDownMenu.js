@@ -29,15 +29,11 @@ class DropDownMenu extends React.PureComponent {
 
   onChangeCategory = category => {
     const {
-      requestAndAddProducts,
-      redirectToRoot,
-      addFilter,
       resetDropDown,
-      mainPage
+      redirectToCategory,
     } = this.props;
-    addFilter({ search_category: [category] });
+    redirectToCategory(category)
     resetDropDown();
-    redirectToRoot && redirectToRoot();
   };
 
   ulWithSpecialCountLi = (arrLi, countLi) => {

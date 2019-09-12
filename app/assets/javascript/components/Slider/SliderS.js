@@ -16,15 +16,14 @@ function SliderS({ picture, classes }) {
         slidesToShow={1}
         slidesToScroll={1}
         simple
+        arrows
+        dots
+        dotsClass={"slick-dots slick-thumb"}
         products={
           Array.isArray(picture)
             ? picture.map(src => SliderItem({ src, classes }))
             : picture
         }
-        draggable
-        arrows
-        effect="fade"
-        vertical
         customPaging={i => {
           return (
             <a>
@@ -32,8 +31,6 @@ function SliderS({ picture, classes }) {
             </a>
           );
         }}
-        dots
-        dotsClass={"slick-dots slick-thumb"}
       />
     </div>
   );
