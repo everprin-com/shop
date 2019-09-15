@@ -14,6 +14,7 @@ class ItemsController < ApplicationController
     items = items.search_color(shadow_collors(params[:search_color])) if params[:search_color].present?
     items = items.where('size && ARRAY[?]::varchar[]', params[:search_size]) if params[:search_size].present?
     items = items.where(brand: params[:search_brand]) if params[:search_brand].present?
+    #byebug
     items = items.where(category: params[:search_category]) if params[:search_category].present?
     #items = items.search_category(params[:search_category]) if params[:search_category].present?
     items = items.where('sex && ARRAY[?]::varchar[]', params[:sex]) if params[:sex].present?

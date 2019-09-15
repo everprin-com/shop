@@ -67,6 +67,8 @@ class ConvertXml extends React.Component {
             <option value="">select drop ship</option>
             <option value="issaplus">issaPLus</option>
             <option value="timeforstyle">timeForStyle</option>
+            <option value="ager">ager</option>
+            <option value="garne">garne</option>
          </select>
           <Button
             variant="contained"
