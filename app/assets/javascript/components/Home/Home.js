@@ -3,6 +3,7 @@ import ProductList from "../ProductList/ProductList";
 import SideBar from "../SideBar/SideBar";
 import { withStyles } from "@material-ui/core/styles";
 import Slider from "../Slider/Slider";
+import SideBarPanel from "../SideBar/SideBarPanel";
 import imgCategoryMap from "../constants/categoriesMap";
 import { connect } from "react-redux";
 import fetchGetWithParams from "../api/fetchGetWithParams";
@@ -18,7 +19,8 @@ const mapStateToProps = state => {
     sex: isFemale ? "female" : "male",
     sliderProducts: state.product,
     firstEnter: state.general.firstEnter,
-    pageWidth: state.general.pageWidth
+    pageWidth: state.general.pageWidth,
+    sexArr: state.filterData.filter.sex,
   };
 };
 
@@ -79,7 +81,8 @@ class Home extends React.PureComponent {
   recomendedProducts = () => {
     fetchGetWithParams("/items/", {
       shuffled_products: true,
-      per_page: 8
+      per_page: 8,
+      sex: this.props.sexArr,
     }).then(data => this.setState({ data: data.items }));
   };
 
@@ -93,7 +96,8 @@ class Home extends React.PureComponent {
       requestAndAddProducts,
       firstEnter,
       sex,
-      pageWidth
+      pageWidth,
+      mainPage
     } = this.props;
     const products = Object.entries(imgCategoryMap[sex]).map(o => {
       return (
@@ -124,7 +128,7 @@ class Home extends React.PureComponent {
     });
     return (
       <div className={classes.root}>
-        <SideBar isMainSideBar />
+        <SideBar isMainSideBar showSideBarPanel />
         <div className={classes.main}>
           <Slider
             simple
@@ -162,7 +166,9 @@ class Home extends React.PureComponent {
             }}
           /> */}
           <div className={classes.description}>
-            <h1 className={classes.descriptionTitle}>ИНТЕРНЕТ МАГАЗИН ОДЕЖДЫ И ОБУВИ</h1>
+            <h1 className={classes.descriptionTitle}>
+              ИНТЕРНЕТ МАГАЗИН ОДЕЖДЫ И ОБУВИ
+            </h1>
             <p className={classes.descriptionP}>
               kilo.com.ua - это не просто интернет магазин одежды, это помощник
               для всей семьи.

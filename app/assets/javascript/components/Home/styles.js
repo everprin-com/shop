@@ -1,7 +1,8 @@
 const styles = theme => ({
     root: {
       display: "flex",
-      marginTop: "60px"
+      marginTop: 60,
+      paddingBottom: 60,
     },
     slider: {
       padding: 10,

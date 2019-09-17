@@ -56,7 +56,7 @@ class CategoryPage extends React.PureComponent {
       <div className={classes.root}>
         <Header
           withSmallMenu
-          resetFilter
+          resetFilterWithoutSex
           redirectToCategory={this.redirectToCategory}
           redirectToRoot={this.redirectToRoot}
         />

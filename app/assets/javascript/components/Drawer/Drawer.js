@@ -32,7 +32,7 @@ class SwipeableTemporaryDrawer extends React.PureComponent {
   };
   render() {
     const {
-      props: { classes, sideBarOpen, openSideBar, closeSideBar }
+      props: { classes, sideBarOpen, openSideBar, closeSideBar, mainPageHeader }
     } = this;
     const { open } = this.state;
     return (
@@ -49,7 +49,7 @@ class SwipeableTemporaryDrawer extends React.PureComponent {
             paper: classes.sideBarWrap
           }}
         >
-          <SideBar />
+          <SideBar showSideBarPanel={mainPageHeader} />
         </SwipeableDrawer>
       </div>
     );

@@ -26,7 +26,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    resetFilter: () => dispatch({ type: "RESET_FILTER" })
+    resetFilterWithoutSex: () => dispatch({ type: "RESET_FILTER_WITHOUT_SEX" })
   };
 };
 
@@ -100,7 +100,7 @@ class Header extends React.PureComponent {
   };
 
   render() {
-    const { classes, redirectToRoot, redirectToCategory, withSmallMenu, resetFilter } = this.props;
+    const {mainPageHeader, classes, redirectToRoot, redirectToCategory, withSmallMenu, resetFilterWithoutSex } = this.props;
     const { value } = this.state;
 
     return (
@@ -116,7 +116,7 @@ class Header extends React.PureComponent {
             >
               <Logo
                 classes={classes}
-                resetFilter={resetFilter}
+                resetFilterWithoutSex={resetFilterWithoutSex}
                 redirectToRoot={redirectToRoot}
               />
               <div ref={this.tabsRef}>
@@ -191,7 +191,7 @@ class Header extends React.PureComponent {
                 )}
               </div>
             )}
-            {withSmallMenu && <Drawer />}
+            {withSmallMenu && <Drawer mainPageHeader={mainPageHeader} />}
           </div>
         </div>
       </header>
