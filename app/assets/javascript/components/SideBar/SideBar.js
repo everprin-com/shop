@@ -8,7 +8,8 @@ import FilterPrice from "../filter/FilterPrice";
 import FilterGeneral from "../filter/FilterGeneral";
 import { connect } from "react-redux";
 import styles from "./styles";
-import colorMap from "../constants/colorMap"
+import colorMap from "../constants/colorMap";
+import SideBarPanel from "./SideBarPanel";
 
 const mapStateToProps = state => {
   const isFemale =
@@ -41,7 +42,8 @@ class SideBar extends React.PureComponent {
       classes,
       isMainSideBar,
       filterOptions = {},
-      categories
+      categories,
+      showSideBarPanel
     } = this.props;
 
     return (
@@ -53,67 +55,73 @@ class SideBar extends React.PureComponent {
             : `${classes.root} ${classes.smallSideBar}`
         }
       >
-        <ListItem className={classes.item}>
-          <FilterGeneral
-            title="Бренды"
-            keyFilter="search_brand"
-            style={{ maxHeight: "130px", overflowY: "auto", width: "100%" }}
-            filterOptions={filterOptions.brand}
-            isList
-          />
-        </ListItem>
+        {showSideBarPanel ? (
+          <SideBarPanel />
+        ) : (
+          <div>
+            <ListItem className={classes.item}>
+              <FilterGeneral
+                title="Бренды"
+                keyFilter="search_brand"
+                style={{ maxHeight: "130px", overflowY: "auto", width: "100%" }}
+                filterOptions={filterOptions.brand}
+                isList
+              />
+            </ListItem>
 
-        <ListItem className={classes.item}>
-          <FilterSex />
-        </ListItem>
+            <ListItem className={classes.item}>
+              <FilterSex />
+            </ListItem>
 
-        <ListItem className={classes.item}>
-          <FilterPrice
-            priceMin={filterOptions.price_min}
-            priceMax={filterOptions.price_max}
-          />
-        </ListItem>
+            <ListItem className={classes.item}>
+              <FilterPrice
+                priceMin={filterOptions.price_min}
+                priceMax={filterOptions.price_max}
+              />
+            </ListItem>
 
-        <ListItem className={classes.item}>
-          <FilterGeneral
-            title="Размеры"
-            keyFilter="search_size"
-            style={{ maxHeight: "130px", width: "100%", overflowY: "auto" }}
-            filterOptions={filterOptions.size}
-            isList
-          />
-        </ListItem>
+            <ListItem className={classes.item}>
+              <FilterGeneral
+                title="Размеры"
+                keyFilter="search_size"
+                style={{ maxHeight: "130px", width: "100%", overflowY: "auto" }}
+                filterOptions={filterOptions.size}
+                isList
+              />
+            </ListItem>
 
-        <ListItem className={classes.item}>
-          <FilterGeneral
-            title="Категории"
-            keyFilter="search_category"
-            style={{ maxHeight: "130px", overflowY: "auto" }}
-            filterOptions={categories}
-            isList
-          />
-        </ListItem>
+            <ListItem className={classes.item}>
+              <FilterGeneral
+                title="Категории"
+                keyFilter="search_category"
+                style={{ maxHeight: "130px", overflowY: "auto" }}
+                filterOptions={categories}
+                isList
+              />
+            </ListItem>
 
-        <ListItem className={classes.item}>
-          <FilterGeneral
-            title="Цвета"
-            keyFilter="search_color"
-            style={{ maxHeight: "130px", overflowY: "auto" }}
-            filterOptions={filterOptions.color}
-            isList
-            withMap={colorMap}
-          />
-        </ListItem>
+            <ListItem className={classes.item}>
+              <FilterGeneral
+                title="Цвета"
+                keyFilter="search_color"
+                style={{ maxHeight: "130px", overflowY: "auto" }}
+                filterOptions={filterOptions.color}
+                isList
+                withMap={colorMap}
+              />
+            </ListItem>
 
-        <ListItem className={classes.item}>
-          <FilterGeneral
-            title="Сезон"
-            keyFilter="season"
-            style={{ maxHeight: "130px", overflowY: "auto" }}
-            filterOptions={filterOptions.season}
-            isList
-          />
-        </ListItem>
+            <ListItem className={classes.item}>
+              <FilterGeneral
+                title="Сезон"
+                keyFilter="season"
+                style={{ maxHeight: "130px", overflowY: "auto" }}
+                filterOptions={filterOptions.season}
+                isList
+              />
+            </ListItem>
+          </div>
+        )}
       </List>
     );
   }

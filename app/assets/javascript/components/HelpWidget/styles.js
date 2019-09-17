@@ -1,9 +1,12 @@
-const styles = {
+const styles =  {
   sendMessage: {
     position: "fixed",
     right: 20,
     bottom: 120,
-    zIndex: 6
+    zIndex: 6,
+    ['@media (max-width:600px)']: {
+      right: 5,
+    }
   },
   fab: {
     background: "#4fb748",
@@ -16,16 +19,26 @@ const styles = {
     position: "fixed",
     right: 20,
     bottom: 170,
-    zIndex: 6
+    zIndex: 6,
+    ['@media (max-width:600px)']: {
+      right: 5,
+    }
   },
   askForm: {
     bottom: 0,
     width: 350,
     right: "100px",
-    position: "absolute"
+    position: "absolute",
+    ['@media (max-width:600px)']: {
+      width: 300,
+      right: 50,
+    }
   },
   paper: {
-    padding: 25
+    padding: 25,
+    ['@media (max-width:600px)']: {
+      padding: 10,
+    }
   },
   button: {
     margin: "20px 0px 0 0"

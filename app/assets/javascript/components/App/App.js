@@ -40,11 +40,12 @@ class App extends React.PureComponent {
           <Grid className={classes.appInner} item xs={12}>
             <Header
               withSmallMenu
-              resetFilter
+              mainPageHeader
+              resetFilterWithoutSex
               redirectToCategory={this.redirectToCategory}
             />
             <WidgetPanel />
-            <Home />
+            <Home mainPage />
             <Footer />
           </Grid>
         </Grid>

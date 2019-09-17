@@ -161,6 +161,10 @@ function* handleResetFilter() {
   yield put({ type: "REQUEST_AND_ADD_PRODUCTS" });
 }
 
+function* handleResetFilterWithoutSex() {
+  yield put({ type: "REQUEST_AND_ADD_PRODUCTS" });
+}
+
 function* watchTryPutCart() {
   yield takeEvery("TRY_PUT_TO_CART", checkSetSize);
 }
@@ -208,6 +212,10 @@ function* watchResetFilter() {
   yield takeEvery("RESET_FILTER", handleResetFilter);
 }
 
+function* watchResetFilterWithoutSex() {
+  yield takeEvery("RESET_FILTER_WITHOUT_SEX", handleResetFilterWithoutSex);
+}
+
 export default function* rootSaga() {
   yield all([
     watchTryPutCart(),
@@ -220,6 +228,7 @@ export default function* rootSaga() {
     watchOpenCart(),
     watchDeleteFromCart(),
     watchResetCart(),
-    watchResetFilter()
+    watchResetFilter(),
+    watchResetFilterWithoutSex()
   ]);
 }
