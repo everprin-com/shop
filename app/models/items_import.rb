@@ -52,7 +52,7 @@ class ItemsImport
     case @name_drop_ship
     when "issaplus"
       HEADER_ISSA_PLUS
-    when "timeforstyle"
+    when "tos"
       HEADER_TIME_OF_STYLE
     when "ager"
       HEADER_TIME_OF_STYLE
@@ -108,7 +108,7 @@ class ItemsImport
          picture = row["picture"]&.split(" ")&.split(",")&.flatten || []
          small_picture = row["small_picture"]&.split(",")&.flatten
          item["picture"] = (picture + small_picture).uniq
-       elsif @name_drop_ship == "timeforstyle" || @name_drop_ship == "ager"
+       elsif @name_drop_ship == "tos" || @name_drop_ship == "ager"
          item["size"] = conver_size_to_array(row["size"])
          item["drop_ship_price"] = row["drop_ship_price"]
          item["category"] = set_category(row["category"])
@@ -161,7 +161,7 @@ class ItemsImport
 
   def convert_name(name)
     return unless name
-    name&.split("_")&.join(" ")&.scan(/[^A-Za-z0-9]+/)&.join("")
+    name&.split("_")&.join(" ")&.scan(/[^0-9]+/)&.join("")
   end
 
   def set_category(category)
