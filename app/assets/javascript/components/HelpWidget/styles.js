@@ -32,6 +32,7 @@ const styles =  {
     ['@media (max-width:600px)']: {
       width: 300,
       right: 50,
+      bottom: 50,
     }
   },
   paper: {

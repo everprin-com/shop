@@ -1,9 +1,7 @@
 
 import React from "react";
 import Loadable from "react-loadable";
-import Kilo from "./KiloLoading"
-
-const KiloLoading = () => <div>Loading...</div>
+import KiloLoading from "./KiloLoading"
 
 const DApp = Loadable({
   loader: () => import("./App/App"),

@@ -84,7 +84,7 @@ const styles = theme => ({
     },
     description: {
       fontSize: 16,
-      paddingTop: 30,
+      padding: 30,
     },
     descriptionTitle: {
       fontSize: 18,

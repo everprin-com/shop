@@ -10,6 +10,7 @@ import ChooseSize from "../ChooseSize/ChooseSize";
 import Dialog from "../Dialog/Dialog";
 import Footer from "../Footer/Footer";
 import { isEqualArr } from "../Utils";
+import WidgetPanel from "../HelpWidget/WidgetPanel";
 
 const mapStateToProps = state => {
   return {
@@ -62,6 +63,7 @@ class CategoryPage extends React.PureComponent {
           redirectToCategory={this.redirectToCategory}
           redirectToRoot={this.redirectToRoot}
         />
+        <WidgetPanel />
         <SideBar isMainSideBar />
         <div className={classes.main}>
           <ProductList
