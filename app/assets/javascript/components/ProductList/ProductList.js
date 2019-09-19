@@ -51,7 +51,12 @@ class ProductList extends React.PureComponent {
       (prevProps.productsParams &&
         prevProps.productsParams.search_category !=
           this.props.productsParams.search_category) ||
-      !isEqualArr(this.props.productsParams.sex, prevProps.productsParams.sex)
+      (this.props.productsParams.sex &&
+        prevProps.productsParams.sex &&
+        !isEqualArr(
+          this.props.productsParams.sex,
+          prevProps.productsParams.sex
+        ))
     ) {
       this.props.requestAndAddProducts(this.props.productsParams);
     }

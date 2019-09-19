@@ -16,6 +16,7 @@ import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
 import SliderS from "../Slider/SliderS";
 import TableSize from "../TableSize/TableSize";
 import styles from "./styles";
+import WidgetPanel from "../HelpWidget/WidgetPanel";
 
 const mapStateToProps = state => {
   return {
@@ -149,6 +150,7 @@ class ProductCart extends React.PureComponent {
           redirectToRoot={this.redirectToRoot}
           redirectToCategory={this.redirectToCategory}
         />
+        <WidgetPanel />
         <div className={classes.mainContent}>
           <div className={classes.mainContentInner}>
             <div
