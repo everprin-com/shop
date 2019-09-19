@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import styles from "./styles";
+import { isEqualArr } from "../Utils";
 
 const mapStateToProps = state => {
   return {
@@ -34,18 +35,23 @@ class ProductList extends React.PureComponent {
       firstEnter
       // fistEnterOff
     } = this.props;
-    if (productsParams && firstEnter) {
+    if (productsParams) {
       requestAndAddProducts(productsParams);
       // fistEnterOff();
     }
-    window.onscroll = () => this.scrollChange();
+    window.addEventListener("scroll", this.scrollChange);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.scrollChange);
   }
 
   componentDidUpdate(prevProps) {
     if (
-      prevProps.productsParams &&
-      prevProps.productsParams.search_category !=
-        this.props.productsParams.search_category
+      (prevProps.productsParams &&
+        prevProps.productsParams.search_category !=
+          this.props.productsParams.search_category) ||
+      !isEqualArr(this.props.productsParams.sex, prevProps.productsParams.sex)
     ) {
       this.props.requestAndAddProducts(this.props.productsParams);
     }
@@ -61,14 +67,14 @@ class ProductList extends React.PureComponent {
     return heightProductList + heightHeader;
   };
 
-  scrollChange() {
+  scrollChange = () => {
     let scrolled = window.pageYOffset || document.documentElement.scrollTop;
     const positioBbuttomDisplay = scrolled + window.innerHeight;
     const isAchiveBottom = this.getElemntsHeight() - positioBbuttomDisplay < 50;
     if (isAchiveBottom && !this.props.loading) {
       this.props.handlePagination();
     }
-  }
+  };
 
   renderProductList(windowWidthLess1000) {
     const { products, card } = this.props;

@@ -9,6 +9,7 @@ import Header from "../Header/Header";
 import ChooseSize from "../ChooseSize/ChooseSize";
 import Dialog from "../Dialog/Dialog";
 import Footer from "../Footer/Footer";
+import { isEqualArr } from "../Utils";
 
 const mapStateToProps = state => {
   return {
@@ -30,6 +31,7 @@ class CategoryPage extends React.PureComponent {
   componentDidUpdate(prevProps) {
     this.props.orderform && this.redirectToOrderForm();
     this.props.scrolling && this.scrolling();
+    !isEqualArr(prevProps.sex, this.props.sex) && this.forceUpdate();
   }
 
   componentDidMount() {
@@ -69,7 +71,6 @@ class CategoryPage extends React.PureComponent {
               search_category: category
             }}
           />
-         
         </div>
         <Footer />
         <Dialog title="Выберите размер" Component={ChooseSize} type="size" />

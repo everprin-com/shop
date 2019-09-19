@@ -62,7 +62,7 @@ function myCarousel({
   ...props
 }) {
   if (!products) return null;
-  if (mainPage && !firstEnter) return null;
+  // if (mainPage && !firstEnter) return null;
   const settings = {
     lazyLoad: true,
     nextArrow: <ArrNext />,
