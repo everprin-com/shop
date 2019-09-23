@@ -16,7 +16,7 @@ class ItemsImport
   ]
 
   HEADER_TIME_OF_STYLE = %w[
-    skip	skip1	code	skip2 name article category brand	skip3	size
+    skip	skip1	code	skip2	name article category brand	skip3	size
     color	country	sex	season	composition	size_world
     skip4	drop_ship_price	skip5	skip6	skip7	picture
     small_picture	small_picture1	small_picture2	small_picture3
@@ -119,6 +119,8 @@ class ItemsImport
              ["wooman"]
            elsif MAN_CATEGORIES.include?(row["sex"])
              ["man"]
+           elsif UNISEX_CATEGORIES.include?(row["sex"])
+             ["man", "wooman"]
            end
          item["composition"] = row["composition"]
          if row["size_world"].present?
