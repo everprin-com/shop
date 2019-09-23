@@ -12,6 +12,7 @@ module Admin
 
     def convert_xls
       %x[bundle exec rake parser_excel:parser_excel]
+      redirect_to "/admin/admins"
     end
 
     def upload_xls

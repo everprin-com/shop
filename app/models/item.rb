@@ -129,15 +129,19 @@ class Item < ActiveRecord::Base
 
   def self.update_size_same_items
     names = Item.select('items.name').group('items.name').having('count(items.name) > 1').map(&:name)
-    names.map do |name|
-      colors = Item.where(name: name).select(:color).map(&:color).uniq.flatten
-      colors.each do |color|
-        sizes = Item.where(name: name, color: color).map(&:size).flatten.uniq
-        first_item = Item.where(name: name, color: color).first
-        first_item.update(size: sizes)
-        Item.where.not(id: first_item.id).where(name: name, color: color).map(&:delete)
-      end
-    end
+    # names.map do |name|
+    #    sizes = Item.where(name: name).map(&:size).flatten.uniq
+    #    first_item = Item.where(name: name).first
+    #    first_item.update(size: sizes)
+    #    Item.where.not(id: first_item.id).where(name: name).map(&:delete)
+      # colors = Item.where(name: name).select(:color).map(&:color).uniq.flatten
+      # colors.each do |color|
+      #   sizes = Item.where(name: name, color: color).map(&:size).flatten.uniq
+      #   first_item = Item.where(name: name, color: color).first
+      #   first_item.update(size: sizes)
+      #   Item.where.not(id: first_item.id).where(name: name, color: color).map(&:delete)
+      #end
+    #end
   end
 
   def self.delete_bad_products
