@@ -10,19 +10,18 @@ module Admin
       @orders = Order.order("created_at").includes(:statistic).all
     end
 
+    def convert_xls
+      %x[bundle exec rake parser_excel:parser_excel]
+    end
+
     def upload_xls
-      #byebug
       FileUtils.rm_rf('public/excel/parser')
       FileUtils.mkdir_p('public/excel/parser')
-      Admin::Admin::XLS_LINK.map do |link|
-      download = open(link)
-      IO.copy_stream(download, "public/excel/parser/#{link.split('/')[-1]}")
-
-        # File.open('public/excel/parser', "wb") do |file|
-        #
-        #   file.write open(link).read
-        # end
+      Admins::Admin::XLS_LINK.map do |link|
+        download = open(link)
+        IO.copy_stream(download, "public/excel/parser/#{link.split('/')[-1]}")
       end
+      redirect_to "/admin/admins"
     end
 
     def delete_drop_ship

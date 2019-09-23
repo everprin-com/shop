@@ -7,6 +7,7 @@ class ItemsImport
   MAN_CATEGORIES = [
     "Мужская одежда", "Мужские акс ессуары", "Мужская обувь", "Для мужчин", "мужской",
   ]
+  UNISEX_CATEGORIES = [ "унисекс"]
   CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
   CANT_BE_NULL = ["article", "name", "category", "price", "picture", "drop_ship", "drop_ship_price", "sex"]
   HEADER_ISSA_PLUS = %w[
@@ -15,7 +16,7 @@ class ItemsImport
   ]
 
   HEADER_TIME_OF_STYLE = %w[
-    skip	skip1	code	name article	skip2	category brand	skip3	size
+    skip	skip1	code	skip2 name article category brand	skip3	size
     color	country	sex	season	composition	size_world
     skip4	drop_ship_price	skip5	skip6	skip7	picture
     small_picture	small_picture1	small_picture2	small_picture3
@@ -145,6 +146,8 @@ class ItemsImport
              ["wooman"]
            elsif MAN_CATEGORIES.include?(row["sex"])
              ["man"]
+           elsif UNISEX_CATEGORIES.include?(row["sex"])
+             ["man", "wooman"]
            end
        end
        item["country"] = row["country"]

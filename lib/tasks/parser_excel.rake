@@ -1,9 +1,7 @@
 require 'roo'
 require 'spreadsheet'
 
-
 namespace :parser_excel do
-
   task parser_excel: :environment do
     begin
       files = Dir.entries("public/excel/parser")
@@ -28,9 +26,7 @@ namespace :parser_excel do
         end
       end
     rescue Zip::Error
-
       Roo::Spreadsheet.open(filepath)
     end
   end
-
 end
