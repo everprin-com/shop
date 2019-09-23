@@ -65,6 +65,18 @@ postgres=# \du # to list all users
 postgres=# ALTER ROLE user CREATEROLE SUPERUSER;
 ALTER ROLE # this was the result
 
+PARSER
+%x[bundle exec rake parser_excel:parser_excel]
+bundle exec rake parser_excel:parser_excel
+
+autoparser
+      "http://timeofstyle.com/download/tos_actual_price_and_stock.xls",
+      "https://ager.ua/download/ager_actual_price_and_stock.xls",
+      "https://garne.com.ua/files/garne_prices_clothes.xlsx",
+
+hand-convert to csv        
+      "https://issaplus.com/load/csv3.php"
+
 CONVERT EXCEL
 1) ложим в папку файлы public/excel/origin "xls"
 2)  bundle exec rake convert_excel:convert_excel

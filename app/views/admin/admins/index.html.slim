@@ -5,6 +5,10 @@ body
       = text_area_tag(:drop_ship_name)
       = submit_tag 'DELETE'
     end
+    div
+      = link_to "lounch convert to db xls", convert_xls_admin_admins_path
+    div
+      = link_to "upload xls via link", upload_xls_admin_admins_path
   div
     | USERS
   table

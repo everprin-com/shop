@@ -8,6 +8,7 @@ class ItemsImportsController < ApplicationController
 
   def create
     return unless params[:drop_ship_name].present?
+    #@items_import.file.original_filename
     @items_import = ItemsImport.new(params[:items_import], params[:drop_ship_name])
     if @items_import.save
       Item.update_size_same_items

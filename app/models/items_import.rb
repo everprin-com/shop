@@ -1,8 +1,13 @@
 class ItemsImport
   include ActiveModel::Model
   require 'roo'
-  WOOMAN_CATEGORIES = ["Женская одежда", "Женские аксессуары", "Женская обувь", "Для женщин"]
-  MAN_CATEGORIES = ["Мужская одежда", "Мужские аксессуары", "Мужская обувь", "Для мужчин"]
+  WOOMAN_CATEGORIES = [
+    "Женская одежда", "Женские аксессуары", "Женская обувь", "Для женщин", "женский",
+  ]
+  MAN_CATEGORIES = [
+    "Мужская одежда", "Мужские акс ессуары", "Мужская обувь", "Для мужчин", "мужской",
+  ]
+  UNISEX_CATEGORIES = [ "унисекс"]
   CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
   CANT_BE_NULL = ["article", "name", "category", "price", "picture", "drop_ship", "drop_ship_price", "sex"]
   HEADER_ISSA_PLUS = %w[
@@ -11,12 +16,18 @@ class ItemsImport
   ]
 
   HEADER_TIME_OF_STYLE = %w[
-    skip	skip1	code	name article	skip2	category brand	skip3	size
+    skip	skip1	code	skip2 name article category brand	skip3	size
     color	country	sex	season	composition	size_world
     skip4	drop_ship_price	skip5	skip6	skip7	picture
     small_picture	small_picture1	small_picture2	small_picture3
     small_picture4	small_picture5
   ]
+
+  HEADER_GARNE = %w[
+    skip code	name color drop_ship_price skip1 size skip2 category
+    brand article	composition description picture sex
+  ]
+
 
   attr_accessor :file
 
@@ -42,8 +53,12 @@ class ItemsImport
     case @name_drop_ship
     when "issaplus"
       HEADER_ISSA_PLUS
-    when "timeforstyle"
+    when "tos"
       HEADER_TIME_OF_STYLE
+    when "ager"
+      HEADER_TIME_OF_STYLE
+    when "garne"
+      HEADER_GARNE
     else
       return
     end
@@ -94,7 +109,7 @@ class ItemsImport
          picture = row["picture"]&.split(" ")&.split(",")&.flatten || []
          small_picture = row["small_picture"]&.split(",")&.flatten
          item["picture"] = (picture + small_picture).uniq
-       else
+       elsif @name_drop_ship == "tos" || @name_drop_ship == "ager"
          item["size"] = conver_size_to_array(row["size"])
          item["drop_ship_price"] = row["drop_ship_price"]
          item["category"] = set_category(row["category"])
@@ -117,6 +132,23 @@ class ItemsImport
            picture.push(small_picture).compact.uniq
         end
         item["picture"] = picture.compact.uniq
+       elsif @name_drop_ship == "garne"
+         item["picture"] = row["picture"].split(",")
+         item["size"] = row["size"]
+         item["drop_ship_price"] = row["drop_ship_price"]
+         item["size_world"]= row["description"]
+         item["color"] = row["color"]
+         item["category"] = row["category"]&.split(",")[0]
+         item["composition"] = row["composition"]
+         item["size"] = row["size"]
+         item["sex"] =
+           if WOOMAN_CATEGORIES.include?(row["sex"])
+             ["wooman"]
+           elsif MAN_CATEGORIES.include?(row["sex"])
+             ["man"]
+           elsif UNISEX_CATEGORIES.include?(row["sex"])
+             ["man", "wooman"]
+           end
        end
        item["country"] = row["country"]
        item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
@@ -125,13 +157,14 @@ class ItemsImport
        item["season"] = row["season"]
        item["drop_ship"] = @name_drop_ship
        item["article"] = row["article"]
+       #byebug
        item
     end
   end
 
   def convert_name(name)
     return unless name
-    name&.split("_")&.join(" ")&.scan(/[^A-Za-z0-9]+/)&.join("")
+    name&.split("_")&.join(" ")&.scan(/[^0-9]+/)&.join("")
   end
 
   def set_category(category)
