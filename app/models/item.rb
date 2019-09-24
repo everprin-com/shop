@@ -160,7 +160,8 @@ class Item < ActiveRecord::Base
 
   def self.current_main_colors(items)
     all_colors = items.map { |item| item.color}.uniq
-    uniq_colors = all_colors.map { |color| color.split("/") }.flatten.map(&:capitalize).uniq
+    #byebug
+    uniq_colors = all_colors.map { |color| color&.split("/") }.flatten&.map(&:capitalize).uniq
     current_main_colors = []
     uniq_colors.each do |color|
       include_color = Item::COLOR_SHADES.select{|key, hash| hash.include?(color) }

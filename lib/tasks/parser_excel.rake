@@ -25,9 +25,10 @@ namespace :parser_excel do
           mod_cat = { "#{category.text.gsub("\n", '')}": {id: category.attributes["id"], parentId: category.attributes["parentId"]}}
           categories.merge!(mod_cat)
         end
-        byebug
-        doc.elements.each("yml_catalog/shop/offers/offer") do |offer|
+
+        doc.elements.each_with_index("yml_catalog/shop/offers/offer") do |offer, index|
           item = Item.new
+          p index
           offer.map do |el|
              next if el == "\n"
              if el.name == "param"
@@ -36,13 +37,16 @@ namespace :parser_excel do
                elsif el.attributes["name"] == "Сезон"
                  item["season"] = el.text
                elsif el.attributes["name"] == "Цвет"
-                 item["color"] = el.text
+                 el.text&.split(", ")&.flatten do |color|
+                   item["color"].push(color)
+                 end
                elsif el.attributes["name"] == "Вид"
                  item["category"] = el.text
                elsif el.attributes["name"] == "Производитель"
                  item["brand"] = el.text
                elsif el.attributes["name"] == "Материал верха" || el.attributes["name"] == "Материал подкладки"  || el.attributes["name"] == "Полнота" || el.attributes["name"] == "Высота каблука" || el.attributes["name"] == "Вид подошвы"
-                 item["composition"] += " " + el.attributes["name"] + " " + el.text
+                 #item["composition"] += " " + el&.attributes["name"] + " " + el&.text
+                 item["composition"] = " " + el&.attributes["name"] + " " + el&.text
                end
              elsif el.name == "name"
                item["name"] = el.text
@@ -58,9 +62,20 @@ namespace :parser_excel do
                item["drop_ship_price"] = el.text
                item["price"] = CalcClientPrice.calc_client_price(el.text)
              end
+             item["sex"] = ["wooman"]
+             item["drop_ship"] = "Villomi"
           end
+          item.save
         end
+        #if item.save
 
+          Item.update_size_same_items
+          Item.delete_bad_products
+          Item.create_header
+          FilterOption.delete_all
+          #FilterOption.create!(Item.generate_filters(Item.all))
+
+        #end
         # drop_ship_name = file_name.split("_")[0]
         # artwork = ActionDispatch::Http::UploadedFile.new(
         #   filename: file_name,
