@@ -20,7 +20,8 @@ import {
   DOrderForm,
   DRegistrationForm,
   DConvertXml,
-  DCategoryPage
+  DCategoryPage,
+  DTest,
 } from "../javascript/components/mainPages"
 import '../components'
 
@@ -58,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <ScrollToTopRoute path="/categoryPage/:category" component={DCategoryPage} />
           <Route path="/registration/" component={DRegistrationForm} />
           <Route path="/convertXml/" component={DConvertXml} />
+          <Route path="/test/" component={DTest} />
         </Switch>
       </Router>
     </Provider>,

@@ -8,6 +8,11 @@ const DApp = Loadable({
   loading: KiloLoading
 });
 
+const DTest = Loadable({
+  loader: () => import("./Test/Test"),
+  loading: KiloLoading
+});
+
 const DProductCart = Loadable({
   loader: () => import("./ProductCart/ProductCart"),
   loading: KiloLoading
@@ -40,4 +45,5 @@ export {
     DRegistrationForm,
     DConvertXml,
     DCategoryPage,
+    DTest,
 }

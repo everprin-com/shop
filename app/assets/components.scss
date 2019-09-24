@@ -6,11 +6,9 @@ $slick-loader-path: "~slick-carousel/slick/";
 @import '~slick-carousel/slick/slick', '~slick-carousel/slick/slick-theme';
 
 
-// ボールのサイズ
 $width: 15px;
 $height: 15px;
 
-// バウンドの距離
 $bounce_height: 30px;
 
 .wrap {
@@ -117,7 +115,6 @@ $bounce_height: 30px;
     margin: 0;
   }
 }
-//*****************************************************************
 
 //example**************************
 

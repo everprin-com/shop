@@ -3,14 +3,12 @@ import ProductList from "../ProductList/ProductList";
 import SideBar from "../SideBar/SideBar";
 import { withStyles } from "@material-ui/core/styles";
 import Slider from "../Slider/Slider";
-import SideBarPanel from "../SideBar/SideBarPanel";
 import imgCategoryMap from "../constants/categoriesMap";
 import { connect } from "react-redux";
 import fetchGetWithParams from "../api/fetchGetWithParams";
 import { convertPrice, textWithDots, isEqualArr } from "../Utils";
 import { Link } from "react-router-dom";
 import styles from "./styles";
-import KiloLoading from "../KiloLoading"
 
 const mapStateToProps = state => {
   const isFemale =
@@ -135,7 +133,6 @@ class Home extends React.PureComponent {
     });
     return (
       <div className={classes.root}>
-        {/* <KiloLoading /> */}
         <SideBar isMainSideBar showSideBarPanel />
         <div className={classes.main}>
           <Slider
