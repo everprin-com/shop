@@ -48,16 +48,16 @@ const transformMap = {
 };
 
 const regTest = {
-  name: /^[а-яё -]*$/i,
-  brand: /^[а-яёa-z0-9'& -]*$/i,
+  name: /^[а-яёa-z -]*$/i,
+  brand: /^[а-яёa-z0-9',& -]*$/i,
   category: /^[а-яё ,-]*$/i,
   id: /^[0-9]*$/,
   price: /^[0-9]*$/,
   season: /^[а-яё -]*$/i,
-  color: /^[а-яё ,)/(.-]*$/i,
+  color: /^[а-яёa-z ,)/(.-]*$/i,
   sex: /man|wooman/,
   size: /^[a-z0-9]*$/i,
-  composition: /^[а-яё0-9 %,;/:-]*$/i
+  composition: /^[а-яё0-9 %,;/)(.:-]*$/i
 };
 
 function Test() {
