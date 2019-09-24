@@ -69,6 +69,7 @@ class ConvertXml extends React.Component {
             <option value="tos">timeOfStyle</option>
             <option value="ager">ager</option>
             <option value="garne">garne</option>
+            <option value="favoritti">favoritti</option>
          </select>
           <Button
             variant="contained"

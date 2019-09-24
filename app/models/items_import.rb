@@ -28,6 +28,9 @@ class ItemsImport
     brand article	composition description picture sex
   ]
 
+  HEADER_FAVORITTI = %w[
+    code	drop_ship_price	name	category	skip	article	picture	description	color	country	skip1	size
+  ]
 
   attr_accessor :file
 
@@ -59,6 +62,8 @@ class ItemsImport
       HEADER_TIME_OF_STYLE
     when "garne"
       HEADER_GARNE
+    when "favoritti"
+      HEADER_FAVORITTI
     else
       return
     end
@@ -134,7 +139,16 @@ class ItemsImport
            picture.push(small_picture).compact.uniq
         end
         item["picture"] = picture.compact.uniq
-       elsif @name_drop_ship == "garne"
+      elsif @name_drop_ship == "favoritti"
+        row["brand"] = "favoritti"
+        item["picture"] = row["picture"]&.split(",")
+        item["size"] = row["size"].to_s&.split(",")
+        item["sex"] = ["wooman"]
+        item["size_world"]= row["description"]
+        item["drop_ship_price"] = row["drop_ship_price"]
+        item["color"] = row["color"]
+        item["category"] = row["category"]&.split(" ")[0]
+      elsif @name_drop_ship == "garne"
          item["picture"] = row["picture"].split(",")
          item["size"] = row["size"]
          item["drop_ship_price"] = row["drop_ship_price"]
@@ -154,8 +168,10 @@ class ItemsImport
        end
        item["country"] = row["country"]
        item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
-       item["name"] = convert_name(row["name"])
+       #item["name"] = convert_name(row["name"])
+       item["name"] = row["name"]
        item["brand"] = row["brand"]
+       #item["code"] = row["code"]
        item["season"] = row["season"]
        item["drop_ship"] = @name_drop_ship
        item["article"] = row["article"]
