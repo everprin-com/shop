@@ -22,11 +22,13 @@ Rails.application.routes.draw do
     resources :admins, only: [:index] do
       collection do
         post 'delete_drop_ship' => 'admins#delete_drop_ship'
+        get 'upload_xls' => 'admins#upload_xls'
+        get 'convert_xls' => 'admins#convert_xls'
       end
     end
     get 'configurable/edit', as: 'admin_configurable_edit'
-    resources  :clients
-    resources  :tasks
+    #resources  :clients
+    #resources  :tasks
   end
 
   resources :items
@@ -65,6 +67,7 @@ Rails.application.routes.draw do
   get 'info_show_from_navbar/:user_id' => 'infos#show_from_navbar', :as => 'user_show_navbar'
   get '/ban_the_user/:id' => 'admin/admins#ban_the_user', :as => 'ban'
   get '/make_admin/:id' => 'admin/admins#make_admin', :as => 'make_admin'
+
   delete 'user_delete/:id' => 'admin/admins#delete_user', as: 'delete_user'
 
   root 'store#index'
