@@ -48,7 +48,7 @@ const transformMap = {
 };
 
 const regTest = {
-  name: /^[а-яёa-z -]*$/i,
+  name: /^[а-яёa-z )(-]*$/i,
   brand: /^[а-яёa-z0-9',& -]*$/i,
   category: /^[а-яё ,-]*$/i,
   id: /^[0-9]*$/,
@@ -56,8 +56,8 @@ const regTest = {
   season: /^[а-яё -]*$/i,
   color: /^[а-яёa-z ,)/(.-]*$/i,
   sex: /man|wooman/,
-  size: /^[a-z0-9]*$/i,
-  composition: /^[а-яё0-9 %,;/)(.:-]*$/i
+  size: /^[a-z0-9.]*$/i,
+  composition: /^[а-яёa-z0-9 %,;/)(.:-]*$/i
 };
 
 function Test() {
