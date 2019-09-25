@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       collection do
         post 'delete_drop_ship' => 'admins#delete_drop_ship'
         get 'upload_xls' => 'admins#upload_xls'
+        get 'upload_xml' => 'admins#upload_xml'
         get 'convert_xls' => 'admins#convert_xls'
       end
     end

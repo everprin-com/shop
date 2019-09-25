@@ -35,6 +35,16 @@ module Admin
       redirect_to "/admin/admins"
     end
 
+    def upload_xml
+      FileUtils.rm_rf('public/excel/parser_xml')
+      FileUtils.mkdir_p('public/excel/parser_xml')
+      Admins::Admin::XML_LINK.map do |link|
+        download = open(link)
+        IO.copy_stream(download, "public/excel/parser_xml/#{link}")
+      end
+      redirect_to "/admin/admins"
+    end
+
     def upload_xls
       FileUtils.rm_rf('public/excel/parser')
       FileUtils.mkdir_p('public/excel/parser')

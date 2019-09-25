@@ -14,7 +14,6 @@ namespace :parser_xml do
         mod_cat = { "#{category.text.gsub("\n", '')}": {id: category.attributes["id"], parentId: category.attributes["parentId"]}}
         categories.merge!(mod_cat)
       end
-
       doc.elements.each_with_index("yml_catalog/shop/offers/offer") do |offer, index|
         item = Item.new
         p index

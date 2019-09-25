@@ -5,11 +5,10 @@ class ItemsImport
     "Женская одежда", "Женские аксессуары", "Женская обувь", "Для женщин", "женский",
   ]
   MAN_CATEGORIES = [
-    "Мужская одежда", "Мужские акс ессуары", "Мужская обувь", "Для мужчин", "мужской",
+    "Мужская одежда", "Мужские аксессуары", "Мужская обувь", "Для мужчин", "мужской",
   ]
   UNISEX_CATEGORIES = [ "унисекс"]
-  CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
-  CANT_BE_NULL = ["article", "name", "category", "price", "picture", "drop_ship", "drop_ship_price", "sex"]
+
   HEADER_ISSA_PLUS = %w[
     drop_ship_price currency name article color size description brand
     composition season skip skip1 picture small_picture
@@ -117,6 +116,7 @@ class ItemsImport
        elsif @name_drop_ship == "tos" || @name_drop_ship == "ager"
          item["size"] = conver_size_to_array(row["size"])
          item["drop_ship_price"] = row["drop_ship_price"]
+         row["category"] = "Очки" if row["category"] == "Аксессуары" && row["name"].split(" ")[0] == "Очки"
          item["category"] = set_category(row["category"])
          item["color"] = row["color"]
          item["sex"] =
@@ -154,7 +154,8 @@ class ItemsImport
          item["drop_ship_price"] = row["drop_ship_price"]
          item["size_world"]= row["description"]
          item["color"] = row["color"]
-         item["category"] = row["category"]&.split(",")[0]
+         category = row["category"]&.split(",")
+         item["category"] = category ? category[0] : category
          item["composition"] = row["composition"]
          item["size"] = row["size"]
          item["sex"] =
@@ -175,7 +176,6 @@ class ItemsImport
        item["season"] = row["season"]
        item["drop_ship"] = @name_drop_ship
        item["article"] = row["article"]
-       #byebug
        item
     end
   end
@@ -228,30 +228,11 @@ class ItemsImport
     @imported_items ||= load_imported_items
   end
 
-  def delete_null(imported_items)
-    CANT_BE_NULL.each do |field|
-      imported_items.reject! do |item|
-        item[field.to_sym] == nil || item[:picture].length == 0
-      end
-    end
-  end
-
-  def delete_old_drop_ship(imported_items)
-    old_drop_ships = imported_items.map(&:drop_ship).uniq
-    Item.where(drop_ship: old_drop_ships).delete_all
-  end
-
-  def capitalize_fields(imported_items)
-   CAPITALIZE_FIELDS.each do |field|
-      imported_items.each { |item| item.public_send("#{field}=", item.public_send("#{field}")&.capitalize) }
-    end
-  end
-
   def save
     if imported_items.map(&:valid?).all?
-      delete_null(imported_items)
-      capitalize_fields(imported_items)
-      delete_old_drop_ship(imported_items)
+      NormalizerParse.delete_null(imported_items)
+      NormalizerParse.capitalize_fields(imported_items)
+      NormalizerParse.delete_old_drop_ship(imported_items)
       imported_items.each(&:save!)
       true
     else
