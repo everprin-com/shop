@@ -40,55 +40,129 @@ const checkPicture = pictureArr => {
   );
 };
 
+const checkString = name => {
+  return typeof name === "string" && name.length > 1 ? true : false;
+};
+
+const checkStringWithoutNull = name => {
+  if (!name) return true;
+  return typeof name === "string" && name.length > 1 ? true : false;
+};
+
 const transformMap = {
   price: transformPrice,
   sex: checkSex,
   size: checkSize,
-  picture: checkPicture
+  picture: checkPicture,
+  name: checkString,
+  composition: checkStringWithoutNull,
+  brand: checkStringWithoutNull
 };
 
 const regTest = {
-  name: /^[а-яёa-z )(-]*$/i,
-  brand: /^[а-яёa-z0-9',& -]*$/i,
+  // brand: /^[а-яёa-z0-9',& -]*$/i,
   category: /^[а-яё ,-]*$/i,
   id: /^[0-9]*$/,
   price: /^[0-9]*$/,
-  season: /^[а-яё -]*$/i,
+  season: /^[а-яё ,/-]*$/i,
   color: /^[а-яёa-z ,)/(.-]*$/i,
   sex: /man|wooman/,
-  size: /^[a-z0-9.]*$/i,
-  composition: /^[а-яёa-z0-9 %,;/)(.:-]*$/i
+  size: /^[a-z0-9./]*$/i
+  // composition: /^[а-яёa-z0-9 %,;/)(.:-]*$/i
 };
 
 function Test() {
-  fetchGetWithParams(
-    "items/",
-    { shuffled_products: true, per_page: 5000 },
-    true
-  ).then(products => {
-    const errors = {};
-    products.items.forEach(product => {
-      const putToError = () => {
-        errors[key] = errors[key] ? [...errors[key], product.id] : [product.id];
-      };
+  console.clear();
+  console.log("*******************TEST*************************")
 
-      for (var key in product) {
-        if (key in transformMap && !transformMap[key](product[key])) {
-          putToError();
-          continue;
+  const checkAmountItemsInCategory = sex => {
+    let errs = [];
+    window.store.getState().metaData.headers &&
+      window.store.getState().metaData.headers[sex].forEach(item => {
+        if (item.count_items < 30) {
+          errs = errs.length > 0 ? [...errs, item.catalogue] : [item.catalogue];
         }
-
-        if (regTest[key] && product[key] && !regTest[key].test(product[key])) {
-          if (key in transformMap) continue;
-          putToError();
-        }
-      }
-    });
-    if (Object.keys(errors).length > 0) {
-      throw errors;
+      });
+    if (errs.length > 0) {
+      console.log(`%cin ${sex} such catalogue have < 30 items`, "color: red;");
+      console.group(errs);
+      console.groupEnd();
     }
-  });
+  }
 
+  const checkMetaDataGroup = sex => {
+    let errs = [];
+    window.store.getState().metaData.headers &&
+      window.store.getState().metaData.headers[sex].forEach(item => {
+        if (!item.group) {
+          errs = errs.length > 0 ? [...errs, item.catalogue] : [item.catalogue];
+        }
+      });
+    if (errs.length > 0) {
+      console.log(`%cin ${sex} such catalogue have not group`, "color: red;");
+      console.group(errs);
+      console.groupEnd();
+    } else {
+      console.log(`in ${sex} every catalogue have group!`);
+    }
+  };
+
+  checkMetaDataGroup("female");
+  checkMetaDataGroup("male");
+  checkAmountItemsInCategory("female")
+  checkAmountItemsInCategory("male")
+
+  window.store.getState().metaData.drop_ship_name &&
+    window.store.getState().metaData.drop_ship_name.forEach(drop_ship => {
+      fetchGetWithParams(
+        "items/",
+        { shuffled_products: true, per_page: 1000, drop_ship },
+        true
+      ).then(products => {
+        const errors = {};
+        products.items.forEach(product => {
+          const putToError = () => {
+            errors[key] = errors[key]
+              ? [
+                  ...errors[key],
+                  {
+                    id: product.id,
+                    value: product[key],
+                    drop_ship: product.drop_ship
+                  }
+                ]
+              : {
+                  id: product.id,
+                  value: product[key],
+                  drop_ship: product.drop_ship
+                };
+          };
+
+          for (var key in product) {
+            if (key in transformMap && !transformMap[key](product[key])) {
+              putToError();
+              continue;
+            }
+
+            if (
+              regTest[key] &&
+              product[key] &&
+              !regTest[key].test(product[key])
+            ) {
+              if (key in transformMap) continue;
+              putToError();
+            }
+          }
+        });
+        if (Object.keys(errors).length > 0) {
+          console.log(`%cERRORS ${drop_ship}:`, "color: red;");
+          console.group(errors);
+          console.groupEnd();
+        } else {
+          console.log(`GOOD JOB ${drop_ship}!`);
+        }
+      });
+    });
   return null;
 }
 

@@ -5,6 +5,7 @@ export default function (state = {}, action) {
       return  {
         ...state,
         ...meta_data,
+        drop_ship_name: meta_data.headers.drop_ship_name,
         headers: {
         female: JSON.parse(meta_data.headers.female),
         male: JSON.parse(meta_data.headers.male)
