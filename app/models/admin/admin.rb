@@ -8,5 +8,8 @@ module Admin
         "https://arjen.com.ua/prices/xml.php",
         "https://www.vm-villomi.ua/promua.xml",
       ]
+      XML_LINK = [
+        "https://www.vm-villomi.ua/promua.xml",
+      ]
   end
 end

@@ -65,8 +65,10 @@ postgres=# \du # to list all users
 postgres=# ALTER ROLE user CREATEROLE SUPERUSER;
 ALTER ROLE # this was the result
 
-PARSER
+PARSER XLS
 bundle exec rake parser_excel:parser_excel
+PARSER XLS
+bundle exec rake parser_xml:parser_xml
 
 CONVERT EXCEL
 1) ложим в папку файлы public/excel/origin "xls"
