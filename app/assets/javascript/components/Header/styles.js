@@ -41,6 +41,11 @@ const styles = theme => ({
       borderRadius: "4px",
       width: "100%",
       background: "#fff",
+      [theme.breakpoints.down("xs")]: {
+        maxHeight: 250,
+        overflow: "auto",
+      },
+     
     },
     chooseCategoryMenu: {
       position: "relative",

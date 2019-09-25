@@ -20,8 +20,8 @@ const styles = theme => ({
         fontSize: "12px"
       },
       [theme.breakpoints.down("xs")]: {
-        margin: "0px",
-        fontSize: "10px"
+        margin: "5px",
+        fontSize: "15px"
       },
       "&:hover": {
         color: "#3f51b5"
@@ -29,15 +29,14 @@ const styles = theme => ({
     },
     categoryList: {
       listStyle: "none",
-      [theme.breakpoints.down("sm")]: {
-        paddingLeft: 15
-      }
+      paddingLeft: 7
     },
     categoryBlock: {
       display: "flex",
       // background: "no-repeat right/29% url('https://alifaq.info/wp-content/uploads/2017/10/odezhda.jpg')",
       [theme.breakpoints.down("xs")]: {
-        padding: "0 10px"
+        padding: "0 10px",
+        justifyContent: "center",
       },
     },
     categoryTypeList: {

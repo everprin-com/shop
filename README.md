@@ -36,6 +36,13 @@ https://convertio.co/ru/csv-xls/
 parse issaplus insert url
 https://issaplus.com/load/csv3.php
 
+XLS_LINK = [
+  "http://timeofstyle.com/download/tos_actual_price_and_stock.xls",
+  "https://ager.ua/download/ager_actual_price_and_stock.xls",
+  "https://garne.com.ua/files/garne_prices_clothes.xlsx",
+  "https://favoritti.com/upload/favoritti_com_export_csv_opt.xlsx",
+]
+
 Parser
 валидация по полям name, price, picture
 Расположение по порядку
@@ -67,8 +74,16 @@ ALTER ROLE # this was the result
 
 PARSER XLS
 bundle exec rake parser_excel:parser_excel
-PARSER XLS
+PARSER XML
 bundle exec rake parser_xml:parser_xml
+
+autoparser
+      "http://timeofstyle.com/download/tos_actual_price_and_stock.xls",
+      "https://ager.ua/download/ager_actual_price_and_stock.xls",
+      "https://garne.com.ua/files/garne_prices_clothes.xlsx",
+
+hand-convert to csv        
+      "https://issaplus.com/load/csv3.php"
 
 CONVERT EXCEL
 1) ложим в папку файлы public/excel/origin "xls"

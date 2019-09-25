@@ -27,6 +27,23 @@ const styles = theme => ({
   },
   item: {
     padding: 0
+  },
+  link: {
+    textDecoration: "none",
+    color: "333",
+    cursor: "pointer"
+  },
+  sideBarPanelItem: {
+    padding: 5,
+    "&:hover": {
+      background: "#ddd"
+    }
+  },
+  sideBarPanel: {
+    position: "absolute",
+    maxHeight: "100vh",
+    marginTop: 70,
+    overflow: "auto",
   }
 });
 

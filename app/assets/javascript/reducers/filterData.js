@@ -4,6 +4,8 @@ export default function(state = { filter: { sex: ["wooman"] } }, action) {
       return { ...state, filter: { ...state.filter, ...action.filter } };
     case "RESET_FILTER":
       return { ...state, filter: {} };
+    case "RESET_FILTER_WITHOUT_SEX":
+      return { ...state, filter: { sex: state.filter.sex } };
     case "ADD_FILTER_OPTIONS":
       return { ...state, filterOptions: { ...action.filterOptions } };
     case "RESET_FILTER_OPTIONS":

@@ -51,7 +51,14 @@ class DropDown extends React.PureComponent {
               >
                 <div className={classes.item}>
                   <div className={classes.imgWrap}>
-                    <img className={classes.img} src={product.picture} />
+                    <img
+                      className={classes.img}
+                      src={
+                        Array.isArray(product.picture)
+                          ? product.picture[0]
+                          : product.picture
+                      }
+                    />
                   </div>
                   <div className={classes.textContent}>
                     <div className={classes.title}>{product.name}</div>

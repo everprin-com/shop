@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 import Header from "../Header/Header";
 // import { hot } from 'react-hot-loader/root'
 import Home from "../Home/Home";
-import Dialog from "../Dialog/Dialog";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import ChooseSize from "../ChooseSize/ChooseSize";
+import Dialog from "../Dialog/Dialog";
 import Footer from "../Footer/Footer";
-import WidgetPanel from "../HelpWidget/WidgetPanel"
-import styles from "./styles"
+import WidgetPanel from "../HelpWidget/WidgetPanel";
+import styles from "./styles";
 
 const mapStateToProps = state => {
   return {
@@ -29,15 +29,23 @@ class App extends React.PureComponent {
 
   redirectToOrderForm = () => this.props.history.push("/orderform");
 
+  redirectToCategory = category =>
+    this.props.history.push(`/categoryPage/${category}`);
+
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
         <Grid container spacing={24}>
           <Grid className={classes.appInner} item xs={12}>
-            <Header withSmallMenu resetFilter />
+            <Header
+              withSmallMenu
+              mainPageHeader
+              resetFilterWithoutSex
+              redirectToCategory={this.redirectToCategory}
+            />
             <WidgetPanel />
-            <Home />
+            <Home mainPage />
             <Footer />
           </Grid>
         </Grid>
@@ -47,6 +55,4 @@ class App extends React.PureComponent {
   }
 }
 
-export default connect(
-  mapStateToProps,
-)(withStyles(styles)(App));
+export default connect(mapStateToProps)(withStyles(styles)(App));

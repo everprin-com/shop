@@ -6,7 +6,7 @@ import Slider from "../Slider/Slider";
 import imgCategoryMap from "../constants/categoriesMap";
 import { connect } from "react-redux";
 import fetchGetWithParams from "../api/fetchGetWithParams";
-import { convertPrice, textWithDots } from "../Utils";
+import { convertPrice, textWithDots, isEqualArr } from "../Utils";
 import { Link } from "react-router-dom";
 import styles from "./styles";
 
@@ -19,6 +19,7 @@ const mapStateToProps = state => {
     sliderProducts: state.product,
     firstEnter: state.general.firstEnter,
     pageWidth: state.general.pageWidth,
+    sexArr: state.filterData.filter.sex,
   };
 };
 
@@ -32,16 +33,15 @@ const mapDispatchToProps = dispatch => {
 
 function CategoryItem({ title, src, classes, click }) {
   return (
-    <div
-      className={classes.sliderItem}
-      onClick={() => click({ search_category: title })}
-    >
-      <div className={classes.sliderContent}>
-        <div className={classes.imgWrap}>
-          <img className={classes.img} src={src} />
+    <div className={classes.sliderItem}>
+      <Link to={`/categoryPage/${title}`} className={classes.linkToProductCart}>
+        <div className={classes.sliderContent}>
+          <div className={classes.imgWrap}>
+            <img className={classes.img} src={src} />
+          </div>
+          <div className={classes.title}>{title}</div>
         </div>
-        <div className={classes.title}>{title}</div>
-      </div>
+      </Link>
     </div>
   );
 }
@@ -63,7 +63,7 @@ function RecomendedProductsItem({
           <div className={classes.recImgWrap}>
             <img className={classes.recImg} src={src} />
           </div>
-          <div className={classes.recTitle}>{textWithDots(title, 50)}</div>
+          <div className={classes.recTitle}>{textWithDots(title, 40)}</div>
           <div className={classes.recCategory}>{category}</div>
           <div className={classes.price}>
             <div className={classes.oldPrice}>{`${oldPrice} грн`}</div>
@@ -80,7 +80,8 @@ class Home extends React.PureComponent {
   recomendedProducts = () => {
     fetchGetWithParams("/items/", {
       shuffled_products: true,
-      per_page: 8
+      per_page: 8,
+      sex: this.props.sexArr,
     }).then(data => this.setState({ data: data.items }));
   };
 
@@ -88,8 +89,21 @@ class Home extends React.PureComponent {
     this.recomendedProducts();
   }
 
+  componentDidUpdate(prevProps){
+   if (!isEqualArr(prevProps.sexArr, this.props.sexArr)){
+    this.recomendedProducts();
+   }
+  }
+
   render() {
-    const { classes, requestAndAddProducts, firstEnter, sex, pageWidth } = this.props;
+    const {
+      classes,
+      requestAndAddProducts,
+      firstEnter,
+      sex,
+      pageWidth,
+      mainPage
+    } = this.props;
     const products = Object.entries(imgCategoryMap[sex]).map(o => {
       return (
         <CategoryItem
@@ -119,7 +133,7 @@ class Home extends React.PureComponent {
     });
     return (
       <div className={classes.root}>
-        <SideBar isMainSideBar />
+        <SideBar isMainSideBar showSideBarPanel />
         <div className={classes.main}>
           <Slider
             simple
@@ -130,6 +144,8 @@ class Home extends React.PureComponent {
             arrows
             dots={false}
             mainPage
+            autoplay
+            autoplaySpeed={4000}
             firstEnter={firstEnter}
             className={`${classes.slider} horizontal-slider main-page-slider`}
           />
@@ -147,13 +163,32 @@ class Home extends React.PureComponent {
             firstEnter={firstEnter}
             className={`${classes.slider} ${classes.recSlider} horizontal-slider main-page-slider`}
           />
-          <ProductList
+          {/* <ProductList
             productsParams={{
               shuffled_products: true,
               per_page: pageWidth < 600 ? 3 : 10,
               sex: ["wooman"]
             }}
-          />
+          /> */}
+          <div className={classes.description}>
+            <h1 className={classes.descriptionTitle}>
+              ИНТЕРНЕТ МАГАЗИН ОДЕЖДЫ И ОБУВИ
+            </h1>
+            <p className={classes.descriptionP}>
+              kilo.com.ua - это не просто интернет магазин одежды, это помощник
+              для всей семьи.
+            </p>
+            <p className={classes.descriptionP}>
+              Ведь вам не придется часами блуждать по торговым центрам в поиске
+              нужных обновок. Все топовые бренды представлены у нас на сайте.
+              Купить одежду онлайн сейчас настолько просто, что интернет шопинг
+              покажется вам сплошным удовольствием.
+            </p>
+            <p className={classes.descriptionP}>
+              На kilo.com.ua можно найти одежду, обувь и аксессуары как для
+              женщин, так и для мужчин.
+            </p>
+          </div>
         </div>
       </div>
     );

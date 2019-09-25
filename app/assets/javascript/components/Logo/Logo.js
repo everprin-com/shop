@@ -8,13 +8,13 @@ const mapStateToProps = state => {
   };
 };
 
-function Logo({ classes, redirectToRoot, resetFilter, pageWidth, className }) {
+function Logo({ classes, redirectToRoot, resetFilterWithoutSex, pageWidth, className }) {
   const handleClink = e => {
     e.preventDefault();
-    resetFilter && resetFilter();
+    resetFilterWithoutSex && resetFilterWithoutSex();
     if (redirectToRoot) {
       redirectToRoot();
-      resetFilter();
+      resetFilterWithoutSex();
     }
   };
   return (

@@ -16,6 +16,7 @@ import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
 import SliderS from "../Slider/SliderS";
 import TableSize from "../TableSize/TableSize";
 import styles from "./styles";
+import WidgetPanel from "../HelpWidget/WidgetPanel";
 
 const mapStateToProps = state => {
   return {
@@ -76,6 +77,9 @@ class ProductCart extends React.PureComponent {
 
   redirectToRoot = () => this.props.history.push("/");
 
+  redirectToCategory = category =>
+    this.props.history.push(`/categoryPage/${category}`);
+
   openGallery = e => {
     const windowWidth = window.innerWidth;
     const nodeName = e.target.nodeName;
@@ -130,12 +134,12 @@ class ProductCart extends React.PureComponent {
     const { size, picture, name, category, price } = productData;
     const activeSize = productData.activeSize;
     const isInCart = card.data.some(cardItem => cardItem.id == id);
-    console.log("vasa111111111111");
-    window.vasa = this.state.data.size_world;
-    console.log(this.state.data.size_world);
     return (
       <div className={`${classes.root} product-cart`}>
-        <Header redirectToRoot={this.redirectToRoot} />
+        <Header
+          redirectToRoot={this.redirectToRoot}
+          redirectToCategory={this.redirectToCategory}
+        />
         <Breadcrumbs
           links={[
             { href: "/", title: "Главная" },
@@ -144,7 +148,9 @@ class ProductCart extends React.PureComponent {
           category={category}
           name={name}
           redirectToRoot={this.redirectToRoot}
+          redirectToCategory={this.redirectToCategory}
         />
+        <WidgetPanel />
         <div className={classes.mainContent}>
           <div className={classes.mainContentInner}>
             <div

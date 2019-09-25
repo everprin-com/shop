@@ -1,32 +1,41 @@
 
 import React from "react";
 import Loadable from "react-loadable";
-
-const Loading = () => <div>Loading...</div>;
+import KiloLoading from "./KiloLoading"
 
 const DApp = Loadable({
   loader: () => import("./App/App"),
-  loading: Loading
+  loading: KiloLoading
+});
+
+const DTest = Loadable({
+  loader: () => import("./Test/Test"),
+  loading: KiloLoading
 });
 
 const DProductCart = Loadable({
   loader: () => import("./ProductCart/ProductCart"),
-  loading: Loading
+  loading: KiloLoading
 });
 
 const DOrderForm = Loadable({
   loader: () => import("./OrderForm/OrderForm"),
-  loading: Loading
+  loading: KiloLoading
 });
 
 const DRegistrationForm = Loadable({
   loader: () => import("./RegistrationForm/RegistrationForm"),
-  loading: Loading
+  loading: KiloLoading
 });
 
 const DConvertXml = Loadable({
   loader: () => import("./ConvertXml/ConvertXml"),
-  loading: Loading
+  loading: KiloLoading
+});
+
+const DCategoryPage = Loadable({
+  loader: () => import("./CategoryPage/CategoryPage"),
+  loading: KiloLoading
 });
 
 export {
@@ -35,4 +44,6 @@ export {
     DOrderForm,
     DRegistrationForm,
     DConvertXml,
+    DCategoryPage,
+    DTest,
 }

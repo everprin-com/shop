@@ -26,7 +26,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    resetFilter: () => dispatch({ type: "RESET_FILTER" })
+    resetFilterWithoutSex: () => dispatch({ type: "RESET_FILTER_WITHOUT_SEX" })
   };
 };
 
@@ -100,7 +100,7 @@ class Header extends React.PureComponent {
   };
 
   render() {
-    const { classes, redirectToRoot, withSmallMenu, resetFilter } = this.props;
+    const {mainPageHeader, classes, redirectToRoot, redirectToCategory, withSmallMenu, resetFilterWithoutSex } = this.props;
     const { value } = this.state;
 
     return (
@@ -116,7 +116,7 @@ class Header extends React.PureComponent {
             >
               <Logo
                 classes={classes}
-                resetFilter={resetFilter}
+                resetFilterWithoutSex={resetFilterWithoutSex}
                 redirectToRoot={redirectToRoot}
               />
               <div ref={this.tabsRef}>
@@ -165,6 +165,7 @@ class Header extends React.PureComponent {
                 {value === 0 && (
                   <DropDownMenu
                     redirectToRoot={redirectToRoot}
+                    redirectToCategory={redirectToCategory}
                     productTypeList={this.productTypeList("clothes")}
                     resetDropDown={this.resetDropDown}
                     mainPage={withSmallMenu}
@@ -173,6 +174,7 @@ class Header extends React.PureComponent {
                 {value === 1 && (
                   <DropDownMenu
                     redirectToRoot={redirectToRoot}
+                    redirectToCategory={redirectToCategory}
                     productTypeList={this.productTypeList("footwear")}
                     resetDropDown={this.resetDropDown}
                     mainPage={withSmallMenu}
@@ -181,6 +183,7 @@ class Header extends React.PureComponent {
                 {value === 2 && (
                   <DropDownMenu
                     redirectToRoot={redirectToRoot}
+                    redirectToCategory={redirectToCategory}
                     productTypeList={this.productTypeList("accessories")}
                     resetDropDown={this.resetDropDown}
                     mainPage={withSmallMenu}
@@ -188,7 +191,7 @@ class Header extends React.PureComponent {
                 )}
               </div>
             )}
-            {withSmallMenu && <Drawer />}
+            {withSmallMenu && <Drawer mainPageHeader={mainPageHeader} />}
           </div>
         </div>
       </header>

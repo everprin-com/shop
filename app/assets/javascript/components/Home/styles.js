@@ -1,7 +1,8 @@
 const styles = theme => ({
     root: {
       display: "flex",
-      marginTop: "60px"
+      marginTop: 60,
+      paddingBottom: 60,
     },
     slider: {
       padding: 10,
@@ -22,7 +23,7 @@ const styles = theme => ({
     },
     sliderItem: {
       height: 250,
-      cursor: "pointer"
+      cursor: "pointer",
     },
     img: {
       height: "100%",
@@ -42,7 +43,11 @@ const styles = theme => ({
       textAlign: "center"
     },
     title: {
-      fontSize: 20
+      fontSize: 20,
+      color: "#333",
+    },
+    withoutTextDecoration: {
+      textDecoration: "none",
     },
     recSlider: {
       height: 340,
@@ -76,6 +81,13 @@ const styles = theme => ({
     },
     linkToProductCart: {
       textDecoration: "none"
+    },
+    description: {
+      fontSize: 16,
+      padding: 30,
+    },
+    descriptionTitle: {
+      fontSize: 18,
     }
   });
 
