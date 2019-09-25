@@ -74,7 +74,7 @@ class DropDownMenu extends React.PureComponent {
     }
 
     if (countLi) {
-      let ulAmount = Math.ceil((arrLi.length + 1) / countLi);
+      let ulAmount = Math.ceil(arrLi.length / countLi);
       let arrForUl = [];
       for (var i = 1, s = 0; i <= ulAmount; ++i, s = s + countLi) {
         arrForUl.push(arrLi.slice(s, countLi * i));
@@ -89,7 +89,7 @@ class DropDownMenu extends React.PureComponent {
     return (
       <div className={classes.categoryTypeList}>
         {this.ulWithSpecialCountLi({
-          arrLi: productTypeList,
+          arrLi: productTypeList && productTypeList.sort(),
           ...(pageWidth < 600 ? { countUl: 2 } : { countLi: 5 })
         })}
       </div>
