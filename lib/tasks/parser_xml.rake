@@ -10,6 +10,8 @@ namespace :parser_xml do
       doc = REXML::Document.new file
       hash = Hash.from_xml(file)
       categories = {}
+      drop_shipper = doc.elements.each("yml_catalog/shop/name") {|name| name}[0][0]
+      Item.where(drop_ship: drop_shipper.to_s).delete_all
       doc.elements.each("yml_catalog/shop/categories/category") do |category|
         mod_cat = { "#{category.text.gsub("\n", '')}": {id: category.attributes["id"], parentId: category.attributes["parentId"]}}
         categories.merge!(mod_cat)
@@ -18,43 +20,65 @@ namespace :parser_xml do
         item = Item.new
         p index
         offer.map do |el|
-           next if el == "\n"
-           if el.name == "param"
-             if el.attributes["name"] == "Размеры в наличии"
-               item["size"].push(el.text)
-             elsif el.attributes["name"] == "Сезон"
+          next if el == "\n"
+          case el.name
+          when "param"
+            case el.attributes["name"]
+            when "Размеры в наличии"
+              item["size"].push(el.text)
+             when "Сезон"
                item["season"] = el.text
-             elsif el.attributes["name"] == "Цвет"
-               el.text&.split(", ")&.flatten do |color|
-                 item["color"].push(color)
+             when "Цвет"
+               item["color"] = el.text&.split(", ")[0]
+             when "Вид"
+               item["category"] = NormalizerParse.set_category(el.text)
+               if item["category"] == "Разное"
+                 item["sex"] = ["man", "wooman"]
+               elsif item["category"] == "Рюкзак" || item["category"] == "Сумки" || item["category"] == "Кошелек"
+                  item["sex"] = ["man"]
                end
-             elsif el.attributes["name"] == "Вид"
-               item["category"] = el.text
-             elsif el.attributes["name"] == "Производитель"
+             when "Производитель"
                item["brand"] = el.text
-             elsif el.attributes["name"] == "Материал верха" || el.attributes["name"] == "Материал подкладки"  || el.attributes["name"] == "Полнота" || el.attributes["name"] == "Высота каблука" || el.attributes["name"] == "Вид подошвы"
-               #item["composition"] += " " + el&.attributes["name"] + " " + el&.text
+             when  ["Материал верха", "Материал подкладки", "Полнота", "Высота каблука", "Вид подошвы" ]
                item["composition"] ||= ""
                item["composition"] += " " + el&.attributes["name"] + " " + el&.text
              end
-           elsif el.name == "name"
+           when "name"
              item["name"] = el.text
-           elsif el.name == "url"
+           when "url"
              item["article"] = el.text
-           elsif el.name == "description"
+           when "description"
              item["description"] = el.text
-           elsif el.name == "picture"
+           when "categoryId"
+             found_category = categories.values.select { |category| category[:id] == el.text }
+             if found_category.present?
+               parentId = found_category[0][:parentId]
+             else
+               next
+             end
+             categories.each do |key, value|
+               if value[:id] == parentId
+                 item["sex"] =
+                   #if Item::WOOMAN_CATEGORIES.include?(key.to_s)
+                     #["wooman"]
+                   if Item::MAN_CATEGORIES.include?(key.to_s)
+                     ["man"]
+                   else
+                     item["sex"] = ["wooman"]
+                   end
+               end
+
+             end
+           when "picture"
              item["picture"].push(el.text)
-           elsif el.name == "picture"
-             item["picture"].push(el.text)
-           elsif el.name == "price"
+           when "price"
              item["drop_ship_price"] = el.text
              item["price"] = CalcClientPrice.calc_client_price(el.text)
            end
-           item["sex"] = ["wooman"]
-           item["drop_ship"] = "Villomi"
+           item["drop_ship"] = drop_shipper
         end
-        item.save
+        NormalizerParse.capitalize_item(item)
+        item.save if NormalizerParse.delete_null_item(item)
       end
       Item.update_size_same_items
       Item.delete_bad_products

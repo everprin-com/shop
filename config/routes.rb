@@ -25,6 +25,7 @@ Rails.application.routes.draw do
         get 'upload_xls' => 'admins#upload_xls'
         get 'upload_xml' => 'admins#upload_xml'
         get 'convert_xls' => 'admins#convert_xls'
+        get 'convert_xml' => 'admins#convert_xml'
       end
     end
     get 'configurable/edit', as: 'admin_configurable_edit'

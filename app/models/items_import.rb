@@ -1,13 +1,6 @@
 class ItemsImport
   include ActiveModel::Model
   require 'roo'
-  WOOMAN_CATEGORIES = [
-    "Женская одежда", "Женские аксессуары", "Женская обувь", "Для женщин", "женский",
-  ]
-  MAN_CATEGORIES = [
-    "Мужская одежда", "Мужские аксессуары", "Мужская обувь", "Для мужчин", "мужской",
-  ]
-  UNISEX_CATEGORIES = [ "унисекс"]
 
   HEADER_ISSA_PLUS = %w[
     drop_ship_price currency name article color size description brand
@@ -80,9 +73,9 @@ class ItemsImport
          doc = Nokogiri::HTML(open(row["article"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
          parsed_sex = doc.css('nav.breadcrumbs span a')&.children[1]&.text
          item["sex"] =
-           if WOOMAN_CATEGORIES.include?(parsed_sex)
+           if Item::WOOMAN_CATEGORIES.include?(parsed_sex)
              ["wooman"]
-           elsif MAN_CATEGORIES.include?(parsed_sex)
+           elsif Item::MAN_CATEGORIES.include?(parsed_sex)
              ["man"]
            end
          table = doc.css('.tab-content .information_tovar b')
@@ -103,7 +96,7 @@ class ItemsImport
           first_table_data.present? ? item["size_world"] = size_world.to_json : ""
          end
          category = doc.css('nav.breadcrumbs span a')&.children[2]&.text
-         item["category"] = set_category(category)
+         item["category"] = NormalizerParse.set_category(category)
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
          item["drop_ship_price"] = row["drop_ship_price"] * 0.85
          item["size"] = conver_size_to_array(row["size"])
@@ -117,14 +110,14 @@ class ItemsImport
          item["size"] = conver_size_to_array(row["size"])
          item["drop_ship_price"] = row["drop_ship_price"]
          row["category"] = "Очки" if row["category"] == "Аксессуары" && row["name"].split(" ")[0] == "Очки"
-         item["category"] = set_category(row["category"])
+         item["category"] = NormalizerParse.set_category(row["category"])
          item["color"] = row["color"]
          item["sex"] =
-           if WOOMAN_CATEGORIES.include?(row["sex"])
+           if Item::WOOMAN_CATEGORIES.include?(row["sex"])
              ["wooman"]
-           elsif MAN_CATEGORIES.include?(row["sex"])
+           elsif Item::MAN_CATEGORIES.include?(row["sex"])
              ["man"]
-           elsif UNISEX_CATEGORIES.include?(row["sex"])
+           elsif Item::UNISEX_CATEGORIES.include?(row["sex"])
              ["man", "wooman"]
            end
          item["composition"] = row["composition"]
@@ -159,11 +152,11 @@ class ItemsImport
          item["composition"] = row["composition"]
          item["size"] = row["size"]
          item["sex"] =
-           if WOOMAN_CATEGORIES.include?(row["sex"])
+           if Item::WOOMAN_CATEGORIES.include?(row["sex"])
              ["wooman"]
-           elsif MAN_CATEGORIES.include?(row["sex"])
+           elsif Item::MAN_CATEGORIES.include?(row["sex"])
              ["man"]
-           elsif UNISEX_CATEGORIES.include?(row["sex"])
+           elsif Item::UNISEX_CATEGORIES.include?(row["sex"])
              ["man", "wooman"]
            end
        end
@@ -183,12 +176,6 @@ class ItemsImport
   def convert_name(name)
     return unless name
     name&.split("_")&.join(" ")&.scan(/[^0-9]+/)&.join("")
-  end
-
-  def set_category(category)
-    return unless category
-    synonim_category = Item::SYNONIM_NAMES_CATEGORIES.select{ |key, hash| hash.include?(category&.capitalize) }.keys[0].to_s
-    synonim_category.present? ? synonim_category : category
   end
 
   def conver_size_to_array(size)
