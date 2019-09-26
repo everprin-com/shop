@@ -10,6 +10,11 @@ module Admin
       @orders = Order.order("created_at").includes(:statistic).all
     end
 
+    def convert_xml
+      %x[bundle exec rake parser_xml:parser_xml]
+      redirect_to "/admin/admins"
+    end
+
     def convert_xls
       files = Dir.entries("public/excel/parser")
       files.delete(".")
@@ -31,6 +36,16 @@ module Admin
           FilterOption.delete_all
           FilterOption.create!(Item.generate_filters(Item.all))
         end
+      end
+      redirect_to "/admin/admins"
+    end
+
+    def upload_xml
+      FileUtils.rm_rf('public/excel/parser_xml')
+      FileUtils.mkdir_p('public/excel/parser_xml')
+      Admins::Admin::XML_LINK.map do |link|
+        download = open(link)
+        IO.copy_stream(download, "public/excel/parser_xml/#{link.split('/')[-1]}")
       end
       redirect_to "/admin/admins"
     end

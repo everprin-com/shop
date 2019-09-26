@@ -1,3 +1,4 @@
+
 module Admins
   class Admin < ActiveRecord::Base
 
@@ -6,6 +7,10 @@ module Admins
         "https://ager.ua/download/ager_actual_price_and_stock.xls",
         "https://garne.com.ua/files/garne_prices_clothes.xlsx",
         "https://favoritti.com/upload/favoritti_com_export_csv_opt.xlsx",
+      ]
+
+      XML_LINK = [
+        "https://www.vm-villomi.ua/promua.xml",
       ]
   end
 end

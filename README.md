@@ -72,9 +72,10 @@ postgres=# \du # to list all users
 postgres=# ALTER ROLE user CREATEROLE SUPERUSER;
 ALTER ROLE # this was the result
 
-PARSER
-%x[bundle exec rake parser_excel:parser_excel]
+PARSER XLS
 bundle exec rake parser_excel:parser_excel
+PARSER XML
+bundle exec rake parser_xml:parser_xml
 
 autoparser
       "http://timeofstyle.com/download/tos_actual_price_and_stock.xls",
