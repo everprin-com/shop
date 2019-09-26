@@ -1,4 +1,5 @@
 import fetchGetWithParams from "../api/fetchGetWithParams";
+import fetchGet from "../api/fetchGet";
 
 const transformPrice = priceString => {
   const isValid = price => regTest.price.test(price);
@@ -112,57 +113,59 @@ function Test() {
   checkAmountItemsInCategory("female")
   checkAmountItemsInCategory("male")
 
-  window.store.getState().metaData.drop_ship_name &&
-    window.store.getState().metaData.drop_ship_name.forEach(drop_ship => {
-      fetchGetWithParams(
-        "items/",
-        { shuffled_products: true, per_page: 1000, drop_ship },
-        true
-      ).then(products => {
-        const errors = {};
-        products.items.forEach(product => {
-          const putToError = () => {
-            errors[key] = errors[key]
-              ? [
-                  ...errors[key],
-                  {
+    fetchGet("/meta_datas").then(meta_data => {
+      meta_data.headers.drop_ship_name.forEach(drop_ship => {
+        fetchGetWithParams(
+          "items/",
+          { shuffled_products: true, per_page: 1000, drop_ship },
+          true
+        ).then(products => {
+          const errors = {};
+          products.items.forEach(product => {
+            const putToError = () => {
+              errors[key] = errors[key]
+                ? [
+                    ...errors[key],
+                    {
+                      id: product.id,
+                      value: product[key],
+                      drop_ship: product.drop_ship
+                    }
+                  ]
+                : {
                     id: product.id,
                     value: product[key],
                     drop_ship: product.drop_ship
-                  }
-                ]
-              : {
-                  id: product.id,
-                  value: product[key],
-                  drop_ship: product.drop_ship
-                };
-          };
-
-          for (var key in product) {
-            if (key in transformMap && !transformMap[key](product[key])) {
-              putToError();
-              continue;
+                  };
+            };
+  
+            for (var key in product) {
+              if (key in transformMap && !transformMap[key](product[key])) {
+                putToError();
+                continue;
+              }
+  
+              if (
+                regTest[key] &&
+                product[key] &&
+                !regTest[key].test(product[key])
+              ) {
+                if (key in transformMap) continue;
+                putToError();
+              }
             }
-
-            if (
-              regTest[key] &&
-              product[key] &&
-              !regTest[key].test(product[key])
-            ) {
-              if (key in transformMap) continue;
-              putToError();
-            }
+          });
+          if (Object.keys(errors).length > 0) {
+            console.log(`%cERRORS ${drop_ship}:`, "color: red;");
+            console.group(errors);
+            console.groupEnd();
+          } else {
+            console.log(`%cGOOD JOB ${drop_ship}!`, "color: green;");
           }
         });
-        if (Object.keys(errors).length > 0) {
-          console.log(`%cERRORS ${drop_ship}:`, "color: red;");
-          console.group(errors);
-          console.groupEnd();
-        } else {
-          console.log(`%cGOOD JOB ${drop_ship}!`, "color: green;");
-        }
       });
     });
+  
   return null;
 }
 

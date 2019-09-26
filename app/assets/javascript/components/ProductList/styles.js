@@ -10,6 +10,9 @@ const styles = theme => ({
       marginLeft: 0,
       justifyContent: "space-around"
     },
+    [theme.breakpoints.up("sm")]: {
+      marginBottom: 150,
+    },
     [theme.breakpoints.down("xs")]: {
       justifyContent: "flex-start"
     }
@@ -21,7 +24,10 @@ const styles = theme => ({
     // minHeight: "100vh",
     [theme.breakpoints.down("xs")]: {
       justifyContent: "center"
-    }
+    },
+    [theme.breakpoints.up("sm")]: {
+      marginBottom: 150,
+    },
   },
   loader: {
     display: "flex",

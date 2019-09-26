@@ -37,6 +37,13 @@ function AboutProduct(props) {
         };
         return null;
       }
+      if (key == "sex") {
+        formatedProductData[key] = {
+          title: mapKeys[key],
+          value: productData[key].join(",").replace("wooman", "Женское").replace("man", "Мужское")
+        };
+        return null;
+      }
       formatedProductData[key] = {
         title: mapKeys[key],
         value: productData[key]
