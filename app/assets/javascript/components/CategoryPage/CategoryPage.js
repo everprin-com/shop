@@ -36,6 +36,7 @@ class CategoryPage extends React.PureComponent {
   }
 
   componentDidMount() {
+    this.props.resetProducts();
     this.props.history.listen(() => {
       this.props.resetProducts();
       this.forceUpdate();
