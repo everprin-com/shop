@@ -15,6 +15,12 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+const mapStateToProps = state => {
+  return {
+    sex: state.filterData.filter.sex
+  };
+};
+
 class DropDown extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -23,11 +29,37 @@ class DropDown extends React.PureComponent {
 
   componentWillUnmount() {
     document.removeEventListener("click", this.handleClickOutside, false);
+    this.dropDownRef.current.removeEventListener(
+      "click",
+      this.handleScrollDropDown,
+      false
+    );
   }
 
   componentWillMount() {
     document.addEventListener("click", this.handleClickOutside, false);
   }
+
+  componentDidMount() {
+    this.dropDownRef.current.addEventListener(
+      "scroll",
+      this.handleScrollDropDown,
+      false
+    );
+  }
+
+  handleScrollDropDown = () => {
+    if (
+      this.dropDownRef.current.scrollHeight -
+        this.dropDownRef.current.scrollTop -
+        this.dropDownRef.current.clientHeight <
+      250
+    ) {
+      this.props.pagination.incrementPage();
+    }
+    // console.log(this.dropDownRef.current.offsetY)
+    // console.log(this.dropDownRef.current.offsetTop)
+  };
 
   handleClickOutside = event => {
     const domNode = this.dropDownRef.current;
@@ -43,7 +75,7 @@ class DropDown extends React.PureComponent {
       <div className={classes.dropDown} ref={this.dropDownRef}>
         <Paper>
           {data.map((product, id) => (
-            <Paper className={classes.paperItem}>
+            <Paper className={classes.paperItem} key={id}>
               <Link
                 to={`/productcart/${product.id}`}
                 className={classes.linkItem}
@@ -75,20 +107,50 @@ class DropDown extends React.PureComponent {
 }
 
 class CustomizedInputs extends React.PureComponent {
-  state = { isOpenDropDown: false, data: [] };
+  state = {
+    inputText: "",
+    isOpenDropDown: false,
+    data: [],
+    page: 1,
+    totalPages: 99
+  };
 
-  onChange = e => {
+  updateDropdown = (addProducts = false) => {
+    const { inputText, page, data, totalPages } = this.state;
+    if (page > totalPages) {return null}
     fetchGetWithParams(
       "/items/",
-      { search_name: e.target.value, per_page: 30 },
+      {
+        search_name: inputText,
+        per_page: 20,
+        sex: this.props.sex,
+        page
+      },
       true
-    ).then(data => this.setState({ isOpenDropDown: true, data: data.items }));
+    ).then(resData => {
+      const dataItems = addProducts ? [...data, ...resData.items] : resData.items;
+      this.setState({ isOpenDropDown: true, data: dataItems, totalPages: resData.total_pages });
+    });
   };
+
+  onChange = e => {
+    this.setState({ inputText: e.target.value, page: 1 }, this.updateDropdown);
+  };
+
+  incrementPage = () =>
+    this.setState({ page: this.state.page + 1 }, () =>
+      this.updateDropdown("addProducts")
+    );
 
   closeDropDown = () => this.setState({ isOpenDropDown: false });
 
   render() {
     const { classes } = this.props;
+    const pagination = {
+      updateDropdown: this.updateDropdown,
+      page: this.state.page,
+      incrementPage: this.incrementPage
+    };
     return (
       <div className={classes.inputWrap}>
         <TextField
@@ -116,6 +178,7 @@ class CustomizedInputs extends React.PureComponent {
             classes={classes}
             data={this.state.data}
             closeDropDown={this.closeDropDown}
+            pagination={pagination}
           />
         )}
       </div>
@@ -128,6 +191,6 @@ CustomizedInputs.propTypes = {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withStyles(styles)(CustomizedInputs));

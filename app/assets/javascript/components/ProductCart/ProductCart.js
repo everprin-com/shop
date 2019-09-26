@@ -17,6 +17,7 @@ import SliderS from "../Slider/SliderS";
 import TableSize from "../TableSize/TableSize";
 import styles from "./styles";
 import WidgetPanel from "../HelpWidget/WidgetPanel";
+import KiloLoading from "../KiloLoading";
 
 const mapStateToProps = state => {
   return {
@@ -58,8 +59,9 @@ class ProductCart extends React.PureComponent {
 
   getProduct = () => {
     const { id } = this.props.match.params;
+    this.setState({ loading: true });
     fetchGet(`/items/${id}`).then(data => {
-      this.setState({ data }, () => {
+      this.setState({ data, loading: false }, () => {
         // this.props.requestAndAddSlider(this.state.data.category);
         this.props.addProduct(data);
       });
@@ -131,11 +133,16 @@ class ProductCart extends React.PureComponent {
       openTableSize,
       sex
     } = this.props;
+    const { loading } = this.state;
     const { id } = match.params;
     const productData = products.find(product => product.id == id) || {};
     const { size, picture, name, category, price } = productData;
     const activeSize = productData.activeSize;
     const isInCart = card.data.some(cardItem => cardItem.id == id);
+
+    if (loading) {
+      return <KiloLoading />;
+    }
     return (
       <div className={`${classes.root} product-cart`}>
         <Header
