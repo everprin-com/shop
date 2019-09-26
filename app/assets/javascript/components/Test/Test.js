@@ -159,7 +159,7 @@ function Test() {
           console.group(errors);
           console.groupEnd();
         } else {
-          console.log(`GOOD JOB ${drop_ship}!`);
+          console.log(`%cGOOD JOB ${drop_ship}!`, "color: green;");
         }
       });
     });

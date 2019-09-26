@@ -23,7 +23,8 @@ const mapStateToProps = state => {
     products: state.product,
     card: state.card,
     orderform: state.orderform,
-    sliderProducts: state.slider.products
+    sliderProducts: state.slider.products,
+    sex: state.filterData.filter.sex
   };
 };
 
@@ -127,7 +128,8 @@ class ProductCart extends React.PureComponent {
       openCart,
       sliderProducts,
       products,
-      openTableSize
+      openTableSize,
+      sex
     } = this.props;
     const { id } = match.params;
     const productData = products.find(product => product.id == id) || {};
@@ -218,7 +220,7 @@ class ProductCart extends React.PureComponent {
         </div> */}
         <ProductList
           forCart
-          productsParams={{ search_category: category }}
+          productsParams={{ search_category: category, sex }}
           title="С этим товаром смотрят"
         />
         <Footer redirectToRoot={this.redirectToRoot} />
