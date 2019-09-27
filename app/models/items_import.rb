@@ -140,7 +140,8 @@ class ItemsImport
         item["size_world"]= row["description"]
         item["drop_ship_price"] = row["drop_ship_price"]
         item["color"] = row["color"]
-        item["category"] = row["category"]&.split(" ")[0]
+        category = row["category"]&.split(" ")[0]
+        item["category"] = NormalizerParse.set_category(category)
       elsif @name_drop_ship == "garne"
          item["picture"] = row["picture"].split(",")
          item["size"] = row["size"]
@@ -148,7 +149,8 @@ class ItemsImport
          item["size_world"]= row["description"]
          item["color"] = row["color"]
          category = row["category"]&.split(",")
-         item["category"] = category ? category[0] : category
+         setted_category = category ? category[0] : category
+         item["category"] = NormalizerParse.set_category(setted_category)
          item["composition"] = row["composition"]
          item["size"] = row["size"]
          item["sex"] =
