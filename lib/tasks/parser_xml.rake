@@ -70,8 +70,8 @@ namespace :parser_xml do
                when "categoryId"
                  found_category = categories.values.select { |category| category[:id] == el.text }
                  if used_drop == "OLLA" && found_category.present?
-                    parsed_category = found_category[0][:seo_h1]
-                    parsed_sex = parsed_category.split(" ")[0].gsub(/[,]/, '')
+                    parsed_category = found_category[0][:seo_h1].gsub(/[,]/, '')
+                    parsed_sex = parsed_category.split(" ")[0]
                     item["sex"] =
                       if Item::MAN_CATEGORIES.include?(parsed_sex)
                         ["man"]
