@@ -34,6 +34,6 @@ class NormalizerParse
 
   def self.delete_old_drop_ship(imported_items)
     old_drop_ships = imported_items.map(&:drop_ship).uniq
-    Item.where(drop_ship: old_drop_ships.capitalize).delete_all
+    Item.where(drop_ship: old_drop_ships).delete_all
   end
 end
