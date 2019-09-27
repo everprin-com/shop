@@ -11,6 +11,7 @@ module Admins
 
       XML_LINK = [
         "https://www.vm-villomi.ua/promua.xml",
+        "https://olla.ua/export/dropshipping.xml",
       ]
   end
 end

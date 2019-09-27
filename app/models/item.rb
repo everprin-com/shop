@@ -62,14 +62,18 @@ class Item < ActiveRecord::Base
     ],
   }
   CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
-  CANT_BE_NULL = ["article", "name", "category", "price", "picture", "drop_ship", "drop_ship_price", "sex"]
+  CANT_BE_NULL = [
+    "article", "name", "category", "price",
+    "picture", "drop_ship", "drop_ship_price",
+    "sex"
+  ]
 
   WOOMAN_CATEGORIES = [
     "Женская одежда", "Женские аксессуары", "Женская обувь", "Для женщин", "женский", "Женская обувь", "Сапоги",
-    "Женское",
+    "Женское", "Женские",
   ]
   MAN_CATEGORIES = [
-    "Мужская одежда", "Мужское", "Мужские аксессуары", "Мужская обувь", "Для мужчин", "мужской",
+    "Мужская одежда", "Мужское", "Мужские", "Мужские аксессуары", "Мужская обувь", "Для мужчин", "мужской",
   ]
   UNISEX_CATEGORIES = [ "унисекс", "Средство по уходу за обувью"]
 
@@ -152,7 +156,7 @@ class Item < ActiveRecord::Base
   def self.update_size_same_items
     names = Item.select('items.name').group('items.name').having('count(items.name) > 1').map(&:name)
     names.map do |name|
-      colors = Item.where(name: name).select(:color).map(&:color).uniq.flatten
+      colors = Item.where(name: name).select(:color).map(&:color).uniq&.flatten&.flatten
       colors.each do |color|
         sizes = Item.where(name: name, color: color).map(&:size).flatten.uniq
         first_item = Item.where(name: name, color: color).first
