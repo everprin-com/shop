@@ -70,7 +70,11 @@ class ItemsImport
        p i
        item = Item.new
        if @name_drop_ship == "issaplus"
-         doc = Nokogiri::HTML(open(row["article"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
+         begin
+           doc = Nokogiri::HTML(open(row["article"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
+         rescue OpenURI::HTTPError => ex
+           puts "Handle missing url"
+         end
          parsed_sex = doc.css('nav.breadcrumbs span a')&.children[1]&.text
          item["sex"] =
            if Item::WOOMAN_CATEGORIES.include?(parsed_sex)
