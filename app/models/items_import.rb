@@ -163,7 +163,9 @@ class ItemsImport
            end
        end
        item["country"] = row["country"]
-       item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
+       if row["drop_ship_price"].present? && row["drop_ship_price"] != 0
+         item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
+       end
        #item["name"] = convert_name(row["name"])
        item["name"] = row["name"]
        item["brand"] = row["brand"]
