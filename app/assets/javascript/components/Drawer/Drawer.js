@@ -41,7 +41,7 @@ class SwipeableTemporaryDrawer extends React.PureComponent {
           <Menu className={classes.icon} />
         </Button>
         <SwipeableDrawer
-          open={open || sideBarOpen}
+          open={open || sideBarOpen ? true : false}
           onClose={this.closeSideBar}
           onOpen={openSideBar}
           className={classes.sideBarWrap}

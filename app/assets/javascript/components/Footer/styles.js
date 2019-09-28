@@ -42,7 +42,7 @@ const styles = theme => ({
     width: 350,
     padding: 5,
     margin: "0 20px",
-    display: "flex",
+    // display: "flex",
     alignItems: "center",
     [theme.breakpoints.down("xs")]: {
       margin: 0,
@@ -63,6 +63,9 @@ const styles = theme => ({
     [theme.breakpoints.down("xs")]: {
       display: "none",
     }
+  },
+  contactsRow: {
+    margin: 0
   }
 });
 

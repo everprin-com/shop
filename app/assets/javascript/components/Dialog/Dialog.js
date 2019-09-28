@@ -47,7 +47,7 @@ class DialogWindow extends React.PureComponent {
       <Dialog
         onClose={() => closeDialog(type)}
         aria-labelledby="customized-dialog-title"
-        open={dialog[type] && dialog[type].status}
+        open={dialog[type] ? dialog[type].status : false}
         className={`${classes.dialog} ${
           type == "slider" ? classes.gallery : ""
         }`}
