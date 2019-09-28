@@ -10,7 +10,9 @@ class ParserXmlService
     doc = REXML::Document.new file
     hash = Hash.from_xml(file)
     categories = {}
-    drop_shipper = doc.elements.each("yml_catalog/shop/name") {|name| name}[0][0]
+    drop_shipper_company = doc.elements.each("yml_catalog/shop/company") {|name| name}[0][0]
+    drop_shipper_name = doc.elements.each("yml_catalog/shop/name") {|name| name}[0][0]
+    drop_shipper = drop_shipper_name || drop_shipper_company
     doc.elements.each("yml_catalog/shop/categories/category") do |category|
       mod_cat = { "#{category.text.gsub("\n", '')}": {id: category.attributes["id"], parentId: category.attributes["parentId"], seo_h1: category.attributes["seo_h1"]}}
       categories.merge!(mod_cat)
@@ -26,8 +28,8 @@ class ParserXmlService
         OllaParser.parse_xml_olla(offer, index, categories, used_drop)
       elsif used_drop == "Villomi"
         VillaParser.parse_xml_olla(offer, index, categories, used_drop)
-      #elsif used_drop == "Vzuto"
-        #VzutoParser.parse_xml_olla(offer, index, categories, used_drop)
+      elsif used_drop == "Vzuto"
+        VzutoParser.parse_xml_olla(offer, index, categories, used_drop)
       end
     end
     Item.update_size_same_items
