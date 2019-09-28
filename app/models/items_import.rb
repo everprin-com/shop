@@ -1,15 +1,7 @@
 class ItemsImport
   include ActiveModel::Model
   require 'roo'
-  WOOMAN_CATEGORIES = [
-    "Женская одежда", "Женские аксессуары", "Женская обувь", "Для женщин", "женский",
-  ]
-  MAN_CATEGORIES = [
-    "Мужская одежда", "Мужские акс ессуары", "Мужская обувь", "Для мужчин", "мужской",
-  ]
-  UNISEX_CATEGORIES = [ "унисекс"]
-  CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
-  CANT_BE_NULL = ["article", "name", "category", "price", "picture", "drop_ship", "drop_ship_price", "sex"]
+
   HEADER_ISSA_PLUS = %w[
     drop_ship_price currency name article color size description brand
     composition season skip skip1 picture small_picture
@@ -28,6 +20,9 @@ class ItemsImport
     brand article	composition description picture sex
   ]
 
+  HEADER_FAVORITTI = %w[
+    code	drop_ship_price	name	category	skip	article	picture	description	color	country	skip1	size
+  ]
 
   attr_accessor :file
 
@@ -59,6 +54,8 @@ class ItemsImport
       HEADER_TIME_OF_STYLE
     when "garne"
       HEADER_GARNE
+    when "favoritti"
+      HEADER_FAVORITTI
     else
       return
     end
@@ -73,15 +70,20 @@ class ItemsImport
        p i
        item = Item.new
        if @name_drop_ship == "issaplus"
-         doc = Nokogiri::HTML(open(row["article"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
+         begin
+          doc = Nokogiri::HTML(open(row["article"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
+        rescue OpenURI::HTTPError => ex
+          puts "Handle missing url"
+        end
+        next if !doc
          parsed_sex = doc.css('nav.breadcrumbs span a')&.children[1]&.text
          item["sex"] =
-           if WOOMAN_CATEGORIES.include?(parsed_sex)
+           if Item::WOOMAN_CATEGORIES.include?(parsed_sex)
              ["wooman"]
-           elsif MAN_CATEGORIES.include?(parsed_sex)
+           elsif Item::MAN_CATEGORIES.include?(parsed_sex)
              ["man"]
            end
-         table = doc.css('.tab-content .information_tovar b')
+         table = doc&.css('.tab-content .information_tovar b')
          if table.present?
            if table.length == 3 && doc.css('.tab-content .information_tovar table.table').length == 2
              first_table_name = table[1]&.children&.map(&:text)
@@ -99,7 +101,7 @@ class ItemsImport
           first_table_data.present? ? item["size_world"] = size_world.to_json : ""
          end
          category = doc.css('nav.breadcrumbs span a')&.children[2]&.text
-         item["category"] = set_category(category)
+         item["category"] = NormalizerParse.set_category(category)
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
          item["drop_ship_price"] = row["drop_ship_price"] * 0.85
          item["size"] = conver_size_to_array(row["size"])
@@ -112,14 +114,15 @@ class ItemsImport
        elsif @name_drop_ship == "tos" || @name_drop_ship == "ager"
          item["size"] = conver_size_to_array(row["size"])
          item["drop_ship_price"] = row["drop_ship_price"]
-         item["category"] = set_category(row["category"])
+         row["category"] = "Очки" if row["category"] == "Аксессуары" && row["name"].split(" ")[0] == "Очки"
+         item["category"] = NormalizerParse.set_category(row["category"])
          item["color"] = row["color"]
          item["sex"] =
-           if WOOMAN_CATEGORIES.include?(row["sex"])
+           if Item::WOOMAN_CATEGORIES.include?(row["sex"])
              ["wooman"]
-           elsif MAN_CATEGORIES.include?(row["sex"])
+           elsif Item::MAN_CATEGORIES.include?(row["sex"])
              ["man"]
-           elsif UNISEX_CATEGORIES.include?(row["sex"])
+           elsif Item::UNISEX_CATEGORIES.include?(row["sex"])
              ["man", "wooman"]
            end
          item["composition"] = row["composition"]
@@ -134,45 +137,48 @@ class ItemsImport
            picture.push(small_picture).compact.uniq
         end
         item["picture"] = picture.compact.uniq
-       elsif @name_drop_ship == "garne"
+      elsif @name_drop_ship == "favoritti"
+        row["brand"] = "favoritti"
+        item["picture"] = row["picture"]&.split(",")
+        item["size"] = row["size"].to_s&.split(",")
+        item["sex"] = ["wooman"]
+        item["size_world"]= row["description"]
+        item["drop_ship_price"] = row["drop_ship_price"]
+        item["color"] = row["color"]
+        category = row["category"]&.split(" ")[0]
+        item["category"] = NormalizerParse.set_category(category)
+      elsif @name_drop_ship == "garne"
          item["picture"] = row["picture"].split(",")
          item["size"] = row["size"]
          item["drop_ship_price"] = row["drop_ship_price"]
          item["size_world"]= row["description"]
          item["color"] = row["color"]
-         item["category"] = row["category"]&.split(",")[0]
+         category = row["category"]&.split(",")
+         setted_category = category ? category[0] : category
+         item["category"] = NormalizerParse.set_category(setted_category)
          item["composition"] = row["composition"]
          item["size"] = row["size"]
          item["sex"] =
-           if WOOMAN_CATEGORIES.include?(row["sex"])
+           if Item::WOOMAN_CATEGORIES.include?(row["sex"])
              ["wooman"]
-           elsif MAN_CATEGORIES.include?(row["sex"])
+           elsif Item::MAN_CATEGORIES.include?(row["sex"])
              ["man"]
-           elsif UNISEX_CATEGORIES.include?(row["sex"])
+           elsif Item::UNISEX_CATEGORIES.include?(row["sex"])
              ["man", "wooman"]
            end
        end
        item["country"] = row["country"]
-       item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
-       item["name"] = convert_name(row["name"])
+       if row["drop_ship_price"].present? && row["drop_ship_price"] != 0
+         item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
+       end
+       item["name"] = row["name"]
        item["brand"] = row["brand"]
+       #item["code"] = row["code"]
        item["season"] = row["season"]
        item["drop_ship"] = @name_drop_ship
        item["article"] = row["article"]
-       #byebug
        item
     end
-  end
-
-  def convert_name(name)
-    return unless name
-    name&.split("_")&.join(" ")&.scan(/[^0-9]+/)&.join("")
-  end
-
-  def set_category(category)
-    return unless category
-    synonim_category = Item::SYNONIM_NAMES_CATEGORIES.select{ |key, hash| hash.include?(category&.capitalize) }.keys[0].to_s
-    synonim_category.present? ? synonim_category : category
   end
 
   def conver_size_to_array(size)
@@ -212,30 +218,11 @@ class ItemsImport
     @imported_items ||= load_imported_items
   end
 
-  def delete_null(imported_items)
-    CANT_BE_NULL.each do |field|
-      imported_items.reject! do |item|
-        item[field.to_sym] == nil || item[:picture].length == 0
-      end
-    end
-  end
-
-  def delete_old_drop_ship(imported_items)
-    old_drop_ships = imported_items.map(&:drop_ship).uniq
-    Item.where(drop_ship: old_drop_ships).delete_all
-  end
-
-  def capitalize_fields(imported_items)
-   CAPITALIZE_FIELDS.each do |field|
-      imported_items.each { |item| item.public_send("#{field}=", item.public_send("#{field}")&.capitalize) }
-    end
-  end
-
   def save
     if imported_items.map(&:valid?).all?
-      delete_null(imported_items)
-      capitalize_fields(imported_items)
-      delete_old_drop_ship(imported_items)
+      NormalizerParse.delete_null(imported_items)
+      NormalizerParse.capitalize_fields(imported_items)
+      NormalizerParse.delete_old_drop_ship(imported_items)
       imported_items.each(&:save!)
       true
     else

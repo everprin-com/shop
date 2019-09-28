@@ -21,7 +21,7 @@ gem 'bootstrap_form'
 #telegram
 gem 'tele_notify'
 gem 'notifiee-ruby'
-
+gem 'rexml'
 gem 'jquery-ui-rails'
 gem 'pg', "~> 0.20.0"
 gem 'devise'

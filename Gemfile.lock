@@ -346,6 +346,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    rexml (3.2.2)
     rolify (5.2.0)
     roo (2.8.2)
       nokogiri (~> 1)
@@ -526,6 +527,7 @@ DEPENDENCIES
   rake
   react_on_rails (= 11.0.0)
   rest-client
+  rexml
   rolify
   roo
   roo-xls

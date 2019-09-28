@@ -36,6 +36,13 @@ https://convertio.co/ru/csv-xls/
 parse issaplus insert url
 https://issaplus.com/load/csv3.php
 
+XLS_LINK = [
+  "http://timeofstyle.com/download/tos_actual_price_and_stock.xls",
+  "https://ager.ua/download/ager_actual_price_and_stock.xls",
+  "https://garne.com.ua/files/garne_prices_clothes.xlsx",
+  "https://favoritti.com/upload/favoritti_com_export_csv_opt.xlsx",
+]
+
 Parser
 валидация по полям name, price, picture
 Расположение по порядку
@@ -65,9 +72,10 @@ postgres=# \du # to list all users
 postgres=# ALTER ROLE user CREATEROLE SUPERUSER;
 ALTER ROLE # this was the result
 
-PARSER
-%x[bundle exec rake parser_excel:parser_excel]
+PARSER XLS
 bundle exec rake parser_excel:parser_excel
+PARSER XML
+bundle exec rake parser_xml:parser_xml
 
 autoparser
       "http://timeofstyle.com/download/tos_actual_price_and_stock.xls",
