@@ -82,19 +82,21 @@ class ProductList extends React.PureComponent {
   };
 
   renderProductList(windowWidthLess1000) {
-    const { products, card } = this.props;
-    return products.map((product, _i) => {
-      const inCard =
-        card.data && card.data.some(cardItem => cardItem.id == product.id);
-      return (
-        <ProductItem
-          data={product}
-          windowWidthLess1000={windowWidthLess1000}
-          inCard={inCard}
-          key={_i}
-        />
-      );
-    });
+    const { products, card, productIdExclud } = this.props;
+    return products
+      .filter(p => p.id != productIdExclud)
+      .map((product, _i) => {
+        const inCard =
+          card.data && card.data.some(cardItem => cardItem.id == product.id);
+        return (
+          <ProductItem
+            data={product}
+            windowWidthLess1000={windowWidthLess1000}
+            inCard={inCard}
+            key={_i}
+          />
+        );
+      });
   }
 
   render() {

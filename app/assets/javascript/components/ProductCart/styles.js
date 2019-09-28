@@ -79,6 +79,8 @@ const styles = theme => ({
   tableSize: {
     cursor: "pointer",
     color: "#303f9f",
+    display: "block",
+    padding: "10px 0px",
   }
 });
 
