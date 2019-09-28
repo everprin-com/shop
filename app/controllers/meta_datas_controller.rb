@@ -8,7 +8,7 @@ class MetaDatasController < ApplicationController
     #format.json { render json: { headers: {male: male_fields, female:  female_fields}}}
     respond_to do |format|
       format.html
-      format.json { render json: { headers: {male: males.to_json, female:  females.to_json, drop_ship_name: Item.pluck(:drop_ship).uniq}}}
+      format.json { render json: { drop_ship_names: Item::DROP_SHIPPER, headers: {male: males.to_json, female:  females.to_json }}}
     end
   end
 end

@@ -171,7 +171,6 @@ class ItemsImport
        if row["drop_ship_price"].present? && row["drop_ship_price"] != 0
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
        end
-       #item["name"] = convert_name(row["name"])
        item["name"] = row["name"]
        item["brand"] = row["brand"]
        #item["code"] = row["code"]
@@ -180,11 +179,6 @@ class ItemsImport
        item["article"] = row["article"]
        item
     end
-  end
-
-  def convert_name(name)
-    return unless name
-    name&.split("_")&.join(" ")&.scan(/[^0-9]+/)&.join("")
   end
 
   def conver_size_to_array(size)
