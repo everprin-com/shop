@@ -184,21 +184,21 @@ class ProductCart extends React.PureComponent {
             <div className={`${classes.textContent} fluid__instructions`}>
               <h3>{name}</h3>
               <p className={classes.price}>{`${Math.round(price)} грн`}</p>
-              <p>
+              <div>
                 <ProductItemSizes
                   sizes={size}
                   id={+this.props.match.params.id}
                   activeSize={activeSize}
                   format="big"
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 {this.state.data.size_world && (
                   <span className={classes.tableSize} onClick={openTableSize}>
                     Таблица размеров
                   </span>
                 )}
-              </p>
+              </div>
               <Button
                 variant="contained"
                 color="primary"
@@ -228,6 +228,7 @@ class ProductCart extends React.PureComponent {
         <ProductList
           forCart
           productsParams={{ search_category: category, sex }}
+          productIdExclud={id}
           title="С этим товаром смотрят"
         />
         <Footer redirectToRoot={this.redirectToRoot} />

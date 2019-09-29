@@ -27,11 +27,18 @@ class SideBarPanel extends React.PureComponent {
     const { categories, classes } = this.props;
     return (
       <div>
-        {categories && categories.sort().map(category => (
-          <Link className={classes.link} to={`categoryPage/${category}`}>
-            <ListItem className={classes.sideBarPanelItem}>{category}</ListItem>
-          </Link>
-        ))}
+        {categories &&
+          categories.sort().map(category => (
+            <Link
+              key={category}
+              className={classes.link}
+              to={`categoryPage/${category}`}
+            >
+              <ListItem className={classes.sideBarPanelItem}>
+                {category}
+              </ListItem>
+            </Link>
+          ))}
       </div>
     );
   }

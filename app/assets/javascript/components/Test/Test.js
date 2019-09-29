@@ -114,7 +114,7 @@ function Test() {
   checkAmountItemsInCategory("male")
 
     fetchGet("/meta_datas").then(meta_data => {
-      meta_data.headers.drop_ship_name.forEach(drop_ship => {
+      meta_data.drop_ship_names.forEach(drop_ship => {
         fetchGetWithParams(
           "items/",
           { shuffled_products: true, per_page: 1000, drop_ship },

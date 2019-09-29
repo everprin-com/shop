@@ -6,11 +6,11 @@ const styles = theme => ({
       width: "fit-content"
     },
     formControl: {
-      marginTop: theme.spacing.unit * 2,
+      // marginTop: theme.spacing.unit * 2,
       minWidth: 120
     },
     formControlLabel: {
-      marginTop: theme.spacing.unit
+      // marginTop: theme.spacing.unit
     },
     title: {
       textAlign: "center"
