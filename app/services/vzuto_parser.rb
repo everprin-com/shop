@@ -1,5 +1,14 @@
 class VzutoParser
   attr_accessor :xml_file
+  CATEGORIES =  [
+    "Балетки", "Угги", "Ботфорты",
+    "Ботинки", "Туфли", "Сапоги", "Казаки",
+    "Босоножки", "Лодочки", "Ботильоны",
+    "Кроссовки", "Кеды", "Шлепанцы", "Эспадрильи",
+    "Мокасины", "Мюли", "Слипоны", "Белетки",
+    "Полусапожки", "Сапоги-трубы", "Сабо", "Хайтопы",
+    "Спортивные костюмы", "Сникерсы", "Ботильены",
+  ]
 
   def initialize(xml_file)
     #attributes.each { |name, value| send("#{name}=", value) }
@@ -21,13 +30,6 @@ class VzutoParser
            item["size"] = [el.text]
          when "Цвет"
            item["color"] = el.text&.split(", ")[0]
-         when "Вид обуви"
-           item["category"] = NormalizerParse.set_category(el.text)
-           if item["category"] == "Разное"
-             item["sex"] = ["man", "wooman"]
-           elsif item["category"] == "Рюкзак" || item["category"] == "Сумки" || item["category"] == "Кошелек"
-              item["sex"] = ["man"]
-           end
          when "Производитель"
            item["brand"] = el.text
          when "Материал верха", "Материал подкладки", "Полнота", "Высота каблука", "Вид подошвы"
@@ -36,6 +38,10 @@ class VzutoParser
          end
        when "name"
          item["name"] = el.text.scan(/[^0-9]+/)[0]
+         #byebug
+         founded_category = el.text.gsub(',', " ").gsub('-', " ")&.split(" ")&.map(&:capitalize) + CATEGORIES.flatten.uniq
+         founded_uniq_category = non_uniq(founded_category)
+         item["category"] = NormalizerParse.set_category(founded_uniq_category[0] || "Женски") #founded_uniq_category[0] || "Женские")
        when "vendorCode"
          item["article"] = el.text
        when "url"
@@ -46,9 +52,7 @@ class VzutoParser
          size = parsed_tex.index("Размеры:")
          next if !size.present? || size == 0 || item["size"].present?
          index_size = size + 1
-         #byebug if item["name"] == "Черные мужские туфли на шнурках с перфорацией 45"
          sizes =  parsed_tex[index_size].split("<")[0].split("_")[0]
-         #byebug if item["name"] == "Черные мужские туфли на шнурках с перфорацией 45"
          if sizes.split("-").length == 1 && sizes.include?("-")
            sizes = sizes + parsed_tex[index_size + 1]
          end
@@ -65,7 +69,7 @@ class VzutoParser
              item["sex"] =
               if Item::MAN_CATEGORIES.include?(key.to_s)
                 ["man"]
-              elsif Item::MAN_CATEGORIES.include?(key.to_s)
+              elsif Item::WOOMAN_CATEGORIES.include?(key.to_s)
                 item["sex"] = ["wooman"]
               end
            end
@@ -79,6 +83,18 @@ class VzutoParser
     end
     NormalizerParse.capitalize_item(item)
     item.save if NormalizerParse.delete_null_item(item)
+  end
+
+  def self.get_counts(keys)
+    counts = Hash.new(0)
+    keys.each {|k| counts[k] += 1 }
+    counts
+  end
+
+  def self.non_uniq(elements)
+    counts = get_counts(elements)
+    counts.delete_if {|k, v| v < 2 }
+    elements.select {|e| counts.key?(e) }
   end
 
   def self.conver_size_to_array(size)
