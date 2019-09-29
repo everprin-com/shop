@@ -32,10 +32,10 @@ class ParserXmlService
         VzutoParser.parse_xml_olla(offer, index, categories, used_drop)
       end
     end
-    Item.update_size_same_items
-    Item.delete_bad_products
-    Item.create_header
-    FilterOption.delete_all
-    FilterOption.create!(Item.generate_filters(Item.all))
+    # Item.update_size_same_items
+    # Item.delete_bad_products
+    # Item.create_header
+    # FilterOption.delete_all
+    # FilterOption.create!(Item.generate_filters(Item.all))
   end
 end

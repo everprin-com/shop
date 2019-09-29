@@ -35,7 +35,6 @@ class VzutoParser
            item["composition"] += " " + el&.attributes["name"] + " " + el&.text
          end
        when "name"
-         p el.text
          item["name"] = el.text.scan(/[^0-9]+/)[0]
        when "vendorCode"
          item["article"] = el.text
@@ -49,7 +48,7 @@ class VzutoParser
          index_size = size + 1
          #byebug if item["name"] == "Черные мужские туфли на шнурках с перфорацией 45"
          sizes =  parsed_tex[index_size].split("<")[0].split("_")[0]
-         byebug if item["name"] == "Черные мужские туфли на шнурках с перфорацией 45"
+         #byebug if item["name"] == "Черные мужские туфли на шнурках с перфорацией 45"
          if sizes.split("-").length == 1 && sizes.include?("-")
            sizes = sizes + parsed_tex[index_size + 1]
          end
@@ -66,7 +65,7 @@ class VzutoParser
              item["sex"] =
               if Item::MAN_CATEGORIES.include?(key.to_s)
                 ["man"]
-              else
+              elsif Item::MAN_CATEGORIES.include?(key.to_s)
                 item["sex"] = ["wooman"]
               end
            end
