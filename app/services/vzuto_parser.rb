@@ -47,9 +47,13 @@ class VzutoParser
        when "url"
          item["article"] = el.text
        when "description"
-         item["description"] = el.text
+         #item["description"] = el.text
          parsed_tex = el.text.split(" ")
          size = parsed_tex.index("Размеры:")
+         country_index = parsed_tex.index("Производитель:")
+         if country_index.present?
+           item["country"] = parsed_tex[country_index+1]
+        end
          next if !size.present? || size == 0 || item["size"].present?
          index_size = size + 1
          sizes =  parsed_tex[index_size].split("<")[0].split("_")[0]

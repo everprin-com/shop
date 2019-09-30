@@ -63,7 +63,9 @@ module Admin
     def delete_drop_ship
       Item.where(drop_ship: params[:drop_ship_name].capitalize).delete_all
       Item.create_header
-      redirect_to "admin/admins"
+      FilterOption.delete_all
+      FilterOption.create!(Item.generate_filters(Item.all))
+      redirect_to "/admin/admins"
     end
   end
 end

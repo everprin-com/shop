@@ -177,8 +177,15 @@ class ItemsImport
        item["season"] = row["season"]
        item["drop_ship"] = @name_drop_ship
        item["article"] = row["article"]
+       #item.delete unless bad_names_include(row["name"])
        item
     end
+  end
+
+  def bad_names_include(name)
+    return false unless name
+    converted_name = name.split(" ")&.map(&:capitalize)
+    converted_name.include?(Item::BAD_NAMED_ITEM[0])
   end
 
   def conver_size_to_array(size)

@@ -95,6 +95,10 @@ class Item < ActiveRecord::Base
     "Тапочки женские 19PL148-1_Черный",
   ]
 
+  BAD_NAMED_ITEM = [
+    "Junior",
+  ]
+
   GROUP = {
     clothes: [
       "Колготки", "Платья", "Майки", "Юбки", "Футболки", "Капри", "Спортивные штаны",
@@ -192,7 +196,7 @@ class Item < ActiveRecord::Base
       size: items.map { |item| item.size }.flatten.uniq,
       price_min: prices.min,
       price_max: prices.max,
-      brand: items.map { |item| item.brand }.uniq,
+      brand: items.map { |item| item.brand }&.compact&.uniq,
       season: seasons&.map { |season| (season&.length && season&.length > 2) ? season : "" }&.reject(&:blank?),
       color: Item.current_main_colors(items),
     }

@@ -24,9 +24,9 @@ class ParserXmlService
         Item.where(drop_ship: used_drop.capitalize).delete_all
         #Item.where(drop_ship: drop_shipper.to_s).delete_all
       end
-      if used_drop == "OLLA"
-        OllaParser.parse_xml_olla(offer, index, categories, used_drop)
-      elsif used_drop == "Villomi"
+      #if used_drop == "OLLA"
+        #OllaParser.parse_xml_olla(offer, index, categories, used_drop)
+      if used_drop == "Villomi"
         VillaParser.parse_xml_olla(offer, index, categories, used_drop)
       elsif used_drop == "Vzuto"
         VzutoParser.parse_xml_olla(offer, index, categories, used_drop)
