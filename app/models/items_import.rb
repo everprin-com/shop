@@ -171,21 +171,20 @@ class ItemsImport
        if row["drop_ship_price"].present? && row["drop_ship_price"] != 0
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
        end
-       item["name"] = row["name"]
+       item["name"] = row["name"] unless bad_names_include(row["name"])
        item["brand"] = row["brand"]
        #item["code"] = row["code"]
        item["season"] = row["season"]
        item["drop_ship"] = @name_drop_ship
        item["article"] = row["article"]
-       #item.delete unless bad_names_include(row["name"])
        item
     end
   end
 
   def bad_names_include(name)
-    return false unless name
-    converted_name = name.split(" ")&.map(&:capitalize)
-    converted_name.include?(Item::BAD_NAMED_ITEM[0])
+    return false unless name.present?
+    converted_name = name.gsub("_", " ").split(" ")&.map(&:capitalize)
+    (converted_name & Item::BAD_NAMED_ITEM).present?
   end
 
   def conver_size_to_array(size)

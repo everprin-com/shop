@@ -30,13 +30,12 @@ class VzutoParser
            item["size"] = [el.text]
          when "Цвет"
            item["color"] = el.text&.split(", ")[0]
-         when "Производитель"
-           item["brand"] = el.text
          when "Материал верха", "Материал подкладки", "Полнота", "Высота каблука", "Вид подошвы"
            item["composition"] ||= ""
            item["composition"] += " " + el&.attributes["name"] + " " + el&.text
          end
        when "name"
+         #item["brand"] = "Vzuto" 
          item["name"] = el.text.scan(/[^0-9]+/)[0]
          #byebug
          founded_category = el.text.gsub(',', " ").gsub('-', " ")&.split(" ")&.map(&:capitalize) + CATEGORIES.flatten.uniq
