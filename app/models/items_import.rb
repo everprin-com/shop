@@ -174,7 +174,7 @@ class ItemsImport
        item["name"] = row["name"] unless bad_names_include(row["name"])
        item["brand"] = row["brand"]
        #item["code"] = row["code"]
-       item["season"] = row["season"]
+       item["season"] = row["season"]#&.split("/")&.capitalize 
        item["drop_ship"] = @name_drop_ship
        item["article"] = row["article"]
        item
@@ -194,6 +194,13 @@ class ItemsImport
       converted_size&.flatten.map do |size|
         size.split("/")
       end
+    #  make from "XXS-S" => ["XXS", "XS", "S"]
+    if !size.is_a?(Float) && size.include?("-") && Item::ROME_SIZE.include?(size.split("-")[0])
+      range_size = size.split("-")
+      first_size = Item::ROME_SIZE.index(size.split("-")[0])
+      last_size = Item::ROME_SIZE.index(size.split("-")[1])
+      converted_size = Item::ROME_SIZE[first_size..last_size]
+    end
     # make from "34-36" => ["34", "35", "36"]
     converted_size =
       converted_size&.flatten.map do |size|
