@@ -20,6 +20,12 @@ class NormalizerParse
     synonim_category.present? ? synonim_category : category
   end
 
+  def self.set_season(season)
+    return unless season
+    synonim_season = Item::SEASON_GROUP.select{ |key, hash| hash.include?(season&.capitalize) }.keys[0].to_s
+    synonim_season.present? ? synonim_season&.split("/") : season&.split("/")
+  end
+
   def self.capitalize_item(item)
      Item::CAPITALIZE_FIELDS.each do |field|
        item.public_send("#{field}=", item.public_send("#{field}")&.capitalize)

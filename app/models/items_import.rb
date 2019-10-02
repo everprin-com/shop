@@ -174,7 +174,7 @@ class ItemsImport
        item["name"] = row["name"] unless bad_names_include(row["name"])
        item["brand"] = row["brand"]
        #item["code"] = row["code"]
-       item["season"] = row["season"]#&.split("/")&.capitalize 
+       item["season"] = NormalizerParse.set_season(row["season"])
        item["drop_ship"] = @name_drop_ship
        item["article"] = row["article"]
        item

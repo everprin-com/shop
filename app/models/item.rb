@@ -104,13 +104,11 @@ class Item < ActiveRecord::Base
   SEASON_GROUP = {
     "Лето": ["Лето", "Летний", "Весенне-летний",],
     "Зима": ["Зима", "Зимний",],
-    "Всесезонная модель": [
+    "Весна/Осень/Лето/Зима": [
       "Всесезонная модель", "Мультисезон", "Демисезон", "Деми",
       "Демисезон,весна/лето", "Весна/осень/зима",
     ],
-    "Весна/осень": [
-      "Весна/осень", "Осень, весна",
-    ]
+    "Весна/Осень": ["Осенне-весенний", "Весна/осень", "Весна, осень",],
   }
 
   GROUP = {
@@ -205,13 +203,13 @@ class Item < ActiveRecord::Base
   def self.generate_filters(all_items, search_category={})
     items = search_category.present? ? all_items.where(category: search_category) : all_items
     prices = items.map { |item| item.price }
-    seasons =  items.map { |item| item.season }.uniq
+    seasons = items.map(&:season)&.flatten&.compact&.uniq
     {
       size: items.map { |item| item.size }.flatten.uniq,
       price_min: prices.min,
       price_max: prices.max,
       brand: items.map { |item| item.brand }&.compact&.uniq,
-      season: seasons&.map { |season| (season&.length && season&.length > 2) ? season : "" }&.reject(&:blank?),
+      season: seasons,
       color: Item.current_main_colors(items),
     }
   end
