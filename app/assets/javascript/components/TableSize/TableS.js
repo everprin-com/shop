@@ -21,8 +21,21 @@ function splitIntoSubArray(arr, count) {
 
 const createTable = (objTableData, dropShip, classes) => {
   if (!objTableData) return null;
-  const parsedObjTableData =
-    typeof objTableData == "string" ? JSON.parse(objTableData) : objTableData;
+  let parsedObjTableData;
+    if (typeof objTableData == "string") {
+      try {
+        parsedObjTableData = JSON.parse(objTableData)
+      } catch (e){
+        parsedObjTableData = objTableData
+      }
+    } else { parsedObjTableData = objTableData }
+    if (typeof parsedObjTableData == "string") {
+      return (
+        <Paper className={classes.root}>
+          {parsedObjTableData}
+        </Paper>
+      )
+    }
 
   return Object.entries(parsedObjTableData).map(([tableTitle, tableData]) => {
     if (!Array.isArray(tableData)) return null;
