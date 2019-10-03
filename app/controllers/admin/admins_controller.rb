@@ -29,14 +29,13 @@ module Admin
           tempfile: file,
         )
         @items_import = ItemsImport.new({:file => artwork}, drop_ship_name)
-        if @items_import.save
-          Item.update_size_same_items
-          Item.delete_bad_products
-          Item.create_header
-          FilterOption.delete_all
-          FilterOption.create!(Item.generate_filters(Item.all))
-        end
+        @items_import.save
       end
+      Item.update_size_same_items
+      Item.delete_bad_products
+      Item.create_header
+      FilterOption.delete_all
+      FilterOption.create!(Item.generate_filters(Item.all))
       redirect_to "/admin/admins"
     end
 

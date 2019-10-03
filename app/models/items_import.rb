@@ -115,7 +115,13 @@ class ItemsImport
          item["size"] = conver_size_to_array(row["size"])
          item["drop_ship_price"] = row["drop_ship_price"]
          row["category"] = "Очки" if row["category"] == "Аксессуары" && row["name"].split(" ")[0] == "Очки"
-         item["category"] = NormalizerParse.set_category(row["category"])
+         setted_category =
+           if (row["category"] == "Женская одежда" || row["category"] == "Джемпер"  || row["category"] == "Верхняя одежда") && row["name"]
+            row["name"]&.split(" ")[0]
+           else
+             row["category"]
+           end
+         item["category"] = NormalizerParse.set_category(setted_category)
          item["color"] = row["color"]
          item["sex"] =
            if Item::WOOMAN_CATEGORIES.include?(row["sex"])
@@ -155,6 +161,10 @@ class ItemsImport
          item["color"] = row["color"]
          category = row["category"]&.split(",")
          setted_category = category ? category[0] : category
+         if (setted_category == "Верхняя одежда" || setted_category == "Кофты и свитера") && row["name"]
+           first_part_name  = row["name"]&.split(" ")[0]
+           setted_category = first_part_name
+         end
          item["category"] = NormalizerParse.set_category(setted_category)
          item["composition"] = row["composition"]
          item["size"] = row["size"]
