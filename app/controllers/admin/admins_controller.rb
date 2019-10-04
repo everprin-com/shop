@@ -7,7 +7,7 @@ module Admin
     def index
       @infos = Info.all
       @users = User.all
-      @orders = Order.order("created_at").includes(:statistic).all
+      @orders = Order.order("created_at").includes(:statistic, :line_items).all
     end
 
     def convert_xml
