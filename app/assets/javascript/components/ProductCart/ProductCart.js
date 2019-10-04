@@ -193,11 +193,13 @@ class ProductCart extends React.PureComponent {
                 />
               </div>
               <div>
-                {this.state.data.size_world && (
+                {
+                  // this.state.data.size_world && (
                   <span className={classes.tableSize} onClick={openTableSize}>
                     Таблица размеров
                   </span>
-                )}
+                // )
+                }
               </div>
               <Button
                 variant="contained"
@@ -245,6 +247,8 @@ class ProductCart extends React.PureComponent {
         <TableSize
           dropShip={this.state.data && this.state.data.drop_ship}
           data={this.state.data && this.state.data.size_world}
+          sex={sex}
+          simple={this.state.data && !this.state.data.size_world}
         />
       </div>
     );

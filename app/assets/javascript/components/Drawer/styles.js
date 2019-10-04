@@ -22,7 +22,9 @@ const styles = theme => ({
       background: "#eee"
     },
     sideBarWrap: {
-      width: 265
+      width: 265,
+      padding: 10,
+      maxWidth: 500,
     }
   });
 

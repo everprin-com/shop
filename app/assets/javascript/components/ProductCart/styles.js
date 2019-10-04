@@ -27,7 +27,8 @@ const styles = theme => ({
     lineHeight: "32px"
   },
   button: {
-    fontSize: 16
+    fontSize: 16,
+    marginTop: 10,
   },
   mainContent: {
     display: "flex",
@@ -81,6 +82,7 @@ const styles = theme => ({
     color: "#303f9f",
     display: "block",
     padding: "10px 0px",
+    width: 200,
   }
 });
 

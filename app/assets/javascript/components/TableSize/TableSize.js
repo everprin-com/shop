@@ -4,6 +4,7 @@ import TableS from "./TableS";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import styles from "./styles";
+import tablesSize from "./TablesSimple";
 
 const mapStateToProps = state => {
   return {
@@ -18,13 +19,23 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-class SwipeableTemporaryDrawer extends React.PureComponent {
+class TableSize extends React.PureComponent {
   render() {
     const {
-      props: { classes, tableSizeOpen, openTableSize, closeTableSize, data, dropShip }
+      props: {
+        classes,
+        tableSizeOpen,
+        openTableSize,
+        closeTableSize,
+        data,
+        dropShip,
+        simple,
+        sex,
+      }
     } = this;
+    const  isMan = sex && sex.includes("man")
     return (
-      <div >
+      <div>
         <SwipeableDrawer
           open={tableSizeOpen}
           onClose={closeTableSize}
@@ -35,7 +46,7 @@ class SwipeableTemporaryDrawer extends React.PureComponent {
             paper: classes.sideBarWrap
           }}
         >
-          <TableS data={data} dropShip={dropShip} />
+          {simple ? tablesSize[isMan ? "man" : "wooman"] : <TableS data={data} dropShip={dropShip} />}
         </SwipeableDrawer>
       </div>
     );
@@ -46,5 +57,5 @@ export default withStyles(styles)(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(SwipeableTemporaryDrawer)
+  )(TableSize)
 );
