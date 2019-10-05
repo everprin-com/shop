@@ -7,7 +7,7 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 I18n.available_locales = %i[en ru]
 
-module Cinema
+module Shop
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

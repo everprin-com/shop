@@ -187,6 +187,7 @@ class ItemsImport
        item["season"] = NormalizerParse.set_season(row["season"])
        item["drop_ship"] = @name_drop_ship
        item["article"] = row["article"]
+       item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
        item
     end
   end
@@ -222,20 +223,6 @@ class ItemsImport
       end
     converted_size&.flatten&.uniq
   end
-
-  # def conver_size_to_array(row)
-  #   return [] unless row["size"]
-  #   parser_dash = row["size"].split("-")
-  #   parser_colon = row["size"].split(" ")
-  #   type_parser = [parser_dash, parser_colon].max_by(&:length)
-  #   if type_parser == parser_dash
-  #     return [] if parser_dash[0].to_i == 0 #if string universal return nil
-  #     (parser_dash[0].to_i..parser_dash[1].to_i).to_a
-  #   elsif type_parser == parser_colon
-  #     return [] if parser_colon[0].to_i == 0
-  #     [parser_colon[0], parser_colon[3], parser_colon[6], parser_colon[9]].compact
-  #   end
-  # end
 
   def imported_items
     @imported_items ||= load_imported_items

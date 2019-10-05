@@ -1,3 +1,8 @@
+require 'rake'
+
+Rake::Task.clear # necessary to avoid tasks being loaded several times in dev mode
+Shop::Application.load_tasks # providing your application name is 'sample'
+
 module Admin
   class AdminsController < Admin::BaseController
     before_action :authenticate_user!
@@ -11,7 +16,8 @@ module Admin
     end
 
     def convert_xml
-      %x[bundle exec rake parser_xml:parser_xml]
+      Rake::Task['parser_xml:parser_xml'].execute
+      #{}%x[rake parser_xml:parser_xml]
       redirect_to "/admin/admins"
     end
 
