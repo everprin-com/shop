@@ -39,7 +39,7 @@ class VzutoParser
          item["name"] = el.text.scan(/[^0-9]+/)[0]
          #byebug
          founded_category = el.text.gsub(',', " ").gsub('-', " ")&.split(" ")&.map(&:capitalize) + CATEGORIES.flatten.uniq
-         founded_uniq_category = non_uniq(founded_category)
+         founded_uniq_category = NormalizerParse.non_uniq(founded_category)
          item["category"] = NormalizerParse.set_category(founded_uniq_category[0] || "Женски") #founded_uniq_category[0] || "Женские")
        when "vendorCode"
          item["article"] = el.text
@@ -88,18 +88,6 @@ class VzutoParser
     item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
     NormalizerParse.capitalize_item(item)
     item.save if NormalizerParse.delete_null_item(item)
-  end
-
-  def self.get_counts(keys)
-    counts = Hash.new(0)
-    keys.each {|k| counts[k] += 1 }
-    counts
-  end
-
-  def self.non_uniq(elements)
-    counts = get_counts(elements)
-    counts.delete_if {|k, v| v < 2 }
-    elements.select {|e| counts.key?(e) }
   end
 
   def self.conver_size_to_array(size)

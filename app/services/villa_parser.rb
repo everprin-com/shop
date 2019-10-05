@@ -25,8 +25,8 @@ class VillaParser
            item["category"] = NormalizerParse.set_category(el.text)
            if item["category"] == "Разное"
              item["sex"] = ["man", "wooman"]
-           elsif item["category"] == "Рюкзак" || item["category"] == "Сумки" || item["category"] == "Кошелек"
-              item["sex"] = ["man"]
+           elsif item["category"] == "Рюкзак" || item["category"] == "Сумки" || item["category"] == "Кошельки"
+             item["sex"] = NormalizerParse.get_sex_by_name(item["name"])
            end
          when "Производитель"
            item["brand"] = el.text
@@ -41,6 +41,7 @@ class VillaParser
        when "description"
          item["description"] = el.text
        when "categoryId"
+         next if  item["sex"].present?
          found_category = categories.values.select { |category| category[:id] == el.text }
          if found_category.present?
            parentId = found_category[0][:parentId]

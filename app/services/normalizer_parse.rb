@@ -41,6 +41,32 @@ class NormalizerParse
     synonim_season.present? ? synonim_season&.split("/") : season&.split("/")
   end
 
+
+  def self.get_sex_by_name(name)
+    return unless name
+    named_product = name.split(" ")&.map(&:capitalize)
+    if NormalizerParse.non_uniq(named_product + Item::MAN_CATEGORIES).present?
+      ["man"]
+    elsif NormalizerParse.non_uniq(named_product + Item::WOOMAN_CATEGORIES).present?
+      ["wooman"]
+    else
+      ["man", "wooman"]
+    end
+  end
+
+  def self.get_counts(keys)
+    counts = Hash.new(0)
+    keys.each {|k| counts[k] += 1 }
+    counts
+  end
+
+  def self.non_uniq(elements)
+    counts = get_counts(elements)
+    counts.delete_if {|k, v| v < 2 }
+    elements.select {|e| counts.key?(e) }
+  end
+
+
   def self.capitalize_item(item)
      Item::CAPITALIZE_FIELDS.each do |field|
        item.public_send("#{field}=", item.public_send("#{field}")&.capitalize)
