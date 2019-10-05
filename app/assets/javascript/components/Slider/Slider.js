@@ -28,9 +28,9 @@ function ArrPrev(props) {
 }
 
 const Item = props => {
-  const { picture, name, price, classes, id } = props;
+  const { picture, name, price, classes, id, slug_id } = props;
   return (
-    <Link to={`/productcart/${id}`}>
+    <Link to={`/productcart/${slug_id ? slug_id : id}`}>
       <Paper>
         <div className={classes.root} elevation={1}>
           <div className={classes.content}>

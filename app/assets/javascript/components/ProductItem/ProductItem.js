@@ -100,11 +100,13 @@ class ProductItem extends React.PureComponent {
       category,
       id,
       size,
-      activeSize
+      activeSize,
+      slug_id
     } = data;
     const { price, saleShow, oldPrice } = convertPrice(notConvertedPrice);
     const shouldShowBottom = this.state.hover || windowWidthLess1000;
-    const withoutSizeName = name.replace(/[0-9-]*$/g, "");
+    const withoutSizeName = name && name.replace(/[0-9-]*$/g, "");
+    const isSlug = !!slug_id
     const shouldShowArr =
       Array.isArray(picture) && picture.length > 1 && shouldShowBottom;
     return (
@@ -116,7 +118,7 @@ class ProductItem extends React.PureComponent {
         {" "}
         <Link
           className={classes.productItemLink}
-          to={`/productcart/${id}`}
+          to={`/productcart/${isSlug ? slug_id : id}`}
           onClick={this.linkHandler}
         >
           <div className={classes.imgWrap}>

@@ -10,6 +10,7 @@ import DialogWindow from "../Dialog/Dialog";
 import ChooseSize from "../ChooseSize/ChooseSize";
 import Footer from "../Footer/Footer";
 import fetchGet from "../api/fetchGet";
+import fetchGetWithParams from "../api/fetchGetWithParams"
 import Slider from "../Slider/Slider";
 import ProductList from "../ProductList/ProductList";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
@@ -59,6 +60,7 @@ class ProductCart extends React.PureComponent {
 
   getProduct = () => {
     const { id } = this.props.match.params;
+    const isSlug = !Number.isInteger(id)
     this.setState({ loading: true });
     fetchGet("/items/vmestitelnyj_zhenskij_rükzak_sinego_cweta_sinij").then(data => {
       this.setState({ data, loading: false }, () => {
