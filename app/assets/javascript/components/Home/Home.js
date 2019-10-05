@@ -19,7 +19,7 @@ const mapStateToProps = state => {
     sliderProducts: state.product,
     firstEnter: state.general.firstEnter,
     pageWidth: state.general.pageWidth,
-    sexArr: state.filterData.filter.sex,
+    sexArr: state.filterData.filter.sex
   };
 };
 
@@ -53,11 +53,15 @@ function RecomendedProductsItem({
   click,
   category,
   price,
-  id
+  id,
+  slug_id
 }) {
   const { price: newPrice, oldPrice, saleShow } = convertPrice(price);
   return (
-    <Link to={`/productcart/${id}`} className={classes.linkToProductCart}>
+    <Link
+      to={`/productcart/${slug_id ? slug_id : id}`}
+      className={classes.linkToProductCart}
+    >
       <div className={classes.sliderItem}>
         <div className={classes.sliderContent}>
           <div className={classes.recImgWrap}>
@@ -81,7 +85,7 @@ class Home extends React.PureComponent {
     fetchGetWithParams("/items/", {
       shuffled_products: true,
       per_page: 8,
-      sex: this.props.sexArr,
+      sex: this.props.sexArr
     }).then(data => this.setState({ data: data.items }));
   };
 
@@ -89,10 +93,10 @@ class Home extends React.PureComponent {
     this.recomendedProducts();
   }
 
-  componentDidUpdate(prevProps){
-   if (!isEqualArr(prevProps.sexArr, this.props.sexArr)){
-    this.recomendedProducts();
-   }
+  componentDidUpdate(prevProps) {
+    if (!isEqualArr(prevProps.sexArr, this.props.sexArr)) {
+      this.recomendedProducts();
+    }
   }
 
   render() {
@@ -128,6 +132,7 @@ class Home extends React.PureComponent {
           category={product.category}
           price={product.price}
           id={product.id}
+          slug_id={product.slug_id}
         />
       );
     });

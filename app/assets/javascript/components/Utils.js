@@ -43,8 +43,8 @@ const getPageWidth = () => {
 const setPageWidth = store => store.dispatch({type: "SET_PAGE_WIDTH", pageWidth: getPageWidth() })
 
 const textWithDots = (str, litCount = 60) => {
-  if (str.length < litCount) return str;
-  return str.slice(0, litCount) + "...";
+  if (str && str.length < litCount) return str;
+  return str && str.slice(0, litCount) + "...";
 };
 
 export { getSizes, isEqualArr, convertPrice, textWithDots, setPageWidth };
