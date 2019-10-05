@@ -8,6 +8,12 @@ class NormalizerParse
     end
   end
 
+  def self.create_slug(name, color)
+    return if !name
+    translated_slug = Translit.convert(name + " " + ( color || "color"), :english)
+    translated_slug&.gsub(/ |-|.|;/,'_')&.downcase
+  end
+
   def self.delete_null_item(item)
     Item::CANT_BE_NULL.each do |field|
       return false if item[field.to_sym] == nil || item[:picture].length == 0

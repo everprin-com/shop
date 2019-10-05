@@ -1,9 +1,10 @@
 class Item < ActiveRecord::Base
   DEFAULT_PAGE = 16
-  extend FriendlyId
-  friendly_id :article, use: :slugged
+  #extend FriendlyId
+  #friendly_id :article, use: :slugged
   #include ActiveModel::Serialization
   #serialize :size_world
+
   attr_accessor :skip
   include PgSearch
   pg_search_scope :search_color,

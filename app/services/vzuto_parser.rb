@@ -35,7 +35,7 @@ class VzutoParser
            item["composition"] += " " + el&.attributes["name"] + " " + el&.text
          end
        when "name"
-         #item["brand"] = "Vzuto" 
+         #item["brand"] = "Vzuto"
          item["name"] = el.text.scan(/[^0-9]+/)[0]
          #byebug
          founded_category = el.text.gsub(',', " ").gsub('-', " ")&.split(" ")&.map(&:capitalize) + CATEGORIES.flatten.uniq
@@ -84,6 +84,7 @@ class VzutoParser
          item["price"] = CalcClientPrice.calc_client_price(el.text)
        end
     end
+    item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
     NormalizerParse.capitalize_item(item)
     item.save if NormalizerParse.delete_null_item(item)
   end

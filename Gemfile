@@ -7,7 +7,7 @@ gem "haml-rails"
 gem 'uglifier', '>= 1.3.0'
 gem 'rubyzip'
 gem 'bootstrap_form'
-gem 'friendly_id'
+#gem 'friendly_id'
 gem 'coffee-rails'
 gem 'jquery-rails'
 
@@ -17,7 +17,7 @@ gem 'actionpack-page_caching'
 gem 'bootstrap-sass'
 gem 'sass-rails'
 gem 'bootstrap_form'
-
+gem 'translit'
 #telegram
 gem 'tele_notify'
 gem 'notifiee-ruby'
