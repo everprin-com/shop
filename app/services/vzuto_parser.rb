@@ -84,8 +84,8 @@ class VzutoParser
          item["price"] = CalcClientPrice.calc_client_price(el.text)
        end
     end
-    #byebug
     item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
+    item["category_translate"] = Translit.convert(item["category"], :english) if item["category"].present?
     NormalizerParse.capitalize_item(item)
     item.save if NormalizerParse.delete_null_item(item)
   end

@@ -29,7 +29,7 @@ class ItemsController < ApplicationController
   def show
     item =
       if params[:slug_id]
-        Item.where(slug_id: params[:slug_id])
+        Item.find_by_slug_id(params[:slug_id])
       elsif params[:id]
         Item.find(params[:id])
       end

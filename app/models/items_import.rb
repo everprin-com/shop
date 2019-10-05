@@ -188,6 +188,7 @@ class ItemsImport
        item["drop_ship"] = @name_drop_ship
        item["article"] = row["article"]
        item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
+       item["category_translate"] = Translit.convert(item["category"], :english) if item["category"].present?
        item
     end
   end
