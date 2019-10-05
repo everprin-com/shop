@@ -60,7 +60,7 @@ class ProductCart extends React.PureComponent {
   getProduct = () => {
     const { id } = this.props.match.params;
     this.setState({ loading: true });
-    fetchGet(`/items/${id}`).then(data => {
+    fetchGet("/items/vmestitelnyj_zhenskij_rükzak_sinego_cweta_sinij").then(data => {
       this.setState({ data, loading: false }, () => {
         // this.props.requestAndAddSlider(this.state.data.category);
         this.props.addProduct(data);
