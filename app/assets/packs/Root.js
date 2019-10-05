@@ -7,18 +7,23 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import reducers from "../javascript/reducers";
-import App from "../javascript/components/App/App";
 import fetchGet from "../javascript/components/api/fetchGet";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
-import ProductCart from "../javascript/components/ProductCart/ProductCart";
-import OrderForm from "../javascript/components/OrderForm/OrderForm";
-import ConvertXml from "../javascript/components/ConvertXml/ConvertXml";
-import RegistrationForm from "../javascript/components/RegistrationForm/RegistrationForm";
 import rootSaga from "../javascript/components/saga";
 import ScrollToTopRoute from "../javascript/components/ScrollToTopRoute/ScrollToTopRoute";
-import Loadable from "react-loadable";
+import { setPageWidth } from "../javascript/components/Utils";
+import {
+  DApp,
+  DProductCart,
+  DOrderForm,
+  DRegistrationForm,
+  DConvertXml,
+  DCategoryPage,
+  DTest,
+} from "../javascript/components/mainPages"
+import '../components'
 
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
@@ -29,22 +34,12 @@ sagaMiddleware.run(rootSaga);
 
 window.store = store;
 
-const Loading = () => <div>Loading...</div>;
-
-// const DApp = Loadable({
-//   loader: () => import("../javascript/components/App"),
-//   loading: Loading
-// });
-
-// const DProductCart = Loadable({
-//   loader: () => import("../javascript/components/ProductCart"),
-//   loading: Loading
-// });
-
-// const DOrderForm = Loadable({
-//   loader: () => import("../javascript/components/OrderForm"),
-//   loading: Loading
-// });
+setPageWidth(store)
+try {
+  window.addEventListener('resize', () => setPageWidth(store)) 
+} catch(e) {
+  window.onload('resize', () => setPageWidth(store)) 
+}
 
 (() => {
   fetchGet("/meta_datas").then(meta_data => {
@@ -58,11 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
     <Provider store={store}>
       <Router>
         <Switch>
-          <ScrollToTopRoute exact path="/" component={App} />
-          <ScrollToTopRoute path="/productcart/:id" component={ProductCart} />
-          <ScrollToTopRoute path="/orderform/" component={OrderForm} />
-          <Route path="/registration/" component={RegistrationForm} />
-          <Route path="/convertXml/" component={ConvertXml} />
+          <ScrollToTopRoute exact path="/" component={DApp} />
+          <ScrollToTopRoute path="/productcart/:id" component={DProductCart} />
+          <ScrollToTopRoute path="/orderform/" component={DOrderForm} />
+          <ScrollToTopRoute path="/categoryPage/:category" component={DCategoryPage} />
+          <Route path="/registration/" component={DRegistrationForm} />
+          <Route path="/convertXml/" component={DConvertXml} />
+          <Route path="/test/" component={DTest} />
         </Switch>
       </Router>
     </Provider>,

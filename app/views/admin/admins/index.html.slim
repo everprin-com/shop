@@ -5,6 +5,16 @@ body
       = text_area_tag(:drop_ship_name)
       = submit_tag 'DELETE'
     end
+    div
+      = link_to "lounch convert to db XLS", convert_xls_admin_admins_path
+    div
+      = link_to "upload xls via link", upload_xls_admin_admins_path
+    div
+      | XML!!!!!!!!!!
+    div
+      = link_to "upload xml via site", upload_xml_admin_admins_path
+    div
+      = link_to "lounch convert to db XML", convert_xml_admin_admins_path
   div
     | USERS
   table
@@ -32,6 +42,8 @@ body
         | ip
       th
         | delta_price
+      th
+        | line_itemsc size -quantity name article color drop_ship price drop_ship_price category
       - ApplicationHelper::STATUS_ORDER.each do |status|
         th
           = status
@@ -51,6 +63,27 @@ body
           = order.statistic&.ip
         td
           = order.total_price.to_f - order.total_price_drop_ship.to_f
+        td
+          - order.line_items.each do |line_item|
+            p
+              = line_item.size
+            p
+              = line_item.quantity
+            p
+              = line_item.name
+            p
+              = line_item.article
+            p
+              = line_item.color
+            p
+              = line_item.drop_ship
+            p
+              = line_item.price
+            p
+              = line_item.drop_ship_price
+            p
+              = line_item.category
+          end
         = form_for :order, url: order_path(order.id), :method => :PUT do |f|
           = f.fields_for :status, order.status do |status|
             - ApplicationHelper::STATUS_ORDER.each do |status_name|

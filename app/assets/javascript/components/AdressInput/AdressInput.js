@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import purple from "@material-ui/core/colors/purple";
-import fetchGetWithParams from "../api/fetchGetWithParams";
 import { connect } from "react-redux";
 import Paper from "@material-ui/core/Paper";
 import { Link } from "react-router-dom";

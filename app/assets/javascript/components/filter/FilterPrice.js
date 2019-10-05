@@ -1,10 +1,9 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import Slider from "rc-slider";
 import { connect } from "react-redux";
-import { InputNumber } from "antd";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import styles from "./styles";
 
 const mapStateToProps = state => {
   return {
@@ -22,87 +21,11 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const Range = Slider.Range;
-
-const styles = {
-  root: {
-    pointerEvents: "auto",
-    width: "100%",
-    magrinTop: 10
-  },
-  inputLeft: {
-    marginLeft: "0 !important"
-  },
-  inputRight: {
-    marginLeft: "4px !important"
-  },
-  slider: {
-    margin: "10px 0 5px"
-  },
-  range: {
-    cursor: "pointer"
-  },
-  activeRange: {
-    fontWeight: "bold"
-  },
-  title: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    fontSize: 16,
-    width: "100%",
-    background: "#eef",
-    fontWeight: "bold",
-    padding: 5
-  },
-  container: {
-    flexWrap: "wrap",
-    display: "flex",
-    justifyContent: "center",
-    paddingLeft: 10
-  },
-  checkbox: {
-    padding: 0
-  },
-  list: {
-    paddingLeft: 10,
-    display: "block",
-    width: "100%"
-  },
-  label: {
-    fontSize: `15px`
-  },
-  divider: {
-    width: "100%",
-    backgroundColor: `rgba(0, 0, 0, 0.2)`
-  },
-  inputWrap: {
-    margin: "10px 0",
-    fontSize: 17
-  },
-  fromTo: {
-    margin: "0 4px"
-  },
-  inputNumber: {
-    width: 70
-  },
-  contentWrap: {
-    padding: 10
-  },
-  titleReset: {
-    fontSize: 13,
-    cursor: "pointer",
-    fontWeight: "normal",
-    paddingRight: 10,
-  }
-};
-
 function RangePrice({
   classes,
   min,
   max,
   title,
-  active,
   priceMax,
   priceMin,
   filter,
@@ -113,7 +36,7 @@ function RangePrice({
     (priceMin < min && priceMax > min) || (priceMin < max && priceMax > max);
   if (!shouldRenderRange) return null;
   return (
-    <div className={classes.option}>
+    <div className={classes.option} key={title}>
       <FormControlLabel
         key={title}
         control={
@@ -197,7 +120,8 @@ class FilterPrice extends React.PureComponent {
     });
   };
 
-  onChangeFromInput = (value, n) => {
+  onChangeFromInput = (e, n) => {
+    const value = e.target.value
     if (Number.isNaN(value)) {
       return;
     }
@@ -216,6 +140,7 @@ class FilterPrice extends React.PureComponent {
     return arr.map(({ min, max, title }) => {
       return (
         <RangePrice
+          key={title}
           classes={classes}
           min={min}
           max={max}
@@ -237,47 +162,49 @@ class FilterPrice extends React.PureComponent {
     return (
       <div className={classes.root}>
         <div className={classes.title}>
-        <span className={classes.titleText}>Цена:</span>
-        <span
-          className={classes.titleReset}
-          onClick={() => addFilter({ price_search: [] })}
-        >
-          Очистить фильтр
-        </span>
+          <span className={classes.titleText}>Цена:</span>
+          <span
+            className={classes.titleReset}
+            onClick={() => addFilter({ price_search: [] })}
+          >
+            Очистить фильтр
+          </span>
         </div>
         <div className={classes.contentWrap}>
           <div className={classes.inputWrap}>
             <span className={classes.fromTo}>От</span>
-            <InputNumber
+            <input
+              type="number"
               min={1}
               max={5000}
               style={{ marginLeft: 16 }}
               value={inputValue[0]}
               className={`${classes.inputLeft} ${classes.inputNumber}`}
-              onChange={value => {
-                this.onChangeFromInput(value, 0);
+              onChange={e => {
+                this.onChangeFromInput(e, 0);
               }}
             />
             <span className={classes.fromTo}>До</span>
-            <InputNumber
+            <input
+              type="number"
               min={1}
               max={5000}
               style={{ marginLeft: 16 }}
               value={inputValue[1]}
               className={`${classes.inputRight} ${classes.inputNumber}`}
-              onChange={value => {
-                this.onChangeFromInput(value, 1);
+              onChange={e => {
+                this.onChangeFromInput(e, 1);
               }}
             />
           </div>
           {this.rangePriceGenerator([
-            {min: 0, max:300, title: "До 300 грн" },
-            {min: 300, max:500, title: "300 - 500 грн" },
-            {min: 500, max:800, title: "500 - 800 грн" },
-            {min: 800, max:1000, title: "800 - 1000 грн" },
-            {min: 1000, max:1500, title: "От 1000 до 1500 грн" },
-            {min: 1500, max:2000, title: "От 1500 до 2000 грн" },
-            {min: 2000, max:9999, title: "От 2000 грн" },
+            { min: 0, max: 300, title: "До 300 грн" },
+            { min: 300, max: 500, title: "300 - 500 грн" },
+            { min: 500, max: 800, title: "500 - 800 грн" },
+            { min: 800, max: 1000, title: "800 - 1000 грн" },
+            { min: 1000, max: 1500, title: "От 1000 до 1500 грн" },
+            { min: 1500, max: 2000, title: "От 1500 до 2000 грн" },
+            { min: 2000, max: 9999, title: "От 2000 грн" }
           ])}
         </div>
       </div>

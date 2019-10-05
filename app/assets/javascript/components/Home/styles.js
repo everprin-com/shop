@@ -1,13 +1,13 @@
 const styles = theme => ({
     root: {
       display: "flex",
-      marginTop: "60px"
+      marginTop: 60,
+      paddingBottom: 60,
     },
     slider: {
-      marginLeft: 260,
       padding: 10,
-      width: "calc(100% - 240px)",
       height: 305,
+      position: "relative",
       [theme.breakpoints.down("sm")]: {
         width: "100%",
         marginLeft: 0
@@ -15,11 +15,15 @@ const styles = theme => ({
     },
     main: {
       width: "100%",
-      paddingTop: 103
+      paddingTop: 70,
+      boxSizing: "border-box",
+      [theme.breakpoints.up("md")]: {
+        paddingLeft: 260,
+      },
     },
     sliderItem: {
       height: 250,
-      cursor: "pointer"
+      cursor: "pointer",
     },
     img: {
       height: "100%",
@@ -39,7 +43,11 @@ const styles = theme => ({
       textAlign: "center"
     },
     title: {
-      fontSize: 20
+      fontSize: 20,
+      color: "#333",
+    },
+    withoutTextDecoration: {
+      textDecoration: "none",
     },
     recSlider: {
       height: 340,
@@ -73,6 +81,13 @@ const styles = theme => ({
     },
     linkToProductCart: {
       textDecoration: "none"
+    },
+    description: {
+      fontSize: 16,
+      padding: 30,
+    },
+    descriptionTitle: {
+      fontSize: 18,
     }
   });
 

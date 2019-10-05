@@ -13,7 +13,7 @@ gem 'jquery-rails'
 
 gem 'jbuilder'
 gem "paperclip"
-
+gem 'actionpack-page_caching'
 gem 'bootstrap-sass'
 gem 'sass-rails'
 gem 'bootstrap_form'
@@ -21,7 +21,7 @@ gem 'bootstrap_form'
 #telegram
 gem 'tele_notify'
 gem 'notifiee-ruby'
-
+gem 'rexml'
 gem 'jquery-ui-rails'
 gem 'pg', "~> 0.20.0"
 gem 'devise'
@@ -73,7 +73,7 @@ gem "rest-client"
 # convert excel
 gem "roo"
 gem "roo-xls"
-gem "spreadsheet"
+#gem "spreadsheet"
 
 group :development, :test do
   gem 'capybara'

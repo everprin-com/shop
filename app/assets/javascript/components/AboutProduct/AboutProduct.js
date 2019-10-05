@@ -6,7 +6,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import styles from "./styles"
+import styles from "./styles";
 
 function AboutProduct(props) {
   const { classes, productData, forMobile } = props;
@@ -37,6 +37,18 @@ function AboutProduct(props) {
         };
         return null;
       }
+      if (key == "sex") {
+        formatedProductData[key] = {
+          title: mapKeys[key],
+          value: productData[key].join(",")
+            ? productData[key]
+                .join(",")
+                .replace("wooman", "Женское")
+                .replace("man", "Мужское")
+            : productData[key].join(",")
+        };
+        return null;
+      }
       formatedProductData[key] = {
         title: mapKeys[key],
         value: productData[key]
@@ -52,7 +64,9 @@ function AboutProduct(props) {
     >
       <Table className={classes.table}>
         <TableBody>
-          <div className={classes.aboutProduct}>О товаре</div>
+          <TableRow>
+            <TableCell className={classes.aboutProduct}>О товаре</TableCell>
+          </TableRow>
           {Object.keys(formatedProductData).map((key, i) => (
             <TableRow key={i} className={classes.row}>
               <TableCell

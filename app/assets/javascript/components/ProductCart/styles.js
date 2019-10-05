@@ -2,12 +2,12 @@ const styles = theme => ({
   root: {
     margin: "0 auto",
     display: "flex",
-    fontFamily: "Arial",
     flexDirection: "column",
     lineHeight: "1.3",
     fontSize: "16px",
     minHeight: "100vh",
     justifyContent: "space-between",
+    fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
     [theme.breakpoints.up("xs")]: {
       maxWidth: "360px"
     },
@@ -75,6 +75,12 @@ const styles = theme => ({
   galleryDot: {
     width: 40,
     height: 40
+  },
+  tableSize: {
+    cursor: "pointer",
+    color: "#303f9f",
+    display: "block",
+    padding: "10px 0px",
   }
 });
 

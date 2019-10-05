@@ -15,6 +15,12 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+const mapStateToProps = state => {
+  return {
+    pageWidth: state.general.pageWidth
+  };
+};
+
 class DropDownMenu extends React.PureComponent {
   state = {
     value: 100,
@@ -23,32 +29,17 @@ class DropDownMenu extends React.PureComponent {
 
   handleChange = (event, value) => this.setState({ value });
 
-  hoverOn = value =>
-    imgCategoryMap[value] &&
-    this.setState({ imgCategory: imgCategoryMap[value] });
+  // hoverOn = value =>
+  //   imgCategoryMap[value] &&
+  //   this.setState({ imgCategory: imgCategoryMap[value] });
 
   onChangeCategory = category => {
-    const {
-      requestAndAddProducts,
-      redirectToRoot,
-      addFilter,
-      resetDropDown,
-      mainPage
-    } = this.props;
-    addFilter({ search_category: [category] });
+    const { resetDropDown, redirectToCategory } = this.props;
+    redirectToCategory(category);
     resetDropDown();
-    redirectToRoot && redirectToRoot();
   };
 
-  ulWithSpecialCountLi = (arrLi, countLi) => {
-    const { classes } = this.props;
-    if (!arrLi) return;
-    let ulAmount = Math.ceil((arrLi.length + 1) / countLi);
-
-    let arrForUl = [];
-    for (var i = 1, s = 0; i <= ulAmount; ++i, s = s + countLi) {
-      arrForUl.push(arrLi.slice(s, countLi * i));
-    }
+  renderUlList = (arrForUl, arrLi, classes) => {
     return arrForUl.map((arrLi, i) => {
       return (
         <ul className={classes.categoryList} key={i}>
@@ -58,7 +49,7 @@ class DropDownMenu extends React.PureComponent {
                 className={classes.categoryItem}
                 onClick={() => this.onChangeCategory(liTitle)}
                 key={i}
-                onMouseEnter={this.hoverOn.bind(this, liTitle)}
+                // onMouseEnter={this.hoverOn.bind(this, liTitle)}
               >
                 {liTitle.toUpperCase()}
               </li>
@@ -69,11 +60,38 @@ class DropDownMenu extends React.PureComponent {
     });
   };
 
+  ulWithSpecialCountLi = ({ arrLi, countLi, countUl }) => {
+    const { classes } = this.props;
+    if (!arrLi) return;
+    if (countUl) {
+      const countLiInEveryUl = Math.ceil(arrLi.length / countUl);
+      let arrForUl = [];
+      for (var i = 1, s = 0; i <= countUl; ++i, s = s + countLiInEveryUl) {
+        arrForUl.push(arrLi.slice(s, countLiInEveryUl * i));
+      }
+
+      return this.renderUlList(arrForUl, arrLi, classes);
+    }
+
+    if (countLi) {
+      let ulAmount = Math.ceil(arrLi.length / countLi);
+      let arrForUl = [];
+      for (var i = 1, s = 0; i <= ulAmount; ++i, s = s + countLi) {
+        arrForUl.push(arrLi.slice(s, countLi * i));
+      }
+
+      return this.renderUlList(arrForUl, arrLi, classes);
+    }
+  };
+
   productTypeList = () => {
-    const { classes, productTypeList } = this.props;
+    const { classes, productTypeList, pageWidth } = this.props;
     return (
-      <div className={classes.categoryBlock}>
-        {this.ulWithSpecialCountLi(productTypeList, 5)}
+      <div className={classes.categoryTypeList}>
+        {this.ulWithSpecialCountLi({
+          arrLi: productTypeList && productTypeList.sort(),
+          ...(pageWidth < 600 ? { countUl: 2 } : { countLi: 5 })
+        })}
       </div>
     );
   };
@@ -84,9 +102,9 @@ class DropDownMenu extends React.PureComponent {
     return (
       <div className={classes.categoryBlock}>
         {this.productTypeList()}
-        <Paper className={classes.cardImg}>
+        {/* <Paper className={classes.cardImg}>
           <img className={classes.img} src={imgCategory} />
-        </Paper>
+        </Paper> */}
       </div>
     );
   }
@@ -97,6 +115,6 @@ DropDownMenu.propTypes = {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withStyles(styles)(DropDownMenu));

@@ -9,6 +9,7 @@ root@178.62.6.75
 ssh rails-demo@178.62.6.75
 RAILS_ENV=production bundle exec rails c
 tail -f ~/app/shared/log/*
+node --max_old_space_size=1096 node_modules/webpack/.bin/webpack.js
 
 rubocop
 
@@ -30,6 +31,17 @@ Order telegram
 id: TeleNotify::TelegramUser.find(2)
 1) #<TeleNotify::TelegramUser id: 1, telegram_id: -363760774, first_name: "newtrex", username: "newtrex_bot", created_at: "2019-05-09 20:53:20", updated_at: "2019-05-09 20:53:20">
 2) => #<TeleNotify::TelegramUser id: 2, telegram_id: -374400962, first_name: "newtrex", username: "newtrex_bot", created_at: "2019-05-09 21:06:13", updated_at: "2019-05-09 21:06:13">
+
+https://convertio.co/ru/csv-xls/
+parse issaplus insert url
+https://issaplus.com/load/csv3.php
+
+XLS_LINK = [
+  "http://timeofstyle.com/download/tos_actual_price_and_stock.xls",
+  "https://ager.ua/download/ager_actual_price_and_stock.xls",
+  "https://garne.com.ua/files/garne_prices_clothes.xlsx",
+  "https://favoritti.com/upload/favoritti_com_export_csv_opt.xlsx",
+]
 
 Parser
 валидация по полям name, price, picture
@@ -59,6 +71,19 @@ I just made the log in postgres and do this comands:
 postgres=# \du # to list all users
 postgres=# ALTER ROLE user CREATEROLE SUPERUSER;
 ALTER ROLE # this was the result
+
+PARSER XLS
+bundle exec rake parser_excel:parser_excel
+PARSER XML
+bundle exec rake parser_xml:parser_xml
+
+autoparser
+      "http://timeofstyle.com/download/tos_actual_price_and_stock.xls",
+      "https://ager.ua/download/ager_actual_price_and_stock.xls",
+      "https://garne.com.ua/files/garne_prices_clothes.xlsx",
+
+hand-convert to csv        
+      "https://issaplus.com/load/csv3.php"
 
 CONVERT EXCEL
 1) ложим в папку файлы public/excel/origin "xls"

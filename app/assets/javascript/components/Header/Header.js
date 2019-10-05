@@ -10,8 +10,8 @@ import MenuGenderPanel from "../MenuGenderPanel/MenuGenderPanel";
 import Panel from "../Panel/Panel";
 import DropDownMenu from "../DropDownMenu/DropDownMenu";
 import Drawer from "../Drawer/Drawer";
-import { Link } from "react-router-dom";
 import styles from "./styles";
+import Logo from "../Logo/Logo"
 
 const mapStateToProps = state => {
   const isFemale =
@@ -26,7 +26,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    resetFilter: () => dispatch({ type: "RESET_FILTER" })
+    resetFilterWithoutSex: () => dispatch({ type: "RESET_FILTER_WITHOUT_SEX" })
   };
 };
 
@@ -47,24 +47,6 @@ function CastomIcon({ src, classes }) {
     <div className={classes.icon}>
       <img className={classes.img} src={`/imgs/${src}`} />
     </div>
-  );
-}
-
-function Logo({ classes, redirectToRoot, resetFilter }) {
-  const handleClink = e => {
-    e.preventDefault();
-    resetFilter && resetFilter();
-    if (redirectToRoot) {
-      redirectToRoot();
-      resetFilter();
-    }
-  };
-  return (
-    <Link to="/" onClick={handleClink}>
-      <div className={classes.logoWrap}>
-        <img src="/imgs/logo.png" className={classes.logo} />
-      </div>
-    </Link>
   );
 }
 
@@ -89,7 +71,6 @@ class Header extends React.PureComponent {
 
   productTypeList = type => {
     const { headers } = this.props;
-    console.log(headers);
     if (!headers || !headers.filter) return;
     const typeCategory = headers.filter(header => header.group == type);
     const catalogues = Object.keys(typeCategory).map(
@@ -119,14 +100,14 @@ class Header extends React.PureComponent {
   };
 
   render() {
-    const { classes, redirectToRoot, withSmallMenu, resetFilter } = this.props;
+    const {mainPageHeader, classes, redirectToRoot, redirectToCategory, withSmallMenu, resetFilterWithoutSex } = this.props;
     const { value } = this.state;
 
     return (
       <header className={`${classes.header} header`}>
         <div className="header-content">
           <div className={classes.root}>
-            <MenuGenderPanel />
+            <MenuGenderPanel redirectToRoot={redirectToRoot} />
 
             <AppBar
               position="static"
@@ -135,7 +116,7 @@ class Header extends React.PureComponent {
             >
               <Logo
                 classes={classes}
-                resetFilter={resetFilter}
+                resetFilterWithoutSex={resetFilterWithoutSex}
                 redirectToRoot={redirectToRoot}
               />
               <div ref={this.tabsRef}>
@@ -184,6 +165,7 @@ class Header extends React.PureComponent {
                 {value === 0 && (
                   <DropDownMenu
                     redirectToRoot={redirectToRoot}
+                    redirectToCategory={redirectToCategory}
                     productTypeList={this.productTypeList("clothes")}
                     resetDropDown={this.resetDropDown}
                     mainPage={withSmallMenu}
@@ -192,6 +174,7 @@ class Header extends React.PureComponent {
                 {value === 1 && (
                   <DropDownMenu
                     redirectToRoot={redirectToRoot}
+                    redirectToCategory={redirectToCategory}
                     productTypeList={this.productTypeList("footwear")}
                     resetDropDown={this.resetDropDown}
                     mainPage={withSmallMenu}
@@ -200,6 +183,7 @@ class Header extends React.PureComponent {
                 {value === 2 && (
                   <DropDownMenu
                     redirectToRoot={redirectToRoot}
+                    redirectToCategory={redirectToCategory}
                     productTypeList={this.productTypeList("accessories")}
                     resetDropDown={this.resetDropDown}
                     mainPage={withSmallMenu}
@@ -207,7 +191,7 @@ class Header extends React.PureComponent {
                 )}
               </div>
             )}
-            {withSmallMenu && <Drawer />}
+            {withSmallMenu && <Drawer mainPageHeader={mainPageHeader} />}
           </div>
         </div>
       </header>

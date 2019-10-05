@@ -1,6 +1,8 @@
 
 class ItemsController < ApplicationController
 
+  caches_page :index, :generate_filters
+
   def index
     items = Item.all
     generate_filters = generate_filters(items, params[:search_category])
@@ -12,10 +14,11 @@ class ItemsController < ApplicationController
     items = items.search_color(shadow_collors(params[:search_color])) if params[:search_color].present?
     items = items.where('size && ARRAY[?]::varchar[]', params[:search_size]) if params[:search_size].present?
     items = items.where(brand: params[:search_brand]) if params[:search_brand].present?
+    items = items.where(drop_ship: params[:drop_ship]) if params[:drop_ship].present?
     items = items.where(category: params[:search_category]) if params[:search_category].present?
     #items = items.search_category(params[:search_category]) if params[:search_category].present?
     items = items.where('sex && ARRAY[?]::varchar[]', params[:sex]) if params[:sex].present?
-    items = items.where(season: params[:season]) if params[:season].present?
+    items = items.where('season && ARRAY[?]::varchar[]', params[:season]) if params[:season].present?
     items = items.shuffle if params[:shuffled_products]
     items = items.paginate(page: params[:page], per_page: per_page(params[:per_page]))
     serialized_items = items.map { |item| ItemSerializer.new(item) }
@@ -27,11 +30,19 @@ class ItemsController < ApplicationController
     item = Item.friendly.find(params[:id])
     respond_to do |format|
       format.html
-      format.json { render json: item.to_json }
+      format.json { render json: ItemSerializer.new(item) }
     end
   end
 
    private
+
+  def generate_filters(items, search_category)
+     if search_category.present?
+       Item.generate_filters(items, search_category)
+     else
+       FilterOption.first
+     end
+   end
 
    def search_by_price(items)
      #price_search= [{from: 450, to: 500}, {from: 800, to: 1000}]
@@ -49,31 +60,6 @@ class ItemsController < ApplicationController
      end
      collors_shades.uniq
    end
-
-   def generate_filters(all_items, search_category)
-     items = search_category.present? ? all_items.where(category: search_category) : all_items
-     prices = items.map { |item| item.price }
-     seasons =  items.map { |item| item.season }.uniq
-     {
-       size: items.map { |item| item.size }.flatten.uniq,
-       price_min: prices.min,
-       price_max: prices.max,
-       brand: items.map { |item| item.brand }.uniq,
-       season: seasons&.map { |season| season.length > 2 ? season : "" }&.reject(&:blank?),
-       color: current_main_colors(items),
-     }
-   end
-
-   def current_main_colors(items)
-     all_colors = items.map { |item| item.color}.uniq
-     uniq_colors = all_colors.map { |color| color.split("/") }.flatten.map(&:capitalize).uniq
-     current_main_colors = []
-     uniq_colors.each do |color|
-       include_color = Item::COLOR_SHADES.select{|key, hash| hash.include?(color) }
-       current_main_colors << (include_color.keys)[0].to_s if include_color.present?
-     end
-     current_main_colors.uniq
-  end
 
    def per_page(per_page)
      per_page ? per_page : Item::DEFAULT_PAGE

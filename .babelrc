@@ -1,28 +1,27 @@
 {
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
         "modules": false,
+        "loose": true,
         "targets": {
           "browsers": "> 1%",
-          "uglify": true
-        },
-        "useBuiltIns": true
+        }
       }
     ],
-    "react"
+    "@babel/preset-react",
   ],
   "plugins": [
     "syntax-dynamic-import",
-    "transform-object-rest-spread",
+    "@babel/plugin-proposal-object-rest-spread",
     [
       "transform-class-properties",
       {
         "spec": true
       }
     ],
-    "react-hot-loader/babel"
+    "react-hot-loader/babel",
   ],
   "env": {
     "test": {

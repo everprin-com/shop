@@ -98,6 +98,11 @@ const styles = theme => ({
     title: {
       color: "#333",
       textDecoration: "none",
+      textOverflow: "ellipsis",
+      overflow: "hidden",
+      width: "350px",
+      height: "1.2em",
+      whiteSpace: "nowrap",
     },
     paperItem: {
       marginBottom: 5,

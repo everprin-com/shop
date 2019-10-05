@@ -7,6 +7,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Divider from "@material-ui/core/Divider";
 import { connect } from "react-redux";
+import styles from "./styles";
 
 const mapStateToProps = state => {
   return {
@@ -21,37 +22,6 @@ const mapDispatchToProps = dispatch => {
   return {
     addFilter: filter => dispatch({ type: "ADD_FILTER", filter })
   };
-};
-
-const styles = {
-  root: {
-    color: "#111",
-    "&$checked": {
-      color: green[500]
-    },
-    pointerEvents: "auto"
-  },
-  title: {
-    // textAlign: "center",
-    fontSize: 16,
-    width: "100%",
-    background: "#eef",
-    fontWeight: "bold",
-    padding: 5
-  },
-  container: {
-    flexWrap: "wrap",
-    display: "flex",
-    justifyContent: "center",
-    padding: 5
-  },
-  checked: {},
-  label: {
-    marginRight: 10
-  },
-  checkbox: {
-    padding: 2
-  }
 };
 
 class CheckboxLabels extends React.PureComponent {
@@ -71,7 +41,7 @@ class CheckboxLabels extends React.PureComponent {
                 className={classes.checkbox}
               />
             }
-            label="Женский"
+            label={<span className={classes.label}>Женский</span>}
             className={classes.label}
           />
           <FormControlLabel
@@ -79,12 +49,12 @@ class CheckboxLabels extends React.PureComponent {
               <Checkbox
                 checked={!isWooman}
                 onChange={() => addFilter({ sex: ["man"] })}
-                value="male"
+                value="dmale"
                 color="primary"
                 className={classes.checkbox}
               />
             }
-            label="Мужской"
+            label={<span className={classes.label}>Мужской</span>}
             className={classes.label}
           />
         </div>

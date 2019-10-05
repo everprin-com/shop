@@ -148,7 +148,7 @@ class ProductItem extends React.PureComponent {
 
           <CardContent className={classes.cardContent}>
             <Typography component="div" className={classes.cardDesctiption}>
-              <div className={classes.title}>{textWithDots(withoutSizeName, 60)}</div>
+              <div className={classes.title}>{textWithDots(withoutSizeName, 52)}</div>
               <div className={classes.category}>{category}</div>
               <div className={classes.price}>
                 <div className={classes.oldPrice}>{`${oldPrice} грн`}</div>

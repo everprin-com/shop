@@ -26,16 +26,25 @@ const isEqualArr = (oneArr, otherArr) => {
 const convertPrice = price => {
   price = Math.round(+price);
   const sales = [30, 40, 50, 25, 55, 60, 45, 35, 65, 40];
-  const sale =
-    sales[("" + price).split("")[("" + price).split("").length - 1]];
+  const sale = sales[("" + price).split("")[("" + price).split("").length - 1]];
   const oldPrice = Math.round(price + (price * sale) / 100);
   const saleShow = 100 - Math.round((price * 100) / oldPrice);
-  return {price, oldPrice, saleShow }
-}
+  return { price, oldPrice, saleShow };
+};
+
+const getPageWidth = () => {
+  return (
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth
+  );
+};
+
+const setPageWidth = store => store.dispatch({type: "SET_PAGE_WIDTH", pageWidth: getPageWidth() })
 
 const textWithDots = (str, litCount = 60) => {
-  if (str.length < litCount) return str
- return str.slice(0,litCount) + "..."
- }
+  if (str.length < litCount) return str;
+  return str.slice(0, litCount) + "...";
+};
 
-export { getSizes, isEqualArr, convertPrice, textWithDots };
+export { getSizes, isEqualArr, convertPrice, textWithDots, setPageWidth };
