@@ -62,7 +62,7 @@ class ProductCart extends React.PureComponent {
     const { id } = this.props.match.params;
     const isSlug = !Number.isInteger(id)
     this.setState({ loading: true });
-    fetchGet("/items/vmestitelnyj_zhenskij_rükzak_sinego_cweta_sinij").then(data => {
+    fetchGet(`/items/${id}`).then(data => {
       this.setState({ data, loading: false }, () => {
         // this.props.requestAndAddSlider(this.state.data.category);
         this.props.addProduct(data);
