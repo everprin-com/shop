@@ -31,7 +31,7 @@ class ItemsController < ApplicationController
       if params[:slug_id]
         Item.find(params[:slug_id])
       elsif params[:id]
-        Item.find(slug_id: params[:slug_id])
+        Item.find(params[:id])
       end
     respond_to do |format|
       format.html
