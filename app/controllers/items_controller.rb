@@ -5,7 +5,7 @@ class ItemsController < ApplicationController
 
   def index
     items = Item.all
-    used_category = params[:search_category].presnt? ? params[:search_category] : params[:search_category_translated]
+    used_category = params[:search_category].present? ? params[:search_category] : params[:search_category_translated]
     generate_filters = generate_filters(items, used_category)
     items = items.where(category: used_category) if used_category
     items = items.name_search(params[:search_name]) if params[:search_name].present?
