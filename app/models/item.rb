@@ -209,6 +209,11 @@ class Item < ActiveRecord::Base
     end
   end
 
+  def self.delete_same_slug_ids
+    not_uniq_slug_ids = select('items.slug_id').group('items.slug_id').having('count(items.slug_id) >1').all
+    where(slug_id: not_uniq_slug_ids).delete_all
+  end
+
   def self.delete_bad_products
     Item.where(name: Item::BAD_PRODUCTS_NAME).delete_all
     Item.where(category: Item::BAD_CATEGORIES).delete_all

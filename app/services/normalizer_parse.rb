@@ -8,10 +8,19 @@ class NormalizerParse
     end
   end
 
+  def self.normalizer_products
+    Item.update_size_same_items
+    Item.delete_bad_products
+    Item.delete_same_slug_ids
+    Item.create_header
+    FilterOption.delete_all
+    FilterOption.create!(Item.generate_filters(Item.all))
+  end
+
   def self.create_slug(name, color)
     return if !name
     translated_slug = Translit.convert(name + " " + ( color || "color"), :english)
-    translated_slug&.gsub(/ |-/,'_')&.downcase
+    translated_slug&.gsub(/ |-/,'_')&.remove("'", ".")&.downcase
   end
 
   def self.delete_null_item(item)
