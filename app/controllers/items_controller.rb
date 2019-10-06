@@ -28,12 +28,7 @@ class ItemsController < ApplicationController
   end
 
   def show
-    item =
-      if params[:slug_id]
-        Item.find_by_slug_id(params[:slug_id])
-      elsif params[:id]
-        Item.find(params[:id])
-      end
+    item = Item.find_by_slug_id(params[:id])
     respond_to do |format|
       format.html
       format.json { render json: ItemSerializer.new(item) }

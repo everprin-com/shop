@@ -9,7 +9,7 @@ import ProductItemSizes from "../ProductItemSizes/ProductItemSizes";
 import DialogWindow from "../Dialog/Dialog";
 import ChooseSize from "../ChooseSize/ChooseSize";
 import Footer from "../Footer/Footer";
-// import fetchGet from "../api/fetchGet";
+import fetchGet from "../api/fetchGet";
 import fetchGetWithParams from "../api/fetchGetWithParams"
 import Slider from "../Slider/Slider";
 import ProductList from "../ProductList/ProductList";
@@ -60,10 +60,9 @@ class ProductCart extends React.PureComponent {
 
   getProduct = () => {
     const { id } = this.props.match.params;
-    const isSlug = !Number.isInteger(id)  
+    const isSlug = !Number.isInteger(id)
     this.setState({ loading: true });
-    fetchGetWithParams("/items/", {[isSlug ? "slug_id" : "id"]: id}, true)
-      .then(data => {
+    fetchGet(`/items/${id}`).then(data => {
       this.setState({ data, loading: false }, () => {
         // this.props.requestAndAddSlider(this.state.data.category);
         this.props.addProduct(data);
