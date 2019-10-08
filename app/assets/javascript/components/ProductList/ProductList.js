@@ -33,11 +33,9 @@ class ProductList extends React.PureComponent {
       products,
       productsParams,
       firstEnter
-      // fistEnterOff
     } = this.props;
-    if (productsParams) {
+    if (productsParams && productsParams.search_category) {
       requestAndAddProducts(productsParams);
-      // fistEnterOff();
     }
     window.addEventListener("scroll", this.scrollChange);
   }

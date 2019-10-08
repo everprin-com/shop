@@ -10,7 +10,7 @@ export default function (state = [], action) {
         return [...action.products]
       case 'SET_ACTIVE_SIZE':
         return [...state.map(product => { return (
-          product.id === action.id ? {...product, activeSize: action.size} : product
+          product.slug_id === action.id ? {...product, activeSize: action.size} : product
         )})]
       default:
         return state

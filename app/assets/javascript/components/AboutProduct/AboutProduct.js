@@ -37,6 +37,21 @@ function AboutProduct(props) {
         };
         return null;
       }
+      if (key == "season") {
+        if (Array.isArray(productData[key]) && !productData[key].length) return;
+        if (Array.isArray(productData[key])) {
+          formatedProductData[key] = {
+            title: mapKeys[key],
+            value: productData[key].join(", ")
+          };
+        } else {
+          formatedProductData[key] = {
+            title: mapKeys[key],
+            value: productData[key]
+          };
+        }
+        return null;
+      }
       if (key == "sex") {
         formatedProductData[key] = {
           title: mapKeys[key],

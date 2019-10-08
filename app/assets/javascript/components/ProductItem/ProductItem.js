@@ -162,7 +162,7 @@ class ProductItem extends React.PureComponent {
         {shouldShowBottom && (
           <div className={classes.activeCard}>
             <CardActions className={classes.actions} disableActionSpacing>
-              <ProductItemSizes id={id} sizes={size} activeSize={activeSize} />
+              <ProductItemSizes id={slug_id} sizes={size} activeSize={activeSize} />
             </CardActions>
             <Button
               variant="contained"
