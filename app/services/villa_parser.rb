@@ -18,7 +18,7 @@ class VillaParser
         when "Размеры в наличии"
            item["size"].push(el.text)
          when "Сезон"
-           item["season"] = el.text
+           item["season"] = [el.text]
          when "Цвет"
            item["color"] = el.text&.split(", ")[0]
          when "Вид"
