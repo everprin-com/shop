@@ -94,7 +94,10 @@ function* requestAndAddProducts(action = {}, params = { page: 1 }) {
           price_search: JSON.stringify(queryParams.price_search)
         }
       : queryParams;
+  
   const products = yield call(fetchGetWithParams, "/items/", formatedParams);
+  console.log(window.store.getState().product)
+  console.log(products)
   yield put({ type: "CHANGE_LAST_PAGE", page: products.total_pages });
   yield put({ type: "CHANGE_LAST_PARAMS", lastRequestParams: queryParams });
   if (action.afterReset) {

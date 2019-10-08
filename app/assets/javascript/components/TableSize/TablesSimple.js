@@ -6,6 +6,7 @@ const tablesSize = {
     border="2"
     cellpadding="1"
     cellspacing="1"
+    className="simpleTableSize"
   >
     <thead>
       <tr>
@@ -120,6 +121,7 @@ const tablesSize = {
   border="2"
   cellpadding="1"
   cellspacing="1"
+  className="simpleTableSize"
 >
   <thead>
     <tr>

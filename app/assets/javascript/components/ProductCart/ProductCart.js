@@ -74,7 +74,7 @@ class ProductCart extends React.PureComponent {
 
   putToCart = () => {
     const { products, putToCart, match } = this.props;
-    const product = products.find(product => product.id == match.params.id);
+    const product = products.find(product => product.slug_id == match.params.id);
     putToCart(product);
   };
 
@@ -135,8 +135,8 @@ class ProductCart extends React.PureComponent {
       openTableSize,
       sex
     } = this.props;
-    const { loading } = this.state;
-    const { id } = match.params;
+    const { loading, data } = this.state;
+    const { id } = data;
     const productData = products.find(product => product.id == id) || {};
     const { size, picture, name, category, price } = productData;
     const activeSize = productData.activeSize;
@@ -189,7 +189,7 @@ class ProductCart extends React.PureComponent {
               <div>
                 <ProductItemSizes
                   sizes={size}
-                  id={+this.props.match.params.id}
+                  id={this.props.match.params.id}
                   activeSize={activeSize}
                   format="big"
                 />
