@@ -76,7 +76,8 @@ const styles = theme => ({
   price: {
     margin: "0 15px",
     [theme.breakpoints.down("xs")]: {
-      fontSize: 14
+      fontSize: 14,
+      margin: "0 5px",
     }
   },
   inputAmount: {

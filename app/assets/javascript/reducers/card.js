@@ -13,11 +13,9 @@ export default function(state = initialCard, action) {
           product.activeSize == action.product.activeSize
         );
       });
-      console.log(productWithSameActiveSize)
       const product = productWithSameActiveSize
         ? productWithSameActiveSize
         : state.data.find(product => product.id === action.product.id) || {};
-      console.log(product)
       let prevAmount = product.amount;
       const isSizeEquel = product.activeSize == action.product.activeSize;
 

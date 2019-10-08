@@ -33,7 +33,8 @@ const styles = theme => ({
       color: "#fff"
     },
     [theme.breakpoints.up("xs")]: {
-      padding: "2px 8px"
+      padding: "2px 8px",
+      fontSize: 14 ,
     },
     [theme.breakpoints.up("sm")]: {
       padding: "4px 14px"
@@ -62,7 +63,7 @@ const styles = theme => ({
     color: "#fff"
   },
   sizeSmall: {
-    padding: "0 4px"
+    padding: "5 10px"
   }
 });
 
