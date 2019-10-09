@@ -11,8 +11,7 @@ const mapDispatchToProps = dispatch => {
   return {
     requestAndAddProducts: params =>
       dispatch({ type: "REQUEST_AND_ADD_PRODUCTS", params, afterReset: true }),
-    addFilter: filter => dispatch({ type: "ADD_FILTER", filter }),
-    resetProducts: params => dispatch({ type: "RESET_PRODUCTS" })
+    addFilter: filter => dispatch({ type: "ADD_FILTER", filter })
   };
 };
 
@@ -35,8 +34,7 @@ class DropDownMenu extends React.PureComponent {
   //   this.setState({ imgCategory: imgCategoryMap[value] });
 
   onChangeCategory = category => {
-    const { resetDropDown, redirectToCategory, resetProducts } = this.props;
-    resetProducts()
+    const { resetDropDown, redirectToCategory } = this.props;
     redirectToCategory(category);
     resetDropDown();
   };

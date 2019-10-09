@@ -122,7 +122,6 @@ class OrderForm extends React.PureComponent {
   };
 
   sendOrder = () => {
-    ga("send", "event", "События кнопок", "Попытка отправить заказ")
     this.setState({ wasTrySend: true });
     if (this.validateData()) {
       const line_items = this.props.card.data.map(function(element) {
@@ -165,7 +164,6 @@ class OrderForm extends React.PureComponent {
   };
 
   redirectToMain = () => {
-    ga("send", "event", "События кнопок", "Отправить заказ")
     this.props.history.push("/");
   };
 
