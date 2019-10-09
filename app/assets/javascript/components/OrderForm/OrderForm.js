@@ -122,6 +122,7 @@ class OrderForm extends React.PureComponent {
   };
 
   sendOrder = () => {
+    gtag("event", "Попытка отправить заказ", {'event_category': 'События кнопок', 'event_action': "Попытка отправить заказ"})
     this.setState({ wasTrySend: true });
     if (this.validateData()) {
       const line_items = this.props.card.data.map(function(element) {
@@ -164,6 +165,7 @@ class OrderForm extends React.PureComponent {
   };
 
   redirectToMain = () => {
+    gtag("event", "Отправить заказ", {'event_category': 'События кнопок', 'event_action': "Отправить заказ"})
     this.props.history.push("/");
   };
 
