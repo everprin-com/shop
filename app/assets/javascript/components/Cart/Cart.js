@@ -117,7 +117,7 @@ class Cart extends React.PureComponent {
               color="secondary"
               className={classes.button}
               onClick={() => {
-                ga("send", "event", "События кнопок", "Оформление заказа");
+                gtag("event", "Оформление заказа", {'event_category': 'События кнопок', 'event_action': "Оформление заказа"})
                 orderForm ? closeCart() : redirToOrderForm();
               }}
             >
