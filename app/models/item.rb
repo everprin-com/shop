@@ -86,6 +86,9 @@ class Item < ActiveRecord::Base
   BAD_CATEGORIES = [
     "Для девочек", "Для мальчиков", "Мужская одежда", "Замшевые", "Шляпы",
   ]
+  BAD_SLUG_IDS = [
+    "botinki_zimnie_na_kabluke_chernyj",
+  ]
   BAD_PRODUCTS_NAME = [
     "Сумка стильная, вместительная 710K001_Черный",
     "Палантин женский легкий, с бахромой по краям 50PD0003-1_Бирюзово-серый",
@@ -220,6 +223,7 @@ class Item < ActiveRecord::Base
 
   def self.delete_bad_products
     Item.where(name: Item::BAD_PRODUCTS_NAME).delete_all
+    Item.where(name: Item::BAD_SLUG_IDS).delete_all
     Item.where(category: Item::BAD_CATEGORIES).delete_all
   end
 

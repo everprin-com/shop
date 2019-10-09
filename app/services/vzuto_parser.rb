@@ -68,8 +68,9 @@ class VzutoParser
          sizes =  parsed_tex[index_size].split("<")[0].split("_")[0]
          if sizes.split("-").length == 1 && sizes.include?("-")
            sizes = sizes + parsed_tex[index_size + 1]
+           normalized_range_sizes = sizes[/\d+.\d+/]
          end
-         item["size"] = conver_size_to_array(sizes) if !item["size"].present?
+         item["size"] = conver_size_to_array(normalized_range_sizes) if !item["size"].present?
        when "categoryId"
          found_category = categories.values.select { |category| category[:id] == el.text }
          if found_category.present?
