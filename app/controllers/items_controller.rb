@@ -7,7 +7,8 @@ class ItemsController < ApplicationController
     items = Item.all
     used_category = params[:search_category].present? ? params[:search_category] : params[:search_category_translated]
     generate_filters = generate_filters(items, used_category)
-    items = items.where(category: used_category) if used_category
+    #items = items.where(category: used_category) if used_category
+    items = items.where(category: params[:search_category]) if params[:search_category].present?
     items = items.name_search(params[:search_name]) if params[:search_name].present?
     items = items.group_search(params[:search_group]) if params[:search_group].present?
     items = search_by_price(items) if (params[:price_search] && JSON.parse(params[:price_search]).present?)
