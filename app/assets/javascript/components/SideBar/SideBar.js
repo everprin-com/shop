@@ -89,7 +89,7 @@ class SideBar extends React.PureComponent {
                 isList
               />
             </ListItem>
-
+{/* 
             <ListItem className={classes.item}>
               <FilterGeneral
                 title="Категории"
@@ -98,7 +98,7 @@ class SideBar extends React.PureComponent {
                 filterOptions={categories}
                 isList
               />
-            </ListItem>
+            </ListItem> */}
 
             <ListItem className={classes.item}>
               <FilterGeneral
