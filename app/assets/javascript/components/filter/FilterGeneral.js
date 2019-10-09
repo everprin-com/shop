@@ -77,7 +77,7 @@ class FilterGeneral extends React.PureComponent {
       keyFilter
     } = this.props;
 
-    if (!filterOptions || !filterOptions.length ) return null;
+    if (!filterOptions) return null;
 
     return (
       <FormGroup row className={classes.root}>

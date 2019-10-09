@@ -75,7 +75,6 @@ class ProductCart extends React.PureComponent {
   putToCart = () => {
     const { products, putToCart, match } = this.props;
     const product = products.find(product => product.slug_id == match.params.id);
-    ga("send", "event", "События кнопок", "Добавление в корзину")
     putToCart(product);
   };
 

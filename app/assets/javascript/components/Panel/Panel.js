@@ -9,7 +9,7 @@ import CartWithDialog from "../Cart/CartWithDialog";
 import Badge from "@material-ui/core/Badge";
 import { connect } from "react-redux";
 import styles from "./styles";
-
+  
 const mapStateToProps = state => {
   return {
     card: state.card
@@ -26,12 +26,8 @@ const mapDispatchToProps = dispatch => {
 class Panel extends React.PureComponent {
   render() {
     const { classes, card, openCart } = this.props;
-    const cardLengh = card.data.reduce(
-      (prev, next) => prev + +next.amount, 0
-    );
-    const cardSum = card.data.reduce(
-      (prev, next) => prev + +next.amount * +next.price,0
-    );
+    const cardLengh = card.data.length;
+    const cardSum = card.data.reduce((prev, next) => prev + +next.price, 0);
     return (
       <div className={classes.panel}>
         <Toolbar className={classes.root}>
