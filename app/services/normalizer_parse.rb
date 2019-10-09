@@ -16,7 +16,7 @@ class NormalizerParse
     FilterOption.delete_all
     FilterOption.create!(Item.generate_filters(Item.all))
   end
-
+  #""
   def self.create_slug(name, color)
     return if !name
     translated_slug = Translit.convert(name + " " + ( color || "color"), :english)

@@ -5,9 +5,11 @@ class ItemsController < ApplicationController
 
   def index
     items = Item.all
-    used_category = params[:search_category].present? ? params[:search_category] : params[:search_category_translated]
-    generate_filters = generate_filters(items, used_category)
-    items = items.where(category: used_category) if used_category
+    #used_category = params[:search_category].present? ? params[:search_category] : params[:search_category_translated]
+    #generate_filters = generate_filters(items, used_category)
+    generate_filters = generate_filters(items, params[:search_category])
+    #items = items.where(category: used_category) if used_category
+    #items = items.where(category: params[:search_category]) if params[:search_category].present?
     items = items.name_search(params[:search_name]) if params[:search_name].present?
     items = items.group_search(params[:search_group]) if params[:search_group].present?
     items = search_by_price(items) if (params[:price_search] && JSON.parse(params[:price_search]).present?)
@@ -17,7 +19,7 @@ class ItemsController < ApplicationController
     items = items.where('size && ARRAY[?]::varchar[]', params[:search_size]) if params[:search_size].present?
     items = items.where(brand: params[:search_brand]) if params[:search_brand].present?
     items = items.where(drop_ship: params[:drop_ship]) if params[:drop_ship].present?
-    #items = items.search_category(params[:search_category]) if params[:search_category].present?
+    items = items.search_category(params[:search_category]) if params[:search_category].present?
     items = items.where('sex && ARRAY[?]::varchar[]', params[:sex]) if params[:sex].present?
     items = items.where('season && ARRAY[?]::varchar[]', params[:season]) if params[:season].present?
     items = items.shuffle if params[:shuffled_products]
