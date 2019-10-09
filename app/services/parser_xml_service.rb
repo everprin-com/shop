@@ -31,6 +31,7 @@ class ParserXmlService
       elsif used_drop == "Vzuto"
         VzutoParser.parse_xml_olla(offer, index, categories, used_drop)
       end
+
     end
     NormalizerParse.normalizer_products
   end

@@ -20,36 +20,46 @@ class VzutoParser
     item["drop_ship"] = used_drop
     p index
     offer.map do |el|
-      next if el == "\n"
+      #next if el == "\n"
       case el.name
       when "param"
         case el.attributes["name"]
          when "Сезон"
-           item["season"] = el.text
+           item["season"] = [el.text]
          when "Размер женской обуви"
            item["size"] = [el.text]
          when "Цвет"
            item["color"] = el.text&.split(", ")[0]
+         when "Вид обуви"
+           item["category"] = NormalizerParse.set_category(el.text)
          when "Материал верха", "Материал подкладки", "Полнота", "Высота каблука", "Вид подошвы"
            item["composition"] ||= ""
            item["composition"] += " " + el&.attributes["name"] + " " + el&.text
          end
        when "name"
-         #item["brand"] = "Vzuto"
-         item["name"] = el.text.scan(/[^0-9]+/)[0]
-         #byebug
+         item["brand"] = "Vzuto"
+         item["name"] = el.text.gsub(/\d+/, "")&.strip
          founded_category = el.text.gsub(',', " ").gsub('-', " ")&.split(" ")&.map(&:capitalize) + CATEGORIES.flatten.uniq
          founded_uniq_category = NormalizerParse.non_uniq(founded_category)
-         item["category"] = NormalizerParse.set_category(founded_uniq_category[0] || "Женски") #founded_uniq_category[0] || "Женские")
+         item["category"] = NormalizerParse.set_category(founded_uniq_category[0]) if founded_uniq_category.present?
        when "vendorCode"
          item["article"] = el.text
        when "url"
          item["article"] = el.text
        when "description"
-         #item["description"] = el.text
-         parsed_tex = el.text.split(" ")
-         size = parsed_tex.index("Размеры:")
-         country_index = parsed_tex.index("Производитель:")
+         parsed_tex = el.text&.gsub('</p>', " ")&.gsub('<p>', " ")&.remove(":")&.split(" ")
+         size_world_index = parsed_tex.index("сетка")
+         length_parsed_tex = parsed_tex.length
+         #if size_world_index.present? && length_parsed_tex.present?
+          #item["size_world"] = parsed_tex[parsed_tex[size_world_index]..parsed_tex.length]
+        #end
+         size = parsed_tex.index("Размеры")
+         country_index = parsed_tex.index("Производитель")
+         #byebug if item["name"]  == "Женские розовые зимние сапоги-европейка из натуральной кожи 36"
+         color_index = parsed_tex.index("цвет")
+         if !item["color"] && color_index
+           item["color"] = parsed_tex[color_index +1]&.remove(",")
+         end
          if country_index.present?
            item["country"] = parsed_tex[country_index+1]
         end
@@ -59,13 +69,14 @@ class VzutoParser
          if sizes.split("-").length == 1 && sizes.include?("-")
            sizes = sizes + parsed_tex[index_size + 1]
          end
-         item["size"] = conver_size_to_array(sizes)
+         item["size"] = conver_size_to_array(sizes) if !item["size"].present?
        when "categoryId"
          found_category = categories.values.select { |category| category[:id] == el.text }
          if found_category.present?
            parentId = found_category[0][:parentId]
          else
-           next
+           #byebug if item["name"]  === "Женские розовые зимние сапоги-европейка из натуральной кожи"
+           #next
          end
          categories.each do |key, value|
            if value[:id] == parentId
@@ -78,7 +89,7 @@ class VzutoParser
            end
          end
        when "picture"
-         item["picture"].push(el.text)
+         item["picture"].push(el.text)&.compact
        when "price"
          item["drop_ship_price"] = el.text
          item["price"] = CalcClientPrice.calc_client_price(el.text)
@@ -87,7 +98,7 @@ class VzutoParser
     item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
     item["category_translate"] = Translit.convert(item["category"], :english) if item["category"].present?
     NormalizerParse.capitalize_item(item)
-    item.save if NormalizerParse.delete_null_item(item)
+    item.save if NormalizerParse.delete_null_item(item) && item["size"].present?
   end
 
   def self.conver_size_to_array(size)

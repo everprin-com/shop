@@ -182,7 +182,7 @@ class ItemsImport
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
        end
        item["name"] = row["name"] unless bad_names_include(row["name"])
-       item["brand"] = row["brand"]
+       item["brand"] = row["brand"]&.remove("-")
        #item["code"] = row["code"]
        item["season"] = NormalizerParse.set_season(row["season"])
        item["drop_ship"] = @name_drop_ship
