@@ -19,7 +19,7 @@ class ItemsController < ApplicationController
     items = items.where('size && ARRAY[?]::varchar[]', params[:search_size]) if params[:search_size].present?
     items = items.where(brand: params[:search_brand]) if params[:search_brand].present?
     items = items.where(drop_ship: params[:drop_ship]) if params[:drop_ship].present?
-    items = items.search_category(params[:search_category]) if params[:search_category].present?
+    items = items.where(category: params[:search_category]) if params[:search_category].present?
     items = items.where('sex && ARRAY[?]::varchar[]', params[:sex]) if params[:sex].present?
     items = items.where('season && ARRAY[?]::varchar[]', params[:season]) if params[:season].present?
     items = items.shuffle if params[:shuffled_products]
