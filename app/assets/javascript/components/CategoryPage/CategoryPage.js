@@ -38,7 +38,10 @@ class CategoryPage extends React.PureComponent {
   componentDidMount() {
     this.props.resetProducts();
     const { category } = this.props.match.params;
-    document.title = `Модные ${category.toLocaleUpperCase()} 2019 - купить в kilo. Лучшие цены. Большой Ассортимент`;
+    if (category) {
+      document.title = `Модные ${category.toLocaleUpperCase()} 2019 - купить в kilo. Лучшие цены. Большой Ассортимент`;
+    }
+    
     // this.props.history.listen(() => {
     //   this.props.resetProducts();
     //   this.forceUpdate();
