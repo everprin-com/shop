@@ -32,8 +32,8 @@ const styles = theme => ({
   loader: {
     display: "flex",
     justifyContent: "center",
-    padding: 50,
-    marginLeft: 260
+    padding: "0px 50px 50px 50px",
+    marginTop: "-40px",
   },
   wraper: {
     zIndex: 2

@@ -46,6 +46,7 @@ class ProductCart extends React.PureComponent {
   state = { data: {} };
 
   componentDidMount() {
+    
     this.getProduct();
     this.scrollToTop();
   }
@@ -63,6 +64,7 @@ class ProductCart extends React.PureComponent {
     const isSlug = !Number.isInteger(id)
     this.setState({ loading: true });
     fetchGet(`/items/${id}`).then(data => {
+      document.title = `${data.name} - купить в kilo. Высокое качество! Хорошие скидки.`;
       this.setState({ data, loading: false }, () => {
         // this.props.requestAndAddSlider(this.state.data.category);
         this.props.addProduct(data);

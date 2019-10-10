@@ -19,7 +19,8 @@ const mapDispatchToProps = dispatch => {
   return {
     requestAndAddProducts: params =>
       dispatch({ type: "REQUEST_AND_ADD_PRODUCTS", params }),
-    handlePagination: () => dispatch({ type: "HANDLE_PAGINATION" })
+    handlePagination: () => dispatch({ type: "HANDLE_PAGINATION" }),
+    resetProducts: () => dispatch({ type: "RESET_PRODUCTS" }),
     // fistEnterOff: () => dispatch({ type: "FIRST_ENTER_OFF" })
   };
 };
@@ -32,12 +33,13 @@ class ProductList extends React.PureComponent {
       requestAndAddProducts,
       products,
       productsParams,
-      firstEnter
+      resetProducts
     } = this.props;
     if (productsParams && productsParams.search_category) {
       requestAndAddProducts(productsParams);
     }
     window.addEventListener("scroll", this.scrollChange);
+    resetProducts()
   }
 
   componentWillUnmount() {

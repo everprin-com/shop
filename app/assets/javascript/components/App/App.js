@@ -20,6 +20,10 @@ const mapStateToProps = state => {
 };
 
 class App extends React.PureComponent {
+  componentDidMount() {
+    document.title = "KILO магазин одежды и обуви. Широкий ассортимен! Доступные цены!"
+  }
+
   componentDidUpdate(prevProps) {
     this.props.orderform && this.redirectToOrderForm();
     this.props.scrolling && this.scrolling();

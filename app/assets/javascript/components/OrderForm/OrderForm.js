@@ -86,6 +86,7 @@ class OrderForm extends React.PureComponent {
   };
 
   componentDidMount() {
+    document.title = "KILO магазин одежды и обуви. Широкий ассортимен! Доступные цены!"
     this.props.closeOrderForm();
     this.props.closeCart();
   }
@@ -152,8 +153,6 @@ class OrderForm extends React.PureComponent {
       setTimeout(this.redirectToMain, 4000);
     }
   };
-
-
 
   errorHelper = field => {
     if (!this.state.errors[field]) return null;
