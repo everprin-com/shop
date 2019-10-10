@@ -22,7 +22,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    resetProducts: params => dispatch({ type: "RESET_PRODUCTS" })
+    resetProducts: () => dispatch({ type: "RESET_PRODUCTS" })
   };
 };
 
@@ -37,6 +37,8 @@ class CategoryPage extends React.PureComponent {
 
   componentDidMount() {
     this.props.resetProducts();
+    const { category } = this.props.match.params;
+    document.title = `Модные ${category.toLocaleUpperCase()} 2019 - купить в kilo. Лучшие цены. Большой Ассортимент`;
     // this.props.history.listen(() => {
     //   this.props.resetProducts();
     //   this.forceUpdate();
@@ -45,8 +47,10 @@ class CategoryPage extends React.PureComponent {
 
   scrolling = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
-  redirectToCategory = category =>
+  redirectToCategory = category => {
+    document.title = `Модные ${category.toLocaleUpperCase()} 2019 - купить в kilo. Лучшие цены. Большой Ассортимент`;
     this.props.history.push(`/categoryPage/${category}`);
+  }
 
   redirectToOrderForm = () => this.props.history.push("/orderform");
 
