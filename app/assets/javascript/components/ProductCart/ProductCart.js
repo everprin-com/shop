@@ -46,6 +46,7 @@ class ProductCart extends React.PureComponent {
   state = { data: {} };
 
   componentDidMount() {
+    
     this.getProduct();
     this.scrollToTop();
   }
@@ -63,6 +64,7 @@ class ProductCart extends React.PureComponent {
     const isSlug = !Number.isInteger(id)
     this.setState({ loading: true });
     fetchGet(`/items/${id}`).then(data => {
+     if (data) {document.title = `${data.name} - купить в kilo. Высокое качество! Хорошие скидки.`}
       this.setState({ data, loading: false }, () => {
         // this.props.requestAndAddSlider(this.state.data.category);
         this.props.addProduct(data);
@@ -75,7 +77,7 @@ class ProductCart extends React.PureComponent {
   putToCart = () => {
     const { products, putToCart, match } = this.props;
     const product = products.find(product => product.slug_id == match.params.id);
-    gtag("event", "Добавление в корзину", {'event_category': 'События кнопок', 'event_action': "Добавление в корзину"})
+    gtag("event", "Положили в корзину", {'event_category': 'События кнопок', 'event_action': "Положили в корзину"})
     putToCart(product);
   };
 
