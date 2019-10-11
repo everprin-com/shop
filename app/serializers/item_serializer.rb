@@ -12,7 +12,10 @@ class ItemSerializer < ActiveModel::Serializer
   def size
     object.size&.sort
   end
+
   def name
-    object.name&.split("_")&.join(" ")&.scan(/[^0-9]+/)&.join("")
+    return if !object.name
+    object.name.gsub(/ \d+.+(_|-| )/, " ")
+    #object.name&.split("_")&.join(" ")&.scan(/[^0-9]+/)&.join("")
   end
 end
