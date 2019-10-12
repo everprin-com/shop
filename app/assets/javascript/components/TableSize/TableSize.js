@@ -31,9 +31,17 @@ class TableSize extends React.PureComponent {
         dropShip,
         simple,
         sex,
+        group,
       }
     } = this;
     const  isMan = sex && sex.includes("man")
+    const getTableSimple = () => {
+      if (group == "clothes") {
+        return tablesSize.clothes[isMan ? "man" : "wooman"]
+      }
+      if (group == "footwear")
+      return  tablesSize.footwear
+    }
     return (
       <div>
         <SwipeableDrawer
@@ -46,7 +54,7 @@ class TableSize extends React.PureComponent {
             paper: classes.sideBarWrap
           }}
         >
-          {simple ? tablesSize[isMan ? "man" : "wooman"] : <TableS data={data} dropShip={dropShip} />}
+          {simple ? getTableSimple() : <TableS data={data} dropShip={dropShip} />}
         </SwipeableDrawer>
       </div>
     );
