@@ -179,7 +179,7 @@ const tablesSize = {
     <thead>
       <tr>
         <th colspan="8" scope="col" style={{textAlign:"center"}}>
-          <strong>Таблица размеров обуви</strong>
+          Таблица размеров обуви
         </th>
       </tr>
     </thead>
