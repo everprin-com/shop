@@ -26,7 +26,8 @@ const mapStateToProps = state => {
     card: state.card,
     orderform: state.orderform,
     sliderProducts: state.slider.products,
-    sex: state.filterData.filter.sex
+    sex: state.filterData.filter.sex,
+    // headers: state.metaData.headers[state.filterData.filter.sex.includes("man") ? "man" : "wooman"]
   };
 };
 
@@ -46,6 +47,7 @@ class ProductCart extends React.PureComponent {
   state = { data: {} };
 
   componentDidMount() {
+    
     this.getProduct();
     this.scrollToTop();
   }
@@ -63,6 +65,7 @@ class ProductCart extends React.PureComponent {
     const isSlug = !Number.isInteger(id)
     this.setState({ loading: true });
     fetchGet(`/items/${id}`).then(data => {
+     if (data) {document.title = `${data.name} - купить в kilo. Высокое качество! Хорошие скидки.`}
       this.setState({ data, loading: false }, () => {
         // this.props.requestAndAddSlider(this.state.data.category);
         this.props.addProduct(data);
@@ -75,6 +78,7 @@ class ProductCart extends React.PureComponent {
   putToCart = () => {
     const { products, putToCart, match } = this.props;
     const product = products.find(product => product.slug_id == match.params.id);
+    gtag("event", "Положили в корзину", {'event_category': 'События кнопок', 'event_action': "Положили в корзину"})
     putToCart(product);
   };
 
@@ -196,11 +200,11 @@ class ProductCart extends React.PureComponent {
               </div>
               <div>
                 {
-                  // this.state.data.size_world && (
+                  this.state.data.group !="accessories" && (
                   <span className={classes.tableSize} onClick={openTableSize}>
                     Таблица размеров
                   </span>
-                // )
+                )
                 }
               </div>
               <Button
@@ -251,6 +255,7 @@ class ProductCart extends React.PureComponent {
           data={this.state.data && this.state.data.size_world}
           sex={sex}
           simple={this.state.data && !this.state.data.size_world}
+          group={this.state.data && this.state.data.group}
         />
       </div>
     );

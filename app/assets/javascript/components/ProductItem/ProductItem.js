@@ -52,7 +52,10 @@ class ProductItem extends React.PureComponent {
 
   onHover = () => this.setState({ hover: true });
 
-  putToCart = () => this.props.putToCart(this.props.data);
+  putToCart = () => {
+    gtag("event", "Положили в корзину", {'event_category': 'События кнопок', 'event_action': "Положили в корзину"})
+    this.props.putToCart(this.props.data)
+  }
 
   openCart = () => this.props.openCart();
 
