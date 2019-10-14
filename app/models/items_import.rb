@@ -156,6 +156,9 @@ class ItemsImport
         item["drop_ship_price"] = row["drop_ship_price"]
         item["color"] = row["color"]
         category = row["category"]&.split(" ")[0]
+        if category == "Пальто"
+          category = NormalizerParse.get_category_by_name(row["name"])
+        end
         item["category"] = NormalizerParse.set_category(category)
       elsif @name_drop_ship == "garne"
          item["picture"] = row["picture"].split(",")
