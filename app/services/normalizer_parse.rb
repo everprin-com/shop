@@ -54,6 +54,16 @@ class NormalizerParse
     end
   end
 
+  def self.get_category_by_name(name)
+    return unless name
+    named_product = name.split(" ")&.map(&:capitalize)
+    present_categories = Item::SYNONIM_NAMES_CATEGORIES.values.flatten.uniq
+    founded_categories = NormalizerParse.non_uniq(named_product + present_categories)
+    if founded_categories.present?
+      founded_categories[0]
+    end
+  end
+
   def self.get_counts(keys)
     counts = Hash.new(0)
     keys.each {|k| counts[k] += 1 }

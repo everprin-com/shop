@@ -114,7 +114,11 @@ class ItemsImport
        elsif @name_drop_ship == "tos" || @name_drop_ship == "ager"
          item["size"] = conver_size_to_array(row["size"])
          item["drop_ship_price"] = row["drop_ship_price"]
-         row["category"] = "Очки" if row["category"] == "Аксессуары" && row["name"].split(" ")[0] == "Очки"
+         if row["category"] == "Аксессуары" || row["category"] == "Пальто"
+           row["category"] = NormalizerParse.get_category_by_name(row["name"])
+         end
+         #row["category"] = "Очки" if row["category"] == "Аксессуары" && row["name"].split(" ")[0] == "Очки"
+
          setted_category =
            if (row["category"] == "Женская одежда" || row["category"] == "Джемпер"  || row["category"] == "Верхняя одежда") && row["name"]
             row["name"]&.split(" ")[0]
