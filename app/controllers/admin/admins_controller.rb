@@ -17,6 +17,7 @@ module Admin
 
     def convert_xml
       Rake::Task['parser_xml:parser_xml'].execute
+      Rake::Task['sitemap:generate'].execute
       #{}%x[rake parser_xml:parser_xml]
       redirect_to "/admin/admins"
     end
@@ -38,6 +39,7 @@ module Admin
         @items_import.save
       end
       NormalizerParse.normalizer_products
+      Rake::Task['sitemap:generate'].execute
       redirect_to "/admin/admins"
     end
 

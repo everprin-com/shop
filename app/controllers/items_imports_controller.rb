@@ -16,6 +16,7 @@ class ItemsImportsController < ApplicationController
       Item.create_header
       FilterOption.delete_all
       FilterOption.create!(Item.generate_filters(Item.all))
+      Rake::Task['sitemap:generate'].execute
       redirect_to items_path
     else
       render :new

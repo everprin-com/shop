@@ -1,15 +1,18 @@
 class StoreController < ApplicationController
-  respond_to :html, :json
+  respond_to :html, :json, :xml
 
   def all_category
     @products = Product.order(:title)
   end
 
   def index
-    @first_product = Product.first
+    #byebug
+    #render :nothing => true, :status => 200, :content_type => 'text/html'
+    #@first_product = Product.first
     # @products = Product.order(:title)
-    @resources = Product.order_paginate(params[:page], Configurable[:products_per_page])
+    #@resources = Product.order_paginate(params[:page], Configurable[:products_per_page])
     # @resourse='Product'
+
   end
 
   def show
@@ -18,6 +21,14 @@ class StoreController < ApplicationController
 
   def showlike
     respond_modal_with @cart
+  end
+
+  def sitemap
+    #byebug
+    respond_to do |format|
+      format.xml { render file: 'public/sitemaps/sitemap.xml' }
+      format.html { redirect_to root_url }
+    end
   end
 
   def contact
