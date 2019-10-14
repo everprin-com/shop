@@ -41,7 +41,6 @@ class NormalizerParse
     synonim_season.present? ? synonim_season&.split("/") : season&.split("/")
   end
 
-
   def self.get_sex_by_name(name)
     return unless name
     named_product = name.split(" ")&.map(&:capitalize)
