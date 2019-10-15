@@ -12,7 +12,10 @@ class StoreController < ApplicationController
     # @products = Product.order(:title)
     #@resources = Product.order_paginate(params[:page], Configurable[:products_per_page])
     # @resourse='Product'
-
+    if request.format.xml?
+      #respond_to do |format|
+      render file: 'public/sitemaps/sitemap.xml'
+    end
   end
 
   def show
