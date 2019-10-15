@@ -217,7 +217,7 @@ class Item < ActiveRecord::Base
         sizes = Item.where(name: name, color: color).map(&:size).flatten.uniq
         pictures = Item.where(name: name, color: color).map(&:picture).flatten.compact.uniq
         first_item = Item.where(name: name, color: color).first
-        first_item.update(size: sizes, picture: pictures)
+        first_item.update(size: sizes)
         Item.where.not(id: first_item.id).where(name: name, color: color).map(&:delete)
       end
     end
