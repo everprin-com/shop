@@ -352,6 +352,9 @@ $bounce_height: 30px;
 }
 .slick-list .slick-slide.slick-active {
   pointer-events: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .slick-slider .slick-track,
 .slick-slider .slick-list {
