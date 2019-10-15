@@ -73,4 +73,5 @@ Rails.application.routes.draw do
   delete 'user_delete/:id' => 'admin/admins#delete_user', as: 'delete_user'
 
   root 'store#index'
+  get 'sitemap' => 'store#sitemap'
 end
