@@ -210,15 +210,40 @@ class Item < ActiveRecord::Base
   }
 
   def self.update_size_same_items
+    update_size_same_names
+    update_size_same_prices
+  end
+
+  def self.update_size_same_names
     names = Item.select('items.name').group('items.name').having('count(items.name) > 1').map(&:name)
     names.map do |name|
       colors = Item.where(name: name).select(:color).map(&:color).uniq&.flatten&.flatten
       colors.each do |color|
         sizes = Item.where(name: name, color: color).map(&:size).flatten.uniq
-        pictures = Item.where(name: name, color: color).map(&:picture).flatten.compact.uniq
+        #pictures = Item.where(name: name, color: color).map(&:picture).flatten.compact.uniq
         first_item = Item.where(name: name, color: color).first
         first_item.update(size: sizes)
         Item.where.not(id: first_item.id).where(name: name, color: color).map(&:delete)
+      end
+    end
+  end
+
+  def self.update_size_same_prices
+    prices = Item.select('items.drop_ship_price').group('items.drop_ship_price').having('count(items.drop_ship_price) > 1').map(&:drop_ship_price)
+    prices.map do |drop_ship_price|
+      items = Item.where(drop_ship_price: drop_ship_price)
+      categories = items.select(:category).map(&:category).uniq&.flatten&.flatten
+      colors = items.select(:color).map(&:color).uniq&.flatten&.flatten
+      categories.each do |category|
+        colors.each do |color|
+          sizes = Item.where(drop_ship_price: drop_ship_price, color: color, category: category).map(&:size).flatten.uniq
+          #pictures = Item.where(drop_ship_price: drop_ship_price, color: color, category: category).map(&:picture).flatten.compact.uniq
+          first_item = Item.where(drop_ship_price: drop_ship_price, color: color, category: category).first
+          if first_item
+            first_item.update(size: sizes)
+            Item.where.not(id: first_item.id).where(drop_ship_price: drop_ship_price, color: color, category: category).map(&:delete)
+          end
+        end
       end
     end
   end
