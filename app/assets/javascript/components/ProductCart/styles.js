@@ -71,7 +71,8 @@ const styles = theme => ({
     maxWidth: "1000px",
     maxHeight: "700px",
     display: "flex !important",
-    justifyContent: "center"
+    justifyContent: "center",
+    height: "100%",
   },
   galleryDot: {
     width: 40,

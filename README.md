@@ -12,7 +12,6 @@ tail -f ~/app/shared/log/*
 node --max_old_space_size=1096 node_modules/webpack/.bin/webpack.js
 
 rubocop
-
 lounch lint
 ./bin/webpack-dev-server
 eslint app/assets
@@ -76,6 +75,10 @@ PARSER XLS
 bundle exec rake parser_excel:parser_excel
 PARSER XML
 bundle exec rake parser_xml:parser_xml
+
+Site map generator
+rake sitemap:generate
+bundle exec rake create_yml:create_yml
 
 autoparser
       "http://timeofstyle.com/download/tos_actual_price_and_stock.xls",
