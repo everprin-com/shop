@@ -19,6 +19,7 @@ function SliderS({ picture, classes }) {
         arrows
         dots
         dotsClass={"slick-dots slick-thumb"}
+        fade
         products={
           Array.isArray(picture)
             ? picture.map(src => SliderItem({ src, classes }))
