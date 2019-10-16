@@ -22,7 +22,7 @@ class ItemsController < ApplicationController
     items = items.where(category: params[:search_category]) if params[:search_category].present?
     items = items.where('sex && ARRAY[?]::varchar[]', params[:sex]) if params[:sex].present?
     items = items.where('season && ARRAY[?]::varchar[]', params[:season]) if params[:season].present?
-    items = items.shuffle if params[:shuffled_products]
+    items = items.shuffle if params[:shuffled_products].present?
     items = items.paginate(page: params[:page], per_page: per_page(params[:per_page]))
     serialized_items = items.map { |item| ItemSerializer.new(item) }
     #render json: { items: items, total_pages: items.total_pages }
