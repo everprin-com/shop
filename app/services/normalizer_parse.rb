@@ -20,7 +20,7 @@ class NormalizerParse
   def self.create_slug(name, color)
     return if !name
     translated_slug = Translit.convert(name + " " + ( color || "color"), :english)
-    translated_slug&.gsub(/ |-/,'_')&.remove("'", ".", ",", "+")&.gsub("/", "_")&.downcase
+    translated_slug&.gsub(/ |-/,'_')&.remove("'", ".", ",", "+", "(", ")", "&quot;")&.gsub("/", "_")&.downcase
   end
 
   def self.delete_null_item(item)

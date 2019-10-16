@@ -229,22 +229,26 @@ class Item < ActiveRecord::Base
   end
 
   def self.update_size_same_prices
-    prices = Item.select('items.drop_ship_price').group('items.drop_ship_price').having('count(items.drop_ship_price) > 1').map(&:drop_ship_price)
-    prices.map do |drop_ship_price|
-      items = Item.where(drop_ship_price: drop_ship_price)
-      categories = items.select(:category).map(&:category).uniq&.flatten&.flatten
-      colors = items.select(:color).map(&:color).uniq&.flatten&.flatten
-      categories.each do |category|
+    drop_shippers = Item.select(:drop_ship).map(&:drop_ship).uniq&.flatten&.flatten
+    drop_shippers.each do |drop_ship|
+    use_items = Item.where(drop_ship: drop_ship)
+    categories = use_items.select(:category).map(&:category).uniq&.flatten&.flatten
+    categories.each do |category|
+      prices = use_items.where(category: category).select('items.drop_ship_price').group('items.drop_ship_price').having('count(items.drop_ship_price) > 1').map(&:drop_ship_price)
+      prices.map do |drop_ship_price|
+        items = use_items.where(drop_ship_price: drop_ship_price, category: category)
+        colors = items.select(:color).map(&:color).uniq&.flatten&.flatten
         colors.each do |color|
-          sizes = Item.where(drop_ship_price: drop_ship_price, color: color, category: category).map(&:size).flatten.uniq
+          sizes = use_items.where(drop_ship_price: drop_ship_price, color: color, category: category).map(&:size).flatten.uniq
           #pictures = Item.where(drop_ship_price: drop_ship_price, color: color, category: category).map(&:picture).flatten.compact.uniq
-          first_item = Item.where(drop_ship_price: drop_ship_price, color: color, category: category).first
+          first_item = use_items.where(drop_ship_price: drop_ship_price, color: color, category: category).first
           if first_item
             first_item.update(size: sizes)
-            Item.where.not(id: first_item.id).where(drop_ship_price: drop_ship_price, color: color, category: category).map(&:delete)
+            use_items.where.not(id: first_item.id).where(drop_ship_price: drop_ship_price, color: color, category: category).map(&:delete)
           end
         end
       end
+    end
     end
   end
 
