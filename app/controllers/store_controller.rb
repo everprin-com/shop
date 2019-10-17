@@ -14,7 +14,7 @@ class StoreController < ApplicationController
     # @resourse='Product'
     if request.format.xml?
       #respond_to do |format|
-      render file: 'public/sitemaps/sitemap.xml'
+      render file: './public/sitemaps/sitemap.xml'
     end
   end
 
