@@ -211,7 +211,7 @@ class Item < ActiveRecord::Base
 
   def self.update_size_same_items
     update_size_same_names
-    update_size_same_prices
+    #update_size_same_prices
   end
 
   def self.update_size_same_names
