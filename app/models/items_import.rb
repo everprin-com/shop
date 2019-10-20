@@ -186,7 +186,7 @@ class ItemsImport
        end
        item["country"] = row["country"]
        if row["drop_ship_price"].present? && row["drop_ship_price"] != 0
-         item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
+         item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"], @name_drop_ship)
        end
        item["name"] = row["name"] unless bad_names_include(row["name"])
        item["brand"] = row["brand"]&.remove("-")
