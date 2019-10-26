@@ -52,7 +52,7 @@ function Footer(props) {
           {/* <Item title="Вопросы и ответы" classes={classes} /> */}
         </ul>
         <div className={classes.contacts}>
-          <p className={classes.contactsRow}>Киев, Ул Чешская 9, 201/203, БЦ modnaVilla, 1 этаж</p>
+          {/* <p className={classes.contactsRow}>Киев, Ул Чешская 9, 201/203, БЦ modnaVilla, 1 этаж</p> */}
           <p className={classes.contactsRow}>+38 (095) 755-25-73</p>
           <p className={classes.contactsRow}>info@kilo.com.ua</p>
         </div>

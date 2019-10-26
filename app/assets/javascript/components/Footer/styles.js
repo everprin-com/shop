@@ -42,8 +42,9 @@ const styles = theme => ({
     width: 350,
     padding: 5,
     margin: "0 20px",
-    // display: "flex",
+    display: "flex",
     alignItems: "center",
+    justifyContent: "space-evenly",
     [theme.breakpoints.down("xs")]: {
       margin: 0,
     }

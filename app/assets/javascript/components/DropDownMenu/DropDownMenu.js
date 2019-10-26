@@ -103,10 +103,8 @@ class DropDownMenu extends React.PureComponent {
     const { imgCategory } = this.state;
     return (
       <div className={classes.categoryBlock}>
+        <div className={classes.whiteLayout}></div>
         {this.productTypeList()}
-        {/* <Paper className={classes.cardImg}>
-          <img className={classes.img} src={imgCategory} />
-        </Paper> */}
       </div>
     );
   }
