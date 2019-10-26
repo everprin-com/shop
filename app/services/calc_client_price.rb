@@ -2,7 +2,7 @@ class CalcClientPrice
 
   INCOME_DEPEND_DROP_SHIP = { "Favoritti" => 1.5 }
 
-  def self.calc_client_price(price, name_drop_ship={})
+  def self.calc_client_price(price, name_drop_ship=nil)
     return unless price
     if name_drop_ship&.capitalize == "Favoritti"
       (price.to_f * INCOME_DEPEND_DROP_SHIP["Favoritti"]).ceil
