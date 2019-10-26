@@ -74,12 +74,12 @@ class DropDown extends React.PureComponent {
     return (
       <div className={classes.dropDown} ref={this.dropDownRef}>
         <Paper>
-          {data.map((product, id) => (
-            <Paper className={classes.paperItem} key={id}>
+          {data.map(product => (
+            <Paper className={classes.paperItem} key={product.slug_id}>
               <Link
-                to={`/productcart/${product.id}`}
+                to={`/productcart/${product.slug_id}`}
                 className={classes.linkItem}
-                key={id}
+                key={product.slug_id}
               >
                 <div className={classes.item}>
                   <div className={classes.imgWrap}>
@@ -117,7 +117,9 @@ class CustomizedInputs extends React.PureComponent {
 
   updateDropdown = (addProducts = false) => {
     const { inputText, page, data, totalPages } = this.state;
-    if (page > totalPages) {return null}
+    if (page > totalPages) {
+      return null;
+    }
     fetchGetWithParams(
       "/items/",
       {
@@ -128,8 +130,14 @@ class CustomizedInputs extends React.PureComponent {
       },
       true
     ).then(resData => {
-      const dataItems = addProducts ? [...data, ...resData.items] : resData.items;
-      this.setState({ isOpenDropDown: true, data: dataItems, totalPages: resData.total_pages });
+      const dataItems = addProducts
+        ? [...data, ...resData.items]
+        : resData.items;
+      this.setState({
+        isOpenDropDown: true,
+        data: dataItems,
+        totalPages: resData.total_pages
+      });
     });
   };
 

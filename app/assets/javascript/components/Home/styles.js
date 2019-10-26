@@ -58,6 +58,7 @@ const styles = theme => ({
       color: "#333",
       fontSize: "14px",
       fontWeight: "bold",
+      paddingTop: 10,
     },
     recCategory: {
       color: "#888",
