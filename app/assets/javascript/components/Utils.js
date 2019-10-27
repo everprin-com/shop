@@ -27,9 +27,8 @@ const convertPrice = price => {
   price = Math.round(+price);
   const sales = [30, 40, 50, 25, 55, 60, 45, 35, 65, 40];
   const sale = sales[("" + price).split("")[("" + price).split("").length - 1]];
-  const oldPrice = Math.round(price + (price * sale) / 100);
-  const saleShow = 100 - Math.round((price * 100) / oldPrice);
-  return { price, oldPrice, saleShow };
+  const oldPrice = Math.round((price * 100) / (100 - sale));
+  return { price, oldPrice, saleShow: sale };
 };
 
 const getPageWidth = () => {
@@ -40,7 +39,8 @@ const getPageWidth = () => {
   );
 };
 
-const setPageWidth = store => store.dispatch({type: "SET_PAGE_WIDTH", pageWidth: getPageWidth() })
+const setPageWidth = store =>
+  store.dispatch({ type: "SET_PAGE_WIDTH", pageWidth: getPageWidth() });
 
 const textWithDots = (str, litCount = 60) => {
   if (str && str.length < litCount) return str;

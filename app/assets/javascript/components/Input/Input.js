@@ -57,8 +57,6 @@ class DropDown extends React.PureComponent {
     ) {
       this.props.pagination.incrementPage();
     }
-    // console.log(this.dropDownRef.current.offsetY)
-    // console.log(this.dropDownRef.current.offsetTop)
   };
 
   handleClickOutside = event => {
@@ -71,6 +69,8 @@ class DropDown extends React.PureComponent {
 
   render() {
     const { classes, data } = this.props;
+    const priceWithoutDot = price => Math.round(+price);
+
     return (
       <div className={classes.dropDown} ref={this.dropDownRef}>
         <Paper>
@@ -95,6 +95,9 @@ class DropDown extends React.PureComponent {
                   <div className={classes.textContent}>
                     <div className={classes.title}>{product.name}</div>
                     <div className={classes.category}>{product.category}</div>
+                    <div className={classes.price}>
+                      {`${priceWithoutDot(product.price)} грн`}
+                    </div>
                   </div>
                 </div>
               </Link>
