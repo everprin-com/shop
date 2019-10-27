@@ -171,7 +171,7 @@ class FilterPrice extends React.PureComponent {
           </span>
         </div>
         <div className={classes.contentWrap}>
-          <div className={classes.inputWrap}>
+          {/* <div className={classes.inputWrap}>
             <span className={classes.fromTo}>От</span>
             <input
               type="number"
@@ -196,7 +196,7 @@ class FilterPrice extends React.PureComponent {
                 this.onChangeFromInput(e, 1);
               }}
             />
-          </div>
+          </div> */}
           {this.rangePriceGenerator([
             { min: 0, max: 300, title: "До 300 грн" },
             { min: 300, max: 500, title: "300 - 500 грн" },

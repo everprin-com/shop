@@ -21,6 +21,7 @@ const mapDispatchToProps = dispatch => {
       dispatch({ type: "REQUEST_AND_ADD_PRODUCTS", params }),
     handlePagination: () => dispatch({ type: "HANDLE_PAGINATION" }),
     resetProducts: () => dispatch({ type: "RESET_PRODUCTS" }),
+    resetFilter: () => dispatch({ type: "RESET_FILTER_WITHOUT_SEX_AND_REQUEST" })
     // fistEnterOff: () => dispatch({ type: "FIRST_ENTER_OFF" })
   };
 };
@@ -39,7 +40,7 @@ class ProductList extends React.PureComponent {
       requestAndAddProducts(productsParams);
     }
     window.addEventListener("scroll", this.scrollChange);
-    resetProducts()
+    resetProducts();
   }
 
   componentWillUnmount() {
@@ -47,18 +48,17 @@ class ProductList extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
+    const { resetFilter, productsParams, requestAndAddProducts } = this.props;
     if (
       (prevProps.productsParams &&
         prevProps.productsParams.search_category !=
-          this.props.productsParams.search_category) ||
-      (this.props.productsParams.sex &&
+          productsParams.search_category) ||
+      (productsParams.sex &&
         prevProps.productsParams.sex &&
-        !isEqualArr(
-          this.props.productsParams.sex,
-          prevProps.productsParams.sex
-        ))
+        !isEqualArr(productsParams.sex, prevProps.productsParams.sex))
     ) {
-      this.props.requestAndAddProducts(this.props.productsParams);
+      resetFilter();
+      requestAndAddProducts(productsParams);
     }
   }
 

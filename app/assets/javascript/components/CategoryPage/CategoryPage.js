@@ -41,7 +41,7 @@ class CategoryPage extends React.PureComponent {
     if (category) {
       document.title = `Модные ${category.toLocaleUpperCase()} 2019 - купить в kilo. Лучшие цены. Большой Ассортимент`;
     }
-    
+
     // this.props.history.listen(() => {
     //   this.props.resetProducts();
     //   this.forceUpdate();
@@ -51,9 +51,12 @@ class CategoryPage extends React.PureComponent {
   scrolling = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   redirectToCategory = category => {
+    console.log(store.getState().product)
+    this.props.resetProducts();
+    console.log(store.getState().product)
     document.title = `Модные ${category.toLocaleUpperCase()} 2019 - купить в kilo. Лучшие цены. Большой Ассортимент`;
     this.props.history.push(`/categoryPage/${category}`);
-  }
+  };
 
   redirectToOrderForm = () => this.props.history.push("/orderform");
 

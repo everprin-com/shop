@@ -1,10 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import categories from "../constants/categories";
 import { connect } from "react-redux";
-import Paper from "@material-ui/core/Paper";
-import imgCategoryMap from "../constants/imgCategoryMap";
 import styles from "./styles";
 
 const mapDispatchToProps = dispatch => {
@@ -24,19 +21,14 @@ const mapStateToProps = state => {
 
 class DropDownMenu extends React.PureComponent {
   state = {
-    value: 100,
-    imgCategory: null
+    value: 100
   };
 
   handleChange = (event, value) => this.setState({ value });
 
-  // hoverOn = value =>
-  //   imgCategoryMap[value] &&
-  //   this.setState({ imgCategory: imgCategoryMap[value] });
-
   onChangeCategory = category => {
     const { resetDropDown, redirectToCategory, resetProducts } = this.props;
-    resetProducts()
+    resetProducts();
     redirectToCategory(category);
     resetDropDown();
   };
@@ -51,7 +43,6 @@ class DropDownMenu extends React.PureComponent {
                 className={classes.categoryItem}
                 onClick={() => this.onChangeCategory(liTitle)}
                 key={i}
-                // onMouseEnter={this.hoverOn.bind(this, liTitle)}
               >
                 {liTitle.toUpperCase()}
               </li>
@@ -99,8 +90,8 @@ class DropDownMenu extends React.PureComponent {
   };
 
   render() {
-    const { classes, headers } = this.props;
-    const { imgCategory } = this.state;
+    const { classes } = this.props;
+
     return (
       <div className={classes.categoryBlock}>
         <div className={classes.whiteLayout}></div>

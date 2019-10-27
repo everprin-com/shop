@@ -104,6 +104,10 @@ const styles = theme => ({
       height: "1.2em",
       whiteSpace: "nowrap",
     },
+    price: {
+      fontSize: 16,
+      color: "#e00",
+    },
     paperItem: {
       marginBottom: 5,
       "&:hover": {
