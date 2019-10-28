@@ -57,8 +57,6 @@ class DropDown extends React.PureComponent {
     ) {
       this.props.pagination.incrementPage();
     }
-    // console.log(this.dropDownRef.current.offsetY)
-    // console.log(this.dropDownRef.current.offsetTop)
   };
 
   handleClickOutside = event => {
@@ -71,15 +69,17 @@ class DropDown extends React.PureComponent {
 
   render() {
     const { classes, data } = this.props;
+    const priceWithoutDot = price => Math.round(+price);
+
     return (
       <div className={classes.dropDown} ref={this.dropDownRef}>
         <Paper>
-          {data.map((product, id) => (
-            <Paper className={classes.paperItem} key={id}>
+          {data.map(product => (
+            <Paper className={classes.paperItem} key={product.slug_id}>
               <Link
-                to={`/productcart/${product.id}`}
+                to={`/productcart/${product.slug_id}`}
                 className={classes.linkItem}
-                key={id}
+                key={product.slug_id}
               >
                 <div className={classes.item}>
                   <div className={classes.imgWrap}>
@@ -95,6 +95,9 @@ class DropDown extends React.PureComponent {
                   <div className={classes.textContent}>
                     <div className={classes.title}>{product.name}</div>
                     <div className={classes.category}>{product.category}</div>
+                    <div className={classes.price}>
+                      {`${priceWithoutDot(product.price)} грн`}
+                    </div>
                   </div>
                 </div>
               </Link>
@@ -117,7 +120,9 @@ class CustomizedInputs extends React.PureComponent {
 
   updateDropdown = (addProducts = false) => {
     const { inputText, page, data, totalPages } = this.state;
-    if (page > totalPages) {return null}
+    if (page > totalPages) {
+      return null;
+    }
     fetchGetWithParams(
       "/items/",
       {
@@ -128,8 +133,14 @@ class CustomizedInputs extends React.PureComponent {
       },
       true
     ).then(resData => {
-      const dataItems = addProducts ? [...data, ...resData.items] : resData.items;
-      this.setState({ isOpenDropDown: true, data: dataItems, totalPages: resData.total_pages });
+      const dataItems = addProducts
+        ? [...data, ...resData.items]
+        : resData.items;
+      this.setState({
+        isOpenDropDown: true,
+        data: dataItems,
+        totalPages: resData.total_pages
+      });
     });
   };
 

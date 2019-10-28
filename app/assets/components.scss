@@ -186,19 +186,19 @@ $bounce_height: 30px;
 .arrSlider.next {
   right: -26px;
   z-index: 1;
-  top: 50%;
+  top: 46%;
   transform: translate(0, -50%);
   float: right;
 }
 
 .main-page-slider .arrSlider.next {
-  right: 2px;
+  right: -15px;
 }
 
 .arrSlider.prev {
   left: -5px;
   z-index: 1;
-  top: 50%;
+  top: 46%;
   transform: translate(0, -50%);
 }
 
@@ -354,7 +354,7 @@ $bounce_height: 30px;
   pointer-events: auto;
   display: flex;
   justify-content: center;
-  align-items: center;
+  // align-items: center;
 }
 .slick-slider .slick-track,
 .slick-slider .slick-list {

@@ -11,6 +11,7 @@ import Dialog from "../Dialog/Dialog";
 import Footer from "../Footer/Footer";
 import WidgetPanel from "../HelpWidget/WidgetPanel";
 import styles from "./styles";
+import TitleComponent from "../TitleComponent";
 
 const mapStateToProps = state => {
   return {
@@ -20,10 +21,6 @@ const mapStateToProps = state => {
 };
 
 class App extends React.PureComponent {
-  componentDidMount() {
-    document.title = "KILO магазин одежды и обуви. Широкий ассортимен! Доступные цены!"
-  }
-
   componentDidUpdate(prevProps) {
     this.props.orderform && this.redirectToOrderForm();
     this.props.scrolling && this.scrolling();
@@ -40,6 +37,7 @@ class App extends React.PureComponent {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
+        <TitleComponent title="KILO магазин одежды и обуви. Широкий ассортимен! Доступные цены!" />
         <Grid container spacing={24}>
           <Grid className={classes.appInner} item xs={12}>
             <Header

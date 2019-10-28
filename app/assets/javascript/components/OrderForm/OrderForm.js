@@ -13,6 +13,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import { Link } from "react-router-dom";
 import styles from "./styles";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import TitleComponent from "../TitleComponent";
 
 const mapStateToProps = state => {
   return {
@@ -42,7 +43,7 @@ const ERRORS = {
     name: /^[а-яєії" -]{6,24}$/i,
     phone: /^[0-9 +-]{7,16}$/i,
     city: /^[а-яєії" .(),]{3,24}$/i,
-    departament: /^[а-яєії"0-9 a-z.()№,:-]{6,120}$/i
+    departament: /^[а-яєії"0-9 a-z.()№,:;'/-]{2,120}$/i
   }
 };
 
@@ -86,14 +87,23 @@ class OrderForm extends React.PureComponent {
   };
 
   componentDidMount() {
-    document.title = "KILO магазин одежды и обуви. Широкий ассортимен! Доступные цены!"
+    // document.title =
+    //   "KILO магазин одежды и обуви. Широкий ассортимен! Доступные цены!";
     this.props.closeOrderForm();
     this.props.closeCart();
   }
 
-  changeCity = city => this.setState({ city });
+  changeCity = city => {
+    this.setState({ city }, () => {
+      if (this.state.wasTrySend) this.validateData();
+    });
+  };
 
-  changeDepartament = departament => this.setState({ departament });
+  changeDepartament = departament => {
+    this.setState({ departament }, () => {
+      if (this.state.wasTrySend) this.validateData();
+    });
+  };
 
   validateData = () => {
     const { name, phone, city, departament } = this.state;
@@ -123,7 +133,10 @@ class OrderForm extends React.PureComponent {
   };
 
   sendOrder = () => {
-    gtag("event", "Попытка отправить заказ", {'event_category': 'События кнопок', 'event_action': "Попытка отправить заказ"})
+    gtag("event", "Попытка отправить заказ", {
+      event_category: "События кнопок",
+      event_action: "Попытка отправить заказ"
+    });
     this.setState({ wasTrySend: true });
     if (this.validateData()) {
       const line_items = this.props.card.data.map(function(element) {
@@ -164,7 +177,10 @@ class OrderForm extends React.PureComponent {
   };
 
   redirectToMain = () => {
-    gtag("event", "Отправить заказ", {'event_category': 'События кнопок', 'event_action': "Отправить заказ"})
+    gtag("event", "Отправить заказ", {
+      event_category: "События кнопок",
+      event_action: "Отправить заказ"
+    });
     this.props.history.push("/");
   };
 
@@ -176,6 +192,7 @@ class OrderForm extends React.PureComponent {
 
     return (
       <div className={classes.root}>
+        <TitleComponent title="KILO магазин одежды и обуви. Широкий ассортимен! Доступные цены!" />
         <Link to="/">
           <div className={classes.imgWrap}>
             <img src="/imgs/logo.png" className={classes.logo} />
@@ -206,15 +223,6 @@ class OrderForm extends React.PureComponent {
               error={this.state.errors.phone}
             />
             {this.errorHelper("phone")}
-            {/* <TextField
-              label="Адрес"
-              value={this.state.address}
-              onChange={this.handleChange('address')}
-              className={classes.textField}
-              type="text"
-              margin="normal"
-              fullWidth
-            /> */}
             <AdressInput
               classesFromOrder={classes}
               changeCity={this.changeCity}
@@ -247,7 +255,6 @@ class OrderForm extends React.PureComponent {
               Отправить заказ
             </Button>
           </form>
-
 
           <div className={classes.cartMicro}>
             <CartMicro />
