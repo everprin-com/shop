@@ -50,7 +50,7 @@ const styles = theme => ({
       textDecoration: "none",
     },
     recSlider: {
-      height: 340,
+      height: 350,
       marginTop: 50,
       marginBottom: 50,
     },
