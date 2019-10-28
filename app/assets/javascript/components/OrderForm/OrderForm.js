@@ -13,6 +13,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import { Link } from "react-router-dom";
 import styles from "./styles";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import TitleComponent from "../TitleComponent";
 
 const mapStateToProps = state => {
   return {
@@ -86,8 +87,8 @@ class OrderForm extends React.PureComponent {
   };
 
   componentDidMount() {
-    document.title =
-      "KILO магазин одежды и обуви. Широкий ассортимен! Доступные цены!";
+    // document.title =
+    //   "KILO магазин одежды и обуви. Широкий ассортимен! Доступные цены!";
     this.props.closeOrderForm();
     this.props.closeCart();
   }
@@ -191,6 +192,7 @@ class OrderForm extends React.PureComponent {
 
     return (
       <div className={classes.root}>
+        <TitleComponent title="KILO магазин одежды и обуви. Широкий ассортимен! Доступные цены!" />
         <Link to="/">
           <div className={classes.imgWrap}>
             <img src="/imgs/logo.png" className={classes.logo} />

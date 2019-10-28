@@ -11,6 +11,7 @@ import Dialog from "../Dialog/Dialog";
 import Footer from "../Footer/Footer";
 import { isEqualArr } from "../Utils";
 import WidgetPanel from "../HelpWidget/WidgetPanel";
+import TitleComponent from "../TitleComponent";
 
 const mapStateToProps = state => {
   return {
@@ -37,10 +38,10 @@ class CategoryPage extends React.PureComponent {
 
   componentDidMount() {
     this.props.resetProducts();
-    const { category } = this.props.match.params;
-    if (category) {
-      document.title = `Модные ${category.toLocaleUpperCase()} 2019 - купить в kilo. Лучшие цены. Большой Ассортимент`;
-    }
+    // const { category } = this.props.match.params;
+    // if (category) {
+    //   document.title = `Модные ${category.toLocaleUpperCase()} 2019 - купить в kilo. Лучшие цены. Большой Ассортимент`;
+    // }
 
     // this.props.history.listen(() => {
     //   this.props.resetProducts();
@@ -51,10 +52,8 @@ class CategoryPage extends React.PureComponent {
   scrolling = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   redirectToCategory = category => {
-    console.log(store.getState().product)
     this.props.resetProducts();
-    console.log(store.getState().product)
-    document.title = `Модные ${category.toLocaleUpperCase()} 2019 - купить в kilo. Лучшие цены. Большой Ассортимент`;
+    document.title = `Модные ${category.toLocaleUpperCase()} 2019 - купить в kilo. Отличные цены. Большой Ассортимент`;
     this.props.history.push(`/categoryPage/${category}`);
   };
 
@@ -68,6 +67,7 @@ class CategoryPage extends React.PureComponent {
     const { category } = this.props.match.params;
     return (
       <div className={classes.root}>
+        <TitleComponent title={`Модные ${category.toLocaleUpperCase()} 2019 - купить в kilo. Отличные Цены. Большой Ассортимент`} />
         <Header
           withSmallMenu
           resetFilterWithoutSex
