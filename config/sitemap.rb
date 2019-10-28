@@ -5,7 +5,7 @@ host "kilo.com.ua"
 sitemap :site do
   url root_url, last_mod: Time.now, change_freq: "daily", priority: 1.0
   Item.all.each do |item|
-    url "https://kilo.com.ua/categoryPage/#{item.slug_id}"
+    url "https://kilo.com.ua/productcart/#{item.slug_id}"
   end
 end
 ping_with "https://#{host}/sitemap.xml"
