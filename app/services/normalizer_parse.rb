@@ -25,7 +25,7 @@ class NormalizerParse
 
   def self.delete_null_item(item)
     Item::CANT_BE_NULL.each do |field|
-      return false if item[field.to_sym] == nil || item[:picture].length == 0
+      return false if (item[field.to_sym] == nil || item[:picture].compact.length == 0)
     end
   end
 

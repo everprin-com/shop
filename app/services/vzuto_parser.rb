@@ -99,7 +99,7 @@ class VzutoParser
     item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
     item["category_translate"] = Translit.convert(item["category"], :english) if item["category"].present?
     NormalizerParse.capitalize_item(item)
-    item.save if NormalizerParse.delete_null_item(item) && item["size"].present?
+    item.save if NormalizerParse.delete_null_item(item) && item["size"].compact.present?
   end
 
   def self.conver_size_to_array(size)
