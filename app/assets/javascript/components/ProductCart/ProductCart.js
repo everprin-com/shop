@@ -104,6 +104,8 @@ class ProductCart extends React.PureComponent {
       nodeName == "path" ||
       nodeName == "BUTTON" ||
       nodeName == "SPAN" ||
+      nodeName == "UL" ||
+      nodeName == "IMG" ||
       windowWidth < 1000
     )
       return;
@@ -125,8 +127,10 @@ class ProductCart extends React.PureComponent {
             width: 1200,
             height: 1800
           },
+          enlargedImageClassName: "reactImageMagnifyBig",
+          imageClassName: "reactImageMagnifySmall",
           enlargedImageContainerDimensions: {
-            width: "200%",
+            width: "150%",
             height: "100%"
           }
         }}
@@ -192,11 +196,20 @@ class ProductCart extends React.PureComponent {
                 draggable
                 arrows
                 fade
+                dots
+                dotsClass={"slick-dots slick-thumb"}
+                customPaging={i => {
+                  return (
+                    <a>
+                      <img src={picture[i]} />
+                    </a>
+                  );
+                }}
               />
             </div>
 
             <div className={`${classes.textContent} fluid__instructions`}>
-              <h3>{name}</h3>
+              <h1 className={classes.title}>{name}</h1>
               <p className={classes.price}>{`${Math.round(price)} грн`}</p>
               <div>
                 <ProductItemSizes

@@ -9,7 +9,7 @@ const styles = theme => ({
     },
     cell: {
       fontSize: 14,
-      padding: "0 auto",
+      padding: 3,
       border: "none"
     },
     table: {
@@ -31,7 +31,7 @@ const styles = theme => ({
       fontWeight: "bold"
     },
     row: {
-      border: "1px solid transparent",
+      borderBottom: "1px solid #eee",
       outlineColor: "transparent",
       height: 35
     },

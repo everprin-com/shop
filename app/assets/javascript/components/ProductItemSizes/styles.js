@@ -37,10 +37,10 @@ const styles = theme => ({
       fontSize: 14 ,
     },
     [theme.breakpoints.up("sm")]: {
-      padding: "4px 14px"
+      padding: "3px 12px"
     },
     [theme.breakpoints.up("md")]: {
-      padding: "7px 20px"
+      padding: "5px 15px"
     }
   },
   chipBig: {
