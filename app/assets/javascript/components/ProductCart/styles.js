@@ -29,6 +29,7 @@ const styles = theme => ({
   button: {
     fontSize: 16,
     marginTop: 10,
+    padding: "6px 20px",
   },
   mainContent: {
     display: "flex",
@@ -84,6 +85,9 @@ const styles = theme => ({
     display: "block",
     padding: "10px 0px",
     width: 200,
+  },
+  title: {
+    fontSize: 24,
   }
 });
 

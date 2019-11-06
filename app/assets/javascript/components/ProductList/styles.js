@@ -36,12 +36,13 @@ const styles = theme => ({
     marginTop: "-40px",
   },
   wraper: {
-    zIndex: 2
+    zIndex: 2,
+    marginTop: 55,
   },
   title: {
     textAlign: "center",
     fontSize: 25,
-    padding: 30
+    padding: "0px 0px 30px",
   }
 });
 
