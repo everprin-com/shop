@@ -21,6 +21,19 @@ import WidgetPanel from "../HelpWidget/WidgetPanel";
 import KiloLoading from "../KiloLoading";
 import TitleComponent from "../TitleComponent";
 
+const advantages = [
+  "Быстрая доставка",
+  "Высокое качество",
+  "Гарантия возврата",
+  "Доступные цены",
+  "Широкий ассортимент",
+  "Коллекция 2019",
+  "Постоянные акции",
+  "Большой выбор на любой вкус",
+  "Брендовые товары",
+  "Модные тренды",
+] 
+
 const mapStateToProps = state => {
   return {
     products: state.product,
@@ -52,6 +65,26 @@ class ProductCart extends React.PureComponent {
     this.scrollToTop();
   }
 
+  setDescription = () => {
+    let meta = document.createElement('meta');
+    meta.setAttribute('name', 'description');
+    meta.setAttribute('content', this.getDescription());
+    document.getElementsByTagName('head')[0].appendChild(meta);
+  }
+
+  getDescription = () => {
+    const { data } = this.state
+    console.log(data)
+    if (data.description) return data.description
+    let composition = data.composition && data.composition.length > 5 ? `, состав: ${data.composition}` : ""
+    let color = data.color ? `, цвет: ${data.color}` : ""
+    let brand = data.brand ? `, бренд: ${data.brand}` : ""
+    let advantageN = data.id ? +`${data.id}`.slice(-1) : Math.round((Math.random()*10))
+    let advantage = advantages[advantageN]
+    let customDesc = `${data.name}${color}${brand}${composition}, цена ${Math.round(data.price)} грн. ${advantage}`
+    return customDesc
+  }
+
   componentDidUpdate(prevProps) {
     this.props.orderform && this.redirectToOrderForm();
     if (prevProps.location.pathname != this.props.location.pathname) {
@@ -71,6 +104,7 @@ class ProductCart extends React.PureComponent {
       this.setState({ data, loading: false }, () => {
         // this.props.requestAndAddSlider(this.state.data.category);
         this.props.addProduct(data);
+        this.setDescription()
       });
     });
   };
@@ -162,7 +196,7 @@ class ProductCart extends React.PureComponent {
     }
     return (
       <div className={`${classes.root} product-cart`}>
-        <TitleComponent title={`${data.name} - купить в kilo. Высокое качество! Хорошие скидки.`} />
+        <TitleComponent title={`${data.name} - купить в KILO. Цена ${Math.round(data.price)} грн. Высокое качество!`} />
         <Header
           redirectToRoot={this.redirectToRoot}
           redirectToCategory={this.redirectToCategory}
@@ -190,7 +224,7 @@ class ProductCart extends React.PureComponent {
                 simple
                 products={
                   Array.isArray(picture)
-                    ? picture.map(srcPicture => this.sliderItem(srcPicture))
+                    ? picture.map(srcPicture => this.sliderItem(srcPicture, data.name))
                     : picture
                 }
                 draggable
