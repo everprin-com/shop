@@ -66,6 +66,7 @@ class ProductCart extends React.PureComponent {
   }
 
   setDescription = () => {
+    if (document.querySelector("meta[name='description']")) document.querySelector("meta[name='description']").remove()
     let meta = document.createElement('meta');
     meta.setAttribute('name', 'description');
     meta.setAttribute('content', this.getDescription());
@@ -74,7 +75,6 @@ class ProductCart extends React.PureComponent {
 
   getDescription = () => {
     const { data } = this.state
-    console.log(data)
     if (data.description) return data.description
     let composition = data.composition && data.composition.length > 5 ? `, состав: ${data.composition}` : ""
     let color = data.color ? `, цвет: ${data.color}` : ""
