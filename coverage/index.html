@@ -14,26 +14,26 @@
       <img src="./assets/0.10.2/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2019-11-10T21:26:22+02:00">2019-11-10T21:26:22+02:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2019-11-10T21:47:29+02:00">2019-11-10T21:47:29+02:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="red">74.7%</span></span>
+    (<span class="covered_percent"><span class="red">75.66%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         383.62
+         531.12
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>34</b> files in total.
-    <b>328</b> relevant lines. 
-    <span class="green"><b>245</b> lines covered</span> and
+    <b>341</b> relevant lines. 
+    <span class="green"><b>258</b> lines covered</span> and
     <span class="red"><b>83</b> lines missed </span>
   </div>
   <table class="file_list">
@@ -344,10 +344,10 @@
         <td class="strong"><a href="#ba7eed1002924a3a6e2dd006ad899341c61b32e0" class="src_link" title="spec/models/item_spec.rb">spec/models/item_spec.rb</a></td>
         <td class="green strong">100.0 %</td>
         <td>37</td>
-        <td>8</td>
-        <td>8</td>
+        <td>21</td>
+        <td>21</td>
         <td>0</td>
-        <td>9720.9</td>
+        <td>4583.4</td>
       </tr>
       
       <tr>
@@ -357,7 +357,7 @@
         <td>25</td>
         <td>25</td>
         <td>0</td>
-        <td>1912.5</td>
+        <td>3384.5</td>
       </tr>
       
       <tr>
@@ -7022,8 +7022,8 @@
     <h3>spec/models/item_spec.rb</h3>
     <h4><span class="green">100.0 %</span> covered</h4>
     <div>
-      <b>8</b> relevant lines. 
-      <span class="green"><b>8</b> lines covered</span> and
+      <b>21</b> relevant lines. 
+      <span class="green"><b>21</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
   </div>
@@ -7049,130 +7049,130 @@
           <code class="ruby">RSpec.describe Item, type: :model do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="4">
+        <li class="covered" data-hits="1" data-linenumber="4">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  # describe &quot;categories products more 24&quot; do</code>
+          <code class="ruby">  describe &quot;categories products more 24&quot; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="5">
+        <li class="covered" data-hits="1" data-linenumber="5">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  #   MIN_COUNT_CATEGORIES = 24</code>
+          <code class="ruby">    MIN_COUNT_CATEGORIES = 24</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="6">
+        <li class="covered" data-hits="1" data-linenumber="6">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  #   categories = Item.all.map(&amp;:category).uniq</code>
+          <code class="ruby">    categories = Item.all.map(&amp;:category).uniq</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="7">
+        <li class="covered" data-hits="1" data-linenumber="7">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  #   categories.each do |category|</code>
+          <code class="ruby">    categories.each do |category|</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="8">
+        <li class="covered" data-hits="76" data-linenumber="8">
+          <span class="hits">76</span>
           
-          
-          <code class="ruby">  #     it &quot;item category #{category} more then #{MIN_COUNT_CATEGORIES}&quot; do</code>
+          <code class="ruby">      it &quot;item category #{category} more then #{MIN_COUNT_CATEGORIES}&quot; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="9">
+        <li class="covered" data-hits="76" data-linenumber="9">
+          <span class="hits">76</span>
           
-          
-          <code class="ruby">  #       item_categories = Item.where(category: category)</code>
+          <code class="ruby">        item_categories = Item.where(category: category)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="10">
+        <li class="covered" data-hits="76" data-linenumber="10">
+          <span class="hits">76</span>
           
-          
-          <code class="ruby">  #       expect(item_categories.count).to be &gt;= MIN_COUNT_CATEGORIES</code>
+          <code class="ruby">        expect(item_categories.count).to be &gt;= MIN_COUNT_CATEGORIES</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="11">
           
           
-          <code class="ruby">  #     end</code>
+          <code class="ruby">      end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="12">
           
           
-          <code class="ruby">  #   end</code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="13">
           
           
-          <code class="ruby">  # end</code>
+          <code class="ruby">  end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="14">
           
           
-          <code class="ruby">  #</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="15">
+        <li class="covered" data-hits="1" data-linenumber="15">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  # describe &quot;description size less 10 symbols&quot; do</code>
+          <code class="ruby">  describe &quot;description size less 10 symbols&quot; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="16">
+        <li class="covered" data-hits="1" data-linenumber="16">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  #   MIN_COUNT_SIZES = 10</code>
+          <code class="ruby">    MIN_COUNT_SIZES = 10</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="17">
+        <li class="covered" data-hits="1" data-linenumber="17">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  #   items = Item.all.where.not(size_world: &quot;&quot;)</code>
+          <code class="ruby">    items = Item.all.where.not(size_world: &quot;&quot;)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="18">
+        <li class="covered" data-hits="1" data-linenumber="18">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  #   items.find_each do |item|</code>
+          <code class="ruby">    items.find_each do |item|</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="19">
+        <li class="covered" data-hits="9124" data-linenumber="19">
+          <span class="hits">9124</span>
           
-          
-          <code class="ruby">  #     it &quot;item #{item.slug_id} size less #{MIN_COUNT_SIZES} symbols&quot; do</code>
+          <code class="ruby">      it &quot;item #{item.slug_id} size less #{MIN_COUNT_SIZES} symbols&quot; do</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="20">
           
           
-          <code class="ruby">  #       #byebug</code>
+          <code class="ruby">        #byebug</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="21">
+        <li class="covered" data-hits="9124" data-linenumber="21">
+          <span class="hits">9124</span>
           
-          
-          <code class="ruby">  #       expect(item.size_world&amp;.length).to be_between(MIN_COUNT_SIZES, 1000)</code>
+          <code class="ruby">        expect(item.size_world&amp;.length).to be_between(MIN_COUNT_SIZES, 1000)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="22">
           
           
-          <code class="ruby">  #     end</code>
+          <code class="ruby">      end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="23">
           
           
-          <code class="ruby">  #   end</code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="24">
           
           
-          <code class="ruby">  # end</code>
+          <code class="ruby">  end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="25">
@@ -7536,26 +7536,26 @@
           <code class="ruby">  config.before(:each) do</code>
         </li>
       
-        <li class="covered" data-hits="11947" data-linenumber="45">
-          <span class="hits">11947</span>
+        <li class="covered" data-hits="21147" data-linenumber="45">
+          <span class="hits">21147</span>
           
           <code class="ruby">    Capybara.run_server = true</code>
         </li>
       
-        <li class="covered" data-hits="11947" data-linenumber="46">
-          <span class="hits">11947</span>
+        <li class="covered" data-hits="21147" data-linenumber="46">
+          <span class="hits">21147</span>
           
           <code class="ruby">    Capybara.javascript_driver = :webkit</code>
         </li>
       
-        <li class="covered" data-hits="11947" data-linenumber="47">
-          <span class="hits">11947</span>
+        <li class="covered" data-hits="21147" data-linenumber="47">
+          <span class="hits">21147</span>
           
           <code class="ruby">    Capybara.default_selector = :css</code>
         </li>
       
-        <li class="covered" data-hits="11947" data-linenumber="48">
-          <span class="hits">11947</span>
+        <li class="covered" data-hits="21147" data-linenumber="48">
+          <span class="hits">21147</span>
           
           <code class="ruby">    Capybara.server_port = 7171</code>
         </li>
