@@ -46,7 +46,7 @@ RSpec.configure do |config|
     Capybara.javascript_driver = :webkit
     Capybara.default_selector = :css
     Capybara.server_port = 7171
-    DatabaseCleaner.start
+    #DatabaseCleaner.start
   end
 
   config.include Devise::Test::ControllerHelpers, type: :controller

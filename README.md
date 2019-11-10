@@ -7,7 +7,10 @@ rails version 4.2.11
 
 root@178.62.6.75
 ssh rails-demo@178.62.6.75
+cd app
+cd current
 RAILS_ENV=production bundle exec rails c
+bundle exec rspec spec/models/item_spec.rb --format html --out app/views/test_html/rspec_results.html
 tail -f ~/app/shared/log/*
 node --max_old_space_size=1096 node_modules/webpack/.bin/webpack.js
 
