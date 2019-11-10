@@ -76,7 +76,7 @@ gem "roo"
 gem "roo-xls"
 #gem "spreadsheet"
 
-group :development, :test do
+#group :development, :test do
   gem 'capybara'
   gem 'byebug'
   gem 'rspec-rails'
@@ -105,4 +105,4 @@ group :development, :test do
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   #gem 'capistrano-rbenv', github: "capistrano/rbenv"
-end
+#end
