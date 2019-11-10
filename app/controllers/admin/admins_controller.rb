@@ -22,6 +22,17 @@ module Admin
       redirect_to "/admin/admins"
     end
 
+    def show_test
+      #system "bundle exec rspec spec/models/item_spec.rb --format html --out app/views/test_html/rspec_results.html"
+      render file: "test_html/show_test.html"
+    end
+
+    def lounch_test
+      system "bundle exec rspec spec/models/item_spec.rb --format html --out app/views/test_html/_rspec_results.html"
+      #render file: "test_html/rspec_results.html"
+      render file: "test_html/show_test.html"
+    end
+
     def convert_xls
       files = Dir.entries("public/excel/parser")
       files.delete(".")
