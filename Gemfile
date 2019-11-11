@@ -11,7 +11,7 @@ gem 'dynamic_sitemaps'
 #gem 'friendly_id'
 gem 'coffee-rails'
 gem 'jquery-rails'
-
+gem 'sprockets'
 gem 'jbuilder'
 gem "paperclip"
 gem 'actionpack-page_caching'
@@ -96,7 +96,7 @@ gem "roo-xls"
   gem 'cucumber-rails', :require => false
   gem 'meta_request'
   gem "better_errors"
-  gem 'quiet_assets'
+  #gem 'quiet_assets'
   gem "bullet"
   gem 'newrelic_rpm'
   gem 'colored'

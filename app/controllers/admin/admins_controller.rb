@@ -28,9 +28,10 @@ module Admin
     end
 
     def lounch_test
-      system "bundle exec rspec spec/models/item_spec.rb --format html --out app/views/test_html/_rspec_results.html"
+      system "RAILS_ENV=production bundle exec rspec spec/models/item_spec.rb --format html --out app/views/test_html/_rspec_results.html"
+      render file: "test_html/show_test.html"
       #render file: "test_html/rspec_results.html"
-      redirect_to "/admin/admins/show_test"
+      #redirect_to "/admin/admins/show_test"
     end
 
     def convert_xls
