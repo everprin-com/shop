@@ -29,3 +29,4 @@ yarn-debug.log*
 /public/assets/
 /public/excel/
 node_modules/
+public/converted_fid.xls

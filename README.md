@@ -82,6 +82,8 @@ bundle exec rake parser_xml:parser_xml
 Site map generator
 rake sitemap:generate
 bundle exec rake create_yml:create_yml
+bundle exec rake create_fid:create_fid
+
 
 autoparser
       "http://timeofstyle.com/download/tos_actual_price_and_stock.xls",
