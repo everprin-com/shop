@@ -26,7 +26,7 @@ namespace :create_fid_issa do
           fid_description = item[:name].to_s + "; " + item[:category].to_s + "; " + item[:color].to_s + "; " + item[:sex][0].to_s + "; " + desctiption
           sorted_array.push(url, fid_description)
           new_book.worksheet(0).insert_row(index, sorted_array)
-          new_book.write("public/converted_fid_#{drop_shiper}.xls")
+          new_book.write("public/converted_fid_issa.xls")
         end
       #end
     rescue Zip::Error
