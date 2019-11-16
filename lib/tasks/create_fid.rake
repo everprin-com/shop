@@ -17,15 +17,18 @@ namespace :create_fid do
       drop_shipers = ["Favoritti", "Tos", "Vzuto", "Ager", "Garne", "Villomi"]
       drop_shipers.each do |drop_shiper|
         items = Item.where(drop_ship: drop_shiper)
+        new_book.worksheet(0).insert_row(0, ["Page URL", " "])
+        new_book.write("public/converted_fid_#{drop_shiper}.xls")
         items.each_with_index do |item, index|
           p "index"
           p index
           sorted_array = []
           url = "https://kilo.com.ua/productcart/#{item[:slug_id]}"
-          desctiption = item[:description] ? "description" : ""
-          fid_description = item[:name].to_s + "; " + item[:category].to_s + "; " + item[:color].to_s + "; " + item[:sex][0].to_s + "; " + desctiption
+          description = item[:description] ? "description" : ""
+          color = item[:color] ? "#{item[:color]}; " : " "
+          fid_description = "#{item[:name]}; " + "#{item[:category]}; " + color + "#{item[:sex][0]}; " + description
           sorted_array.push(url, fid_description)
-          new_book.worksheet(0).insert_row(index, sorted_array)
+          new_book.worksheet(0).insert_row(index + 1, sorted_array)
           new_book.write("public/converted_fid_#{drop_shiper}.xls")
         end
       end
