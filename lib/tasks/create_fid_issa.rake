@@ -14,9 +14,9 @@ namespace :create_fid do
       #sheet = book.worksheet 0
       #sheet2 = book.create_worksheet :name => 'My Second Worksheet'
       iter = 0
-      drop_shipers = ["Favoritti", "Tos", "Vzuto", "Ager", "Garne", "Villomi"]
-      drop_shipers.each do |drop_shiper|
-        items = Item.where(drop_ship: drop_shiper)
+      #drop_shipers = ["Favoritti", "Tos", "Vzuto", "Ager", "Issaplus", "Garne", "Villomi"]
+      #drop_shipers.each do |drop_shiper|
+        items = Item.where(drop_ship: "Issaplus")
         items.each_with_index do |item, index|
           p "index"
           p index
@@ -28,7 +28,7 @@ namespace :create_fid do
           new_book.worksheet(0).insert_row(index, sorted_array)
           new_book.write("public/converted_fid_#{drop_shiper}.xls")
         end
-      end
+      #end
     rescue Zip::Error
       Roo::Spreadsheet.open(filepath)
     end
