@@ -5,9 +5,9 @@ MUST_BE_KEY_EXCEL = [
   "article", "name", "description", "price", "color", "picture", "brand", "season", "male",
   "size", "country", "category", "presence", "size_world", "drop_ship", "composition", "drop_ship_price", "picture_small", "link"
 ]
-namespace :create_fid do
+namespace :create_fid_issa do
 
-  task create_fid: :environment do
+  task create_fid_issa: :environment do
     begin
       new_book = Spreadsheet::Workbook.new
       new_book.create_worksheet :name => 'Sheet Name'
