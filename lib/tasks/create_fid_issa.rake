@@ -22,7 +22,7 @@ namespace :create_fid_issa do
         p index
         sorted_array = []
         url = "https://kilo.com.ua/productcart/#{item[:slug_id]}"
-        desctiption = item[:description] ? "description" : ""
+        description = item[:description] ? "description" : ""
         color = item[:color] ? "#{item[:color]}; " : " "
         fid_description = "#{item[:name]}; " + "#{item[:category]}; " + color + "#{item[:sex][0]}; " + description
         sorted_array.push(url, fid_description)
