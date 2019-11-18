@@ -162,7 +162,7 @@ class ItemsImport
         item["category"] = NormalizerParse.set_category(category)
       elsif @name_drop_ship == "garne"
          item["picture"] = row["picture"].split(",")
-         item["size"] = row["size"]
+         item["size"] = row["size"]&.split("/")&.join(",")&.split(",")&.map(&:upcase)
          item["drop_ship_price"] = row["drop_ship_price"]
          item["size_world"]= row["description"]
          item["color"] = row["color"]
@@ -174,7 +174,6 @@ class ItemsImport
          end
          item["category"] = NormalizerParse.set_category(setted_category)
          item["composition"] = row["composition"]
-         item["size"] = row["size"]
          item["sex"] =
            if Item::WOOMAN_CATEGORIES.include?(row["sex"])
              ["wooman"]
@@ -220,6 +219,11 @@ class ItemsImport
       last_size = Item::ROME_SIZE.index(size.split("-")[1])
       converted_size = Item::ROME_SIZE[first_size..last_size]
     end
+    #  make from "2xl/3xl, 4xl/5xl, l/xl, s/m" => ["XXS", "XS", "S"]
+    # if !size.is_a?(Float) && Item::ROME_SIZE.include?(size.split(",").split("/")&.upcase[0])
+    #   converted_size = size.split(",").split("/")&.map(&:upcase)
+    #   #converted_size = Item::ROME_SIZE[first_size..last_size]
+    # end
     # make from "34-36" => ["34", "35", "36"]
     converted_size =
       converted_size&.flatten.map do |size|
