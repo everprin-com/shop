@@ -12,7 +12,7 @@ RSpec.describe Item, type: :model do
     end
   end
 
-  describe "description size less 10 symbols" do
+  describe "description world size less 10 symbols" do
     MIN_COUNT_SIZES = 10
     items = Item.all.where.not(size_world: "")
     items.find_each do |item|
@@ -23,15 +23,24 @@ RSpec.describe Item, type: :model do
     end
   end
 
-  describe "picture include http" do
+  describe "size at list one" do
     items = Item.all
     items.find_each do |item|
-      it "item #{item.slug_id} include http" do
-        item.picture.each do |picture|
-         expect(picture).to include("http")
-       end
+      it "item #{item.slug_id} category #{item.category} has #{item.size&.length} sizes" do
+        expect(item.size&.length).to be_between(1, 20)
       end
     end
   end
+
+  # describe "picture include http" do
+  #   items = Item.all
+  #   items.find_each do |item|
+  #     it "item #{item.slug_id} include http" do
+  #       item.picture.each do |picture|
+  #        expect(picture).to include("http")
+  #      end
+  #     end
+  #   end
+  # end
 
 end
