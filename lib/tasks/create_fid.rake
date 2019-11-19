@@ -19,15 +19,23 @@ namespace :create_fid do
         items = Item.where(drop_ship: drop_shiper)
         new_book.worksheet(0).insert_row(0, ["Page URL", " "])
         new_book.write("public/converted_fid_#{drop_shiper}.xls")
+        fields = ["name", "category", "color", "sex", "description"]
         items.each_with_index do |item, index|
           p "index"
           p index
           sorted_array = []
           url = "https://kilo.com.ua/productcart/#{item[:slug_id]}"
-          description = item[:description] ? "description" : ""
-          color = item[:color] ? "#{item[:color]}; " : " "
-          fid_description = "#{item[:name]}; " + "#{item[:category]}; " + color + "#{item[:sex][0]}; " + description
-          sorted_array.push(url, fid_description)
+          #description = item[:description] ? "description" : ""
+          #color = item[:color] ? "#{item[:color]}; " : " "
+          #fid_description = "#{item[:name]}; " + "#{item[:category]}; " + color + "#{item[:sex][0]}; " + description
+          fid_description = []
+          fields.each do |field|
+            field = item.public_send("#{field}")
+            converted_val = field.kind_of?(Array) ? field[0] : field.to_s
+            fid_val = converted_val.present? ? (converted_val + ";") : nil
+            fid_description << fid_val
+          end
+          sorted_array.push(url, fid_description&.compact&.join(" "))
           new_book.worksheet(0).insert_row(index + 1, sorted_array)
           new_book.write("public/converted_fid_#{drop_shiper}.xls")
         end
