@@ -24,7 +24,7 @@ namespace :create_fid do
           p "index"
           p index
           sorted_array = []
-          description = item[:description].present? ? "description" : ""
+          description = item[:description].present? ? "description;" : ""
           url = "https://kilo.com.ua/productcart/#{item[:slug_id]}"
           #description = item[:description] ? "description" : ""
           #color = item[:color] ? "#{item[:color]}; " : " "
@@ -37,6 +37,9 @@ namespace :create_fid do
             fid_description << fid_val
           end
           fid_description << description
+          last_moddified_element = fid_description.last.delete_suffix(";")
+          fid_description.pop
+          fid_description << last_moddified_element
           sorted_array.push(url, fid_description&.compact&.join(" "))
           new_book.worksheet(0).insert_row(index + 1, sorted_array)
           new_book.write("public/converted_fid_#{drop_shiper}.xls")

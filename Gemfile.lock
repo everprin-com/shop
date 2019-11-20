@@ -547,6 +547,3 @@ DEPENDENCIES
   webpacker (~> 3)
   whenever
   will_paginate
-
-BUNDLED WITH
-   1.17.3
