@@ -22,7 +22,7 @@ namespace :create_fid_issa do
         p "index"
         p index
         sorted_array = []
-        description = item[:description].present? ? "description;" : ""
+        description = item[:description].present? ? "description;" : nil
         url = "https://kilo.com.ua/productcart/#{item[:slug_id]}"
         fid_description = []
         fields.each do |field|
@@ -32,6 +32,7 @@ namespace :create_fid_issa do
           fid_description << fid_val
         end
         fid_description << description
+        fid_description.compact!
         last_moddified_element = fid_description.last.delete_suffix(";")
         fid_description.pop
         fid_description << last_moddified_element

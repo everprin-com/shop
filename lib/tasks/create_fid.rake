@@ -24,7 +24,7 @@ namespace :create_fid do
           p "index"
           p index
           sorted_array = []
-          description = item[:description].present? ? "description;" : ""
+          description = item[:description].present? ? "description;" : nil
           url = "https://kilo.com.ua/productcart/#{item[:slug_id]}"
           #description = item[:description] ? "description" : ""
           #color = item[:color] ? "#{item[:color]}; " : " "
@@ -37,6 +37,7 @@ namespace :create_fid do
             fid_description << fid_val
           end
           fid_description << description
+          fid_description.compact!
           last_moddified_element = fid_description.last.delete_suffix(";")
           fid_description.pop
           fid_description << last_moddified_element
