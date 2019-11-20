@@ -17,12 +17,12 @@ namespace :create_fid_issa do
       items = Item.where(drop_ship: "Issaplus")
       new_book.worksheet(0).insert_row(0, ["Page URL", " "])
       new_book.write("public/converted_fid_issa.xls")
-      description = item[:description].present? ? "description" : ""
       fields = ["name", "category", "color", "sex"]
       items.each_with_index do |item, index|
         p "index"
         p index
         sorted_array = []
+        description = item[:description].present? ? "description" : ""
         url = "https://kilo.com.ua/productcart/#{item[:slug_id]}"
         fid_description = []
         fields.each do |field|

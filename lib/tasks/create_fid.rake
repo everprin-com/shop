@@ -19,12 +19,12 @@ namespace :create_fid do
         items = Item.where(drop_ship: drop_shiper)
         new_book.worksheet(0).insert_row(0, ["Page URL", "Custom labels"])
         new_book.write("public/converted_fid_#{drop_shiper}.xls")
-        description = item[:description].present? ? "description" : ""
         fields = ["name", "category", "color", "sex"]
         items.each_with_index do |item, index|
           p "index"
           p index
           sorted_array = []
+          description = item[:description].present? ? "description" : ""
           url = "https://kilo.com.ua/productcart/#{item[:slug_id]}"
           #description = item[:description] ? "description" : ""
           #color = item[:color] ? "#{item[:color]}; " : " "
