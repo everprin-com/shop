@@ -14,7 +14,7 @@ namespace :create_fid do
       #sheet = book.worksheet 0
       #sheet2 = book.create_worksheet :name => 'My Second Worksheet'
       iter = 0
-      drop_shipers = ["Favoritti", "Tos", "Vzuto", "Ager", "Garne", "Villomi"]
+      drop_shipers = ["Favoritti", "Tos", "Vzuto", "Ager", "Garne", "Villomi", "Issaplus"]
       drop_shipers.each do |drop_shiper|
         items = Item.where(drop_ship: drop_shiper)
         new_book.worksheet(0).insert_row(0, ["Page URL", "Custom labels"])
@@ -43,8 +43,8 @@ namespace :create_fid do
           fid_description << last_moddified_element
           sorted_array.push(url, fid_description&.compact&.join(" "))
           new_book.worksheet(0).insert_row(index + 1, sorted_array)
-          new_book.write("public/converted_fid_#{drop_shiper}.xls")
         end
+        new_book.write("public/converted_fid_#{drop_shiper}.xls")
       end
     rescue Zip::Error
       Roo::Spreadsheet.open(filepath)
