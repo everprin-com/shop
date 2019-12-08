@@ -5,6 +5,7 @@ class Item < ActiveRecord::Base
   #include ActiveModel::Serialization
   #serialize :size_world
   has_one :average_voted, foreign_key: "slug_id", primary_key: "slug_id"
+  has_many :product_comments, foreign_key: "slug_id", primary_key: "slug_id"
   attr_accessor :skip
   include PgSearch
   pg_search_scope :search_color,

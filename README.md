@@ -14,7 +14,10 @@ RAILS_ENV=production bundle exec rspec spec/models/item_spec.rb --format html --
 tail -f ~/app/shared/log/*
 node --max_old_space_size=1096 node_modules/webpack/.bin/webpack.js
 RAILS_ENV=production bundle exec rake create_fid:create_fid
+
 RAILS_ENV=production bundle exec rake create_votes:create_votes
+RAILS_ENV=production bundle exec rake create_comments:create_comments
+
 scp rails-demo@178.62.6.75:/home/rails-demo/app/current/public/converted_fid.xls /home/oleg/work/bizness
 
 

@@ -3,6 +3,9 @@ class ItemSerializer < ActiveModel::Serializer
   :season, :male, :size, :country, :category, :available_product, :size_world, :composition, :drop_ship,
   :created_at, :slug_id, :category_translate, :group
 
+  has_one :average_voted
+  has_many :product_comments
+
   root false
 
   def size_world
