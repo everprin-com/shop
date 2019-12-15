@@ -10,7 +10,6 @@ import DialogWindow from "../Dialog/Dialog";
 import ChooseSize from "../ChooseSize/ChooseSize";
 import Footer from "../Footer/Footer";
 import fetchGet from "../api/fetchGet";
-import fetchGetWithParams from "../api/fetchGetWithParams";
 import Slider from "../Slider/Slider";
 import ProductList from "../ProductList/ProductList";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
@@ -20,6 +19,136 @@ import styles from "./styles";
 import WidgetPanel from "../HelpWidget/WidgetPanel";
 import KiloLoading from "../KiloLoading";
 import TitleComponent from "../TitleComponent";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import fetchPost from "../api/fetchPost"
+
+function WhriteReview({classes}) {
+  const [text, setText] = React.useState("");
+  const [author, setAuthor] = React.useState("");
+
+  const handleChansetTextge = (event, newValue) => {
+    console.log(event.target.value)
+    setText(event.target.value);
+  };
+  return (
+    <div>
+      <TextareaAutosize
+        value={text}
+        aria-label="minimum height"
+        rowsMin={3}
+        placeholder="Minimum 3 rows"
+        onChange={handleChansetTextge}
+      />
+      <Button
+        variant="contained"
+        color="primary"
+        // className={classes.button}
+        // onClick={isInCart ? openCart : this.putToCart}
+        onClick={()=>fetchPost("/product_comments/create", JSON.stringify({text}))}
+      >
+        Оставить отзыв
+        {/* {isInCart ? "Товар уже в корзине" : "Добавить в корзину"} */}
+      </Button>
+    </div>
+  );
+}
+
+function Сharacteristic({ characteristicPorps }) {
+  const {
+    productData,
+    classes,
+    id,
+    price,
+    size,
+    activeSize,
+    data = {},
+    openTableSize,
+    putToCart
+  } = characteristicPorps;
+
+  return (
+    <div>
+      <p className={classes.price}>{`${Math.round(price)} грн`}</p>
+      <div>
+        <ProductItemSizes
+          sizes={size}
+          id={id}
+          activeSize={activeSize}
+          format="big"
+        />
+      </div>
+      <div>
+        {data.group != "accessories" && (
+          <span className={classes.tableSize} onClick={openTableSize}>
+            Таблица размеров
+          </span>
+        )}
+      </div>
+      <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        // onClick={isInCart ? openCart : this.putToCart}
+        onClick={putToCart}
+      >
+        Купить
+        {/* {isInCart ? "Товар уже в корзине" : "Добавить в корзину"} */}
+      </Button>
+      <AboutProduct productData={productData} />
+    </div>
+  );
+}
+
+function CommentBlock({ data, data: { author, date, text } }) {
+  return (
+    <div>
+      <b>{author}</b>
+      <span>{date}</span>
+      <div>{text}</div>
+    </div>
+  );
+}
+
+function Reviews({ reviewsPorps }) {
+  if (!reviewsPorps) return null;
+  return (
+    <div>
+      <WhriteReview />
+      {reviewsPorps.map(data => (
+        <CommentBlock data={data} />
+      ))}
+    </div>
+  );
+}
+
+function DisabledTabs({ characteristicPorps, reviewsPorps }) {
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <div>
+      <Tabs
+        value={value}
+        indicatorColor="primary"
+        textColor="primary"
+        onChange={handleChange}
+        aria-label="disabled tabs example"
+      >
+        <Tab label="Характеристика" />
+        <Tab label="Отзывы" />
+      </Tabs>
+      {value == 0 && (
+        <Сharacteristic characteristicPorps={characteristicPorps} />
+      )}
+      {value == 1 && <Reviews reviewsPorps={reviewsPorps} />}
+    </div>
+  );
+}
 
 const advantages = [
   "Быстрая доставка",
@@ -31,8 +160,8 @@ const advantages = [
   "Постоянные акции",
   "Большой выбор на любой вкус",
   "Брендовые товары",
-  "Модные тренды",
-] 
+  "Модные тренды"
+];
 
 const mapStateToProps = state => {
   return {
@@ -66,24 +195,34 @@ class ProductCart extends React.PureComponent {
   }
 
   setDescription = () => {
-    if (document.querySelector("meta[name='description']")) document.querySelector("meta[name='description']").remove()
-    let meta = document.createElement('meta');
-    meta.setAttribute('name', 'description');
-    meta.setAttribute('content', this.getDescription());
-    document.getElementsByTagName('head')[0].appendChild(meta);
-  }
+    if (document.querySelector("meta[name='description']"))
+      document.querySelector("meta[name='description']").remove();
+    let meta = document.createElement("meta");
+    meta.setAttribute("name", "description");
+    meta.setAttribute("content", this.getDescription());
+    document.getElementsByTagName("head")[0].appendChild(meta);
+  };
 
   getDescription = () => {
-    const { data } = this.state
-    if (data.description) return data.description
-    let composition = data.composition && data.composition.length > 5 ? `, состав: ${data.composition}` : ""
-    let color = data.color ? `, цвет: ${data.color}` : ""
-    let brand = data.brand ? `, бренд: ${data.brand}` : ""
-    let advantageN = data.id ? +`${data.id}`.slice(-1) : Math.round((Math.random()*10))
-    let advantage = advantages[advantageN]
-    let customDesc = `${data.name}${color}${brand}${composition}, цена ${Math.round(data.price)} грн. ${advantage}`
-    return customDesc
-  }
+    const { data } = this.state;
+    if (data.description) return data.description;
+    let composition =
+      data.composition && data.composition.length > 5
+        ? `, состав: ${data.composition}`
+        : "";
+    let color = data.color ? `, цвет: ${data.color}` : "";
+    let brand = data.brand ? `, бренд: ${data.brand}` : "";
+    let advantageN = data.id
+      ? +`${data.id}`.slice(-1)
+      : Math.round(Math.random() * 10);
+    let advantage = advantages[advantageN];
+    let customDesc = `${
+      data.name
+    }${color}${brand}${composition}, цена ${Math.round(
+      data.price
+    )} грн. ${advantage}`;
+    return customDesc;
+  };
 
   componentDidUpdate(prevProps) {
     this.props.orderform && this.redirectToOrderForm();
@@ -104,7 +243,7 @@ class ProductCart extends React.PureComponent {
       this.setState({ data, loading: false }, () => {
         // this.props.requestAndAddSlider(this.state.data.category);
         this.props.addProduct(data);
-        this.setDescription()
+        this.setDescription();
       });
     });
   };
@@ -196,11 +335,16 @@ class ProductCart extends React.PureComponent {
     }
     return (
       <div className={`${classes.root} product-cart`}>
-        <TitleComponent title={`${data.name} - купить в KILO. Цена ${Math.round(data.price)} грн. Высокое качество!`} />
+        <TitleComponent
+          title={`${data.name} - купить в KILO. Цена ${Math.round(
+            data.price
+          )} грн. Высокое качество!`}
+        />
         <Header
           redirectToRoot={this.redirectToRoot}
           redirectToCategory={this.redirectToCategory}
         />
+        <h1 className={classes.title}>{data.name}</h1>
         <Breadcrumbs
           links={[
             { href: "/", title: "Главная" },
@@ -224,7 +368,9 @@ class ProductCart extends React.PureComponent {
                 simple
                 products={
                   Array.isArray(picture)
-                    ? picture.map(srcPicture => this.sliderItem(srcPicture, data.name))
+                    ? picture.map(srcPicture =>
+                        this.sliderItem(srcPicture, data.name)
+                      )
                     : picture
                 }
                 draggable
@@ -243,36 +389,25 @@ class ProductCart extends React.PureComponent {
             </div>
 
             <div className={`${classes.textContent} fluid__instructions`}>
-              <h1 className={classes.title}>{name}</h1>
-              <p className={classes.price}>{`${Math.round(price)} грн`}</p>
-              <div>
-                <ProductItemSizes
-                  sizes={size}
-                  id={this.props.match.params.id}
-                  activeSize={activeSize}
-                  format="big"
-                />
-              </div>
-              <div>
-                {this.state.data.group != "accessories" && (
-                  <span className={classes.tableSize} onClick={openTableSize}>
-                    Таблица размеров
-                  </span>
-                )}
-              </div>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                // onClick={isInCart ? openCart : this.putToCart}
-                onClick={this.putToCart}
-              >
-                Купить
-                {/* {isInCart ? "Товар уже в корзине" : "Добавить в корзину"} */}
-              </Button>
-              <AboutProduct productData={productData} />
+              <DisabledTabs
+                characteristicPorps={{
+                  productData,
+                  classes,
+                  id: this.props.match.params.id,
+                  price,
+                  size,
+                  activeSize,
+                  data: this.state.data,
+                  openTableSize,
+                  putToCart: this.putToCart
+                }}
+                reviewsPorps={
+                  this.state.data && this.state.data.product_comments
+                }
+              />
             </div>
           </div>
+
           <AboutProduct productData={productData} forMobile />
         </div>
 

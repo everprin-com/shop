@@ -88,6 +88,7 @@ const styles = theme => ({
   },
   title: {
     fontSize: 24,
+    marginTop: 150,
   }
 });
 
