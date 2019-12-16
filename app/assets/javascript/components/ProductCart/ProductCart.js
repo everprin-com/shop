@@ -46,7 +46,7 @@ function WhriteReview({classes}) {
         color="primary"
         // className={classes.button}
         // onClick={isInCart ? openCart : this.putToCart}
-        onClick={()=>fetchPost("/product_comments/create", JSON.stringify({text}))}
+        onClick={()=>fetchPost("/product_comments", JSON.stringify({text}))}
       >
         Оставить отзыв
         {/* {isInCart ? "Товар уже в корзине" : "Добавить в корзину"} */}

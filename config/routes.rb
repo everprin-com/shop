@@ -9,8 +9,8 @@ Rails.application.routes.draw do
     collection do
       get '/:kind' => 'products#order', as: :order, constraints: { kind: Regexp.new(kinds.join('|')) }
     end
-    resources :comments, module: :products do
-    end
+    #resources :comments, module: :products do
+    #end
   end
 
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   end
 
   resources :items
+  resources :product_comments, only: [:create]
   resources :items_imports, only: [:new, :create]
   resources :meta_datas, defaults: {format: 'json'}, only: [:index]
   resources :infos, :messagestoadministrators, :answerfrommoderators, :line_items, :carts
