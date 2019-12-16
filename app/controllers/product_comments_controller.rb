@@ -1,6 +1,15 @@
 class ProductCommentsController < ApplicationController
 
   def create
+    #  comment: {slug_id, category, date, author, text, count_voted }
+    # if valid?(params[:commment])
+    #   create(params[:comment])
+    #   if params[:count_voted].present?
+    #     
+    #   end
+    # else
+    #
+    # end
     # params[:comment]
     # byebug
     # respond_to do |format|

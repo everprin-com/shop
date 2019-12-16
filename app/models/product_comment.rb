@@ -1,4 +1,10 @@
 class ProductComment < ActiveRecord::Base
+  NECESSARY_VALUES = [ "slug_id", "category", "date", "author", "text" ]
+
+  def self.valid?(commment)
+    comment_keys = commment.keys
+    comment_keys.all? { |key| NECESSARY_VALUES.include?(key) }
+  end
 
   def self.crete_comments(max_comments, items, value, key)
     sum_randoms = 0
