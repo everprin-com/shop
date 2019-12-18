@@ -22,18 +22,93 @@ import TitleComponent from "../TitleComponent";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import fetchPost from "../api/fetchPost"
+import fetchPost from "../api/fetchPost";
+import TextField from "@material-ui/core/TextField";
 
-function WhriteReview({classes}) {
+function Stars({ setRate }) {
+  return (
+    <div className="rate">
+      <input
+        type="radio"
+        id="star5"
+        name="rate"
+        value="5"
+        onChange={() => setRate(5)}
+        defaultChecked
+      />
+      <label for="star5" title="Отлично">
+        5 stars
+      </label>
+      <input
+        type="radio"
+        id="star4"
+        name="rate"
+        value="4"
+        onChange={() => setRate(4)}
+      />
+      <label for="star4" title="Хорошо">
+        4 stars
+      </label>
+      <input
+        type="radio"
+        id="star3"
+        name="rate"
+        value="3"
+        onChange={() => setRate(3)}
+      />
+      <label for="star3" title="Удовлетворительно">
+        3 stars
+      </label>
+      <input
+        type="radio"
+        id="star2"
+        name="rate"
+        value="2"
+        onChange={() => setRate(2)}
+      />
+      <label for="star2" title="Не очень">
+        2 stars
+      </label>
+      <input
+        type="radio"
+        id="star1"
+        name="rate"
+        value="1"
+        onChange={() => setRate(1)}
+      />
+      <label for="star1" title="Слабовато">
+        1 star
+      </label>
+    </div>
+  );
+}
+
+function WhriteReview({ classes, slugId }) {
   const [text, setText] = React.useState("");
   const [author, setAuthor] = React.useState("");
+  const [rate, setRate] = React.useState(5);
 
-  const handleChansetTextge = (event, newValue) => {
-    console.log(event.target.value)
+  const handleChansetTextge = event => {
     setText(event.target.value);
   };
+
+  let now = new Date();
+
+  const date = `${now.getDate()}.${now.getMonth() + 1}.${now.getFullYear()}`;
+
   return (
     <div>
+      <Stars setRate={setRate} />
+      <TextField
+        label="Имя"
+        value={author}
+        onChange={e => setAuthor(e && e.target && e.target.value)}
+        // className={classes.textField}
+        type="text"
+        margin="normal"
+        fullWidth
+        // error={this.state.errors.phone}
+      />
       <TextareaAutosize
         value={text}
         aria-label="minimum height"
@@ -46,7 +121,19 @@ function WhriteReview({classes}) {
         color="primary"
         // className={classes.button}
         // onClick={isInCart ? openCart : this.putToCart}
-        onClick={()=>fetchPost("/product_comments", JSON.stringify({text}))}
+        onClick={() =>
+          fetchPost(
+            "/product_comments",
+            JSON.stringify({
+              text,
+              author,
+              date,
+              rate,
+              client_info: 952499556,
+              slug_id: slugId
+            })
+          )
+        }
       >
         Оставить отзыв
         {/* {isInCart ? "Товар уже в корзине" : "Добавить в корзину"} */}
@@ -111,11 +198,11 @@ function CommentBlock({ data, data: { author, date, text } }) {
   );
 }
 
-function Reviews({ reviewsPorps }) {
+function Reviews({ reviewsPorps, slugId }) {
   if (!reviewsPorps) return null;
   return (
     <div>
-      <WhriteReview />
+      <WhriteReview slugId={slugId} />
       {reviewsPorps.map(data => (
         <CommentBlock data={data} />
       ))}
@@ -123,7 +210,7 @@ function Reviews({ reviewsPorps }) {
   );
 }
 
-function DisabledTabs({ characteristicPorps, reviewsPorps }) {
+function DisabledTabs({ characteristicPorps, reviewsPorps, slugId }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -145,7 +232,7 @@ function DisabledTabs({ characteristicPorps, reviewsPorps }) {
       {value == 0 && (
         <Сharacteristic characteristicPorps={characteristicPorps} />
       )}
-      {value == 1 && <Reviews reviewsPorps={reviewsPorps} />}
+      {value == 1 && <Reviews reviewsPorps={reviewsPorps} slugId={slugId} />}
     </div>
   );
 }
@@ -399,8 +486,9 @@ class ProductCart extends React.PureComponent {
                   activeSize,
                   data: this.state.data,
                   openTableSize,
-                  putToCart: this.putToCart
+                  putToCart: this.putToCart,
                 }}
+                slugId={this.props.match.params.id}
                 reviewsPorps={
                   this.state.data && this.state.data.product_comments
                 }
