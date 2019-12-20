@@ -83,7 +83,7 @@ function Stars({ setRate }) {
   );
 }
 
-function WhriteReview({ classes, slugId }) {
+function WhriteReview({ classes, slugId, category }) {
   const [text, setText] = React.useState("");
   const [author, setAuthor] = React.useState("");
   const [rate, setRate] = React.useState(5);
@@ -122,17 +122,15 @@ function WhriteReview({ classes, slugId }) {
         // className={classes.button}
         // onClick={isInCart ? openCart : this.putToCart}
         onClick={() =>
-          fetchPost(
-            "/product_comments",
-            JSON.stringify({
-              text,
-              author,
-              date,
-              rate,
-              client_info: 952499556,
-              slug_id: slugId
-            })
-          )
+          fetchPost("/product_comments", {
+            text,
+            author,
+            date,
+            rate,
+            client_info: 952499556,
+            slug_id: slugId,
+            category
+          })
         }
       >
         Оставить отзыв
@@ -198,11 +196,11 @@ function CommentBlock({ data, data: { author, date, text } }) {
   );
 }
 
-function Reviews({ reviewsPorps, slugId }) {
+function Reviews({ reviewsPorps, slugId, category }) {
   if (!reviewsPorps) return null;
   return (
     <div>
-      <WhriteReview slugId={slugId} />
+      <WhriteReview slugId={slugId} category={category} />
       {reviewsPorps.map(data => (
         <CommentBlock data={data} />
       ))}
@@ -210,7 +208,7 @@ function Reviews({ reviewsPorps, slugId }) {
   );
 }
 
-function DisabledTabs({ characteristicPorps, reviewsPorps, slugId }) {
+function DisabledTabs({ characteristicPorps, reviewsPorps, slugId, category }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -232,7 +230,13 @@ function DisabledTabs({ characteristicPorps, reviewsPorps, slugId }) {
       {value == 0 && (
         <Сharacteristic characteristicPorps={characteristicPorps} />
       )}
-      {value == 1 && <Reviews reviewsPorps={reviewsPorps} slugId={slugId} />}
+      {value == 1 && (
+        <Reviews
+          reviewsPorps={reviewsPorps}
+          slugId={slugId}
+          category={category}
+        />
+      )}
     </div>
   );
 }
@@ -486,9 +490,10 @@ class ProductCart extends React.PureComponent {
                   activeSize,
                   data: this.state.data,
                   openTableSize,
-                  putToCart: this.putToCart,
+                  putToCart: this.putToCart
                 }}
                 slugId={this.props.match.params.id}
+                category={this.state.data && this.state.data.category}
                 reviewsPorps={
                   this.state.data && this.state.data.product_comments
                 }

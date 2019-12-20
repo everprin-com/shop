@@ -1,18 +1,18 @@
 class ProductCommentsController < ApplicationController
 
   def create
-    #byebug
-     params = { comment:
-      {
-        author: "vasa",
-        client_info: 952499556,
-        date: "19.12.2019",
-        category: "Юбки",
-        rate: 5,
-        slug_id: "jubka_foot_korichnewyj",
-        text: "yuiyuyuy",
-      },
-     }
+    byebug
+    #  params = { comment:
+    #   {
+    #     author: "vasa",
+    #     client_info: 952499556,
+    #     date: "19.12.2019",
+    #     category: "Юбки",
+    #     rate: 5,
+    #     slug_id: "jubka_foot_korichnewyj",
+    #     text: "yuiyuyuy",
+    #   },
+    #  }
     if ProductComment.valid?(params[:comment])
       byebug
       comment = params[:comment]
