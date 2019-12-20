@@ -4,7 +4,7 @@ class ItemsController < ApplicationController
   caches_page :index, :generate_filters
 
   def index
-    items = Item.all
+    items = Item.includes([:product_comments, :average_voted]).all
     #used_category = params[:search_category].present? ? params[:search_category] : params[:search_category_translated]
     #generate_filters = generate_filters(items, used_category)
     generate_filters = generate_filters(items, params[:search_category])
@@ -25,7 +25,6 @@ class ItemsController < ApplicationController
     items = items.shuffle if params[:shuffled_products].present?
     items = items.paginate(page: params[:page], per_page: per_page(params[:per_page]))
     serialized_items = items.map { |item| ItemSerializer.new(item) }
-    #render json: { items: items, total_pages: items.total_pages }
     render json: { total_pages: items.total_pages, filters_options: generate_filters, items: serialized_items }
   end
 

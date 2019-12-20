@@ -1,5 +1,5 @@
 class ProductComment < ActiveRecord::Base
-  NECESSARY_VALUES = [ :slug_id, :category, :date, :rate, :author, :text ]
+  NECESSARY_VALUES = [ "slug_id", "category", "date", "author", "text" ]
 
   def self.valid?(comment)
     comment_keys = comment.keys

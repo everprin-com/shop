@@ -6,6 +6,7 @@ class CreateProductComments < ActiveRecord::Migration
       t.string :date, null: false
       t.string :author, null: false
       t.string :name_product
+      t.string :client_info
       t.string :text, null: false
       t.string :slug_id, null: false
       t.timestamps null: false
