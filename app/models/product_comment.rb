@@ -1,9 +1,9 @@
 class ProductComment < ActiveRecord::Base
-  NECESSARY_VALUES = [ "slug_id", "category", "date", "author", "text" ]
+  NECESSARY_VALUES = [ :slug_id, :category, :date, :rate, :author, :text ]
 
-  def self.valid?(commment)
-    comment_keys = commment.keys
-    comment_keys.all? { |key| NECESSARY_VALUES.include?(key) }
+  def self.valid?(comment)
+    comment_keys = comment.keys
+    NECESSARY_VALUES.all? { |key| comment_keys.include?(key) }
   end
 
   def self.crete_comments(max_comments, items, value, key)

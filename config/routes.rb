@@ -36,9 +36,9 @@ Rails.application.routes.draw do
   end
 
   resources :items
-  resources :product_comments, only: [:create]
+  resources :product_comments, defaults: {format: 'json'}, only: [:index, :create]
   resources :items_imports, only: [:new, :create]
-  resources :meta_datas, defaults: {format: 'json'}, only: [:index]
+  resources :meta_datas, defaults: {format: 'json'}#, only: [:index]
   resources :infos, :messagestoadministrators, :answerfrommoderators, :line_items, :carts
   resources :orders, defaults: {format: 'json'}
   #post '/852875250:AAEMa_qRzOs4LdRDvgOWJYOIBpcIy_zM9vs' => 'application#webhook'
