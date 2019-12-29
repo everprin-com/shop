@@ -94,7 +94,7 @@ function* requestAndAddProducts(action = {}, params = { page: 1 }) {
           price_search: JSON.stringify(queryParams.price_search)
         }
       : queryParams;
-  
+
   const products = yield call(fetchGetWithParams, "/items/", formatedParams);
   yield put({ type: "CHANGE_LAST_PAGE", page: products.total_pages });
   yield put({ type: "CHANGE_LAST_PARAMS", lastRequestParams: queryParams });
@@ -158,6 +158,13 @@ function* handleResetCart() {
   localStorage.removeItem("card");
 }
 
+function* handleFetchComment(action) {
+  yield put({ type: "ADD_COMMENT", data: action.data})
+  yield delay(4000);
+  
+  yield put({ type: "CLOSE_WRITEREVIEW_WINDOW" });
+}
+
 function* handleResetFilter() {
   yield put({ type: "REQUEST_AND_ADD_PRODUCTS" });
 }
@@ -217,6 +224,10 @@ function* watchResetFilterWithoutSex() {
   yield takeEvery("RESET_FILTER_WITHOUT_SEX", handleResetFilterWithoutSex);
 }
 
+function* watchFetchComment() {
+  yield takeEvery("FETCH_COMMENT", handleFetchComment);
+}
+
 export default function* rootSaga() {
   yield all([
     watchTryPutCart(),
@@ -230,6 +241,7 @@ export default function* rootSaga() {
     watchDeleteFromCart(),
     watchResetCart(),
     watchResetFilter(),
-    watchResetFilterWithoutSex()
+    watchResetFilterWithoutSex(),
+    watchFetchComment()
   ]);
 }

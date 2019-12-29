@@ -2,7 +2,8 @@ export default function(
   state = {
     size: { status: false, id: null },
     successOrder: { status: false },
-    slider: { status: false }
+    slider: { status: false },
+    writeReview: { status: false }
   },
   action
 ) {
@@ -47,6 +48,10 @@ export default function(
       return { ...state, return: { status: true } };
     case "CLOSE_RETURN_WINDOW":
       return { ...state, return: { status: false } };
+    case "SHOW_WRITEREVIEW_WINDOW":
+      return { ...state, writeReview: { status: true } };
+    case "CLOSE_WRITEREVIEW_WINDOW":
+      return { ...state, writeReview: { status: false } };
     default:
       return state;
   }

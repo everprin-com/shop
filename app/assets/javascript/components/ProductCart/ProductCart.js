@@ -3,9 +3,7 @@ import ReactImageMagnify from "react-image-magnify";
 import Header from "../Header/Header";
 import AboutProduct from "../AboutProduct/AboutProduct";
 import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
-import ProductItemSizes from "../ProductItemSizes/ProductItemSizes";
 import DialogWindow from "../Dialog/Dialog";
 import ChooseSize from "../ChooseSize/ChooseSize";
 import Footer from "../Footer/Footer";
@@ -19,240 +17,9 @@ import styles from "./styles";
 import WidgetPanel from "../HelpWidget/WidgetPanel";
 import KiloLoading from "../KiloLoading";
 import TitleComponent from "../TitleComponent";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import fetchPost from "../api/fetchPost";
-import TextField from "@material-ui/core/TextField";
-
-function Stars({ setRate }) {
-  return (
-    <div className="rate">
-      <input
-        type="radio"
-        id="star5"
-        name="rate"
-        value="5"
-        onChange={() => setRate(5)}
-        defaultChecked
-      />
-      <label for="star5" title="Отлично">
-        5 stars
-      </label>
-      <input
-        type="radio"
-        id="star4"
-        name="rate"
-        value="4"
-        onChange={() => setRate(4)}
-      />
-      <label for="star4" title="Хорошо">
-        4 stars
-      </label>
-      <input
-        type="radio"
-        id="star3"
-        name="rate"
-        value="3"
-        onChange={() => setRate(3)}
-      />
-      <label for="star3" title="Удовлетворительно">
-        3 stars
-      </label>
-      <input
-        type="radio"
-        id="star2"
-        name="rate"
-        value="2"
-        onChange={() => setRate(2)}
-      />
-      <label for="star2" title="Не очень">
-        2 stars
-      </label>
-      <input
-        type="radio"
-        id="star1"
-        name="rate"
-        value="1"
-        onChange={() => setRate(1)}
-      />
-      <label for="star1" title="Слабовато">
-        1 star
-      </label>
-    </div>
-  );
-}
-
-function WhriteReview({ classes, slugId, category }) {
-  const [text, setText] = React.useState("");
-  const [author, setAuthor] = React.useState("");
-  const [rate, setRate] = React.useState(5);
-
-  const handleChansetTextge = event => {
-    setText(event.target.value);
-  };
-
-  let now = new Date();
-
-  const date = `${now.getDate()}.${now.getMonth() + 1}.${now.getFullYear()}`;
-
-  return (
-    <div>
-      <Stars setRate={setRate} />
-      <TextField
-        label="Имя"
-        value={author}
-        onChange={e => setAuthor(e && e.target && e.target.value)}
-        // className={classes.textField}
-        type="text"
-        margin="normal"
-        fullWidth
-        // error={this.state.errors.phone}
-      />
-      <TextareaAutosize
-        value={text}
-        aria-label="minimum height"
-        rowsMin={3}
-        placeholder="Minimum 3 rows"
-        onChange={handleChansetTextge}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        // className={classes.button}
-        // onClick={isInCart ? openCart : this.putToCart}
-        onClick={() =>
-          fetchPost("/product_comments", {
-            text,
-            author,
-            date,
-            rate,
-            client_info: 952499556,
-            slug_id: slugId,
-            category
-          })
-        }
-      >
-        Оставить отзыв
-        {/* {isInCart ? "Товар уже в корзине" : "Добавить в корзину"} */}
-      </Button>
-    </div>
-  );
-}
-
-function Сharacteristic({ characteristicPorps }) {
-  const {
-    productData,
-    classes,
-    id,
-    price,
-    size,
-    activeSize,
-    data = {},
-    openTableSize,
-    putToCart
-  } = characteristicPorps;
-
-  return (
-    <div>
-      <p className={classes.price}>{`${Math.round(price)} грн`}</p>
-      <div>
-        <ProductItemSizes
-          sizes={size}
-          id={id}
-          activeSize={activeSize}
-          format="big"
-        />
-      </div>
-      <div>
-        {data.group != "accessories" && (
-          <span className={classes.tableSize} onClick={openTableSize}>
-            Таблица размеров
-          </span>
-        )}
-      </div>
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        // onClick={isInCart ? openCart : this.putToCart}
-        onClick={putToCart}
-      >
-        Купить
-        {/* {isInCart ? "Товар уже в корзине" : "Добавить в корзину"} */}
-      </Button>
-      <AboutProduct productData={productData} />
-    </div>
-  );
-}
-
-function CommentBlock({ data, data: { author, date, text } }) {
-  return (
-    <div>
-      <b>{author}</b>
-      <span>{date}</span>
-      <div>{text}</div>
-    </div>
-  );
-}
-
-function Reviews({ reviewsPorps, slugId, category }) {
-  if (!reviewsPorps) return null;
-  return (
-    <div>
-      <WhriteReview slugId={slugId} category={category} />
-      {reviewsPorps.map(data => (
-        <CommentBlock data={data} />
-      ))}
-    </div>
-  );
-}
-
-function DisabledTabs({ characteristicPorps, reviewsPorps, slugId, category }) {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  return (
-    <div>
-      <Tabs
-        value={value}
-        indicatorColor="primary"
-        textColor="primary"
-        onChange={handleChange}
-        aria-label="disabled tabs example"
-      >
-        <Tab label="Характеристика" />
-        <Tab label="Отзывы" />
-      </Tabs>
-      {value == 0 && (
-        <Сharacteristic characteristicPorps={characteristicPorps} />
-      )}
-      {value == 1 && (
-        <Reviews
-          reviewsPorps={reviewsPorps}
-          slugId={slugId}
-          category={category}
-        />
-      )}
-    </div>
-  );
-}
-
-const advantages = [
-  "Быстрая доставка",
-  "Высокое качество",
-  "Гарантия возврата",
-  "Доступные цены",
-  "Широкий ассортимент",
-  "Коллекция 2019",
-  "Постоянные акции",
-  "Большой выбор на любой вкус",
-  "Брендовые товары",
-  "Модные тренды"
-];
+import CustomTabs from "../CustomTabs";
+import advantages from "../constants/advantages"
+import ProductWhriteReview from "../ProductWhriteReview"
 
 const mapStateToProps = state => {
   return {
@@ -480,7 +247,7 @@ class ProductCart extends React.PureComponent {
             </div>
 
             <div className={`${classes.textContent} fluid__instructions`}>
-              <DisabledTabs
+              <CustomTabs
                 characteristicPorps={{
                   productData,
                   classes,
@@ -530,6 +297,12 @@ class ProductCart extends React.PureComponent {
           title="Галерея товара"
           Component={() => SliderS({ picture, classes })}
           type="slider"
+        />
+        <DialogWindow
+          title="Отзыв о товаре"
+          Component={ProductWhriteReview}
+          type="writeReview"
+          props={{ slugId: this.props.match.params.id, category, classes}}
         />
         <TableSize
           dropShip={this.state.data && this.state.data.drop_ship}

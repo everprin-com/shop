@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import styles from "./styles";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import TitleComponent from "../TitleComponent";
+import { validationConfig } from "../Utils";
 
 const mapStateToProps = state => {
   return {
@@ -27,24 +28,6 @@ const mapDispatchToProps = dispatch => {
     closeCart: () => dispatch({ type: "CLOSE_CART" }),
     showSuccess: () => dispatch({ type: "SHOW_SUCCESS_WINDOW" })
   };
-};
-
-const ERRORS = {
-  text: {
-    name:
-      "Введите пожалуйста буквы без спец. символов и цифр в количестве от 6 до 24.\n Например: Иван Иванов",
-    phone:
-      "Введите пожалуйста цифры без спец. символов в количестве от 7 до 16.\n Например: 0952599558",
-    city: "Введите пожалуйста буквы в количестве от 3 до 24.\n Например: Киев",
-    departament:
-      "Введите пожалуйста буквы/цифры в количестве от 6 до 120.\n Например: Отделение №10: ул. Василия Жуковского, 22А"
-  },
-  regExp: {
-    name: /^[а-яєії" -]{6,24}$/i,
-    phone: /^[0-9 +-]{7,16}$/i,
-    city: /^[а-яєії" .(),]{3,24}$/i,
-    departament: /^[а-яєії"0-9 a-z.()№,:;'/-]{2,120}$/i
-  }
 };
 
 class OrderForm extends React.PureComponent {
@@ -87,8 +70,6 @@ class OrderForm extends React.PureComponent {
   };
 
   componentDidMount() {
-    // document.title =
-    //   "KILO магазин одежды и обуви. Широкий ассортимен! Доступные цены!";
     this.props.closeOrderForm();
     this.props.closeCart();
   }
@@ -110,10 +91,10 @@ class OrderForm extends React.PureComponent {
     let withoutErrors = true;
 
     const isValid = {
-      name: ERRORS.regExp.name.test(name),
-      phone: ERRORS.regExp.phone.test(phone),
-      city: ERRORS.regExp.city.test(city),
-      departament: ERRORS.regExp.departament.test(departament)
+      name: validationConfig.regExp.name.test(name),
+      phone: validationConfig.regExp.phone.test(phone),
+      city: validationConfig.regExp.city.test(city),
+      departament: validationConfig.regExp.departament.test(departament)
     };
 
     if (Object.values(isValid).some(validItem => !validItem)) {
@@ -121,7 +102,7 @@ class OrderForm extends React.PureComponent {
       let currentErrors = {};
       for (var key in isValid) {
         if (!isValid[key]) {
-          currentErrors[key] = ERRORS.text[key];
+          currentErrors[key] = validationConfig.text[key];
         }
       }
 
