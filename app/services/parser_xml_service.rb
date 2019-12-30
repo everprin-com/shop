@@ -18,14 +18,17 @@ class ParserXmlService
       categories.merge!(mod_cat)
     end
     doc.elements.each_with_index("yml_catalog/shop/offers/offer") do |offer, index|
-      converted_drop_shipper = drop_shipper.to_s.split(" ")[0]
-      converted_drop_shipper == "OLLA™" ? used_drop = "OLLA" : used_drop = converted_drop_shipper
+      used_drop = drop_shipper.to_s.split(" ")[0]
+      #converted_drop_shipper == "OLLA™" ? used_drop = "OLLA" : used_drop = converted_drop_shipper
       if index == 0
         Item.where(drop_ship: used_drop.capitalize).delete_all
-        #Item.where(drop_ship: drop_shipper.to_s).delete_all
+        Item.where(drop_ship: drop_shipper_company.to_s).delete_all
       end
       #if used_drop == "OLLA"
         #OllaParser.parse_xml_olla(offer, index, categories, used_drop)
+      if drop_shipper_company == "Modus"
+        ModusParser.parse_xml_olla(offer, index, categories, drop_shipper_company)
+      end
       if used_drop == "Villomi"
         VillaParser.parse_xml_olla(offer, index, categories, used_drop)
       elsif used_drop == "Vzuto"

@@ -53,6 +53,7 @@ class OllaParser
          item["price"] = CalcClientPrice.calc_client_price(el.text)
        end
     end
+    item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
     NormalizerParse.capitalize_item(item)
     item.save if NormalizerParse.delete_null_item(item)
   end
