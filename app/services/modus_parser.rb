@@ -31,7 +31,8 @@ class ModusParser
        when "model"
          item["name"] = el.text
        when "description"
-         item["description"] = HTML::FullSanitizer.new.sanitize(el.text)
+        byebug
+         item["description"] =  ActionView::Base.full_sanitizer.sanitize(el.text)
        when "categoryId"
          found_category = categories.values.select { |category| category[:id] == el.text }
          if found_category.present?
