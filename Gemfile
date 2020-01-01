@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
 
-gem 'rails', '4.2.11'
+gem 'rails', '5.2.0'
 
 gem "haml-rails"
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier'
 gem 'rubyzip'
 gem 'bootstrap_form'
 gem 'dynamic_sitemaps'
@@ -24,14 +24,14 @@ gem 'tele_notify'
 gem 'notifiee-ruby'
 gem 'rexml'
 gem 'jquery-ui-rails'
-gem 'pg', "~> 0.20.0"
+gem 'pg'#, "~> 0.20.0"
 gem 'devise'
 gem 'omniauth-google-oauth2', :require => "omniauth-google-oauth2"
-gem 'pg_search', '~> 1.0.5'
-gem 'omniauth-oauth2', '~> 1.3.1'
+gem 'pg_search'#, '~> 1.0.5'
+gem 'omniauth-oauth2'#, '~> 1.3.1'
 gem 'omniauth-digitalocean'
 
-gem "nokogiri", "1.10.3"
+gem "nokogiri"#, "1.10.3"
 gem "pkg-config"
 
 gem 'cancancan'
@@ -42,14 +42,14 @@ gem 'prawn-table'
 gem 'configurable_engine'
 gem 'rails-i18n'
 gem 'thin'
-gem 'active_model_serializers', '~> 0.9.4'
+gem 'active_model_serializers'#, '~> 0.9.4'
 gem 'slim'
 gem 'slim-rails'
 gem 'json'#, github: 'flori/json', branch: 'v1.8'
 gem 'gon'
 gem 'carrierwave'
 gem "webpacker", "~> 3"
-gem "react_on_rails", "11.0.0"
+gem "react_on_rails"#, "11.0.0"
 gem 'mini_racer', platforms: :ruby
 #gem 'mysql2',          '~> 0.3.18', :platform => :ruby
 #gem 'thinking-sphinx', '~> 3.1.4'
