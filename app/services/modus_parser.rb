@@ -18,7 +18,8 @@ class ModusParser
       when "param"
         case el.attributes["name"]
         when "Размер"
-          item["size"].push(el.text)
+          item["size"] = NormalizerParse.conver_size_to_array(el.text) #if !item["size"].present?
+          #item["size"].push(el.text)
         when "Цвет"
           item["color"] = el.text
         when "Основной материал", "Отделочный материал"
@@ -31,20 +32,26 @@ class ModusParser
        when "model"
          item["name"] = el.text
        when "description"
-        byebug
-         item["description"] =  ActionView::Base.full_sanitizer.sanitize(el.text)
+         without_html_tags = ActionView::Base.full_sanitizer.sanitize(el.text)
+         item["description"] = CGI::unescapeHTML(without_html_tags).gsub!(/&nbsp/i, "")
        when "categoryId"
          found_category = categories.values.select { |category| category[:id] == el.text }
          if found_category.present?
             parsed_category = found_category[0]
             founded_category = categories.select{|key, hash| hash[:id] == parsed_category[:id] }
-            founded_category&.keys[0]&.to_s
               # if Item::MAN_CATEGORIES.include?(parsed_sex)
               #   ["man"]
               # elsif Item::WOOMAN_CATEGORIES.include?(parsed_sex)
               #   ["wooman"]
               # end
-            item["category"] = NormalizerParse.set_category(founded_category&.keys[0]&.to_s)
+            category = founded_category&.keys[0]&.to_s&.split(",")[0]
+            modified_category = 
+              if category == "Верхняя женская одежда"
+                "Шуба"
+              else
+                category
+              end
+            item["category"] = NormalizerParse.set_category(modified_category)
          end
        when "picture"
          item["picture"].push(el.text)
@@ -57,6 +64,6 @@ class ModusParser
     item["sex"] = ["wooman"]
     item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
     NormalizerParse.capitalize_item(item)
-    item.save #if NormalizerParse.delete_null_item(item)
+    item.save if NormalizerParse.delete_null_item(item)
   end
 end

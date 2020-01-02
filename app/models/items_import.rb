@@ -104,7 +104,7 @@ class ItemsImport
          item["category"] = NormalizerParse.set_category(category)
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"])
          item["drop_ship_price"] = row["drop_ship_price"] * 0.85
-         item["size"] = conver_size_to_array(row["size"])
+         item["size"] = NormalizerParse.conver_size_to_array(row["size"])
          item["color"] = row["color"].to_s.split("_").last
          item["description"] = doc.css(".col-md-5.body_inf p")&.children[0]&.text
          item["composition"] = row["description"].to_s  + "," +  row["composition"].to_s
@@ -112,7 +112,7 @@ class ItemsImport
          small_picture = row["small_picture"]&.split(",")&.flatten
          item["picture"] = (picture + small_picture).uniq
        elsif @name_drop_ship == "tos" || @name_drop_ship == "ager"
-         item["size"] = conver_size_to_array(row["size"])
+         item["size"] = NormalizerParse.conver_size_to_array(row["size"])
          item["drop_ship_price"] = row["drop_ship_price"]
          if row["category"] == "Аксессуары" || row["category"] == "Пальто"
            row["category"] = NormalizerParse.get_category_by_name(row["name"])
@@ -203,37 +203,6 @@ class ItemsImport
     return false unless name.present?
     converted_name = name.gsub("_", " ").split(" ")&.map(&:capitalize)
     (converted_name & Item::BAD_NAMED_ITEM).present?
-  end
-
-  def conver_size_to_array(size)
-    return [] unless size
-    converted_size = size.is_a?(Float) ? [size.round.to_s] : size.to_s.split(",")&.flatten
-    converted_size =
-      converted_size&.flatten.map do |size|
-        size.split("/")
-      end
-    #  make from "XXS-S" => ["XXS", "XS", "S"]
-    if !size.is_a?(Float) && size.include?("-") && Item::ROME_SIZE.include?(size.split("-")[0])
-      range_size = size.split("-")
-      first_size = Item::ROME_SIZE.index(size.split("-")[0])
-      last_size = Item::ROME_SIZE.index(size.split("-")[1])
-      converted_size = Item::ROME_SIZE[first_size..last_size]
-    end
-    #  make from "2xl/3xl, 4xl/5xl, l/xl, s/m" => ["XXS", "XS", "S"]
-    # if !size.is_a?(Float) && Item::ROME_SIZE.include?(size.split(",").split("/")&.upcase[0])
-    #   converted_size = size.split(",").split("/")&.map(&:upcase)
-    #   #converted_size = Item::ROME_SIZE[first_size..last_size]
-    # end
-    # make from "34-36" => ["34", "35", "36"]
-    converted_size =
-      converted_size&.flatten.map do |size|
-        if size.include?("-") && size.size > 1 && size.split("-")[0].to_i != 0 # one "-" && prevent "S-M"
-          (size.split("-")[0]..size.split("-")[1])&.to_a
-        else
-          size
-        end
-      end
-    converted_size&.flatten&.uniq
   end
 
   def imported_items
