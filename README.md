@@ -40,6 +40,7 @@ id: TeleNotify::TelegramUser.find(2)
 https://convertio.co/ru/csv-xls/
 parse issaplus insert url
 https://issaplus.com/load/csv3.php
+https://issaplus.com/load/xml.php
 
 XLS_LINK = [
   "http://timeofstyle.com/download/tos_actual_price_and_stock.xls",
