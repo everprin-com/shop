@@ -1,0 +1,59 @@
+.star {
+  color: rgb(254, 160, 1);
+  cursor: pointer;
+}
+
+.unactive {
+  .star {
+    color: #ccc;
+  }
+}
+
+.star.active ~ .star {
+  color: #ccc;
+}
+
+.product-whrite-review {
+  .rate:hover .star {
+    color: rgb(254, 160, 1);
+  }
+
+  .star:hover ~ .star {
+    color: #ccc;
+  }
+}
+
+.rate,
+.miniRate {
+  float: left;
+  height: 25px;
+}
+
+.miniRate {
+  pointer-events: none;
+  float: none;
+  padding: 5px 0;
+  .star {
+    font-size: 15px;
+  }
+}
+
+.check-circle {
+  text-align: center;
+  &__icon {
+    color: #4fc748;
+    font-size: 60px !important;
+  }
+  &__text {
+    font-size: 25px;
+  }
+}
+
+.product-rate {
+  cursor: pointer;
+  height: 20px;
+  max-width: 165px;
+  .star {
+    font-size: 15px;
+  }
+}

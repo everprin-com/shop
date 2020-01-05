@@ -18,8 +18,9 @@ import WidgetPanel from "../HelpWidget/WidgetPanel";
 import KiloLoading from "../KiloLoading";
 import TitleComponent from "../TitleComponent";
 import CustomTabs from "../CustomTabs";
-import advantages from "../constants/advantages"
-import ProductWhriteReview from "../ProductWhriteReview"
+import advantages from "../constants/advantages";
+import ProductWhriteReview from "../ProductWhriteReview";
+import Stars from "../Stars";
 
 const mapStateToProps = state => {
   return {
@@ -27,7 +28,8 @@ const mapStateToProps = state => {
     card: state.card,
     orderform: state.orderform,
     sliderProducts: state.slider.products,
-    sex: state.filterData.filter.sex
+    sex: state.filterData.filter.sex,
+    comments: state.comment
     // headers: state.metaData.headers[state.filterData.filter.sex.includes("man") ? "man" : "wooman"]
   };
 };
@@ -45,7 +47,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 class ProductCart extends React.PureComponent {
-  state = { data: {} };
+  state = { data: {}, activeTab: 0 };
 
   componentDidMount() {
     this.getProduct();
@@ -87,6 +89,7 @@ class ProductCart extends React.PureComponent {
     if (prevProps.location.pathname != this.props.location.pathname) {
       this.scrollToTop();
       this.getProduct();
+      this.handleTabChange();
     }
   }
 
@@ -95,9 +98,6 @@ class ProductCart extends React.PureComponent {
     const isSlug = !Number.isInteger(id);
     this.setState({ loading: true });
     fetchGet(`/items/${id}`).then(data => {
-      // if (data) {
-      //   document.title = `${data.name} - купить в kilo. Высокое качество! Хорошие скидки.`;
-      // }
       this.setState({ data, loading: false }, () => {
         // this.props.requestAndAddSlider(this.state.data.category);
         this.props.addProduct(data);
@@ -169,6 +169,10 @@ class ProductCart extends React.PureComponent {
     );
   };
 
+  handleTabChange = (_event = null, activeTab = 0) => {
+    this.setState({ activeTab });
+  };
+
   render() {
     const {
       classes,
@@ -179,18 +183,24 @@ class ProductCart extends React.PureComponent {
       sliderProducts,
       products,
       openTableSize,
-      sex
+      sex,
+      comments
     } = this.props;
     const { loading, data } = this.state;
+
+    if (loading) {
+      return <KiloLoading />;
+    }
+
     const { id } = data;
     const productData = products.find(product => product.id == id) || {};
     const { size, picture, name, category, price } = productData;
     const activeSize = productData.activeSize;
     const isInCart = card.data.some(cardItem => cardItem.id == id);
+    const commentsArr = comments.data.filter(
+      comment => comment.slug_id == match.params.id
+    );
 
-    if (loading) {
-      return <KiloLoading />;
-    }
     return (
       <div className={`${classes.root} product-cart`}>
         <TitleComponent
@@ -202,7 +212,6 @@ class ProductCart extends React.PureComponent {
           redirectToRoot={this.redirectToRoot}
           redirectToCategory={this.redirectToCategory}
         />
-        <h1 className={classes.title}>{data.name}</h1>
         <Breadcrumbs
           links={[
             { href: "/", title: "Главная" },
@@ -212,6 +221,17 @@ class ProductCart extends React.PureComponent {
           name={name}
           redirectToRoot={this.redirectToRoot}
           redirectToCategory={this.redirectToCategory}
+        />
+        <h1 className={classes.title}>{data.name}</h1>
+        <Stars
+          rate={
+            data.average_voted && Math.round(data.average_voted.average_mark)
+          }
+          commentsArr={commentsArr}
+          className="product-rate"
+          amount={data.average_voted && data.average_voted.count_voted}
+          withLabel
+          handleTabChange={this.handleTabChange}
         />
         <WidgetPanel />
         <div className={classes.mainContent}>
@@ -264,6 +284,8 @@ class ProductCart extends React.PureComponent {
                 reviewsPorps={
                   this.state.data && this.state.data.product_comments
                 }
+                handleTabChange={this.handleTabChange}
+                activeTab={this.state.activeTab}
               />
             </div>
           </div>
@@ -302,7 +324,8 @@ class ProductCart extends React.PureComponent {
           title="Отзыв о товаре"
           Component={ProductWhriteReview}
           type="writeReview"
-          props={{ slugId: this.props.match.params.id, category, classes}}
+          className="write-review-dialog"
+          props={{ slugId: this.props.match.params.id, category }}
         />
         <TableSize
           dropShip={this.state.data && this.state.data.drop_ship}

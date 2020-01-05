@@ -17,25 +17,53 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const ProductReviews = ({ reviewsPorps = [], openWriteReview, comments }) => {
-  if (!reviewsPorps) return null;
-  return (
-    <div className="comments">
-      <Button
-        variant="contained"
-        color="primary"
-        className="button"
-        onClick={openWriteReview}
-      >
-        Оставить отзыв
-      </Button>
+class ProductReviews extends React.PureComponent {
+  render() {
+    const { reviewsPorps = [], openWriteReview, comments, slugId } = this.props;
+    if (!reviewsPorps) return null;
+    const commentsArr = comments.data.filter(
+      comment => comment.slug_id == slugId
+    );
 
-      {[...comments.data, ...reviewsPorps].map(data => (
-        <ProductCommentBlock data={data} key={data.text} />
-      ))}
-    </div>
-  );
-};
+    const sortByDate = (prev, next) => {
+      return (
+        new Date(
+          next.date
+            .split(".")
+            .reverse()
+            .join(".")
+        ).getTime() -
+        new Date(
+          prev.date
+            .split(".")
+            .reverse()
+            .join(".")
+        ).getTime()
+      );
+    };
+    const sortedComments = comments => comments.sort(sortByDate);
+    const resultComments = sortedComments([...commentsArr, ...reviewsPorps]);
+    return (
+      <div className="comments">
+        {!resultComments.length && (
+          <div className="no-comment-text">Вы можете стать первым, кто напишет отзыв</div>
+        )}
+        <Button
+          variant="contained"
+          color="primary"
+          className="button"
+          onClick={openWriteReview}
+        >
+          Оставить отзыв
+        </Button>
+
+        {resultComments.map(data => (
+          <ProductCommentBlock data={data} key={data.text} />
+        ))}
+      </div>
+    );
+  }
+}
 
 export default connect(
   mapStateToProps,

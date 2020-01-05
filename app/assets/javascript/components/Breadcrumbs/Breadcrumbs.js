@@ -67,7 +67,7 @@ function SimpleBreadcrumbs({
         <Link to="/" onClick={toMain} className={classes.link}>
           Главная
         </Link>{" "}
-        /
+        >{" "}
         <Link
           to="/"
           onClick={e => toGroup(e, getGroup("en"))}
@@ -75,7 +75,7 @@ function SimpleBreadcrumbs({
         >
           {getGroup()}
         </Link>{" "}
-        {getGroup() && "/"}
+        {getGroup() && "> "}
         <Link
           to="/"
           onClick={e => toCategory(e, category)}
@@ -83,7 +83,7 @@ function SimpleBreadcrumbs({
         >
           {category}
         </Link>{" "}
-        /
+        >{" "}
         <Link to="/" onClick={e => e.preventDefault()} className={classes.link}>
           {name}
         </Link>

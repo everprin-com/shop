@@ -67,7 +67,7 @@ const validationConfig = {
     departament: /^[а-яєії"0-9 a-z.()№,:;'/-]{2,120}$/i,
     author: /^.{3,50}$/i,
     clientInfo: /^.{7,50}$/i,
-    description: /^.{5,}$/i
+    description: /.{5,}\n*/i
   }
 };
 
@@ -76,7 +76,7 @@ const validateData = (data, setErrors, errors = {}) => {
   let isValid = Object.fromEntries(Object.keys(errors).map(k => [k, false]));
 
   Object.entries(data).forEach(
-    ([key, val]) => (isValid[key] = validationConfig.regExp.name.test(val))
+    ([key, val]) => (isValid[key] = validationConfig.regExp[key].test(val))
   );
   if (Object.values(isValid).some(validItem => !validItem)) {
     withoutErrors = false;

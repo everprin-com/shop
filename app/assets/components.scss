@@ -477,6 +477,10 @@ $bounce_height: 30px;
   overflow: hidden;
   position: static;
   justify-content: center;
+
+  li {
+    justify-content: center;
+  }
 }
 
 // .product-show .slick-list img{
@@ -561,55 +565,4 @@ $bounce_height: 30px;
 
 #root {
   overflow: hidden;
-}
-
-.rate,
-.miniRate {
-  float: left;
-  height: 46px;
-  padding: 0 10px;
-}
-
-.miniRate {
-  pointer-events: none;
-  float: none;
-  padding: 0;
-}
-.rate:not(:checked) > input,
-.miniRate:not(:checked) > input {
-  position: absolute;
-  top: -9999px;
-}
-.rate:not(:checked) > label,
-.miniRate:not(:checked) > label {
-  float: right;
-  width: 1em;
-  overflow: hidden;
-  white-space: nowrap;
-  cursor: pointer;
-  font-size: 45px;
-  color: #ccc;
-}
-
-.miniRate:not(:checked) > label {
-  font-size: 15px;
-}
-.rate:not(:checked) > label:before,
-.miniRate:not(:checked) > label:before {
-  content: "★ ";
-}
-.rate > input:checked ~ label,
-.miniRate > input:checked ~ label {
-  color: #ffc700;
-}
-.rate:not(:checked) > label:hover,
-.rate:not(:checked) > label:hover ~ label {
-  color: #deb217;
-}
-.rate > input:checked + label:hover,
-.rate > input:checked + label:hover ~ label,
-.rate > input:checked ~ label:hover,
-.rate > input:checked ~ label:hover ~ label,
-.rate > label:hover ~ input:checked ~ label {
-  color: #c59b08;
 }

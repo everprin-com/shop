@@ -1,61 +1,95 @@
 import React from "react";
+import Star from "@material-ui/icons/Star";
+import "./style";
 
-const Stars = ({ setRate, miniRate }) => {
-  return (
-    <div className={`${miniRate ? "miniRate" : "rate" }`}>
-      <input
-        type="radio"
-        id="star5"
-        name="rate"
-        value="5"
-        {...(!miniRate && { onChange: () => setRate(5) } )}
-        defaultChecked
-      />
-      <label htmlFor="star5" title="Отлично">
-        5 stars
-      </label>
-      <input
-        type="radio"
-        id="star4"
-        name="rate"
-        value="4"
-        {...(!miniRate && { onChange: () => setRate(4) } )}
-      />
-      <label htmlFor="star4" title="Хорошо">
-        4 stars
-      </label>
-      <input
-        type="radio"
-        id="star3"
-        name="rate"
-        value="3"
-        {...(!miniRate && { onChange: () => setRate(3) } )}
-      />
-      <label htmlFor="star3" title="Удовлетворительно">
-        3 stars
-      </label>
-      <input
-        type="radio"
-        id="star2"
-        name="rate"
-        value="2"
-        {...(!miniRate && { onChange: () => setRate(2) } )}
-      />
-      <label htmlFor="star2" title="Не очень">
-        2 stars
-      </label>
-      <input
-        type="radio"
-        id="star1"
-        name="rate"
-        value="1"
-        {...(!miniRate && { onChange: () => setRate(1) } )}
-      />
-      <label htmlFor="star1" title="Слабовато">
-        1 star
-      </label>
-    </div>
-  );
-};
+class Stars extends React.PureComponent {
+  handleClick = e => {
+    const { setRate } = this.props
+    if (!setRate) return
+    setRate(e);
+  };
+
+  toReviewTab = () => {
+    const { handleTabChange } = this.props;
+    if (handleTabChange) handleTabChange(null, 1);
+  };
+
+  render() {
+    const {
+      rate,
+      mini,
+      amount,
+      className,
+      commentsArr = [],
+      withLabel
+    } = this.props;
+    const formatNumberTo = (val, number) => (!!val ? val : number);
+    const getReviewStr = amount => {
+      switch (amount) {
+        case 1:
+          return "1 отзыв";
+        case 2:
+        case 3:
+        case 4:
+          return `${amount} отзыва`;
+        default:
+          return `${amount} отзывов`;
+      }
+    };
+    const commonSumma =
+      formatNumberTo(rate, 0) * formatNumberTo(amount, 1) +
+      (commentsArr.length > 0
+        ? commentsArr.reduce((prev, next) => {
+            return (
+              (prev.voted ? prev.voted.mark : 0) +
+              (next.voted ? next.voted.mark : 0)
+            );
+          }, 0)
+        : 0);
+    let commonAmount;
+    let commonRate;
+    let label;
+    if (withLabel) {
+      commonAmount = commentsArr.length + formatNumberTo(amount, 0);
+      commonRate =
+        commonAmount == 0 && !rate ? 0 : Math.round(commonSumma / commonAmount);
+      label = commonAmount ? getReviewStr(commonAmount) : false;
+    } else {
+      commonAmount = 1;
+      commonRate = rate;
+    }
+
+    return (
+      <div
+        className={`${mini ? "miniRate" : "rate"} ${
+          className ? className : ""
+        } ${!commonRate ? "unactive" : ""}`}
+        onClick={this.toReviewTab}
+      >
+        <Star
+          className={`star ${commonRate == 1 ? "active" : ""}`}
+          onClick={() => this.handleClick(1)}
+        />
+        <Star
+          className={`star ${commonRate == 2 ? "active" : ""}`}
+          onClick={() => this.handleClick(2)}
+        />
+        <Star
+          className={`star ${commonRate == 3 ? "active" : ""}`}
+          onClick={() => this.handleClick(3)}
+        />
+        <Star
+          className={`star ${commonRate == 4 ? "active" : ""}`}
+          onClick={() => this.handleClick(4)}
+        />
+        <Star
+          className={`star ${commonRate == 5 ? "active" : ""}`}
+          onClick={() => this.handleClick(5)}
+        />{" "}
+        {label && withLabel && <span>{label}</span>}
+      </div>
+    );
+  }
+}
 
 export default Stars;
