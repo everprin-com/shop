@@ -25,7 +25,7 @@ class ItemsController < ApplicationController
     #items.includes([:product_comments, :average_voted])
     items = items.shuffle if params[:shuffled_products].present?
     items = items.paginate(page: params[:page], per_page: per_page(params[:per_page]))
-    serialized_items = items.map { |item| ItemSerializer.new(item) }
+    serialized_items = items.includes([:product_comments, :average_voted]).map { |item| ItemSerializer.new(item) }
     render json: { total_pages: items.total_pages, filters_options: generate_filters, items: serialized_items }
   end
 
