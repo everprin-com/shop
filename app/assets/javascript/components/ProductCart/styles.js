@@ -60,7 +60,7 @@ const styles = theme => ({
     }
   },
   textContent: {
-    marginLeft: 20,
+    marginLeft: 35,
     [theme.breakpoints.down("xs")]: {
       marginTop: 0
     }
@@ -88,6 +88,25 @@ const styles = theme => ({
   },
   title: {
     fontSize: 24,
+  },
+  advantagesIcon: {
+    fontSize: 32,
+    color: "#889",
+    marginRight: 13,
+  },
+  advantagesIconBlock: {
+    padding: 5,
+    color: "#889",
+    boxShadow: "0 1px 2px 0 rgba(0,0,0,0.11)",
+    border: "1px solid #eee",
+    borderRadius: 5,
+    width: 140,
+    display: "flex",
+    alignItems: "center",
+    margin: "5px 5px 25px"
+  },
+  advantages: {
+    display: "flex",
   }
 });
 
