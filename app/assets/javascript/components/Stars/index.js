@@ -4,8 +4,8 @@ import "./style";
 
 class Stars extends React.PureComponent {
   handleClick = e => {
-    const { setRate } = this.props
-    if (!setRate) return
+    const { setRate } = this.props;
+    if (!setRate) return;
     setRate(e);
   };
 
@@ -21,7 +21,8 @@ class Stars extends React.PureComponent {
       amount,
       className,
       commentsArr = [],
-      withLabel
+      withLabel,
+      withNumberLabel
     } = this.props;
     const formatNumberTo = (val, number) => (!!val ? val : number);
     const getReviewStr = amount => {
@@ -54,11 +55,20 @@ class Stars extends React.PureComponent {
       commonRate =
         commonAmount == 0 && !rate ? 0 : Math.round(commonSumma / commonAmount);
       label = commonAmount ? getReviewStr(commonAmount) : false;
+    } else if (withNumberLabel) {
+      commonAmount = commentsArr.length + formatNumberTo(amount, 0);
+      label = `${commonAmount}`;
+      commonRate = rate;
     } else {
       commonAmount = 1;
       commonRate = rate;
     }
 
+    const renderLabel = !!(label && (withLabel || withNumberLabel));
+
+    // if (!renderLabel) {
+    //   console.log()
+    // }
     return (
       <div
         className={`${mini ? "miniRate" : "rate"} ${
@@ -86,7 +96,11 @@ class Stars extends React.PureComponent {
           className={`star ${commonRate == 5 ? "active" : ""}`}
           onClick={() => this.handleClick(5)}
         />{" "}
-        {label && withLabel && <span>{label}</span>}
+        {renderLabel && (
+          <span className={withNumberLabel ? "rate-number-label" : ""}>
+            {label}
+          </span>
+        )}
       </div>
     );
   }

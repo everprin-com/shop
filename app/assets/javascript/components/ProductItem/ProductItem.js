@@ -15,6 +15,7 @@ import Badge from "@material-ui/core/Badge";
 import NavigateBefore from "@material-ui/icons/NavigateBefore";
 import NavigateNext from "@material-ui/icons/NavigateNext";
 import styles from "./styles";
+import Stars from "../Stars";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -53,9 +54,12 @@ class ProductItem extends React.PureComponent {
   onHover = () => this.setState({ hover: true });
 
   putToCart = () => {
-    gtag("event", "Положили в корзину", {'event_category': 'События кнопок', 'event_action': "Положили в корзину"})
-    this.props.putToCart(this.props.data)
-  }
+    gtag("event", "Положили в корзину", {
+      event_category: "События кнопок",
+      event_action: "Положили в корзину"
+    });
+    this.props.putToCart(this.props.data);
+  };
 
   openCart = () => this.props.openCart();
 
@@ -104,12 +108,15 @@ class ProductItem extends React.PureComponent {
       id,
       size,
       activeSize,
-      slug_id
+      slug_id,
+      average_voted
     } = data;
+    console.log(average_voted)
     const { price, saleShow, oldPrice } = convertPrice(notConvertedPrice);
     const shouldShowBottom = this.state.hover || windowWidthLess1000;
     const withoutSizeName = name && name.replace(/[0-9-]*$/g, "");
-    const isSlug = !!slug_id
+    const isSlug = !!slug_id;
+    const { average_mark, count_voted } = average_voted || {};
     const shouldShowArr =
       Array.isArray(picture) && picture.length > 1 && shouldShowBottom;
     return (
@@ -153,19 +160,26 @@ class ProductItem extends React.PureComponent {
 
           <CardContent className={classes.cardContent}>
             <Typography component="div" className={classes.cardDesctiption}>
-              <div className={classes.title}>{textWithDots(withoutSizeName, 52)}</div>
+              <div className={classes.title}>
+                {textWithDots(withoutSizeName, 52)}
+              </div>
               <div className={classes.category}>{category}</div>
               <div className={classes.price}>
                 <div className={classes.oldPrice}>{`${oldPrice} грн`}</div>
                 <div className={classes.newPrice}>{`${price} грн`}</div>
               </div>
+              <Stars rate={Math.round(average_mark)} amount={count_voted} mini withNumberLabel />
             </Typography>
           </CardContent>
         </Link>
         {shouldShowBottom && (
           <div className={classes.activeCard}>
             <CardActions className={classes.actions} disableActionSpacing>
-              <ProductItemSizes id={slug_id} sizes={size} activeSize={activeSize} />
+              <ProductItemSizes
+                id={slug_id}
+                sizes={size}
+                activeSize={activeSize}
+              />
             </CardActions>
             <Button
               variant="contained"
