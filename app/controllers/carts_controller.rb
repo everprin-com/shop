@@ -1,6 +1,6 @@
 class CartsController < ApplicationController
   include ControllerRails
-  before_action :set_cart, only: %i[show edit update destroy]
+  # before_action :set_cart, only: %i[show edit update destroy]
   # before_action :define_eccept, only: [:edit, :update, :destroy]
 
   respond_to :html, :js, :json
