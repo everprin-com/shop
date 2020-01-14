@@ -1,4 +1,4 @@
-class CreateParseInfos < ActiveRecord::Migration
+class CreateParseInfos < ActiveRecord::Migration[5.2]
   def change
     create_table :parse_infos do |t|
       t.string :description
