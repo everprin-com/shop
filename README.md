@@ -22,6 +22,10 @@ lounch lint
 ./bin/webpack-dev-server
 eslint app/assets
 
+RAILS - 5
+  bundle update
+  bundle update rails
+
 
 update ruby gems
 - gem update --system

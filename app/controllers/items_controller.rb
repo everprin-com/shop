@@ -33,7 +33,7 @@ class ItemsController < ApplicationController
     item = Item.find_by_slug_id(params[:id])
     respond_to do |format|
       format.html
-      format.json { render json: ItemSerializer.new(item) }
+      format.json { render json: item }
     end
   end
 
@@ -49,11 +49,14 @@ class ItemsController < ApplicationController
 
    def search_by_price(items)
      #price_search= [{from: 450, to: 500}, {from: 800, to: 1000}]
-     current_search_string = []
-     JSON.parse(params[:price_search]).map do |price|
-       current_search_string.push("where('price BETWEEN ? AND ?', #{price["from"]}, #{price["to"]})")
+     current_search_string = JSON.parse(params[:price_search]).each_with_index.map do |price, index|
+       if index == 0
+         "where('price BETWEEN ? AND ?', #{price["from"]}, #{price["to"]})"
+       else
+         "or(where('price BETWEEN ? AND ?', #{price["from"]}, #{price["to"]}))"
+       end
      end
-     items.where(items.instance_eval(current_search_string.join(".")).where_values.join(" OR "))
+     items.instance_eval(current_search_string.join("."))#.where_values.join(" OR "))
    end
 
    def shadow_collors(main_colors)

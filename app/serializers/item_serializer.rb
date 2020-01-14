@@ -3,8 +3,6 @@ class ItemSerializer < ActiveModel::Serializer
   :season, :male, :size, :country, :category, :available_product, :size_world, :composition, :drop_ship,
   :created_at, :slug_id, :category_translate, :group
 
-  root false
-
   def size_world
     object.size_world&.to_s
   end
