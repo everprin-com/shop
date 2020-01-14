@@ -1,12 +1,12 @@
 class ApplicationController < ActionController::Base
   require 'will_paginate/array'
   protect_from_forgery with: :null_session, if: proc { |c| c.request.format == 'application/json' }
-  include CurrentCart
+  # include CurrentCart
 
-  before_action :set_cart
-  before_action :create_search
+  # before_action :set_cart
+  # before_action :create_search
 
-  before_action :set_locale
+  # before_action :set_locale
   helper_method :user_present?
   helper_method :role?
   helper_method :current_blog
