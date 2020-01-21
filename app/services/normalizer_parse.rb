@@ -16,7 +16,7 @@ class NormalizerParse
     FilterOption.delete_all
     FilterOption.create!(Item.generate_filters(Item.all))
   end
-  
+
   def self.conver_size_to_array(size)
     return [] unless size
     converted_size = size.is_a?(Float) ? [size.round.to_s] : size.to_s.split(",")&.flatten
@@ -90,9 +90,7 @@ class NormalizerParse
     named_product = name.split(" ")&.map(&:capitalize)
     present_categories = Item::SYNONIM_NAMES_CATEGORIES.values.flatten.uniq
     founded_categories = NormalizerParse.non_uniq(named_product + present_categories)
-    if founded_categories.present?
-      founded_categories[0]
-    end
+    founded_categories.present? ? founded_categories[0] : name
   end
 
   def self.get_counts(keys)
