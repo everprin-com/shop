@@ -114,18 +114,20 @@ class ItemsImport
        elsif @name_drop_ship == "tos" || @name_drop_ship == "ager"
          item["size"] = NormalizerParse.conver_size_to_array(row["size"])
          item["drop_ship_price"] = row["drop_ship_price"]
-         if row["category"] == "Аксессуары" || row["category"] == "Пальто"
-           row["category"] = NormalizerParse.get_category_by_name(row["name"])
-         end
+         # if row["category"] == "Аксессуары" || row["category"] == "Пальто"
+         #   row["category"] = NormalizerParse.get_category_by_name(row["name"])
+         # end
          #row["category"] = "Очки" if row["category"] == "Аксессуары" && row["name"].split(" ")[0] == "Очки"
 
          setted_category =
-           if (row["category"] == "Женская одежда" || row["category"] == "Джемпер"  || row["category"] == "Верхняя одежда") && row["name"]
-            row["name"]&.split(" ")[0]
+           if (row["category"] == "Женская одежда" || row["category"] == "Джемпер"  || row["category"] == "Верхняя одежда") && row["name"]&.split(" ").present?
+             row["name"]&.split(" ")[0]
            else
              row["category"]
            end
-         item["category"] = NormalizerParse.set_category(setted_category)
+         founded_category = NormalizerParse.get_category_by_name(setted_category)
+
+         item["category"] = NormalizerParse.set_category(founded_category)
          item["color"] = row["color"]
          item["sex"] =
            if Item::WOOMAN_CATEGORIES.include?(row["sex"])
@@ -187,7 +189,13 @@ class ItemsImport
        if row["drop_ship_price"].present? && row["drop_ship_price"] != 0
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"], @name_drop_ship)
        end
-       item["name"] = row["name"] unless bad_names_include(row["name"])
+       item["name"] =
+         if @name_drop_ship == "tos"
+           modified_name = row["name"]&.split("_")&.reverse&.drop(1)&.join(" ")
+           modified_name unless bad_names_include(modified_name)
+         else
+           row["name"] unless bad_names_include(row["name"])
+         end
        item["brand"] = row["brand"]&.remove("-")
        #item["code"] = row["code"]
        item["season"] = NormalizerParse.set_season(row["season"])
