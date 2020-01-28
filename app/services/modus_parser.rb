@@ -24,7 +24,7 @@ class ModusParser
           item["color"] = el.text
         when "Основной материал", "Отделочный материал"
           item["composition"] ||= ""
-          item["composition"] += " " + el&.attributes["name"] + " " + el&.text
+          item["composition"] += " " + el&.attributes["name"].to_s + " " + el&.text.to_s
         when "Длина по спинке", "Длина рукава"
           item["size_world"] ||= ""
           item["size_world"] += " " + el&.text
@@ -45,7 +45,7 @@ class ModusParser
               #   ["wooman"]
               # end
             category = founded_category&.keys[0]&.to_s&.split(",")[0]
-            modified_category = 
+            modified_category =
               if category == "Верхняя женская одежда"
                 "Шуба"
               else

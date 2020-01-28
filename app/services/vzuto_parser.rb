@@ -30,12 +30,12 @@ class VzutoParser
            item["size"] = [el.text]
            item["sex"] = ["wooman"]
          when "Цвет"
-           item["color"] = el.text&.split(", ")[0]
+           item["color"] = el.text&.split(", ")&[0]
          when "Вид обуви"
            item["category"] = NormalizerParse.set_category(el.text)
          when "Материал верха", "Материал подкладки", "Полнота", "Высота каблука", "Вид подошвы"
            item["composition"] ||= ""
-           item["composition"] += " " + el&.attributes["name"] + " " + el&.text
+           item["composition"] += " " + el&.attributes["name"].to_s + " " + el&.text.to_s
          end
        when "name"
          item["brand"] = "Vzuto"
@@ -84,7 +84,7 @@ class VzutoParser
          item["price"] = CalcClientPrice.calc_client_price(el.text)
        end
     end
-    if item["color"].present? && item["size"].present? 
+    if item["color"].present? && item["size"].present?
       item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
       item["category_translate"] = Translit.convert(item["category"], :english) if item["category"].present?
       NormalizerParse.capitalize_item(item)

@@ -20,7 +20,7 @@ class VillaParser
          when "Сезон"
            item["season"] = [el.text]
          when "Цвет"
-           item["color"] = el.text&.split(", ")[0]
+           item["color"] = el.text&.split(", ")&[0]
          when "Вид"
            item["category"] = NormalizerParse.set_category(el.text)
            if item["category"] == "Разное"
@@ -32,7 +32,7 @@ class VillaParser
            item["brand"] = el.text
          when "Материал верха", "Материал подкладки", "Полнота", "Высота каблука", "Вид подошвы"
            item["composition"] ||= ""
-           item["composition"] += " " + el&.attributes["name"] + " " + el&.text
+           item["composition"] += " " + el&.attributes["name"].to_s + " " + el&.text.to_s
          end
        when "name"
          item["name"] = el.text
