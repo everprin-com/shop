@@ -20,7 +20,7 @@ class VzutoParser
     item["drop_ship"] = used_drop
     p index
     offer.map do |el|
-      #next if el == "\n"
+      next if !offer["available"]
       case el.name
       when "param"
         case el.attributes["name"]
@@ -28,13 +28,14 @@ class VzutoParser
            item["season"] = [el.text]
          when "Размер женской обуви"
            item["size"] = [el.text]
+           item["sex"] = ["wooman"]
          when "Цвет"
-           item["color"] = el.text&.split(", ")[0]
+           item["color"] = el.text&.split(", ")&[0]
          when "Вид обуви"
            item["category"] = NormalizerParse.set_category(el.text)
          when "Материал верха", "Материал подкладки", "Полнота", "Высота каблука", "Вид подошвы"
            item["composition"] ||= ""
-           item["composition"] += " " + el&.attributes["name"] + " " + el&.text
+           item["composition"] += " " + el&.attributes["name"].to_s + " " + el&.text.to_s
          end
        when "name"
          item["brand"] = "Vzuto"
@@ -44,29 +45,19 @@ class VzutoParser
          item["category"] = NormalizerParse.set_category(founded_uniq_category[0]) if founded_uniq_category.present?
        when "vendorCode"
          item["article"] = el.text
-       when "url"
-         item["article"] = el.text
        when "description"
          parsed_tex = el.text&.gsub('</p>', " ")&.gsub('<p>', " ")&.remove(":")&.split(" ")
          size_world_index = parsed_tex.index("сетка")
          length_parsed_tex = parsed_tex.length
-         #if size_world_index.present? && length_parsed_tex.present?
-          #item["size_world"] = parsed_tex[parsed_tex[size_world_index]..parsed_tex.length]
-        #end
          size = parsed_tex.index("Размеры")
          country_index = parsed_tex.index("Производитель")
-         #byebug if item["name"]  == "Женские розовые зимние сапоги-европейка из натуральной кожи 36"
-         color_index = parsed_tex.index("цвет")
-         if !item["color"] && color_index
-           item["color"] = parsed_tex[color_index +1]&.remove(",")
-         end
          if country_index.present?
            item["country"] = parsed_tex[country_index+1]
         end
-         next if !size.present? || size == 0 || item["size"].present?
+         next if !size.present?
          index_size = size + 1
          sizes =  parsed_tex[index_size].split("<")[0].split("_")[0]
-         if sizes.split("-").length == 1 && sizes.include?("-")
+         if sizes.split("-").length == 2 && sizes.include?("-")
            sizes = sizes + parsed_tex[index_size + 1]
            normalized_range_sizes = sizes[/\d+.\d+/]
          end
@@ -75,9 +66,6 @@ class VzutoParser
          found_category = categories.values.select { |category| category[:id] == el.text }
          if found_category.present?
            parentId = found_category[0][:parentId]
-         else
-           #byebug if item["name"]  === "Женские розовые зимние сапоги-европейка из натуральной кожи"
-           #next
          end
          categories.each do |key, value|
            if value[:id] == parentId
@@ -96,10 +84,12 @@ class VzutoParser
          item["price"] = CalcClientPrice.calc_client_price(el.text)
        end
     end
-    item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
-    item["category_translate"] = Translit.convert(item["category"], :english) if item["category"].present?
-    NormalizerParse.capitalize_item(item)
-    item.save if NormalizerParse.delete_null_item(item) && item["size"].compact.present?
+    if item["color"].present? && item["size"].present?
+      item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
+      item["category_translate"] = Translit.convert(item["category"], :english) if item["category"].present?
+      NormalizerParse.capitalize_item(item)
+      item.save if NormalizerParse.delete_null_item(item)
+    end
   end
 
   def self.conver_size_to_array(size)

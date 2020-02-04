@@ -5,8 +5,6 @@ class ItemSerializer < ActiveModel::Serializer
 
   has_one :average_voted
 
-  root false
-
   def size_world
     object.size_world&.to_s
   end

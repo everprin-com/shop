@@ -17,6 +17,37 @@ class NormalizerParse
     FilterOption.create!(Item.generate_filters(Item.all))
   end
 
+  def self.conver_size_to_array(size)
+    return [] unless size
+    converted_size = size.is_a?(Float) ? [size.round.to_s] : size.to_s.split(",")&.flatten
+    converted_size =
+      converted_size&.flatten.map do |size|
+        size.split("/")
+      end
+    #  make from "XXS-S" => ["XXS", "XS", "S"]
+    if !size.is_a?(Float) && size.include?("-") && Item::ROME_SIZE.include?(size.split("-")[0])
+      range_size = size.split("-")
+      first_size = Item::ROME_SIZE.index(size.split("-")[0])
+      last_size = Item::ROME_SIZE.index(size.split("-")[1])
+      converted_size = Item::ROME_SIZE[first_size..last_size]
+    end
+    #  make from "2xl/3xl, 4xl/5xl, l/xl, s/m" => ["XXS", "XS", "S"]
+    # if !size.is_a?(Float) && Item::ROME_SIZE.include?(size.split(",").split("/")&.upcase[0])
+    #   converted_size = size.split(",").split("/")&.map(&:upcase)
+    #   #converted_size = Item::ROME_SIZE[first_size..last_size]
+    # end
+    # make from "34-36" => ["34", "35", "36"]
+    converted_size =
+      converted_size&.flatten.map do |size|
+        if size.include?("-") && size.size > 1 && size.split("-")[0].to_i != 0 # one "-" && prevent "S-M"
+          (size.split("-")[0]..size.split("-")[1])&.to_a
+        else
+          size
+        end
+      end
+    converted_size&.flatten&.uniq
+  end
+
   def self.create_slug(name, color)
     return if !name
     translated_slug = Translit.convert(name + " " + ( color || "color"), :english)
@@ -25,7 +56,8 @@ class NormalizerParse
 
   def self.delete_null_item(item)
     Item::CANT_BE_NULL.each do |field|
-      return false if ((item[:size_world]&.compact&.length && item[:size_world]&.compact&.length < 10) || item[field.to_sym] == nil || item[:picture].compact.length == 0)
+      return false if item[field.to_sym] == nil || item[:picture].compact.length == 0
+      # return false if ((item[:size_world]&.compact&.length && item[:size_world]&.compact&.length < 10) || item[field.to_sym] == nil || item[:picture].compact.length == 0)
     end
   end
 
@@ -58,9 +90,7 @@ class NormalizerParse
     named_product = name.split(" ")&.map(&:capitalize)
     present_categories = Item::SYNONIM_NAMES_CATEGORIES.values.flatten.uniq
     founded_categories = NormalizerParse.non_uniq(named_product + present_categories)
-    if founded_categories.present?
-      founded_categories[0]
-    end
+    founded_categories.present? ? founded_categories[0] : name
   end
 
   def self.get_counts(keys)
