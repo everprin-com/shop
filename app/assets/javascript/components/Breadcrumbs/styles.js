@@ -2,8 +2,8 @@ const styles = () => ({
     root: {
       justifyContent: "center",
       flexWrap: "wrap",
-      marginTop: 150,
-      padding: 15
+      padding: 15,
+      marginTop: 120
     },
     link: {
       textDecoration: "none"

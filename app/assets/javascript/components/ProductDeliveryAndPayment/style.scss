@@ -1,0 +1,17 @@
+.delivery-and-payment-block {
+  display: flex;
+  font-size: 14px;
+  justify-content: space-between;
+  padding: 3px;
+  .title {
+    font-size: 18px;
+    color: #888;
+    padding: 10px 0 5px;
+  }
+  .delivery-block {
+    max-width: 55%;
+  }
+  .payment-block {
+    max-width: 40%;
+  }
+}

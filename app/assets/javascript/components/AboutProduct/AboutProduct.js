@@ -21,7 +21,8 @@ function AboutProduct(props) {
     brandCountry: "Страна бренда",
     color: "Цвет",
     weight: "Вес",
-    description: "Описание"
+    description: "Описание",
+    country: "Страна производства"
   };
   var formatedProductData = {};
   Object.keys(productData)

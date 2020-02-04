@@ -25,7 +25,7 @@ const styles = theme => ({
       width: "1000px"
     },
     [theme.breakpoints.up("lg")]: {
-      width: "1240px"
+      width: "1200px"
     },
   },
   list: {

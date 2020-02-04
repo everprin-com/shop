@@ -17,6 +17,7 @@ const mapTypeAndActionDiolog = {
     delivery: "CLOSE_DELIVERY_WINDOW",
     return: "CLOSE_RETURN_WINDOW",
     payment: "CLOSE_PAYMENT_WINDOW",
+    writeReview: "CLOSE_WRITEREVIEW_WINDOW"
   },
   open: {
     size: "OPEN_SET_SIZE_WINDOW",
@@ -25,6 +26,7 @@ const mapTypeAndActionDiolog = {
     delivery: "SHOW_DELIVERY_WINDOW",
     return: "SHOW_RETURN_WINDOW",
     payment: "SHOW_PAYMENT_WINDOW",
+    writeReview: "SHOW_WRITEREVIEW_WINDOW"
   }
 };
 
@@ -42,7 +44,16 @@ const mapDispatchToProps = dispatch => {
 
 class DialogWindow extends React.PureComponent {
   render() {
-    const { classes, title, Component, dialog, closeDialog, type } = this.props;
+    const {
+      classes,
+      title,
+      Component,
+      dialog,
+      closeDialog,
+      type,
+      props,
+      className
+    } = this.props;
     return (
       <Dialog
         onClose={() => closeDialog(type)}
@@ -50,7 +61,7 @@ class DialogWindow extends React.PureComponent {
         open={dialog[type] ? dialog[type].status : false}
         className={`${classes.dialog} ${
           type == "slider" ? classes.gallery : ""
-        }`}
+        } ${className ? className : ""}`}
         maxWidth="lg"
         classes={{
           paper: classes.dialog
@@ -68,7 +79,7 @@ class DialogWindow extends React.PureComponent {
             type == "slider" ? classes.gallery : ""
           }`}
         >
-          <Component />
+          <Component {...props} />
         </DialogContent>
         <DialogActions />
       </Dialog>

@@ -16,6 +16,7 @@ const styles = theme => ({
       textAlign: "center"
     },
     dialog: {
+      padding: 25,
       [theme.breakpoints.down("xs")]: {
         margin: 0
       }

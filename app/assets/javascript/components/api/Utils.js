@@ -6,15 +6,21 @@ const createOptionsGet = () => ({
   }
 });
 
-const createOptionsPost = formData => ({
-  method: "POST",
-  body: formData,
-  headers: {
-    Accept:
-      "text/html,application/xhtml+xml,application/xml;" +
-      "q=0.9,image/webp,image/apng,*/*"
+const createOptionsPost = data => {
+  let formData = new FormData();
+  for(let key in data) {
+    formData.append(key, data[key])
   }
-});
+  return {
+    method: "POST",
+    body: formData,
+    headers: {
+      Accept:
+        "text/html,application/xhtml+xml,application/xml;" +
+        "q=0.9,image/webp,image/apng,*/*"
+    }
+  };
+};
 
 const getUrlWithParams = (route, params, withoutEncode) => {
   const query = Object.keys(params)

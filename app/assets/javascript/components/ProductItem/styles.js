@@ -8,7 +8,7 @@ const styles = theme => ({
     // border: "10px solid transparent",
     transition: "transform .2s",
     overflow: "inherit",
-    minHeight: 430,
+    minHeight: 410,
     "&:hover": {
       zIndex: 1,
       // borderTop: '10px solid #eee',
@@ -56,13 +56,16 @@ const styles = theme => ({
   },
   actions: {
     display: "flex",
-    padding: "0 4px 7px"
+    padding: "0 4px 7px",
+    [theme.breakpoints.down("sm")]: {
+      padding: "10px 4px 7px",
+    }
   },
   productItemLink: {
     display: "flex",
     flexDirection: "column",
     textAlign: "center",
-    height: 430,
+    height: 410,
     // justifyContent: 'space-around',
     textDecoration: "none",
     "&:hover": {

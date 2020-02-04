@@ -1,6 +1,5 @@
 import React from "react";
 import Slider from "react-slick";
-
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";

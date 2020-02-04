@@ -93,7 +93,6 @@ $bounce_height: 30px;
   width: 100px;
   height: 100px;
   margin-bottom: 15px !important;
-  box-shadow: 5px 5px 10px #ccc;
   cursor: pointer;
 }
 
@@ -105,12 +104,13 @@ $bounce_height: 30px;
 
 .gallery .slick-dots li a {
   display: flex;
+  justify-content: center;
 }
 
 .product-show .slick-dots li a {
   height: 100%;
   width: auto;
-  display: inline-block;
+  display: flex;
 }
 
 .slick-dots img {
@@ -165,14 +165,10 @@ $bounce_height: 30px;
 .product-show .slick-slide {
   overflow: visible;
   transition: none !important;
-  width: 400px !important;
+  // width: 400px !important;
   height: 500px !important;
   display: flex !important;
   align-items: center !important;
-}
-
-.product-show .arrSlider.prev {
-  left: -26px;
 }
 
 .arrSlider.prev:hover,
@@ -191,6 +187,10 @@ $bounce_height: 30px;
 
 .arrSlider {
   position: absolute !important;
+}
+
+.product-show .arrSlider.prev {
+  left: -26px;
 }
 
 .arrSlider.next {
@@ -477,6 +477,10 @@ $bounce_height: 30px;
   overflow: hidden;
   position: static;
   justify-content: center;
+
+  li {
+    justify-content: center;
+  }
 }
 
 // .product-show .slick-list img{
@@ -561,4 +565,20 @@ $bounce_height: 30px;
 
 #root {
   overflow: hidden;
+  background: #fafafa;
+}
+
+// ************* media ******************
+
+@media screen and (max-width: 600px) {
+  .product-show .arrSlider.next {
+    right: 5px;
+  }
+  .product-show .arrSlider.prev {
+    left: 5px;
+  }
+  .custom-tab {
+    font-size: 12px !important;
+    padding: 6px 8px;
+  }
 }

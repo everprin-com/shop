@@ -3,14 +3,11 @@ import ReactImageMagnify from "react-image-magnify";
 import Header from "../Header/Header";
 import AboutProduct from "../AboutProduct/AboutProduct";
 import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
-import ProductItemSizes from "../ProductItemSizes/ProductItemSizes";
 import DialogWindow from "../Dialog/Dialog";
 import ChooseSize from "../ChooseSize/ChooseSize";
 import Footer from "../Footer/Footer";
 import fetchGet from "../api/fetchGet";
-import fetchGetWithParams from "../api/fetchGetWithParams";
 import Slider from "../Slider/Slider";
 import ProductList from "../ProductList/ProductList";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
@@ -20,19 +17,11 @@ import styles from "./styles";
 import WidgetPanel from "../HelpWidget/WidgetPanel";
 import KiloLoading from "../KiloLoading";
 import TitleComponent from "../TitleComponent";
-
-const advantages = [
-  "Быстрая доставка",
-  "Высокое качество",
-  "Гарантия возврата",
-  "Доступные цены",
-  "Широкий ассортимент",
-  "Коллекция 2019",
-  "Постоянные акции",
-  "Большой выбор на любой вкус",
-  "Брендовые товары",
-  "Модные тренды",
-] 
+import CustomTabs from "../CustomTabs";
+import advantages from "../constants/advantages";
+import ProductWhriteReview from "../ProductWhriteReview";
+import Stars from "../Stars";
+import SocialIcon from "../SocialIcon";
 
 const mapStateToProps = state => {
   return {
@@ -40,7 +29,8 @@ const mapStateToProps = state => {
     card: state.card,
     orderform: state.orderform,
     sliderProducts: state.slider.products,
-    sex: state.filterData.filter.sex
+    sex: state.filterData.filter.sex,
+    comments: state.comment
     // headers: state.metaData.headers[state.filterData.filter.sex.includes("man") ? "man" : "wooman"]
   };
 };
@@ -58,7 +48,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 class ProductCart extends React.PureComponent {
-  state = { data: {} };
+  state = { data: {}, activeTab: 0 };
 
   componentDidMount() {
     this.getProduct();
@@ -66,30 +56,41 @@ class ProductCart extends React.PureComponent {
   }
 
   setDescription = () => {
-    if (document.querySelector("meta[name='description']")) document.querySelector("meta[name='description']").remove()
-    let meta = document.createElement('meta');
-    meta.setAttribute('name', 'description');
-    meta.setAttribute('content', this.getDescription());
-    document.getElementsByTagName('head')[0].appendChild(meta);
-  }
+    if (document.querySelector("meta[name='description']"))
+      document.querySelector("meta[name='description']").remove();
+    let meta = document.createElement("meta");
+    meta.setAttribute("name", "description");
+    meta.setAttribute("content", this.getDescription());
+    document.getElementsByTagName("head")[0].appendChild(meta);
+  };
 
   getDescription = () => {
-    const { data } = this.state
-    if (data.description) return data.description
-    let composition = data.composition && data.composition.length > 5 ? `, состав: ${data.composition}` : ""
-    let color = data.color ? `, цвет: ${data.color}` : ""
-    let brand = data.brand ? `, бренд: ${data.brand}` : ""
-    let advantageN = data.id ? +`${data.id}`.slice(-1) : Math.round((Math.random()*10))
-    let advantage = advantages[advantageN]
-    let customDesc = `${data.name}${color}${brand}${composition}, цена ${Math.round(data.price)} грн. ${advantage}`
-    return customDesc
-  }
+    const { data } = this.state;
+    if (data.description) return data.description;
+    let composition =
+      data.composition && data.composition.length > 5
+        ? `, состав: ${data.composition}`
+        : "";
+    let color = data.color ? `, цвет: ${data.color}` : "";
+    let brand = data.brand ? `, бренд: ${data.brand}` : "";
+    let advantageN = data.id
+      ? +`${data.id}`.slice(-1)
+      : Math.round(Math.random() * 10);
+    let advantage = advantages[advantageN];
+    let customDesc = `${
+      data.name
+    }${color}${brand}${composition}, цена ${Math.round(
+      data.price
+    )} грн. ${advantage}`;
+    return customDesc;
+  };
 
   componentDidUpdate(prevProps) {
     this.props.orderform && this.redirectToOrderForm();
     if (prevProps.location.pathname != this.props.location.pathname) {
       this.scrollToTop();
       this.getProduct();
+      this.handleTabChange();
     }
   }
 
@@ -98,13 +99,10 @@ class ProductCart extends React.PureComponent {
     const isSlug = !Number.isInteger(id);
     this.setState({ loading: true });
     fetchGet(`/items/${id}`).then(data => {
-      // if (data) {
-      //   document.title = `${data.name} - купить в kilo. Высокое качество! Хорошие скидки.`;
-      // }
       this.setState({ data, loading: false }, () => {
         // this.props.requestAndAddSlider(this.state.data.category);
         this.props.addProduct(data);
-        this.setDescription()
+        this.setDescription();
       });
     });
   };
@@ -140,6 +138,7 @@ class ProductCart extends React.PureComponent {
       nodeName == "SPAN" ||
       nodeName == "UL" ||
       nodeName == "IMG" ||
+      nodeName == "A" ||
       windowWidth < 1000
     )
       return;
@@ -172,6 +171,10 @@ class ProductCart extends React.PureComponent {
     );
   };
 
+  handleTabChange = (_event = null, activeTab = 0) => {
+    this.setState({ activeTab });
+  };
+
   render() {
     const {
       classes,
@@ -182,21 +185,31 @@ class ProductCart extends React.PureComponent {
       sliderProducts,
       products,
       openTableSize,
-      sex
+      sex,
+      comments
     } = this.props;
     const { loading, data } = this.state;
+
+    if (loading) {
+      return <KiloLoading />;
+    }
+
     const { id } = data;
     const productData = products.find(product => product.id == id) || {};
     const { size, picture, name, category, price } = productData;
     const activeSize = productData.activeSize;
     const isInCart = card.data.some(cardItem => cardItem.id == id);
+    const commentsArr = comments.data.filter(
+      comment => comment.slug_id == match.params.id
+    );
 
-    if (loading) {
-      return <KiloLoading />;
-    }
     return (
       <div className={`${classes.root} product-cart`}>
-        <TitleComponent title={`${data.name} - купить в KILO. Цена ${Math.round(data.price)} грн. Высокое качество!`} />
+        <TitleComponent
+          title={`${data.name} - купить в KILO. Цена ${Math.round(
+            data.price
+          )} грн. Высокое качество!`}
+        />
         <Header
           redirectToRoot={this.redirectToRoot}
           redirectToCategory={this.redirectToCategory}
@@ -211,6 +224,17 @@ class ProductCart extends React.PureComponent {
           redirectToRoot={this.redirectToRoot}
           redirectToCategory={this.redirectToCategory}
         />
+        <h1 className={classes.title}>{data.name}</h1>
+        <Stars
+          rate={
+            data.average_voted && Math.round(data.average_voted.average_mark)
+          }
+          commentsArr={commentsArr}
+          className="product-rate"
+          amount={data.average_voted && data.average_voted.count_voted}
+          withLabel
+          handleTabChange={this.handleTabChange}
+        />
         <WidgetPanel />
         <div className={classes.mainContent}>
           <div className={classes.mainContentInner}>
@@ -224,7 +248,9 @@ class ProductCart extends React.PureComponent {
                 simple
                 products={
                   Array.isArray(picture)
-                    ? picture.map(srcPicture => this.sliderItem(srcPicture, data.name))
+                    ? picture.map(srcPicture =>
+                        this.sliderItem(srcPicture, data.name)
+                      )
                     : picture
                 }
                 draggable
@@ -240,39 +266,36 @@ class ProductCart extends React.PureComponent {
                   );
                 }}
               />
+              <span className="social-icons">
+                <SocialIcon />
+                <SocialIcon instagram />
+              </span>
             </div>
 
             <div className={`${classes.textContent} fluid__instructions`}>
-              <h1 className={classes.title}>{name}</h1>
-              <p className={classes.price}>{`${Math.round(price)} грн`}</p>
-              <div>
-                <ProductItemSizes
-                  sizes={size}
-                  id={this.props.match.params.id}
-                  activeSize={activeSize}
-                  format="big"
-                />
-              </div>
-              <div>
-                {this.state.data.group != "accessories" && (
-                  <span className={classes.tableSize} onClick={openTableSize}>
-                    Таблица размеров
-                  </span>
-                )}
-              </div>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                // onClick={isInCart ? openCart : this.putToCart}
-                onClick={this.putToCart}
-              >
-                Купить
-                {/* {isInCart ? "Товар уже в корзине" : "Добавить в корзину"} */}
-              </Button>
-              <AboutProduct productData={productData} />
+              <CustomTabs
+                characteristicPorps={{
+                  productData,
+                  classes,
+                  id: this.props.match.params.id,
+                  price,
+                  size,
+                  activeSize,
+                  data: this.state.data,
+                  openTableSize,
+                  putToCart: this.putToCart
+                }}
+                slugId={this.props.match.params.id}
+                category={this.state.data && this.state.data.category}
+                reviewsPorps={
+                  this.state.data && this.state.data.product_comments
+                }
+                handleTabChange={this.handleTabChange}
+                activeTab={this.state.activeTab}
+              />
             </div>
           </div>
+
           <AboutProduct productData={productData} forMobile />
         </div>
 
@@ -302,6 +325,13 @@ class ProductCart extends React.PureComponent {
           title="Галерея товара"
           Component={() => SliderS({ picture, classes })}
           type="slider"
+        />
+        <DialogWindow
+          title="Отзыв о товаре"
+          Component={ProductWhriteReview}
+          type="writeReview"
+          className="write-review-dialog"
+          props={{ slugId: this.props.match.params.id, category }}
         />
         <TableSize
           dropShip={this.state.data && this.state.data.drop_ship}
