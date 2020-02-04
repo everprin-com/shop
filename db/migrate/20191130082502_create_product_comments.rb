@@ -1,4 +1,4 @@
-class CreateProductComments < ActiveRecord::Migration
+class CreateProductComments < ActiveRecord::Migration[5.2]
   def change
     create_table :product_comments do |t|
       t.string :from_ip

@@ -1,4 +1,4 @@
-class CreateAverageVoteds < ActiveRecord::Migration
+class CreateAverageVoteds < ActiveRecord::Migration[5.2]
   def change
     create_table :average_voteds do |t|
       t.float :average_mark, null: false, default: 0 #mark 1..5
