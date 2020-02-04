@@ -1,7 +1,7 @@
 const styles = theme => ({
     root: {
       [theme.breakpoints.up("xs")]: {
-        width: "345px"
+        width: "360px"
       },
       [theme.breakpoints.up("sm")]: {
         width: "600px"
@@ -10,7 +10,7 @@ const styles = theme => ({
         width: "1000px"
       },
       [theme.breakpoints.up("lg")]: {
-        width: "1240px"
+        width: "1200px"
       },
       marginTop: "10px",
       flexGrow: 1,

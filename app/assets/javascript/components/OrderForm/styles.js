@@ -20,9 +20,13 @@ const styles = theme => ({
   },
   root: {
     width: "950px",
-    margin: "70px auto 0",
+    margin: "0 auto 0",
+    minHeight: "100vh",
+    padding: "70px 5px 0px",
     boxSizing: "border-box",
     fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
+    background: "#fff",
+    boxShadow: "1px 1px 1px rgba(0,0,0,.1), -1px 1px 1px rgba(0,0,0,.1)",
     [theme.breakpoints.down("xs")]: {
       width: "375px",
       padding: 5,

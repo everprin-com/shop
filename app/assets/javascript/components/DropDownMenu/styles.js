@@ -5,7 +5,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     position: "relative",
     zIndex: 2,
-    width: 1240
+    width: 1200
   },
   categoryItem: {
     fontSize: "16px",

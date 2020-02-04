@@ -21,6 +21,7 @@ import CustomTabs from "../CustomTabs";
 import advantages from "../constants/advantages";
 import ProductWhriteReview from "../ProductWhriteReview";
 import Stars from "../Stars";
+import SocialIcon from "../SocialIcon";
 
 const mapStateToProps = state => {
   return {
@@ -137,6 +138,7 @@ class ProductCart extends React.PureComponent {
       nodeName == "SPAN" ||
       nodeName == "UL" ||
       nodeName == "IMG" ||
+      nodeName == "A" ||
       windowWidth < 1000
     )
       return;
@@ -264,6 +266,10 @@ class ProductCart extends React.PureComponent {
                   );
                 }}
               />
+              <span className="social-icons">
+                <SocialIcon />
+                <SocialIcon instagram />
+              </span>
             </div>
 
             <div className={`${classes.textContent} fluid__instructions`}>

@@ -3,6 +3,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import ProductСharacteristic from "../ProductСharacteristic";
 import ProductReviews from "../ProductReviews";
+import ProductDeliveryAndPayment from "../ProductDeliveryAndPayment";
 
 const CustomTabs = ({
   characteristicPorps,
@@ -12,7 +13,6 @@ const CustomTabs = ({
   activeTab,
   handleTabChange
 }) => {
-
   return (
     <div>
       <Tabs
@@ -22,9 +22,9 @@ const CustomTabs = ({
         onChange={handleTabChange}
         aria-label="disabled tabs example"
       >
-        <Tab label="Характеристика" />
-        <Tab label="Отзывы" />
-        <Tab label="Доставка" />
+        <Tab label="Характеристика" className="custom-tab" />
+        <Tab label="Отзывы" className="custom-tab" />
+        <Tab label="Доставка и Оплата" className="custom-tab" />
       </Tabs>
       {activeTab == 0 && (
         <ProductСharacteristic characteristicPorps={characteristicPorps} />
@@ -36,15 +36,7 @@ const CustomTabs = ({
           category={category}
         />
       )}
-      {activeTab == 2 && (
-        <div>
-          С помощью доставки «Нова Пошта», Вы можете получить товар даже в самых отдаленных уголках Украины. После оформления заказа на нашем сайте наши менеджеры связываются с Вами для обсуждения деталей. Затем делаем отправку транспортной компанией Новая Почта.
-
-При заказе и предварительной оплате заказа от 1000 грн. доставка бесплатная при условии полной предоплаты. В среднем, доставка занимает 1-3 дня. В случае оплаты заказа при получении клиент оплачивает комиссию за «Наложенный платеж» (Новая Почта взымает 20 грн. +2% от суммы перевода). О прибытии заказа в отделение вы будете уведомлены SMS-сообщением «Новая Почта» с указанием номера накладной.В индивидуальном порядке крупные оптовые заказы отправляем в другие логистические компании по желанию клиента. Самовывоз товаров отсутствует.
-
-В случае, если клиент не забрал посылку в течение безоплатного/гарантированного срока хранения на "Новой Почте" все последующие заказы отправляются только в случае частичной либо полной предоплаты.
-        </div>
-      )}
+      {activeTab == 2 && <ProductDeliveryAndPayment />}
     </div>
   );
 };

@@ -8,6 +8,8 @@ const styles = theme => ({
     minHeight: "100vh",
     justifyContent: "space-between",
     fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
+    background: "#fff",
+    boxShadow: "1px 1px 1px rgba(0,0,0,.1), -1px 1px 1px rgba(0,0,0,.1)",
     [theme.breakpoints.up("xs")]: {
       maxWidth: "360px"
     },
@@ -63,6 +65,9 @@ const styles = theme => ({
     marginLeft: 35,
     [theme.breakpoints.down("xs")]: {
       marginTop: 0
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: 0
     }
   },
   gelleryItem: {
@@ -88,6 +93,7 @@ const styles = theme => ({
   },
   title: {
     fontSize: 24,
+    padding: "0 15px"
   },
   advantagesIcon: {
     fontSize: 32,
@@ -103,7 +109,11 @@ const styles = theme => ({
     width: 140,
     display: "flex",
     alignItems: "center",
-    margin: "5px 5px 25px"
+    margin: "5px 5px 25px",
+    [theme.breakpoints.down("sm")]: {
+      margin: "5px 2px 25px",
+      fontSize: 14,
+    }
   },
   advantages: {
     display: "flex",

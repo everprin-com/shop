@@ -49,6 +49,10 @@
   margin-bottom: 15px;
 }
 
+.product-cart .product-rate {
+  margin-left: 15px;
+}
+
 .evaluate-porduct {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   color: rgba(0, 0, 0, 0.54);
@@ -62,4 +66,10 @@
   padding: 20px 0;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   color: rgba(0, 0, 0, 0.54);
+}
+
+@media screen and (max-width: 600px) {
+  .no-comment-text {
+    font-size: 15px;
+  }
 }

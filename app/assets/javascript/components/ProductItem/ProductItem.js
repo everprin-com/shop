@@ -111,7 +111,7 @@ class ProductItem extends React.PureComponent {
       slug_id,
       average_voted
     } = data;
-    console.log(average_voted)
+    // console.log(average_voted);
     const { price, saleShow, oldPrice } = convertPrice(notConvertedPrice);
     const shouldShowBottom = this.state.hover || windowWidthLess1000;
     const withoutSizeName = name && name.replace(/[0-9-]*$/g, "");
@@ -161,14 +161,20 @@ class ProductItem extends React.PureComponent {
           <CardContent className={classes.cardContent}>
             <Typography component="div" className={classes.cardDesctiption}>
               <div className={classes.title}>
-                {textWithDots(withoutSizeName, 52)}
+                {textWithDots(withoutSizeName, 40)}
               </div>
-              <div className={classes.category}>{category}</div>
+              {/* <div className={classes.category}>{category}</div> */}
               <div className={classes.price}>
                 <div className={classes.oldPrice}>{`${oldPrice} грн`}</div>
                 <div className={classes.newPrice}>{`${price} грн`}</div>
               </div>
-              <Stars rate={Math.round(average_mark)} amount={count_voted} mini withNumberLabel />
+              <Stars
+                rate={Math.round(average_mark)}
+                amount={count_voted}
+                mini
+                withNumberLabel
+                className="product-item-rate"
+              />
             </Typography>
           </CardContent>
         </Link>

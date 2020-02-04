@@ -41,10 +41,7 @@ class Stars extends React.PureComponent {
       formatNumberTo(rate, 0) * formatNumberTo(amount, 1) +
       (commentsArr.length > 0
         ? commentsArr.reduce((prev, next) => {
-            return (
-              (prev.voted ? prev.voted.mark : 0) +
-              (next.voted ? next.voted.mark : 0)
-            );
+            return prev + (next.voted ? next.voted.mark : 0);
           }, 0)
         : 0);
     let commonAmount;
@@ -65,10 +62,6 @@ class Stars extends React.PureComponent {
     }
 
     const renderLabel = !!(label && (withLabel || withNumberLabel));
-
-    // if (!renderLabel) {
-    //   console.log()
-    // }
     return (
       <div
         className={`${mini ? "miniRate" : "rate"} ${
