@@ -1,4 +1,4 @@
-class CreateFilterOptions < ActiveRecord::Migration
+class CreateFilterOptions < ActiveRecord::Migration[5.2]
   def change
     create_table :filter_options do |t|
       t.string :brand, array: true, default: '{}'

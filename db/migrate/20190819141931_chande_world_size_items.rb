@@ -1,4 +1,4 @@
-class ChandeWorldSizeItems < ActiveRecord::Migration
+class ChandeWorldSizeItems < ActiveRecord::Migration[5.2]
   def self.up
     change_table :items do |t|
       t.change :size_world, :text

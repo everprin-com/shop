@@ -1,4 +1,4 @@
-class TeleNotifyMigration < ActiveRecord::Migration
+class TeleNotifyMigration < ActiveRecord::Migration[5.2]
 
   def self.up
     create_table :telegram_users do |t|

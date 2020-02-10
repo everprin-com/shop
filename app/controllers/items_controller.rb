@@ -34,7 +34,7 @@ class ItemsController < ApplicationController
     respond_to do |format|
       format.html
 
-      format.json { render json: item }
+      format.json { render json: ProductSerializer.new(item) }
     end
   end
 

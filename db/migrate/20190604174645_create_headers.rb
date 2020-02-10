@@ -1,4 +1,4 @@
-class CreateHeaders < ActiveRecord::Migration
+class CreateHeaders < ActiveRecord::Migration[5.2]
   def change
     create_table :headers do |t|
       t.integer :count_items

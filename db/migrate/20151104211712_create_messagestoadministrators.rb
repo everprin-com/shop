@@ -1,4 +1,4 @@
-class CreateMessagestoadministrators < ActiveRecord::Migration
+class CreateMessagestoadministrators < ActiveRecord::Migration[5.2]
   def change
     create_table :messagestoadministrators do |t|
       t.string :name

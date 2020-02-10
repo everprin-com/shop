@@ -1,4 +1,4 @@
-class CreateVoices < ActiveRecord::Migration
+class CreateVoices < ActiveRecord::Migration[5.2]
   def change
     create_table :voices do |t|
       t.integer :votable_id

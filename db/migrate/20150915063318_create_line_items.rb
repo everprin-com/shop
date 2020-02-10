@@ -1,10 +1,10 @@
-class CreateLineItems < ActiveRecord::Migration
+class CreateLineItems < ActiveRecord::Migration[5.2]
   def change
     create_table :line_items do |t|
       t.belongs_to :order, index: true, foreign_key: true
       t.integer :quantity, default: 1
       t.string :size, null: false
-      t.integer :order_id, index: true
+      t.integer :order_id#, index: true
       t.string :article, null: false
       t.string :name, null: false
       t.decimal :price, precision: 8, scale: 2, null: false

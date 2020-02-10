@@ -1,4 +1,4 @@
-class AddTrigramIndexNameToItems < ActiveRecord::Migration
+class AddTrigramIndexNameToItems < ActiveRecord::Migration[5.2]
   def up
     enable_extension(:pg_trgm)
     execute(<<-SQL)
