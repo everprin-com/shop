@@ -64,7 +64,7 @@ const styles = theme => ({
   textContent: {
     marginLeft: 35,
     [theme.breakpoints.down("xs")]: {
-      marginTop: 0
+      marginTop: 60
     },
     [theme.breakpoints.down("sm")]: {
       marginLeft: 0

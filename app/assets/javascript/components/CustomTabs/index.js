@@ -14,7 +14,7 @@ const CustomTabs = ({
   handleTabChange
 }) => {
   return (
-    <div>
+    <div className="custom-tabs">
       <Tabs
         value={activeTab}
         indicatorColor="primary"

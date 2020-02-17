@@ -10,7 +10,7 @@ const styles = theme => ({
     fontSize: "16px !important",
     display: "block",
     [theme.breakpoints.down("xs")]: {
-      width: 375
+      width: 360
     }
   },
   title: {
@@ -28,7 +28,7 @@ const styles = theme => ({
     background: "#fff",
     boxShadow: "1px 1px 1px rgba(0,0,0,.1), -1px 1px 1px rgba(0,0,0,.1)",
     [theme.breakpoints.down("xs")]: {
-      width: "375px",
+      width: "360px",
       padding: 5,
       margin: "10px auto 0"
     }

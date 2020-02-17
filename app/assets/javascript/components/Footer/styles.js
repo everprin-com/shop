@@ -15,7 +15,7 @@ const styles = theme => ({
     zIndex: 2,
     maxWidth: "100%",
     [theme.breakpoints.up("xs")]: {
-      width: "375px",
+      width: "360px",
       fontSize: 12,
     },
     [theme.breakpoints.up("sm")]: {

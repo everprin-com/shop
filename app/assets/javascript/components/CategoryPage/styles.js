@@ -6,7 +6,7 @@ const styles = theme => ({
       background: "#fff",
       boxShadow: "1px 1px 1px rgba(0,0,0,.1), -1px 1px 1px rgba(0,0,0,.1)",
       [theme.breakpoints.up("xs")]: {
-        width: "375px"
+        width: "360px"
       },
       [theme.breakpoints.up("sm")]: {
         width: "600px"
