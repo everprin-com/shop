@@ -12,7 +12,6 @@ const styles = theme => ({
       [theme.breakpoints.up("lg")]: {
         width: "1200px"
       },
-      marginTop: "10px",
       flexGrow: 1,
       backgroundColor: theme.palette.background.paper,
       position: "relative",

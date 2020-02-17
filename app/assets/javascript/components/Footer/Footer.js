@@ -39,12 +39,12 @@ function Footer(props) {
       <Paper className={classes.root} elevation={1}>
         <ul className={classes.list}>
           <Item
-            title="Условия доставки"
+            title="Доставка"
             onClick={showDelivery}
             classes={classes}
           />
           <Item
-            title="Условия возврата"
+            title="Возврат"
             classes={classes}
             onClick={showReturn}
           />
@@ -57,7 +57,7 @@ function Footer(props) {
           <p className={classes.contactsRow}>info@kilo.com.ua</p>
         </div>
         <Logo classes={classes} className={classes.logo} redirectToRoot={redirectToRoot} />
-        <Dialog title="Условия доставки" Component={Delivery} type="delivery" />
+        <Dialog title="Условия Доставки" Component={Delivery} type="delivery" />
         <Dialog title="Условия Возврата" Component={Return} type="return" />
         <Dialog title="Оплата" Component={Payment} type="payment" />
       </Paper>

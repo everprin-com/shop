@@ -96,7 +96,7 @@ const styles = theme => ({
     boxShadow: "1px 1px rgba(0,0,0, 0.1), -1px 1px rgba(0,0,0,0.1)",
     [theme.breakpoints.down("xs")]: {
       position: "static",
-      marginTop: 40
+      marginTop: 53
     }
   },
   cardContent: {

@@ -202,7 +202,7 @@ $bounce_height: 30px;
 }
 
 .main-page-slider .arrSlider.next {
-  right: -15px;
+  right: 17px;
 }
 
 .arrSlider.prev {
@@ -581,4 +581,12 @@ $bounce_height: 30px;
     font-size: 12px !important;
     padding: 6px 8px;
   }
+}
+
+.product-cart .header{
+  display: block;
+}
+
+.custom-tabs {
+  padding: 0 5px;
 }

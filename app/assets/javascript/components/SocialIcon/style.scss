@@ -16,3 +16,9 @@
   margin-top: 20px;
   display: flex;
 }
+
+@media (max-width: 599px) {
+  .social-icons {
+    margin-left: 0;
+  }
+}
