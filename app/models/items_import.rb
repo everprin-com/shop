@@ -52,7 +52,7 @@ class ItemsImport
       HEADER_TIME_OF_STYLE
     when "ager"
       HEADER_TIME_OF_STYLE
-    when "garne"
+    when "prices"
       HEADER_GARNE
     when "favoritti"
       HEADER_FAVORITTI
@@ -162,7 +162,8 @@ class ItemsImport
           category = NormalizerParse.get_category_by_name(row["name"])
         end
         item["category"] = NormalizerParse.set_category(category)
-      elsif @name_drop_ship == "garne"
+      # garne = prices
+      elsif @name_drop_ship == "prices"
          item["picture"] = row["picture"].split(",")
          item["size"] = row["size"]&.split("/")&.join(",")&.split(",")&.map(&:upcase)
          item["drop_ship_price"] = row["drop_ship_price"]

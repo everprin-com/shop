@@ -22,9 +22,8 @@ class ItemsController < ApplicationController
     items = items.where(category: params[:search_category]) if params[:search_category].present?
     items = items.where('sex && ARRAY[?]::varchar[]', params[:sex]) if params[:sex].present?
     items = items.where('season && ARRAY[?]::varchar[]', params[:season]) if params[:season].present?
-    #items.includes([:product_comments, :average_voted])
-    items = items.shuffle if params[:shuffled_products].present?
-    items = items.paginate(page: params[:page], per_page: per_page(params[:per_page]))
+    items = items.order('random()') if params[:shuffled_products].present?
+    items = items.paginate(page: params[:page], per_page: per_page(params[:per_page])).includes([:product_comments, :average_voted])
     serialized_items = items.map { |item| ItemSerializer.new(item) }
     render json: { total_pages: items.total_pages, filters_options: generate_filters, items: serialized_items }
   end
@@ -33,7 +32,6 @@ class ItemsController < ApplicationController
     item = Item.find_by_slug_id(params[:id])
     respond_to do |format|
       format.html
-
       format.json { render json: ProductSerializer.new(item) }
     end
   end
