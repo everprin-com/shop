@@ -15726,31 +15726,27 @@ namespace :create_comments do
       va += value[:comments].length
       p "key"
       p key
-      # if key == :Джинсы
-      #   byebug
-      # end
-      p  value[:comments].length
-      p value[:count]
       items = Item.where('sex && ARRAY[?]::varchar[]', sex).where(category: key.to_s)
       next unless items.present?
       items_count = items.count
       comments_count = value[:comments].length
-
       comments_to_items = (comments_count/items_count.to_f).ceil
-      # case comments_to_items
-      # when 0..1
-      #   ProductComment.crete_comments(3, items, value, key)
-      # when 1..2
-      #   ProductComment.crete_comments(4, items, value, key)
-      # when 2..3
-      #   ProductComment.crete_comments(5, items, value, key)
-      # when 3..4
-      #   ProductComment.crete_comments(7, items, value, key)
-      # when 5..6
-      #   ProductComment.crete_comments(9, items, value, key)
-      # when 6..7
-      #   ProductComment.crete_comments(11, items, value, key)
-      # end
+      p "comments_to_items"
+      p comments_to_items
+      case comments_to_items
+      when 0..1
+        ProductComment.crete_comments(3, items, value, key)
+      when 1..2
+        ProductComment.crete_comments(4, items, value, key)
+      when 2..3
+        ProductComment.crete_comments(5, items, value, key)
+      when 3..4
+        ProductComment.crete_comments(7, items, value, key)
+      when 5..6
+        ProductComment.crete_comments(9, items, value, key)
+      when 6..7
+        ProductComment.crete_comments(11, items, value, key)
+      end
     end
     p va
   end
