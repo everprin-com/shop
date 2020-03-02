@@ -14,7 +14,7 @@ namespace :create_fid do
       #sheet = book.worksheet 0
       #sheet2 = book.create_worksheet :name => 'My Second Worksheet'
       iter = 0
-      drop_shipers = ["Favoritti", "Tos", "Vzuto", "Ager", "Garne", "Villomi", "Issaplus"]
+      drop_shipers = ["Favoritti", "Tos", "Vzuto", "Ager", "Garne", "Villomi", "Issaplus", "Modus"]
       drop_shipers.each do |drop_shiper|
         items = Item.where(drop_ship: drop_shiper)
         new_book.worksheet(0).insert_row(0, ["Page URL", "Custom labels"])
@@ -24,6 +24,7 @@ namespace :create_fid do
           p "index"
           p index
           sorted_array = []
+          comment = item.product_comments.present? ? "comments;" : nil
           description = item[:description].present? ? "description;" : nil
           url = "https://kilo.com.ua/productcart/#{item[:slug_id]}"
           #description = item[:description] ? "description" : ""
@@ -36,6 +37,7 @@ namespace :create_fid do
             fid_val = converted_val.present? ? (converted_val + ";") : nil
             fid_description << fid_val
           end
+          fid_description << comment
           fid_description << description
           fid_description.compact!
           last_moddified_element = fid_description.last.delete_suffix(";")
