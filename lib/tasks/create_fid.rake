@@ -17,7 +17,7 @@ namespace :create_fid do
       drop_shipers = ["Favoritti", "Tos", "Vzuto", "Ager", "Garne", "Villomi", "Issaplus", "Modus"]
       drop_shipers.each do |drop_shiper|
         items = Item.where(drop_ship: drop_shiper)
-        new_book.worksheet(0).insert_row(0, ["Page URL", "Custom labels"])
+        new_book.worksheet(0).insert_row(0, ["Page URL", "Custom label"])
         new_book.write("public/converted_fid_#{drop_shiper}.xls")
         fields = ["name", "category", "color", "sex"]
         items.each_with_index do |item, index|

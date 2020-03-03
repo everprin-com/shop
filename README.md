@@ -21,6 +21,15 @@ RAILS_ENV=production bundle exec rake create_comments:create_comments
 scp rails-demo@178.62.6.75:/home/rails-demo/app/current/public/converted_fid.xls /home/oleg/work/bizness
 
 
+scp rails-demo@178.62.6.75:/home/rails-demo/app/current/public/converted_fid_Ager.xls /home/oleg/work/bizness
+scp rails-demo@178.62.6.75:/home/rails-demo/app/current/public/converted_fid_Favoritti.xls /home/oleg/work/bizness
+scp rails-demo@178.62.6.75:/home/rails-demo/app/current/public/converted_fid_Garne.xls  /home/oleg/work/bizness
+scp rails-demo@178.62.6.75:/home/rails-demo/app/current/public/converted_fid_Issaplus.xls /home/oleg/work/bizness
+scp rails-demo@178.62.6.75:/home/rails-demo/app/current/public/converted_fid_Modus.xls  /home/oleg/work/bizness
+scp rails-demo@178.62.6.75:/home/rails-demo/app/current/public/converted_fid_Tos.xls  /home/oleg/work/bizness
+scp rails-demo@178.62.6.75:/home/rails-demo/app/current/public/converted_fid_Villomi.xls /home/oleg/work/bizness
+scp rails-demo@178.62.6.75:/home/rails-demo/app/current/public/converted_fid_Vzuto.xls /home/oleg/work/bizness
+
 rubocop
 lounch lint
 ./bin/webpack-dev-server
