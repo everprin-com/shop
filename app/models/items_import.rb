@@ -125,8 +125,10 @@ class ItemsImport
            else
              row["category"]
            end
-         founded_category = NormalizerParse.get_category_by_name(setted_category)
-
+          if row["category"] == "Женская обувь"
+            setted_category = NormalizerParse.get_category_by_name(row["name"])
+          end
+          founded_category = NormalizerParse.get_category_by_name(setted_category)
          item["category"] = NormalizerParse.set_category(founded_category)
          item["color"] = row["color"]
          item["sex"] =
@@ -158,7 +160,7 @@ class ItemsImport
         item["drop_ship_price"] = row["drop_ship_price"]
         item["color"] = row["color"]
         category = row["category"]&.split(" ")[0]
-        if category == "Пальто"
+        if category == "Пальто" || category == "Вязаный"
           category = NormalizerParse.get_category_by_name(row["name"])
         end
         item["category"] = NormalizerParse.set_category(category)
