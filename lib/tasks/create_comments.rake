@@ -9,12 +9,12 @@ namespace :create_comments do
 
   total = 0
   JSON.parse(comments).each do |key, values|
-    sex =
-      if key == :female
-        "wooman"
-      else
-        "man"
-      end
+    sex = "wooman"
+      # if key == :female
+      #   "wooman"
+      # else
+      #   "man"
+      # end
     values.each do |key, value|
       comments_count = value["comments"].length
       # p "key"
