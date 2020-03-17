@@ -7,30 +7,30 @@ namespace :create_comments do
   ProductComment.delete_all
   AverageVoted.delete_all
 
-  va = 0
-  #byebug
-
-  comments.each do |key, values|
-    #byebug
+  total = 0
+  JSON.parse(comments).each do |key, values|
     sex =
       if key == :female
         "wooman"
       else
         "man"
       end
-    total = 0
     values.each do |key, value|
-      comments_count = value[:comments].length
-      total += comments_count
-      p "key"
-      p key
-      p comments_count
+      comments_count = value["comments"].length
+      # p "key"
+      # p key
+      # p comments_count
       items = Item.where('sex && ARRAY[?]::varchar[]', sex).where(category: key.to_s)
+      if !items.present?
+        p "empty"
+        p key.to_s
+      end
       next unless items.present?
+      total += comments_count
       items_count = items.count
       comments_to_items = (comments_count/items_count.to_f).ceil
-      p "comments_to_items"
-      p comments_count
+      # p "comments_to_items"
+      # p comments_count
       case comments_to_items
       when 0..1
         ProductComment.crete_comments(3, items, value, key)
@@ -46,8 +46,8 @@ namespace :create_comments do
         ProductComment.crete_comments(11, items, value, key)
       end
     end
-    p total
   end
+  p total
 end
 
 end
