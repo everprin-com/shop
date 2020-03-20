@@ -16,8 +16,8 @@ class ProductComment < ActiveRecord::Base
       next unless used_comments.present?
       used_comments.each do |comment|
         product_comment = ProductComment.create(comment.merge!(id: nil, category: key.to_s, slug_id: item.slug_id))
-        Voted.create(product_comment_id: product_comment.id, slug_id: item.slug_id, mark: comment[:rate] || 5)
-        AverageVoted.update_average_voted(item.slug_id, comment[:rate])
+        Voted.create(product_comment_id: product_comment.id, slug_id: item.slug_id, mark: comment["rate"] || 5)
+        AverageVoted.update_average_voted(item.slug_id, comment["rate"])
       end
       sum_randoms += random_comments_count
    end
