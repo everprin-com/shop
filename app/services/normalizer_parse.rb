@@ -11,7 +11,7 @@ class NormalizerParse
   def self.normalizer_products
     Item.update_size_same_items
     Item.delete_bad_products
-    Item.delete_same_slug_ids
+    # Item.delete_same_slug_ids
     Item.create_header
     FilterOption.delete_all
     FilterOption.create!(Item.generate_filters(Item.all))
@@ -118,8 +118,14 @@ class NormalizerParse
     end
   end
 
-  def self.delete_old_drop_ship(imported_items)
+  def self.make_unvaliable_old_drop_ship(imported_items)
     old_drop_ships = imported_items.map(&:drop_ship).uniq
-    Item.where(drop_ship: old_drop_ships).delete_all
+    old_slug_ids = imported_items.map(&:slug_id)
+    Item.where(slug_id: old_slug_ids).delete_all
+    Item.where(drop_ship: old_drop_ships).update_all(available_product: false)
+  end
+
+  def self.make_unvaliable_old_item(item)
+    Item.where(slug_id: item.slug_id).delete_all
   end
 end

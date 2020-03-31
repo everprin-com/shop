@@ -8,6 +8,14 @@ class ItemsImport
   ]
 
   HEADER_TIME_OF_STYLE = %w[
+    skip skip1	skip11	skip2	name article skip15 code category brand	skip3	size
+    color	country	sex	season	composition	size_world
+    skip4	drop_ship_price	skip5	skip6	skip7	picture
+    small_picture	small_picture1	small_picture2	small_picture3
+    small_picture4 small_picture5
+  ]
+
+  HEADER_AGER = %w[
     skip	skip1	code	skip2	name article category brand	skip3	size
     color	country	sex	season	composition	size_world
     skip4	drop_ship_price	skip5	skip6	skip7	picture
@@ -51,7 +59,7 @@ class ItemsImport
     when "tos"
       HEADER_TIME_OF_STYLE
     when "ager"
-      HEADER_TIME_OF_STYLE
+      HEADER_AGER
     when "prices"
       HEADER_GARNE
     when "favoritti"
@@ -224,7 +232,7 @@ class ItemsImport
     if imported_items.map(&:valid?).all?
       NormalizerParse.delete_null(imported_items)
       NormalizerParse.capitalize_fields(imported_items)
-      NormalizerParse.delete_old_drop_ship(imported_items)
+      NormalizerParse.make_unvaliable_old_drop_ship(imported_items)
       imported_items.each(&:save!)
       true
     else

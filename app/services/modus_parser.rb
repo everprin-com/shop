@@ -63,6 +63,7 @@ class ModusParser
     item["sex"] = ["wooman"]
     item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
     NormalizerParse.capitalize_item(item)
+    NormalizerParse.make_unvaliable_old_item(item)
     item.save if NormalizerParse.delete_null_item(item)
   end
 end
