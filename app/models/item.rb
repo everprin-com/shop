@@ -1,9 +1,5 @@
 class Item < ActiveRecord::Base
   DEFAULT_PAGE = 16
-  #extend FriendlyId
-  #friendly_id :article, use: :slugged
-  #include ActiveModel::Serialization
-  #serialize :size_world
   has_one :average_voted, foreign_key: "slug_id", primary_key: "slug_id"
   has_many :product_comments, foreign_key: "slug_id", primary_key: "slug_id"
 
@@ -265,10 +261,10 @@ class Item < ActiveRecord::Base
     end
   end
 
-  def self.delete_same_slug_ids
-    not_uniq_slug_ids = select('items.slug_id').group('items.slug_id').having('count(items.slug_id) >1').all
-    where(slug_id: not_uniq_slug_ids).delete_all
-  end
+  # def self.delete_same_slug_ids
+  #   not_uniq_slug_ids = select('items.slug_id').group('items.slug_id').having('count(items.slug_id) >1').all
+  #   where(slug_id: not_uniq_slug_ids).delete_all
+  # end
 
   def self.delete_bad_products
     Item.where(name: Item::BAD_PRODUCTS_NAME).delete_all
@@ -300,6 +296,10 @@ class Item < ActiveRecord::Base
     end
     current_main_colors.uniq
   end
+
+  # def make_unvaliable_old_item
+  #   NormalizerParse.make_unvaliable_old_item(self)
+  # end
 
   def self.create_header
     Header.delete_all

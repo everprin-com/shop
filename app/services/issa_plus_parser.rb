@@ -15,7 +15,7 @@ class IssaPlusParser
       case el.name
       when "product_link"
         item["article"] = el.text
-      when "sku"  
+      when "sku"
         item["color"] = el.text.split("_")[1]
       when "product_sizes"
         item["size"] = el.map(&:text)
@@ -41,7 +41,7 @@ class IssaPlusParser
       item["description"] = parse_info.description
       item["category"] = parse_info.category
       item["sex"] = parse_info.sex
-    else  
+    else
       begin
         doc = Nokogiri::HTML(open(item["article"], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
       rescue OpenURI::HTTPError => ex
@@ -82,6 +82,7 @@ class IssaPlusParser
       end
     end
     NormalizerParse.capitalize_item(item)
+    NormalizerParse.make_unvaliable_old_item(item)
     item.save if NormalizerParse.delete_null_item(item)
   end
 end
