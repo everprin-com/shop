@@ -224,15 +224,16 @@ class Item < ActiveRecord::Base
   end
 
   def self.update_size_same_names
-    names = Item.select('items.name').group('items.name').having('count(items.name) > 1').map(&:name)
+    items =  Item.where.not(drop_ship: "Prices")
+    names = items.select('items.name').group('items.name').having('count(items.name) > 1').map(&:name)
     names.map do |name|
-      colors = Item.where(name: name).select(:color).map(&:color).uniq&.flatten&.flatten
+      colors = items.where(name: name).select(:color).map(&:color).uniq&.flatten&.flatten
       colors.each do |color|
-        sizes = Item.where(name: name, color: color).map(&:size).flatten.uniq
+        sizes = items.where(name: name, color: color).map(&:size).flatten.uniq
         #pictures = Item.where(name: name, color: color).map(&:picture).flatten.compact.uniq
         first_item = Item.where(name: name, color: color).first
         first_item.update(size: sizes)
-        Item.where.not(id: first_item.id).where(name: name, color: color).map(&:delete)
+        items.where.not(id: first_item.id).where(name: name, color: color).map(&:delete)
       end
     end
   end
