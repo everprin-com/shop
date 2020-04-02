@@ -119,6 +119,7 @@ class NormalizerParse
   end
 
   def self.make_unvaliable_old_drop_ship(imported_items)
+    #byebug
     old_drop_ships = imported_items.map(&:drop_ship).uniq
     old_slug_ids = imported_items.map(&:slug_id)
     Item.where(slug_id: old_slug_ids).delete_all
