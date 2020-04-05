@@ -3,12 +3,9 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import styles from "./styles";
-import Delivery from "../conditions/Delivery";
-import Return from "../conditions/Return";
-import Payment from "../conditions/Payment";
 import { connect } from "react-redux";
-import Dialog from "../Dialog/Dialog";
 import Logo from "../Logo/Logo";
+import DialogSwitcher from "../DialogSwitcher";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -36,31 +33,31 @@ function Footer(props) {
   } = props;
 
   return (
-      <Paper className={classes.root} elevation={1}>
-        <ul className={classes.list}>
-          <Item
-            title="Доставка"
-            onClick={showDelivery}
-            classes={classes}
-          />
-          <Item
-            title="Возврат"
-            classes={classes}
-            onClick={showReturn}
-          />
-          <Item title="Оплата" classes={classes} onClick={showPayment} />
-          {/* <Item title="Вопросы и ответы" classes={classes} /> */}
-        </ul>
-        <div className={classes.contacts}>
-          {/* <p className={classes.contactsRow}>Киев, Ул Чешская 9, 201/203, БЦ modnaVilla, 1 этаж</p> */}
-          <p className={classes.contactsRow}>+38 (095) 755-25-73</p>
-          <p className={classes.contactsRow}>info@kilo.com.ua</p>
-        </div>
-        <Logo classes={classes} className={classes.logo} redirectToRoot={redirectToRoot} />
-        <Dialog title="Условия Доставки" Component={Delivery} type="delivery" />
-        <Dialog title="Условия Возврата" Component={Return} type="return" />
-        <Dialog title="Оплата" Component={Payment} type="payment" />
-      </Paper>
+    <Paper className={classes.root} elevation={1}>
+      <ul className={classes.list}>
+        <Item title="Доставка" onClick={showDelivery} classes={classes} />
+        <Item title="Возврат" classes={classes} onClick={showReturn} />
+        <Item title="Оплата" classes={classes} onClick={showPayment} />
+        {/* <Item title="Вопросы и ответы" classes={classes} /> */}
+      </ul>
+      <div className={classes.contacts}>
+        {/* <p className={classes.contactsRow}>Киев, Ул Чешская 9, 201/203, БЦ modnaVilla, 1 этаж</p> */}
+        <p className={classes.contactsRow}>+38 (095) 755-25-73</p>
+        <p className={classes.contactsRow}>info@kilo.com.ua</p>
+      </div>
+      <Logo
+        classes={classes}
+        className={classes.logo}
+        redirectToRoot={redirectToRoot}
+      />
+      <DialogSwitcher
+        dialogs={[
+          { title: "Условия Доставки", type: "delivery" },
+          { title: "Условия Возврата", type: "return" },
+          { title: "Оплата", type: "payment" }
+        ]}
+      />
+    </Paper>
   );
 }
 

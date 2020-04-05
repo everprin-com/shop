@@ -3,15 +3,13 @@ import ProductList from "../ProductList/ProductList";
 import SideBar from "../SideBar/SideBar";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import styles from "./styles";
 import Header from "../Header/Header";
-import ChooseSize from "../ChooseSize/ChooseSize";
-import Dialog from "../Dialog/Dialog";
 import Footer from "../Footer/Footer";
 import { isEqualArr } from "../Utils";
 import WidgetPanel from "../HelpWidget/WidgetPanel";
 import TitleComponent from "../TitleComponent";
+import DialogSwitcher from "../DialogSwitcher";
 
 const mapStateToProps = state => {
   return {
@@ -53,7 +51,7 @@ class CategoryPage extends React.PureComponent {
 
   redirectToCategory = category => {
     this.props.resetProducts();
-    document.title = `Модные ${category.toLocaleUpperCase()} 2019 - купить в kilo. Отличные цены. Большой Ассортимент`;
+    document.title = `Модные ${category.toLocaleUpperCase()} 2020 - купить в kilo. Отличные цены. Большой Ассортимент`;
     this.props.history.push(`/categoryPage/${category}`);
   };
 
@@ -67,7 +65,9 @@ class CategoryPage extends React.PureComponent {
     const { category } = this.props.match.params;
     return (
       <div className={classes.root}>
-        <TitleComponent title={`Модные ${category.toLocaleUpperCase()} 2019 - купить в kilo. Отличные Цены. Большой Ассортимент`} />
+        <TitleComponent
+          title={`Модные ${category.toLocaleUpperCase()} 2020 - купить в kilo. Отличные Цены. Большой Ассортимент`}
+        />
         <Header
           withSmallMenu
           resetFilterWithoutSex
@@ -86,7 +86,12 @@ class CategoryPage extends React.PureComponent {
           />
         </div>
         <Footer />
-        <Dialog title="Выберите размер" Component={ChooseSize} type="size" />
+        <DialogSwitcher
+          dialogs={[
+            { title: "Выберите размер", type: "size" },
+            { title: "Нам жаль, что Вы нас покидаете...", type: "exit" },
+          ]}
+        />
       </div>
     );
   }

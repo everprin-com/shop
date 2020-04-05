@@ -6,8 +6,7 @@ import Header from "../Header/Header";
 import Home from "../Home/Home";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
-import ChooseSize from "../ChooseSize/ChooseSize";
-import Dialog from "../Dialog/Dialog";
+import DialogSwitcher from "../DialogSwitcher";
 import Footer from "../Footer/Footer";
 import WidgetPanel from "../HelpWidget/WidgetPanel";
 import styles from "./styles";
@@ -51,7 +50,12 @@ class App extends React.PureComponent {
             <Footer />
           </Grid>
         </Grid>
-        <Dialog title="Выберите размер" Component={ChooseSize} type="size" />
+        <DialogSwitcher
+          dialogs={[
+            { title: "Выберите размер", type: "size" },
+            { title: "Нам жаль, что Вы нас покидаете...", type: "exit" }
+          ]}
+        />
       </div>
     );
   }
