@@ -42,6 +42,7 @@ class ChooseSize extends React.PureComponent {
             size.map(sizeItem => {
               return (
                 <Button
+                  key={sizeItem}
                   variant="outlined"
                   className={`${classes.sizeItem} ${
                     activeSize === sizeItem ? classes.active : ""
