@@ -273,7 +273,7 @@ class Item < ActiveRecord::Base
 
   def self.delete_bad_products
     Item.where(name: Item::BAD_PRODUCTS_NAME).delete_all
-    Item.where(name: Item::BAD_SLUG_IDS).delete_all
+    Item.where(slug_id: Item::BAD_SLUG_IDS).delete_all
     Item.where(category: Item::BAD_CATEGORIES).delete_all
   end
 
