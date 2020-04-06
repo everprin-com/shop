@@ -5,6 +5,7 @@ import AboutProduct from "../AboutProduct/AboutProduct";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import HighQualityIcon from "@material-ui/icons/HighQuality";
 import Forward10Icon from "@material-ui/icons/Forward10";
+import Worning from "../Worning";
 
 const ProductСharacteristic = ({ characteristicPorps }) => {
   const {
@@ -16,7 +17,8 @@ const ProductСharacteristic = ({ characteristicPorps }) => {
     activeSize,
     data = {},
     openTableSize,
-    putToCart
+    putToCart,
+    availableProduct
   } = characteristicPorps;
 
   return (
@@ -36,31 +38,37 @@ const ProductСharacteristic = ({ characteristicPorps }) => {
           <span>Гарантия возврата</span>
         </div>
       </div>
-      <div>
-        <ProductItemSizes
-          sizes={size}
-          id={id}
-          activeSize={activeSize}
-          format="big"
-        />
-      </div>
-      <div>
-        {data.group != "accessories" && (
-          <span className={classes.tableSize} onClick={openTableSize}>
-            Таблица размеров
-          </span>
-        )}
-      </div>
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        // onClick={isInCart ? openCart : this.putToCart}
-        onClick={putToCart}
-      >
-        Купить
-        {/* {isInCart ? "Товар уже в корзине" : "Добавить в корзину"} */}
-      </Button>
+      {availableProduct === "t" ? (
+        <div>
+          <div>
+            <ProductItemSizes
+              sizes={size}
+              id={id}
+              activeSize={activeSize}
+              format="big"
+            />
+          </div>
+          <div>
+            {data.group != "accessories" && (
+              <span className={classes.tableSize} onClick={openTableSize}>
+                Таблица размеров
+              </span>
+            )}
+          </div>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            // onClick={isInCart ? openCart : this.putToCart}
+            onClick={putToCart}
+          >
+            Купить
+            {/* {isInCart ? "Товар уже в корзине" : "Добавить в корзину"} */}
+          </Button>
+        </div>
+      ) : (
+        <Worning />
+      )}
       <AboutProduct productData={productData} />
     </div>
   );

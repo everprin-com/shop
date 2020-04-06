@@ -52,11 +52,11 @@ const styles = theme => ({
       flexDirection: "row"
     },
     header: {
-      // position: 'sticky',
-      top: "0px",
+      top: 0,
       position: "fixed",
       zIndex: 5,
-      background: "#ffff",
+      background: "#fafafa",
+      padding: "10px 0 0 0"
     },
     overflow: {
       overflow: "visible !important",

@@ -15,6 +15,7 @@ import styles from "./styles";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import TitleComponent from "../TitleComponent";
 import { validationConfig } from "../Utils";
+import DialogSwitcher from "../DialogSwitcher";
 
 const mapStateToProps = state => {
   return {
@@ -240,10 +241,8 @@ class OrderForm extends React.PureComponent {
           <div className={classes.cartMicro}>
             <CartMicro />
           </div>
-          <Dialog
-            title="Ваш заказ принят"
-            Component={SuccessOrder}
-            type="successOrder"
+          <DialogSwitcher
+            dialogs={[{ title: "Ваш заказ принят", type: "successOrder" }]}
           />
           <CartWithDialog orderForm />
         </div>
