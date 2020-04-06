@@ -150,8 +150,9 @@ class Item < ActiveRecord::Base
       "Разное",
     ]
   }
+
   DROP_SHIPPER = [
-    "Issaplus", "Tos", "Ager", "Villomi", "Garne", "Favoritti", "Olla"
+    "Favoritti", "Tos", "Ager", "Garne", "Villomi", "Issaplus", "Modus"
   ]
 
   SYNONIM_NAMES_CATEGORIES = {
