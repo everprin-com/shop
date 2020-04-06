@@ -86,12 +86,15 @@ class Item < ActiveRecord::Base
   UNISEX_CATEGORIES = [ "унисекс", "Средство по уходу за обувью"]
 
   BAD_CATEGORIES = [
-    "Для девочек", "Для мальчиков", "Мужская одежда", "Замшевые", "Шляпы", "Митенки", "Носки", "Детская одежда", "Детские платья", "Детская обувь",
+    "Для девочек", "Для мальчиков", "Мужская одежда", "Замшевые", "Шляпы", "Митенки", "Носки",
+    "Детская одежда", "Детские платья", "Детская обувь", "Лоферы",
   ]
 
   BAD_SLUG_IDS = [
     "botinki_zimnie_na_kabluke_chernyj", "noski_zhenskie_21p011_1_sine_belyj_sine_belyj",
-    "zhenskie_chernye_zamshewye_lofery_chernyj",
+    "zhenskie_chernye_zamshewye_lofery_chernyj", "rubashka_113rom92_kirpichnyj_kirpichnyj",
+    "rubashka_zeg_113r197_belo_salatowyj_belo_salatowyj", "rubashka_113r002_goluboj_goluboj",
+    "rubashka_113rom97_persikowyj_persikowyj",
   ]
 
   BAD_PRODUCTS_NAME = [
@@ -224,6 +227,7 @@ class Item < ActiveRecord::Base
   end
 
   def self.update_size_same_names
+    # Garne = Prices
     items =  Item.where.not(drop_ship: "Prices")
     names = items.select('items.name').group('items.name').having('count(items.name) > 1').map(&:name)
     names.map do |name|
