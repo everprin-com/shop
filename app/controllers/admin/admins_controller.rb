@@ -15,13 +15,6 @@ module Admin
       @orders = Order.order("created_at").includes(:statistic, :line_items).all
     end
 
-    def convert_xml
-      Rake::Task['parser_xml:parser_xml'].execute
-      Rake::Task['sitemap:generate'].execute
-      #{}%x[rake parser_xml:parser_xml]
-      redirect_to "/admin/admins"
-    end
-
     def show_test
       #system "bundle exec rspec spec/models/item_spec.rb --format html --out app/views/test_html/rspec_results.html"
       render file: "test_html/show_test.html"
@@ -34,24 +27,16 @@ module Admin
       redirect_to "/admin/admins/show_test"
     end
 
-    def convert_xls
-      files = Dir.entries("public/excel/parser")
-      files.delete(".")
-      files.delete("..")
-      files.map do |file_name|
-        #file = Roo::Spreadsheet.open("public/excel/parser/#{file_name}")
-        file = File.open("public/excel/parser/#{file_name}", "r")
-        drop_ship_name = file_name.split("_")[0]
-        artwork = ActionDispatch::Http::UploadedFile.new(
-          filename: file_name,
-          content_type: "application/vnd.ms-excel",
-          tempfile: file,
-        )
-        @items_import = ItemsImport.new({:file => artwork}, drop_ship_name)
-        @items_import.save
-      end
-      NormalizerParse.normalizer_products
+    def  convert_xls_to_db
+      Parser::Convertor.convert_xls_to_db
       Rake::Task['sitemap:generate'].execute
+      redirect_to "/admin/admins"
+    end
+
+    def convert_xml_to_db
+      Parser::Convertor.convert_xml_to_db
+      Rake::Task['sitemap:generate'].execute
+      #{}%x[rake parser_xml:parser_xml]
       redirect_to "/admin/admins"
     end
 

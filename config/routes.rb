@@ -26,8 +26,8 @@ Rails.application.routes.draw do
         get 'show_test' => 'admins#show_test'
         get 'lounch_test' => 'admins#lounch_test'
         get 'upload_xml' => 'admins#upload_xml'
-        get 'convert_xls' => 'admins#convert_xls'
-        get 'convert_xml' => 'admins#convert_xml'
+        get 'convert_xls_to_db' => 'admins#convert_xls_to_db'
+        get 'convert_xml_to_db' => 'admins#convert_xml_to_db'
       end
     end
     get 'configurable/edit', as: 'admin_configurable_edit'
