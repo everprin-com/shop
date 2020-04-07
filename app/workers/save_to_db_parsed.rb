@@ -1,4 +1,4 @@
-class HardWorker
+class SaveToDbParsed
   include Sidekiq::Worker
 
   def perform(*args)
@@ -15,7 +15,8 @@ class HardWorker
       download = open(link)
       IO.copy_stream(download, "public/excel/parser/#{link.split('/')[-1]}")
     end
-    Parser::Convertor.convert_xls_to_db
-    Parser::Convertor.convert_xml_to_db
+    #Parser::Convertor.convert_xls_to_db
+    system "bundle exec rake parser_xml:parser_xml"
+    #Parser::Convertor.convert_xml_to_db
   end
 end
