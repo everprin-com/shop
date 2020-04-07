@@ -30,7 +30,9 @@ gem 'omniauth-google-oauth2', :require => "omniauth-google-oauth2"
 gem 'pg_search'#, '~> 1.0.5'
 gem 'omniauth-oauth2'#, '~> 1.3.1'
 gem 'omniauth-digitalocean'
-
+gem 'redis'
+gem 'sidekiq'
+gem 'sidekiq-cron'
 gem "nokogiri"#, "1.10.3"
 gem "pkg-config"
 

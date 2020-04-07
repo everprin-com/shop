@@ -14,7 +14,7 @@ namespace :create_fid do
       #sheet = book.worksheet 0
       #sheet2 = book.create_worksheet :name => 'My Second Worksheet'
       iter = 0
-      drop_shipers = ["Favoritti", "Tos", "Vzuto", "Ager", "Garne", "Villomi", "Issaplus", "Modus"]
+      drop_shipers = Item::DROP_SHIPPER
       drop_shipers.each do |drop_shiper|
         items = Item.where(drop_ship: drop_shiper, available_product: "t")
         new_book.worksheet(0).insert_row(0, ["Page URL", "Custom label"])
