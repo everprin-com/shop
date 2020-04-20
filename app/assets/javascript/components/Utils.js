@@ -63,11 +63,11 @@ const validationConfig = {
   regExp: {
     name: /^[а-яєії"a-z -]{6,24}$/i,
     phone: /^[0-9 +-]{7,16}$/i,
-    city: /^[а-яєії" .(),]{3,24}$/i,
-    departament: /^[а-яєії"0-9 a-z.()№,:;'/-]{2,120}$/i,
+    city: /^.{3,24}$/i,
+    departament: /^.{2,}$/i,
     author: /^.{3,50}$/i,
     clientInfo: /^.{7,50}$/i,
-    description: /.{5,}\n*/i
+    description: /^.{2,}$/i
   }
 };
 
@@ -93,6 +93,15 @@ const validateData = (data, setErrors, errors = {}) => {
   return withoutErrors;
 };
 
+const formateName = name => {
+  try {
+    var newName = name.replace(/\s.+?-.+?\s/g, " ").replace(/\d/g, "");
+  } catch {
+    var newName = name;
+  }
+  return newName;
+};
+
 export {
   getSizes,
   isEqualArr,
@@ -100,5 +109,6 @@ export {
   textWithDots,
   setPageWidth,
   validationConfig,
-  validateData
+  validateData,
+  formateName
 };

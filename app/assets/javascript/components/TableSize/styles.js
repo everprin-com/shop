@@ -23,7 +23,7 @@ const styles = {
     width: "100%",
     overflowX: "auto",
     maxWidth: 400,
-    padding: 10,
+    padding: 10
   },
   table: {
     minWidth: 405
@@ -33,16 +33,17 @@ const styles = {
   },
   sizeDescriptionWrap: {
     width: 500,
-    padding: 10,
+    padding: 10
   },
   sizeDescriptionContent: {
-    whiteSpace: "pre-wrap",
+    whiteSpace: "pre-wrap"
   },
   sizeDescriptionTitle: {
-    fontWeight: bold,
+    fontWeight: bold
   },
   sideBarWrap: {
     fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
+    marginLeft: 150
   }
 };
 
