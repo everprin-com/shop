@@ -130,3 +130,4 @@ class NormalizerParse
     Item.where(slug_id: item.slug_id).delete_all
   end
 end
+
