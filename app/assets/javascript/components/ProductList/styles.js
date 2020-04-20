@@ -37,7 +37,7 @@ const styles = theme => ({
   },
   wraper: {
     zIndex: 2,
-    marginTop: 55,
+    // marginTop: 55,
   },
   title: {
     textAlign: "center",
