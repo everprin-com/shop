@@ -45,7 +45,7 @@ class NormalizerParse
           size
         end
       end
-    converted_size&.flatten&.uniq
+    converted_size&.flatten&.uniq - ["."]
   end
 
   def self.create_slug(name, color)
