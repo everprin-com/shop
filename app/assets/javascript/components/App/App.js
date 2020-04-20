@@ -25,7 +25,7 @@ class App extends React.PureComponent {
     this.props.scrolling && this.scrolling();
   }
 
-  scrolling = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  scrolling = () => window.scrollTo(0, 0)
 
   redirectToOrderForm = () => this.props.history.push("/orderform");
 

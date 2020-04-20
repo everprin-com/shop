@@ -11,8 +11,14 @@ const CustomTabs = ({
   slugId,
   category,
   activeTab,
-  handleTabChange
+  handleTabChange,
+  commentsArr = [],
+  amount
 }) => {
+
+  const formatNumberTo = (val, number) => (!!val ? val : number);
+  const commonAmount = commentsArr.length + formatNumberTo(amount, 0);
+
   return (
     <div className="custom-tabs">
       <Tabs
@@ -23,7 +29,7 @@ const CustomTabs = ({
         aria-label="disabled tabs example"
       >
         <Tab label="Характеристика" className="custom-tab" />
-        <Tab label="Отзывы" className="custom-tab" />
+        <Tab label={`Отзывы (${commonAmount})`} className="custom-tab" />
         <Tab label="Доставка и Оплата" className="custom-tab" />
       </Tabs>
       {activeTab == 0 && (

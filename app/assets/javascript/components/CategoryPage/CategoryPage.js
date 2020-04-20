@@ -47,7 +47,7 @@ class CategoryPage extends React.PureComponent {
     // });
   }
 
-  scrolling = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  scrolling = () => window.scrollTo(0, 0)
 
   redirectToCategory = category => {
     this.props.resetProducts();
