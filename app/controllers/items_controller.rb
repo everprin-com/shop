@@ -6,7 +6,7 @@ class ItemsController < ApplicationController
   def index
     items = Item.where(available_product: true).all
     #used_category = params[:search_category].present? ? params[:search_category] : params[:search_category_translated]
-    #generate_filters = generate_filters(items, used_category)
+    generate_filters = generate_filters(items, used_category)
     #items = items.where(category: used_category) if used_category
     #items = items.where(category: params[:search_category]) if params[:search_category].present?
     items = Item.all.name_search(params[:search_name]) if params[:search_name].present?
@@ -22,7 +22,7 @@ class ItemsController < ApplicationController
     items = items.where('sex && ARRAY[?]::varchar[]', params[:sex]) if params[:sex].present?
     items = items.where('season && ARRAY[?]::varchar[]', params[:season]) if params[:season].present?
     items = items.order('random()') if params[:shuffled_products].present?
-    generate_filters = generate_filters(items, params[:search_category])
+    # generate_filters = generate_filters(items, params[:search_category])
     items = items.paginate(page: params[:page], per_page: per_page(params[:per_page])).includes([:product_comments, :average_voted])
     serialized_items = items.map { |item| ItemSerializer.new(item) }
     render json: { total_pages: items.total_pages, filters_options: generate_filters, items: serialized_items }

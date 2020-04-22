@@ -279,8 +279,8 @@ class Item < ActiveRecord::Base
   end
 
   def self.generate_filters(all_items, search_category={})
-    # items = search_category.present? ? all_items.where(category: search_category) : all_items
-    items = all_items
+    items = search_category.present? ? all_items.where(category: search_category) : all_items
+    # items = all_items
     prices = items.map { |item| item.price }
     seasons = items.map(&:season)&.flatten&.compact&.uniq
     {
