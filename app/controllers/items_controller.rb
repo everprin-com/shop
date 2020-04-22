@@ -1,11 +1,11 @@
 
 class ItemsController < ApplicationController
 
-  caches_page :index, :generate_filters
+  # caches_page :index, :generate_filters
 
   def index
     items = Item.where(available_product: true).all
-    #used_category = params[:search_category].present? ? params[:search_category] : params[:search_category_translated]
+    used_category = params[:search_category].present? ? params[:search_category] : params[:search_category_translated]
     generate_filters = generate_filters(items, used_category)
     #items = items.where(category: used_category) if used_category
     #items = items.where(category: params[:search_category]) if params[:search_category].present?
