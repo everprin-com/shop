@@ -87,7 +87,7 @@ class Item < ActiveRecord::Base
 
   BAD_CATEGORIES = [
     "Для девочек", "Для мальчиков", "Мужская одежда", "Замшевые", "Шляпы", "Митенки", "Носки",
-    "Детская одежда", "Детские платья", "Детская обувь", "Лоферы",
+    "Детская одежда", "Детские платья", "Детская обувь", "Лоферы", "Стильный", "Женский",
   ]
 
   BAD_SLUG_IDS = [
@@ -200,7 +200,7 @@ class Item < ActiveRecord::Base
        "Мантия",  "Дубленка",
      ],
     "Футболки": ["Футболки", "Футболка",],
-    "Шарфы": ["Шарф", "Шарфы, хомуты",],
+    "Шарфы": ["Шарф", "Шарфы, хомуты", "Шарфы", ],
     "Кепки": ["Кепка", "Кепки",],
     "Перчатки": ["Перчатки", "Мужские перчатки", "Женские перчатки", ],
     "Свитера": ["Свитера",  "Свитер", "Джемпер", ],
@@ -279,8 +279,8 @@ class Item < ActiveRecord::Base
   end
 
   def self.generate_filters(all_items, search_category={})
-    # items = search_category.present? ? all_items.where(category: search_category) : all_items
-    items = all_items
+    items = search_category.present? ? all_items.where(category: search_category) : all_items
+    # items = all_items
     prices = items.map { |item| item.price }
     seasons = items.map(&:season)&.flatten&.compact&.uniq
     {
