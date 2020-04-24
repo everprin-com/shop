@@ -6,9 +6,11 @@ import ListItem from "@material-ui/core/ListItem";
 import FilterSex from "../filter/FilterSex";
 import FilterPrice from "../filter/FilterPrice";
 import FilterGeneral from "../filter/FilterGeneral";
+import FilterColor from "../filter/FilterColor";
+import FilterSeason from "../filter/FilterSeason";
+import FilterSize from "../filter/FilterSize";
 import { connect } from "react-redux";
 import styles from "./styles";
-import colorMap from "../constants/colorMap";
 import SideBarPanel from "./SideBarPanel";
 
 const mapStateToProps = state => {
@@ -81,43 +83,26 @@ class SideBar extends React.PureComponent {
             </ListItem>
 
             <ListItem className={classes.item}>
-              <FilterGeneral
+              <FilterSize
                 title="Размеры"
                 keyFilter="search_size"
-                style={{ maxHeight: "130px", width: "100%", overflowY: "auto" }}
                 filterOptions={filterOptions.size}
-                isList
               />
             </ListItem>
 
-            {/* <ListItem className={classes.item}>
-              <FilterGeneral
-                title="Категории"
-                keyFilter="search_category"
-                style={{ maxHeight: "130px", overflowY: "auto" }}
-                filterOptions={categories}
-                isList
-              />
-            </ListItem> */}
-
             <ListItem className={classes.item}>
-              <FilterGeneral
+              <FilterColor
                 title="Цвета"
                 keyFilter="search_color"
-                style={{ maxHeight: "130px", overflowY: "auto" }}
                 filterOptions={filterOptions.color}
-                isList
-                withMap={colorMap}
               />
             </ListItem>
 
             <ListItem className={classes.item}>
-              <FilterGeneral
+              <FilterSeason
                 title="Сезон"
                 keyFilter="season"
-                style={{ maxHeight: "130px", overflowY: "auto" }}
                 filterOptions={filterOptions.season}
-                isList
               />
             </ListItem>
           </div>

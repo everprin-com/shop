@@ -11,7 +11,8 @@ const mapStateToProps = state => {
     products: state.product,
     card: state.card,
     loading: state.general.loading,
-    firstEnter: state.general.firstEnter
+    firstEnter: state.general.firstEnter,
+    showNoProducts: state.filterData.showNoProducts
   };
 };
 
@@ -21,7 +22,8 @@ const mapDispatchToProps = dispatch => {
       dispatch({ type: "REQUEST_AND_ADD_PRODUCTS", params }),
     handlePagination: () => dispatch({ type: "HANDLE_PAGINATION" }),
     resetProducts: () => dispatch({ type: "RESET_PRODUCTS" }),
-    resetFilter: () => dispatch({ type: "RESET_FILTER_WITHOUT_SEX_AND_REQUEST" })
+    resetFilter: () =>
+      dispatch({ type: "RESET_FILTER_WITHOUT_SEX_AND_REQUEST" })
     // fistEnterOff: () => dispatch({ type: "FIRST_ENTER_OFF" })
   };
 };
@@ -100,7 +102,7 @@ class ProductList extends React.PureComponent {
   }
 
   render() {
-    const { classes, loading, forCart, title } = this.props;
+    const { classes, loading, forCart, title, showNoProducts } = this.props;
     const windowWidthLess1000 = window.innerWidth < 1000;
     return (
       <div className={classes.wraper}>
@@ -108,6 +110,17 @@ class ProductList extends React.PureComponent {
         <div
           className={`${forCart ? classes.rootCart : classes.root} productList`}
         >
+          {showNoProducts ? (
+            <div className="no-products-block worning">
+              <div className="no-products-block__title">
+                К сожалению по текущим настройкам фильтра товаров нет((
+              </div>
+              <div className="no-products-block__recommendation">
+                Вы можете выбрать <strong>другие настройки фильтра</strong> или{" "}
+                <strong>очистить фильтр/ы</strong>
+              </div>
+            </div>
+          ) : null}
           {this.renderProductList(windowWidthLess1000)}
         </div>
         {loading && (

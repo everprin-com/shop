@@ -21,7 +21,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     paddingLeft: 10,
-    margin: 10
+    margin: 5
   },
   checkbox: {
     padding: 0
@@ -43,7 +43,7 @@ const styles = {
     }
   },
   contentWrap: {
-    padding: 10,
+    padding: "5px 15px",
     maxHeight: 130,
     overflowY: "auto"
   },
