@@ -77,8 +77,8 @@ task :deploy do
     invoke :'rails:db_migrate'
     #npm rebuild node-sass
     command %{npm rebuild node-sass}
-    #command %{yarn}
-    command %{yarn upgrade}
+    command %{yarn}
+    # command %{yarn upgrade}
     command %{bin/webpack --mode=production}
     command %{RAILS_ENV=production bundle exec rake sitemap:generate}
     #command %{RAILS_ENV=production bundle exec sidekiq -d -L log/sidekiq.log -C config/sidekiq.yml -e production}
