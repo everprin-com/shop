@@ -40,7 +40,7 @@ function* checkSetSize(action) {
 function* getFilteredProducts() {
   try {
     const state = yield select();
-    yield put({ type: "SCROLL_ON" });
+    window.scrollTo(0,0)
     if (Object.values(state.filterData.filter).flat(2).length > 0) {
       yield put({ type: "FIRST_ENTER_OFF" });
     } else {
@@ -65,6 +65,11 @@ function* getFilteredProducts() {
       },
       true
     );
+    if (products && products.items && !products.items.length){
+      yield put({ type: "SHOW_NO_PRODUCTS_IN_CURRENT_FILTER" });
+    } else {
+      yield put({ type: "HIDE_NO_PRODUCTS_IN_CURRENT_FILTER" });
+    }
     yield put({
       type: "CHANGE_LAST_PARAMS",
       lastRequestParams: {
@@ -73,6 +78,7 @@ function* getFilteredProducts() {
         page: 1
       }
     });
+    yield put({ type: "CHANGE_LAST_PAGE", page: products.total_pages });
     yield put({ type: "RESET_AND_ADD_PRODUCTS", products: products.items });
     yield put({
       type: "ADD_FILTER_OPTIONS",
@@ -117,8 +123,8 @@ function* requestAndAddProducts(action = {}, params = { page: 1 }) {
 function* handlePagination() {
   const state = yield select();
   const lastParams = state.general.lastRequestParams;
-  if (lastParams.page >= state.general.lastPage) return;
   if (!lastParams) return;
+  if (lastParams.page >= state.general.lastPage) return;
   const params = { ...lastParams, page: ++lastParams.page };
   yield requestAndAddProducts({}, params);
 }

@@ -12,6 +12,7 @@ const colorMap = {
  white: "Белый",
  yellow: "Желтый",
  printed: "Принт",
+ orange: "Оранжевый",
 }
 
 export default colorMap
