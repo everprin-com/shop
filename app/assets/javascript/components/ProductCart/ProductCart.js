@@ -4,14 +4,11 @@ import Header from "../Header/Header";
 import AboutProduct from "../AboutProduct/AboutProduct";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import DialogWindow from "../Dialog/Dialog";
-import ChooseSize from "../ChooseSize/ChooseSize";
 import Footer from "../Footer/Footer";
 import fetchGet from "../api/fetchGet";
 import Slider from "../Slider/Slider";
 import ProductList from "../ProductList/ProductList";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
-import SliderS from "../Slider/SliderS";
 import TableSize from "../TableSize/TableSize";
 import styles from "./styles";
 import WidgetPanel from "../HelpWidget/WidgetPanel";
@@ -19,9 +16,10 @@ import KiloLoading from "../KiloLoading";
 import TitleComponent from "../TitleComponent";
 import CustomTabs from "../CustomTabs";
 import advantages from "../constants/advantages";
-import ProductWhriteReview from "../ProductWhriteReview";
 import Stars from "../Stars";
 import SocialIcon from "../SocialIcon";
+import DialogSwitcher from "../DialogSwitcher";
+import { formateName } from "../Utils"
 
 const mapStateToProps = state => {
   return {
@@ -107,7 +105,7 @@ class ProductCart extends React.PureComponent {
     });
   };
 
-  scrollToTop = () => window.scroll({ top: 0, behavior: "smooth" });
+  scrollToTop = () => window.scrollTo(0,0)
 
   putToCart = () => {
     const { products, putToCart, match } = this.props;
@@ -188,17 +186,18 @@ class ProductCart extends React.PureComponent {
       sex,
       comments
     } = this.props;
-    const { loading, data } = this.state;
+    const { loading } = this.state;
 
     if (loading) {
       return <KiloLoading />;
     }
 
+    const { data } = this.state
     const { id } = data;
     const productData = products.find(product => product.id == id) || {};
-    const { size, picture, name, category, price } = productData;
+    const { size, picture, name, category, price, available_product } = productData;
     const activeSize = productData.activeSize;
-    const isInCart = card.data.some(cardItem => cardItem.id == id);
+    // const isInCart = card.data.some(cardItem => cardItem.id == id);
     const commentsArr = comments.data.filter(
       comment => comment.slug_id == match.params.id
     );
@@ -229,8 +228,8 @@ class ProductCart extends React.PureComponent {
           rate={
             data.average_voted && Math.round(data.average_voted.average_mark)
           }
-          commentsArr={commentsArr}
           className="product-rate"
+          commentsArr={commentsArr}
           amount={data.average_voted && data.average_voted.count_voted}
           withLabel
           handleTabChange={this.handleTabChange}
@@ -283,8 +282,11 @@ class ProductCart extends React.PureComponent {
                   activeSize,
                   data: this.state.data,
                   openTableSize,
-                  putToCart: this.putToCart
+                  putToCart: this.putToCart,
+                  availableProduct: available_product,
                 }}
+                commentsArr={commentsArr}
+                amount={data.average_voted && data.average_voted.count_voted}
                 slugId={this.props.match.params.id}
                 category={this.state.data && this.state.data.category}
                 reviewsPorps={
@@ -316,22 +318,22 @@ class ProductCart extends React.PureComponent {
           title="С этим товаром смотрят"
         />
         <Footer redirectToRoot={this.redirectToRoot} />
-        <DialogWindow
-          title="Выберите размер"
-          Component={ChooseSize}
-          type="size"
-        />
-        <DialogWindow
-          title="Галерея товара"
-          Component={() => SliderS({ picture, classes })}
-          type="slider"
-        />
-        <DialogWindow
-          title="Отзыв о товаре"
-          Component={ProductWhriteReview}
-          type="writeReview"
-          className="write-review-dialog"
-          props={{ slugId: this.props.match.params.id, category }}
+        <DialogSwitcher
+          dialogs={[
+            { title: "Выберите размер", type: "size" },
+            {
+              title: "Галерея товара",
+              props: { picture, classes },
+              type: "slider"
+            },
+            {
+              title: "Отзыв о товаре",
+              type: "writeReview",
+              className: "write-review-dialog",
+              props: { slugId: this.props.match.params.id, category }
+            },
+            { title: "Нам жаль, что Вы нас покидаете...", type: "exit" }
+          ]}
         />
         <TableSize
           dropShip={this.state.data && this.state.data.drop_ship}

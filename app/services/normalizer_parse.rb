@@ -3,6 +3,11 @@ class NormalizerParse
   def self.delete_null(imported_items)
     Item::CANT_BE_NULL.each do |field|
       imported_items.reject! do |item|
+        # can see deleted
+        # if item[field.to_sym] == nil || item[:picture].length == 0
+        #   p "new!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1"
+        #   p item
+        # end
         item[field.to_sym] == nil || item[:picture].length == 0
       end
     end
@@ -11,13 +16,17 @@ class NormalizerParse
   def self.normalizer_products
     Item.update_size_same_items
     Item.delete_bad_products
-    Item.delete_same_slug_ids
     Item.create_header
     FilterOption.delete_all
-    FilterOption.create!(Item.generate_filters(Item.all))
+    FilterOption.create!(Item.generate_filters(Item.where(available_product: "t").all))
   end
 
   def self.conver_size_to_array(size)
+    size = "L 44/46"
+    # make from "L 44/46" ["L 44/46"]
+    splited_size = size.scan(/\w+/)
+    return [size] if Item::ROME_SIZE.include?(splited_size[0]) && Float(splited_size[1])
+
     return [] unless size
     converted_size = size.is_a?(Float) ? [size.round.to_s] : size.to_s.split(",")&.flatten
     converted_size =
@@ -25,7 +34,7 @@ class NormalizerParse
         size.split("/")
       end
     #  make from "XXS-S" => ["XXS", "XS", "S"]
-    if !size.is_a?(Float) && size.include?("-") && Item::ROME_SIZE.include?(size.split("-")[0])
+    if !Float(size) && size.include?("-") && Item::ROME_SIZE.include?(size.split("-")[0])
       range_size = size.split("-")
       first_size = Item::ROME_SIZE.index(size.split("-")[0])
       last_size = Item::ROME_SIZE.index(size.split("-")[1])
@@ -39,19 +48,20 @@ class NormalizerParse
     # make from "34-36" => ["34", "35", "36"]
     converted_size =
       converted_size&.flatten.map do |size|
+        size = size.remove("мес")
         if size.include?("-") && size.size > 1 && size.split("-")[0].to_i != 0 # one "-" && prevent "S-M"
           (size.split("-")[0]..size.split("-")[1])&.to_a
         else
           size
         end
       end
-    converted_size&.flatten&.uniq
+    converted_size&.flatten&.uniq - ["."]
   end
 
   def self.create_slug(name, color)
     return if !name
     translated_slug = Translit.convert(name + " " + ( color || "color"), :english)
-    translated_slug&.gsub(/ |-/,'_')&.remove("'", ".", ",", "+", "(", ")", "&quot;", "&")&.gsub("/", "_")&.gsub("__","_").downcase
+    translated_slug&.gsub(/ |-/,'_')&.remove("'", "#", ".", ",", "+", "(", ")", "&quot;", "&")&.gsub("/", "_")&.gsub("__","_").downcase
   end
 
   def self.delete_null_item(item)
@@ -105,7 +115,6 @@ class NormalizerParse
     elements.select {|e| counts.key?(e) }
   end
 
-
   def self.capitalize_item(item)
      Item::CAPITALIZE_FIELDS.each do |field|
        item.public_send("#{field}=", item.public_send("#{field}")&.capitalize)
@@ -118,8 +127,16 @@ class NormalizerParse
     end
   end
 
-  def self.delete_old_drop_ship(imported_items)
+  def self.make_unvaliable_old_drop_ship(imported_items)
+    # byebug
     old_drop_ships = imported_items.map(&:drop_ship).uniq
-    Item.where(drop_ship: old_drop_ships).delete_all
+    old_slug_ids = imported_items.map(&:slug_id)
+    Item.where(slug_id: old_slug_ids).delete_all
+    Item.where(drop_ship: old_drop_ships).update_all(available_product: false)
+  end
+
+  def self.make_unvaliable_old_item(item)
+    Item.where(slug_id: item.slug_id).delete_all
   end
 end
+

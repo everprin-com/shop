@@ -16,11 +16,12 @@ namespace :create_comments do
       #   "man"
       # end
     values.each do |key, value|
+      p key
       comments_count = value["comments"].length
       # p "key"
       # p key
       # p comments_count
-      items = Item.where('sex && ARRAY[?]::varchar[]', sex).where(category: key.to_s)
+      items = Item.where('sex && ARRAY[?]::varchar[]', sex).where(category: key.to_s, available_product: "t")
       if !items.present?
         p "empty"
         p key.to_s

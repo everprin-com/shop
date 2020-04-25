@@ -8,6 +8,14 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { connect } from "react-redux";
 import styles from "./styles";
+import ChooseSize from "../ChooseSize/ChooseSize";
+import ExitPopup from "../ExitPopup";
+import ProductWhriteReview from "../ProductWhriteReview";
+import Delivery from "../conditions/Delivery";
+import Return from "../conditions/Return";
+import Payment from "../conditions/Payment";
+import SuccessOrder from "../SuccessOrder/SuccessOrder";
+import SliderS from "../Slider/SliderS";
 
 const mapTypeAndActionDiolog = {
   close: {
@@ -17,7 +25,8 @@ const mapTypeAndActionDiolog = {
     delivery: "CLOSE_DELIVERY_WINDOW",
     return: "CLOSE_RETURN_WINDOW",
     payment: "CLOSE_PAYMENT_WINDOW",
-    writeReview: "CLOSE_WRITEREVIEW_WINDOW"
+    writeReview: "CLOSE_WRITEREVIEW_WINDOW",
+    exit: "CLOSE_EXIT_WINDOW",
   },
   open: {
     size: "OPEN_SET_SIZE_WINDOW",
@@ -26,9 +35,21 @@ const mapTypeAndActionDiolog = {
     delivery: "SHOW_DELIVERY_WINDOW",
     return: "SHOW_RETURN_WINDOW",
     payment: "SHOW_PAYMENT_WINDOW",
-    writeReview: "SHOW_WRITEREVIEW_WINDOW"
+    writeReview: "SHOW_WRITEREVIEW_WINDOW",
+    exit: "SHOW_EXIT_WINDOW",
   }
 };
+
+const mapTypeAndComponent = {
+  size: ChooseSize,
+  successOrder: SuccessOrder,
+  slider: SliderS,
+  delivery: Delivery,
+  return: Return,
+  payment: Payment,
+  writeReview: ProductWhriteReview,
+  exit: ExitPopup,
+}
 
 const mapStateToProps = state => {
   return {
@@ -47,13 +68,15 @@ class DialogWindow extends React.PureComponent {
     const {
       classes,
       title,
-      Component,
       dialog,
       closeDialog,
       type,
       props,
       className
     } = this.props;
+
+    const Component = mapTypeAndComponent[type]
+
     return (
       <Dialog
         onClose={() => closeDialog(type)}

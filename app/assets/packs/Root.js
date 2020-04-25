@@ -6,12 +6,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import reducers from "../javascript/reducers";
 import fetchGet from "../javascript/components/api/fetchGet";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { createStore, applyMiddleware } from "redux";
-import createSagaMiddleware from "redux-saga";
-import rootSaga from "../javascript/components/saga";
+import store from "../javascript/store";
 import ScrollToTopRoute from "../javascript/components/ScrollToTopRoute/ScrollToTopRoute";
 import { setPageWidth } from "../javascript/components/Utils";
 import {
@@ -21,25 +18,20 @@ import {
   DRegistrationForm,
   DConvertXml,
   DCategoryPage,
-  DTest,
-} from "../javascript/components/mainPages"
-import '../components'
-
-// create the saga middleware
-const sagaMiddleware = createSagaMiddleware();
-
-const store = createStore(reducers, applyMiddleware(sagaMiddleware));
-
-sagaMiddleware.run(rootSaga);
+  DTest
+} from "../javascript/components/mainPages";
+import "../components";
 
 window.store = store;
 
-setPageWidth(store)
+setPageWidth(store);
 try {
-  window.addEventListener('resize', () => setPageWidth(store)) 
-} catch(e) {
-  window.onload('resize', () => setPageWidth(store)) 
+  window.addEventListener("resize", () => setPageWidth(store));
+} catch (e) {
+  window.onload("resize", () => setPageWidth(store));
 }
+
+// const setExitPopup = () => store.dispatch({ type: "SHOW_EXIT_WINDOW" })
 
 (() => {
   fetchGet("/meta_datas").then(meta_data => {
@@ -47,8 +39,19 @@ try {
   });
 })();
 
-
 document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(
+    () =>
+      document
+        .getElementById("exit-line")
+        .addEventListener(
+          "mouseleave",
+          () => store.dispatch({ type: "SHOW_EXIT_WINDOW" }),
+          { once: true }
+        ),
+    40000
+  );
+
   ReactDOM.render(
     <Provider store={store}>
       <Router>
@@ -56,7 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <ScrollToTopRoute exact path="/" component={DApp} />
           <ScrollToTopRoute path="/productcart/:id" component={DProductCart} />
           <ScrollToTopRoute path="/orderform/" component={DOrderForm} />
-          <ScrollToTopRoute path="/categoryPage/:category" component={DCategoryPage} />
+          <ScrollToTopRoute
+            path="/categoryPage/:category"
+            component={DCategoryPage}
+          />
           <Route path="/registration/" component={DRegistrationForm} />
           <Route path="/convertXml/" component={DConvertXml} />
           <Route path="/test/" component={DTest} />

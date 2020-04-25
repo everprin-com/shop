@@ -3,7 +3,8 @@ export default function(
     size: { status: false, id: null },
     successOrder: { status: false },
     slider: { status: false },
-    writeReview: { status: false }
+    writeReview: { status: false },
+    exit: { status: false }
   },
   action
 ) {
@@ -52,6 +53,10 @@ export default function(
       return { ...state, writeReview: { status: true } };
     case "CLOSE_WRITEREVIEW_WINDOW":
       return { ...state, writeReview: { status: false } };
+    case "SHOW_EXIT_WINDOW":
+      return { ...state, exit: { status: true } };
+    case "CLOSE_EXIT_WINDOW":
+      return { ...state, exit: { status: false } };
     default:
       return state;
   }

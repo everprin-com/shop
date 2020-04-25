@@ -14,7 +14,7 @@ module Admins
         "http://tm-modus.com/user/xml_client.php?user=51849",
         "https://www.vm-villomi.ua/promua.xml",
         #{}"https://olla.ua/export/dropshipping.xml",
-        "https://vzuto.crm-onebox.com/media/export/2.xml",
+        #{}"https://vzuto.crm-onebox.com/media/export/2.xml",
       ]
   end
 end

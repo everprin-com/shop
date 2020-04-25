@@ -88,6 +88,7 @@ class VzutoParser
       item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
       item["category_translate"] = Translit.convert(item["category"], :english) if item["category"].present?
       NormalizerParse.capitalize_item(item)
+      NormalizerParse.make_unvaliable_old_item(item)
       item.save if NormalizerParse.delete_null_item(item)
     end
   end

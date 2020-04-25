@@ -1,16 +1,13 @@
 class Item < ActiveRecord::Base
   DEFAULT_PAGE = 16
-  #extend FriendlyId
-  #friendly_id :article, use: :slugged
-  #include ActiveModel::Serialization
-  #serialize :size_world
   has_one :average_voted, foreign_key: "slug_id", primary_key: "slug_id"
   has_many :product_comments, foreign_key: "slug_id", primary_key: "slug_id"
 
   has_one :parse_info, foreign_key: "slug_id", primary_key: "slug_id"
 
   attr_accessor :skip
-  include PgSearch
+  include PgSearch::Model
+
   pg_search_scope :search_color,
     against: [:color],
     :using => {
@@ -90,12 +87,15 @@ class Item < ActiveRecord::Base
   UNISEX_CATEGORIES = [ "унисекс", "Средство по уходу за обувью"]
 
   BAD_CATEGORIES = [
-    "Для девочек", "Для мальчиков", "Мужская одежда", "Замшевые", "Шляпы", "Митенки", "Носки", "Детская одежда", "Детские платья", "Детская обувь",
+    "Для девочек", "Для мальчиков", "Мужская одежда", "Замшевые", "Шляпы", "Митенки", "Носки",
+    "Детская одежда", "Детские платья", "Детская обувь", "Лоферы", "Стильный", "Женский",
   ]
 
   BAD_SLUG_IDS = [
     "botinki_zimnie_na_kabluke_chernyj", "noski_zhenskie_21p011_1_sine_belyj_sine_belyj",
-    "zhenskie_chernye_zamshewye_lofery_chernyj",
+    "zhenskie_chernye_zamshewye_lofery_chernyj", "rubashka_113rom92_kirpichnyj_kirpichnyj",
+    "rubashka_zeg_113r197_belo_salatowyj_belo_salatowyj", "rubashka_113r002_goluboj_goluboj",
+    "rubashka_113rom97_persikowyj_persikowyj",
   ]
 
   BAD_PRODUCTS_NAME = [
@@ -151,8 +151,9 @@ class Item < ActiveRecord::Base
       "Разное",
     ]
   }
+
   DROP_SHIPPER = [
-    "Issaplus", "Tos", "Ager", "Villomi", "Garne", "Favoritti", "Olla"
+    "Favoritti", "Tos", "Ager", "Garne", "Villomi", "Issaplus", "Modus"
   ]
 
   SYNONIM_NAMES_CATEGORIES = {
@@ -200,7 +201,7 @@ class Item < ActiveRecord::Base
        "Мантия",  "Дубленка",
      ],
     "Футболки": ["Футболки", "Футболка",],
-    "Шарфы": ["Шарф", "Шарфы, хомуты",],
+    "Шарфы": ["Шарф", "Шарфы, хомуты", "Шарфы", ],
     "Кепки": ["Кепка", "Кепки",],
     "Перчатки": ["Перчатки", "Мужские перчатки", "Женские перчатки", ],
     "Свитера": ["Свитера",  "Свитер", "Джемпер", ],
@@ -223,61 +224,45 @@ class Item < ActiveRecord::Base
   }
 
   def self.update_size_same_items
-    update_size_same_names
-    #update_size_same_prices
+    # Garne = Prices
+    items =  Item.where.not(drop_ship: "Prices").where(available_product: "t")
+    # group by slug_id
+    slug_ids = items.select('items.slug_id').group('items.slug_id').having('count(items.slug_id) > 1').map(&:slug_id)
+    slug_ids.map do |slug_id|
+      sizes = items.where(slug_id: slug_id).map(&:size).flatten.uniq
+      first_item = Item.where(slug_id: slug_id).first
+      first_item.update(size: sizes)
+      items.where.not(id: first_item.id).where(slug_id: slug_id).map(&:delete)
+    end
+
+    # group by name and size
+    # names = items.select('items.name').group('items.name').having('count(items.name) > 1').map(&:name)
+    # names.map do |name|
+    #   colors = items.where(name: name).select(:color).map(&:color).uniq&.flatten&.flatten
+    #   colors.each do |color|
+    #     sizes = items.where(name: name, color: color).map(&:size).flatten.uniq
+    #     #pictures = Item.where(name: name, color: color).map(&:picture).flatten.compact.uniq
+    #     first_item = Item.where(name: name, color: color).first
+    #     first_item.update(size: sizes)
+    #     items.where.not(id: first_item.id).where(name: name, color: color).map(&:delete)
+    #   end
+    # end
   end
 
-  def self.update_size_same_names
-    names = Item.select('items.name').group('items.name').having('count(items.name) > 1').map(&:name)
-    names.map do |name|
-      colors = Item.where(name: name).select(:color).map(&:color).uniq&.flatten&.flatten
-      colors.each do |color|
-        sizes = Item.where(name: name, color: color).map(&:size).flatten.uniq
-        #pictures = Item.where(name: name, color: color).map(&:picture).flatten.compact.uniq
-        first_item = Item.where(name: name, color: color).first
-        first_item.update(size: sizes)
-        Item.where.not(id: first_item.id).where(name: name, color: color).map(&:delete)
-      end
-    end
-  end
-
-  def self.update_size_same_prices
-    drop_shippers = Item.select(:drop_ship).map(&:drop_ship).uniq&.flatten&.flatten
-    drop_shippers.each do |drop_ship|
-    use_items = Item.where(drop_ship: drop_ship)
-    categories = use_items.select(:category).map(&:category).uniq&.flatten&.flatten
-    categories.each do |category|
-      prices = use_items.where(category: category).select('items.drop_ship_price').group('items.drop_ship_price').having('count(items.drop_ship_price) > 1').map(&:drop_ship_price)
-      prices.map do |drop_ship_price|
-        items = use_items.where(drop_ship_price: drop_ship_price, category: category)
-        colors = items.select(:color).map(&:color).uniq&.flatten&.flatten
-        colors.each do |color|
-          sizes = use_items.where(drop_ship_price: drop_ship_price, color: color, category: category).map(&:size).flatten.uniq
-          #pictures = Item.where(drop_ship_price: drop_ship_price, color: color, category: category).map(&:picture).flatten.compact.uniq
-          first_item = use_items.where(drop_ship_price: drop_ship_price, color: color, category: category).first
-          if first_item
-            first_item.update(size: sizes)
-            use_items.where.not(id: first_item.id).where(drop_ship_price: drop_ship_price, color: color, category: category).map(&:delete)
-          end
-        end
-      end
-    end
-    end
-  end
-
-  def self.delete_same_slug_ids
-    not_uniq_slug_ids = select('items.slug_id').group('items.slug_id').having('count(items.slug_id) >1').all
-    where(slug_id: not_uniq_slug_ids).delete_all
-  end
+  # def self.delete_same_slug_ids
+  #   not_uniq_slug_ids = select('items.slug_id').group('items.slug_id').having('count(items.slug_id) >1').all
+  #   where(slug_id: not_uniq_slug_ids).delete_all
+  # end
 
   def self.delete_bad_products
     Item.where(name: Item::BAD_PRODUCTS_NAME).delete_all
-    Item.where(name: Item::BAD_SLUG_IDS).delete_all
+    Item.where(slug_id: Item::BAD_SLUG_IDS).delete_all
     Item.where(category: Item::BAD_CATEGORIES).delete_all
   end
 
   def self.generate_filters(all_items, search_category={})
     items = search_category.present? ? all_items.where(category: search_category) : all_items
+    # items = all_items
     prices = items.map { |item| item.price }
     seasons = items.map(&:season)&.flatten&.compact&.uniq
     {
@@ -301,15 +286,19 @@ class Item < ActiveRecord::Base
     current_main_colors.uniq
   end
 
+  # def make_unvaliable_old_item
+  #   NormalizerParse.make_unvaliable_old_item(self)
+  # end
+
   def self.create_header
     Header.delete_all
-    wooman_catalogues = Item.where('sex && ARRAY[?]::varchar[]', "wooman").select(:category).map(&:category).compact.uniq
+    wooman_catalogues = Item.where('sex && ARRAY[?]::varchar[]', "wooman").where(available_product: "t").select(:category).map(&:category).compact.uniq
     wooman_catalogues.map do |catalogue|
       count = Item.where(category: catalogue).count
       group = GROUP.select{ |key, hash| hash.include?(catalogue&.capitalize) }.keys[0].to_s
       Header.create!(count_items: count, catalogue: catalogue, group: group, male: false)
     end
-    man_catalogues = Item.where('sex && ARRAY[?]::varchar[]', "man").select(:category).map(&:category).compact.uniq
+    man_catalogues = Item.where('sex && ARRAY[?]::varchar[]', "man").where(available_product: "t").select(:category).map(&:category).compact.uniq
     man_catalogues.map do |catalogue|
       count = Item.where(category: catalogue).count
       group = GROUP.select{ |key, hash| hash.include?(catalogue&.capitalize) }.keys[0].to_s

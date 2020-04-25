@@ -26,8 +26,8 @@ Rails.application.routes.draw do
         get 'show_test' => 'admins#show_test'
         get 'lounch_test' => 'admins#lounch_test'
         get 'upload_xml' => 'admins#upload_xml'
-        get 'convert_xls' => 'admins#convert_xls'
-        get 'convert_xml' => 'admins#convert_xml'
+        get 'convert_xls_to_db' => 'admins#convert_xls_to_db'
+        get 'convert_xml_to_db' => 'admins#convert_xml_to_db'
       end
     end
     get 'configurable/edit', as: 'admin_configurable_edit'
@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   resources :meta_datas, defaults: {format: 'json'}#, only: [:index]
   resources :infos, :messagestoadministrators, :answerfrommoderators, :line_items, :carts
   resources :orders, defaults: {format: 'json'}
+  resources :questionnaires, defaults: {format: 'json'}, only: [:index, :create]
   #post '/852875250:AAEMa_qRzOs4LdRDvgOWJYOIBpcIy_zM9vs' => 'application#webhook'
   # get '/message' => 'some#message'
   # post '/send_message_to_all' => 'some#send_message_to_all'

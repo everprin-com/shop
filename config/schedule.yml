@@ -1,0 +1,4 @@
+my_first_job:
+  cron: "45 08 * * *" #UTC - current - 3 hours 1 - minuted 2 - hours 14 01
+  #cron: "*/1 * * * *" #it will retrieve data every 1 minute
+  class: "SaveToDbParsed"
