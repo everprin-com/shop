@@ -19,7 +19,7 @@ namespace :parser_excel do
         @items_import = ItemsImport.new({:file => artwork}, drop_ship_name)
         @items_import.save
       end
-        NormalizerParse.normalizer_products
+      NormalizerParse.normalizer_products
     rescue Zip::Error
       Roo::Spreadsheet.open(filepath)
     end
