@@ -32,7 +32,7 @@ class NormalizerParse
         size.split("/")
       end
     #  make from "XXS-S" => ["XXS", "XS", "S"]
-    if !Float(size) && size.include?("-") && Item::ROME_SIZE.include?(size.split("-")[0])
+    if !size.is_a?(Float) && size.include?("-") && Item::ROME_SIZE.include?(size.split("-")[0])
       range_size = size.split("-")
       first_size = Item::ROME_SIZE.index(size.split("-")[0])
       last_size = Item::ROME_SIZE.index(size.split("-")[1])
