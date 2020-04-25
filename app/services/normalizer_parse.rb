@@ -22,12 +22,10 @@ class NormalizerParse
   end
 
   def self.conver_size_to_array(size)
-    # size = "L 44/46"
+    return [] unless size
     # make from "L 44/46" ["L 44/46"]
     splited_size = size.scan(/\w+/)
     return [size] if Item::ROME_SIZE.include?(splited_size[0]) && Float(splited_size[1])
-
-    return [] unless size
     converted_size = size.is_a?(Float) ? [size.round.to_s] : size.to_s.split(",")&.flatten
     converted_size =
       converted_size&.flatten.map do |size|
