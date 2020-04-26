@@ -6,10 +6,10 @@ production:
   :queues:
     - [household_import, 7]
 
-development:
-  :logfile: log/sidekiq_production.log
-  :verbose: true
-  :pidfile: tmp/sidekiq.pid
-  :concurrency: 1
-  :queues:
-    - [household_import, 7]
+# development:
+#   :logfile: log/sidekiq_production.log
+#   :verbose: true
+#   :pidfile: tmp/sidekiq.pid
+#   :concurrency: 1
+#   :queues:
+#     - [household_import, 7]
