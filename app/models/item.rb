@@ -235,10 +235,11 @@ class Item < ActiveRecord::Base
 
   def self.check_parsed_drop(drop_shipers)
     drop_shipers.map do |drop_ship|
-      created_last_item_day =  Item.where(available_product: "t", drop_ship: drop_ship).last.created_at.day
-      if Time.now.day - created_last_item_day != 0
-        broken_drop_ship = { drop_ship: drop_ship, text: "was broken" }
-        TeleNotify::TelegramUser.find_by_tg_channel("question").send_message(broken_drop_ship.to_json)
+      created_last_item_day =  Item.where(available_product: "t", drop_ship: drop_ship).last&.created_at&.day
+      if !created_last_item_day || Time.now.day - created_last_item_day != 0
+        p "broken"
+        # broken_drop_ship = { drop_ship: drop_ship, text: "was broken" }
+        # TeleNotify::TelegramUser.find_by_tg_channel("question").send_message(broken_drop_ship.to_json)
       end
     end
   end
