@@ -81,7 +81,7 @@ task :deploy do
     command %{yarn upgrade}
     command %{bin/webpack --mode=production}
     command %{RAILS_ENV=production bundle exec rake sitemap:generate}
-    command %{bin/sidekiq -d -L log/sidekiq.log}
+    command %{RAILS_ENV=production bundle exec bin/sidekiq }
     #command %{RAILS_ENV=production ./bin/webpack}
     #invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'

@@ -1,10 +1,10 @@
 require 'roo'
 require 'spreadsheet'
 
-MUST_BE_KEY_EXCEL = [
-  "article", "name", "description", "price", "color", "picture", "brand", "season", "male",
-  "size", "country", "category", "presence", "size_world", "drop_ship", "composition", "drop_ship_price", "picture_small", "link"
-]
+# MUST_BE_KEY_EXCEL = [
+#   "article", "name", "description", "price", "color", "picture", "brand", "season", "male",
+#   "size", "country", "category", "presence", "size_world", "drop_ship", "composition", "drop_ship_price", "picture_small", "link"
+# ]
 namespace :create_fid do
 
   task create_fid: :environment do
