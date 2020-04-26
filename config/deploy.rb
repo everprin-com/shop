@@ -78,10 +78,10 @@ task :deploy do
     #npm rebuild node-sass
     command %{npm rebuild node-sass}
     command %{yarn}
-    command %{yarn upgrade}
+    # command %{yarn upgrade}
     command %{bin/webpack --mode=production}
     command %{RAILS_ENV=production bundle exec rake sitemap:generate}
-    command %{RAILS_ENV=production bundle exec bin/sidekiq }
+    command %{bundle exec sidekiq -d -L log/delayed_job.log}
     #command %{RAILS_ENV=production ./bin/webpack}
     #invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
