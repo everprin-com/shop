@@ -13,20 +13,27 @@ class NormalizerParse
     end
   end
 
-  def self.normalizer_products
-    Item.update_size_same_items
+  def self.normalizer_products(drop_shipers)
+    Item.update_size_same_items(drop_shipers)
     Item.delete_bad_products
     Item.create_header
     FilterOption.delete_all
     FilterOption.create!(Item.generate_filters(Item.where(available_product: "t").all))
+    Item.check_parsed_drop(drop_shipers)
+  end
+
+  def self.number_or_nil(string)
+    Integer(string || '')
+  rescue ArgumentError
+    nil
   end
 
   def self.conver_size_to_array(size)
     return [] unless size
     # make from "L 44/46" ["L 44/46"]
-    # splited_size = size.to_s.scan(/\w+/)
-    # p splited_size
-    # return [size] if splited_size[1].present? && Item::ROME_SIZE.include?(splited_size[0]) && Float(splited_size[1])
+    splited_size = size.to_s.scan(/\w+/)
+    p splited_size
+    return [size] if Item::ROME_SIZE.include?(splited_size[0]) && number_or_nil(splited_size[1])
     converted_size = size.is_a?(Float) ? [size.round.to_s] : size.to_s.split(",")&.flatten
     converted_size =
       converted_size&.flatten.map do |size|

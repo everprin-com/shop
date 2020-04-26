@@ -5,7 +5,7 @@ module  Parser
       Rake::Task['parser_xml:parser_xml'].execute
     end
 
-    def self. convert_xls_to_db
+    def self.convert_xls_to_db
       files = Dir.entries("public/excel/parser")
       files.delete(".")
       files.delete("..")
@@ -18,10 +18,12 @@ module  Parser
           content_type: "application/vnd.ms-excel",
           tempfile: file,
         )
+        # drop_ship named prices is garne
+        drop_ship_name = drop_ship_name =="prices" ? "garne" : drop_ship_name
         @items_import = ItemsImport.new({:file => artwork}, drop_ship_name)
         @items_import.save
       end
-      NormalizerParse.normalizer_products
+      NormalizerParse.normalizer_products(Item::XLS_DROP_SHIPPER)
     end
   end
 end

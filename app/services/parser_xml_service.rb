@@ -52,6 +52,6 @@ class ParserXmlService
         end
       end
     end
-    NormalizerParse.normalizer_products
+    NormalizerParse.normalizer_products(Item::XML_DROP_SHIPPER)
   end
 end
