@@ -78,7 +78,7 @@ gem "roo"
 gem "roo-xls"
 #gem "spreadsheet"
 
-#group :development, :test do
+group :development, :test do
   gem 'capybara'
   gem 'byebug'
   gem 'rspec-rails'
@@ -100,11 +100,11 @@ gem "roo-xls"
   gem "better_errors"
   #gem 'quiet_assets'
   gem "bullet"
-  #gem 'newrelic_rpm'
+  gem 'newrelic_rpm'
   gem 'colored'
   gem 'capistrano'
   gem 'capistrano-passenger'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   #gem 'capistrano-rbenv', github: "capistrano/rbenv"
-#end
+end
