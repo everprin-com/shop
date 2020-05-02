@@ -100,7 +100,7 @@ gem "roo-xls"
   gem "better_errors"
   #gem 'quiet_assets'
   gem "bullet"
-  gem 'newrelic_rpm'
+  #gem 'newrelic_rpm'
   gem 'colored'
   gem 'capistrano'
   gem 'capistrano-passenger'

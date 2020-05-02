@@ -9,7 +9,8 @@ require 'mina/rvm'
 #   branch       - Branch name to deploy. (needed by mina/git)
 
 set :application_name, 'rails-demo'
-set :domain, '178.62.6.75'
+set :domain, '94.237.87.126'
+# set :domain, '178.62.6.75'
 set :user, fetch(:application_name)
 set :deploy_to, "/home/#{fetch(:user)}/app"
 set :repository, 'git@github.com:everprin-com/shop.git'
@@ -78,7 +79,8 @@ task :deploy do
     #npm rebuild node-sass
     command %{npm rebuild node-sass}
     command %{yarn}
-    # command %{yarn upgrade}
+    command %{yarn upgrade}
+    #command %{npm install}
     command %{bin/webpack --mode=production}
     command %{RAILS_ENV=production bundle exec rake sitemap:generate}
     command %{bundle exec sidekiq -d -L log/delayed_job.log}

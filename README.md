@@ -12,6 +12,7 @@ cd current
 RAILS_ENV=production bundle exec rails c
 RAILS_ENV=production bundle exec rspec spec/models/item_spec.rb --format html --out app/views/test_html/rspec_results.html
 tail -f ~/app/shared/log/*
+systemctl start rails-demo
 node --max_old_space_size=1096 node_modules/webpack/.bin/webpack.js
 RAILS_ENV=production bundle exec rake create_fid:create_fid
 
