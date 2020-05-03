@@ -295,10 +295,11 @@ GEM
     parser (2.7.1.1)
       ast (~> 2.4.0)
     pdf-core (0.7.0)
-    pg (1.2.3)
-    pg_search (2.3.2)
-      activerecord (>= 5.2)
-      activesupport (>= 5.2)
+    pg (0.20.0)
+    pg_search (1.0.6)
+      activerecord (>= 3.1)
+      activesupport (>= 3.1)
+      arel
     pkg-config (1.4.1)
     prawn (2.2.2)
       pdf-core (~> 0.7.0)
@@ -552,8 +553,8 @@ DEPENDENCIES
   omniauth-google-oauth2
   omniauth-oauth2
   paperclip
-  pg
-  pg_search
+  pg (~> 0.20.0)
+  pg_search (~> 1.0.5)
   pkg-config
   prawn
   prawn-table
