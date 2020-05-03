@@ -125,3 +125,13 @@ server
 sudo chmod -R 777 '/home/rails-demo/app/current/node_modules'
 
 yarn set version 1.12.3
+
+CREATE DATABASE myapp2 WITH OWNER deploy ENCODING 'UTF8' LC_COLLATE = 'ru_RU.utf8' LC_CTYPE = 'ru_RU.utf8';
+locale-gen
+
+https://www.sinyawskiy.ru/invalid_locale.html
+locale-gen ru_RU.utf8
+CREATE ROLE myuser WITH PASSWORD 'marazm' LOGIN;
+CREATE DATABASE mydb WITH OWNER myuser ENCODING 'UTF8' LC_COLLATE 'ru_RU.utf8' LC_CTYPE 'ru_RU.utf8' TEMPLATE template0;
+GRANT CONNECT ON DATABASE my_db TO my_user;
+ALTER USER myuser WITH SUPERUSER;

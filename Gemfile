@@ -50,7 +50,7 @@ gem 'slim-rails'
 gem 'json'#, github: 'flori/json', branch: 'v1.8'
 gem 'gon'
 gem 'carrierwave'
-gem "webpacker", "~> 3"
+gem "webpacker", "~> 5"
 gem "react_on_rails"#, "11.0.0"
 gem 'mini_racer', platforms: :ruby
 #gem 'mysql2',          '~> 0.3.18', :platform => :ruby

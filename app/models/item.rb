@@ -95,7 +95,7 @@ class Item < ActiveRecord::Base
     "botinki_zimnie_na_kabluke_chernyj", "noski_zhenskie_21p011_1_sine_belyj_sine_belyj",
     "zhenskie_chernye_zamshewye_lofery_chernyj", "rubashka_113rom92_kirpichnyj_kirpichnyj",
     "rubashka_zeg_113r197_belo_salatowyj_belo_salatowyj", "rubashka_113r002_goluboj_goluboj",
-    "rubashka_113rom97_persikowyj_persikowyj",
+    "rubashka_113rom97_persikowyj_persikowyj", "dzhinsy_zhenskie_358kg001_junior_chernyj"
   ]
 
   BAD_PRODUCTS_NAME = [
