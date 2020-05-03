@@ -6,7 +6,7 @@ class Item < ActiveRecord::Base
   has_one :parse_info, foreign_key: "slug_id", primary_key: "slug_id"
 
   attr_accessor :skip
-  include PgSearch::Model
+  include PgSearch
 
   pg_search_scope :search_color,
     against: [:color],
