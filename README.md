@@ -10,6 +10,7 @@ ssh rails-demo@178.62.6.75
 cd app
 cd current
 RAILS_ENV=production bundle exec rails c
+RAILS_ENV=production rake db:migrate:down VERSION=20190510191036
 RAILS_ENV=production bundle exec rspec spec/models/item_spec.rb --format html --out app/views/test_html/rspec_results.html
 tail -f ~/app/shared/log/*
 systemctl start rails-demo
@@ -122,3 +123,5 @@ CONVERT EXCEL
 server
 
 sudo chmod -R 777 '/home/rails-demo/app/current/node_modules'
+
+yarn set version 1.12.3
