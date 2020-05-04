@@ -83,7 +83,7 @@ task :deploy do
     #command %{npm install}
     command %{bin/webpack --mode=production}
     command %{RAILS_ENV=production bundle exec rake sitemap:generate}
-    command %{RAILS_ENV=production bundle exec sidekiq -d -L log/delayed_job.log}
+    #command %{RAILS_ENV=production bundle exec sidekiq -d -L log/delayed_job.log}
     #command %{RAILS_ENV=production ./bin/webpack}
     #invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
