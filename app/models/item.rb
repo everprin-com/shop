@@ -65,7 +65,9 @@ class Item < ActiveRecord::Base
       "Белый", "Бежевый", "Молочный",
     ],
   }
+
   CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
+
   CANT_BE_NULL = [
     "article", "name", "category", "price",
     "picture", "drop_ship", "drop_ship_price",
@@ -156,6 +158,14 @@ class Item < ActiveRecord::Base
     "Favoritti", "Tos", "Ager", "Garne", "Villomi", "Issaplus", "Modus"
   ]
 
+  XLS_DROP_SHIPPER = [
+    "Favoritti", "Tos", "Ager", "Garne"
+  ]
+
+  XML_DROP_SHIPPER = [
+    "Villomi", "Issaplus", "Modus"
+  ]
+
   SYNONIM_NAMES_CATEGORIES = {
     "Слипоны": ["Женские слипоны", "Слипоны", ],
     "Белье": ["Белье", "Женские ночные рубашки", ],
@@ -223,9 +233,30 @@ class Item < ActiveRecord::Base
     "Тапочки": ["Шлепанцы", "Женские комнатные тапочки", "Женские вьетнамки, сланцы", "Тапочки", "Вьетнамки",],
   }
 
-  def self.update_size_same_items
-    # Garne = Prices
-    items =  Item.where.not(drop_ship: "Prices").where(available_product: "t")
+  def self.check_parsed_drop(drop_shipers)
+    drop_shipers.map do |drop_ship|
+      created_last_item_day =  Item.where(available_product: "t", drop_ship: drop_ship).last&.created_at&.day
+      if !created_last_item_day || Time.now.day - created_last_item_day != 0
+        broken_drop_ship = { drop_ship: drop_ship, text: "was broken" }
+        TeleNotify::TelegramUser.find_by_tg_channel("question").send_message(broken_drop_ship.to_json)
+      end
+    end
+  end
+
+  def self.check_all_parsed_drop
+    drop_shipers = Item::DROP_SHIPPER
+    brocken_drop_shiper = []
+    drop_shipers.map do |drop_ship|
+      created_last_item_day =  Item.where(available_product: "t", drop_ship: drop_ship).last&.created_at&.day
+      if !created_last_item_day || Time.now.day - created_last_item_day != 0
+        brocken_drop_shiper.push(drop_ship)
+      end
+    end
+    brocken_drop_shiper
+  end
+
+  def self.update_size_same_items(drop_shipers)
+    items =  Item.where.not(drop_ship: ["Garne", "Favoritti"]).where(available_product: "t", drop_ship: drop_shipers)
     # group by slug_id
     slug_ids = items.select('items.slug_id').group('items.slug_id').having('count(items.slug_id) > 1').map(&:slug_id)
     slug_ids.map do |slug_id|
