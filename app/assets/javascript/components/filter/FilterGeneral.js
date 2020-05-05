@@ -6,6 +6,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { connect } from "react-redux";
 import styles from "./styles";
+import googleEvents from "../constants/googleEvents";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -26,6 +27,11 @@ class FilterGeneral extends React.PureComponent {
 
   handleChange = name => event => {
     const { addFilter, keyFilter, filter } = this.props;
+    gtag(
+      "event",
+      googleEvents["Применение фильтров"].title,
+      googleEvents["Применение фильтров"].data
+    );
     if (filter[keyFilter] && filter[keyFilter].includes(name)) {
       addFilter({
         [keyFilter]: filter[keyFilter].filter(item => item !== name)

@@ -1,6 +1,7 @@
 import React from "react";
 import FormGroup from "@material-ui/core/FormGroup";
 import { connect } from "react-redux";
+import googleEvents from "../constants/googleEvents";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -17,6 +18,11 @@ const mapStateToProps = state => {
 class FilterSeason extends React.PureComponent {
   handleChange = name => {
     const { addFilter, keyFilter, filter } = this.props;
+    gtag(
+      "event",
+      googleEvents["Применение фильтров"].title,
+      googleEvents["Применение фильтров"].data
+    );
     if (filter[keyFilter] && filter[keyFilter].includes(name)) {
       addFilter({
         [keyFilter]: filter[keyFilter].filter(item => item !== name)
@@ -72,7 +78,4 @@ class FilterSeason extends React.PureComponent {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FilterSeason);
+export default connect(mapStateToProps, mapDispatchToProps)(FilterSeason);

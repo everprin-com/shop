@@ -4,7 +4,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import { connect } from "react-redux";
 import "./style";
 import colorMap from "../constants/colorMap";
-import { isEqualArr } from "../Utils";
+import googleEvents from "../constants/googleEvents";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -21,6 +21,11 @@ const mapStateToProps = state => {
 class FilterColor extends React.PureComponent {
   handleChange = name => {
     const { addFilter, keyFilter, filter } = this.props;
+    gtag(
+      "event",
+      googleEvents["Применение фильтров"].title,
+      googleEvents["Применение фильтров"].data
+    );
     if (filter[keyFilter] && filter[keyFilter].includes(name)) {
       addFilter({
         [keyFilter]: filter[keyFilter].filter(item => item !== name)
@@ -78,7 +83,4 @@ FilterColor.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FilterColor);
+export default connect(mapStateToProps, mapDispatchToProps)(FilterColor);
