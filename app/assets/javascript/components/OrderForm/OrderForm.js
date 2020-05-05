@@ -5,9 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CartMicro from "../CartMicro/CartMicro";
 import { connect } from "react-redux";
-import Dialog from "../Dialog/Dialog";
 import CartWithDialog from "../Cart/CartWithDialog";
-import SuccessOrder from "../SuccessOrder/SuccessOrder";
 import AdressInput from "../AdressInput/AdressInput";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { Link } from "react-router-dom";
@@ -16,6 +14,7 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import TitleComponent from "../TitleComponent";
 import { validationConfig } from "../Utils";
 import DialogSwitcher from "../DialogSwitcher";
+import googleEvents from "../constants/googleEvents";
 
 const mapStateToProps = state => {
   return {
@@ -115,10 +114,11 @@ class OrderForm extends React.PureComponent {
   };
 
   sendOrder = () => {
-    gtag("event", "Попытка отправить заказ", {
-      event_category: "События кнопок",
-      event_action: "Попытка отправить заказ"
-    });
+    gtag(
+      "event",
+      googleEvents["Попытка отправить заказ"].title,
+      googleEvents["Попытка отправить заказ"].data
+    );
     this.setState({ wasTrySend: true });
     if (this.validateData()) {
       const line_items = this.props.card.data.map(function(element) {
@@ -159,10 +159,11 @@ class OrderForm extends React.PureComponent {
   };
 
   redirectToMain = () => {
-    gtag("event", "Отправить заказ", {
-      event_category: "События кнопок",
-      event_action: "Отправить заказ"
-    });
+    gtag(
+      "event",
+      googleEvents["Отправить заказ"].title,
+      googleEvents["Отправить заказ"].data
+    );
     this.props.history.push("/");
   };
 

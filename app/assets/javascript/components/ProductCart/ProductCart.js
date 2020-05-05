@@ -19,7 +19,8 @@ import advantages from "../constants/advantages";
 import Stars from "../Stars";
 import SocialIcon from "../SocialIcon";
 import DialogSwitcher from "../DialogSwitcher";
-import { formateName } from "../Utils"
+import googleEvents from "../constants/googleEvents";
+// import { formateName } from "../Utils"
 
 const mapStateToProps = state => {
   return {
@@ -97,25 +98,30 @@ class ProductCart extends React.PureComponent {
     const isSlug = !Number.isInteger(id);
     this.setState({ loading: true });
     fetchGet(`/items/${id}`).then(data => {
-      this.setState({ data, loading: false }, () => {
-        // this.props.requestAndAddSlider(this.state.data.category);
-        this.props.addProduct(data);
-        this.setDescription();
-      });
+      if (data) {
+        this.setState({ data, loading: false }, () => {
+          // this.props.requestAndAddSlider(this.state.data.category);
+          this.props.addProduct(data);
+          this.setDescription();
+        });
+      } else {
+        this.redirectToRoot();
+      }
     });
   };
 
-  scrollToTop = () => window.scrollTo(0,0)
+  scrollToTop = () => window.scrollTo(0, 0);
 
   putToCart = () => {
     const { products, putToCart, match } = this.props;
     const product = products.find(
       product => product.slug_id == match.params.id
     );
-    gtag("event", "Положили в корзину", {
-      event_category: "События кнопок",
-      event_action: "Положили в корзину"
-    });
+    gtag(
+      "event",
+      googleEvents["Положили в корзину"].title,
+      googleEvents["Положили в корзину"].data
+    );
     putToCart(product);
   };
 
@@ -140,6 +146,11 @@ class ProductCart extends React.PureComponent {
       windowWidth < 1000
     )
       return;
+    gtag(
+      "event",
+      googleEvents["Показать галерею товара"].title,
+      googleEvents["Показать галерею товара"].data
+    );
     this.props.openGallery();
   };
 
@@ -171,6 +182,20 @@ class ProductCart extends React.PureComponent {
 
   handleTabChange = (_event = null, activeTab = 0) => {
     this.setState({ activeTab });
+    if (activeTab === 1) {
+      gtag(
+        "event",
+        googleEvents["Чтение отзывов"].title,
+        googleEvents["Чтение отзывов"].data
+      );
+    }
+    if (activeTab === 2) {
+      gtag(
+        "event",
+        googleEvents["Чтение доставки и оплаты"].title,
+        googleEvents["Чтение доставки и оплаты"].data
+      );
+    }
   };
 
   render() {
@@ -192,10 +217,17 @@ class ProductCart extends React.PureComponent {
       return <KiloLoading />;
     }
 
-    const { data } = this.state
+    const { data } = this.state;
     const { id } = data;
     const productData = products.find(product => product.id == id) || {};
-    const { size, picture, name, category, price, available_product } = productData;
+    const {
+      size,
+      picture,
+      name,
+      category,
+      price,
+      available_product
+    } = productData;
     const activeSize = productData.activeSize;
     // const isInCart = card.data.some(cardItem => cardItem.id == id);
     const commentsArr = comments.data.filter(
@@ -283,7 +315,7 @@ class ProductCart extends React.PureComponent {
                   data: this.state.data,
                   openTableSize,
                   putToCart: this.putToCart,
-                  availableProduct: available_product,
+                  availableProduct: available_product
                 }}
                 commentsArr={commentsArr}
                 amount={data.average_voted && data.average_voted.count_voted}

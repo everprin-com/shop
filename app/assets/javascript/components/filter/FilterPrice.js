@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import styles from "./styles";
+import googleEvents from "../constants/googleEvents";
 
 const mapStateToProps = state => {
   return {
@@ -65,6 +66,12 @@ class FilterPrice extends React.PureComponent {
 
   handleChange = (currentFilterPriceItem, input) => {
     const { filter, addFilter } = this.props;
+    gtag(
+      "event",
+      googleEvents["Применение фильтров"].title,
+      googleEvents["Применение фильтров"].data
+    );
+
     if (
       !input &&
       filter.price_search &&
@@ -121,7 +128,7 @@ class FilterPrice extends React.PureComponent {
   };
 
   onChangeFromInput = (e, n) => {
-    const value = e.target.value
+    const value = e.target.value;
     if (Number.isNaN(value)) {
       return;
     }
@@ -164,7 +171,7 @@ class FilterPrice extends React.PureComponent {
           <span className={classes.titleText}>Цена:</span>
           {filterValueCount ? (
             <span
-            className={classes.titleReset}
+              className={classes.titleReset}
               onClick={() => addFilter({ price_search: [] })}
             >
               Очистить фильтр
