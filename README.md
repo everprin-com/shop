@@ -10,8 +10,10 @@ ssh rails-demo@178.62.6.75
 cd app
 cd current
 RAILS_ENV=production bundle exec rails c
+RAILS_ENV=production rake db:migrate:down VERSION=20190510191036
 RAILS_ENV=production bundle exec rspec spec/models/item_spec.rb --format html --out app/views/test_html/rspec_results.html
 tail -f ~/app/shared/log/*
+systemctl start rails-demo
 node --max_old_space_size=1096 node_modules/webpack/.bin/webpack.js
 RAILS_ENV=production bundle exec rake create_fid:create_fid
 
@@ -20,7 +22,8 @@ RAILS_ENV=production bundle exec rake create_comments:create_comments
 
 scp rails-demo@178.62.6.75:/home/rails-demo/app/current/public/converted_fid.xls /home/oleg/work/bizness
 
-
+# find broken drop ship
+Item.check_all_parsed_drop
 scp rails-demo@178.62.6.75:/home/rails-demo/app/current/public/converted_fid_Ager.xls /home/oleg/work/bizness
 scp rails-demo@178.62.6.75:/home/rails-demo/app/current/public/converted_fid_Favoritti.xls /home/oleg/work/bizness
 scp rails-demo@178.62.6.75:/home/rails-demo/app/current/public/converted_fid_Garne.xls  /home/oleg/work/bizness
@@ -121,3 +124,15 @@ CONVERT EXCEL
 server
 
 sudo chmod -R 777 '/home/rails-demo/app/current/node_modules'
+
+yarn set version 1.12.3
+
+CREATE DATABASE myapp2 WITH OWNER deploy ENCODING 'UTF8' LC_COLLATE = 'ru_RU.utf8' LC_CTYPE = 'ru_RU.utf8';
+locale-gen
+
+https://www.sinyawskiy.ru/invalid_locale.html
+locale-gen ru_RU.utf8
+CREATE ROLE myuser WITH PASSWORD 'marazm' LOGIN;
+CREATE DATABASE mydb WITH OWNER myuser ENCODING 'UTF8' LC_COLLATE 'ru_RU.utf8' LC_CTYPE 'ru_RU.utf8' TEMPLATE template0;
+GRANT CONNECT ON DATABASE my_db TO my_user;
+ALTER USER myuser WITH SUPERUSER;

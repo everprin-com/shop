@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import styles from "./styles";
+import googleEvents from "../constants/googleEvents";
 
 const mapStateToProps = state => {
   return {
@@ -65,6 +66,12 @@ class FilterPrice extends React.PureComponent {
 
   handleChange = (currentFilterPriceItem, input) => {
     const { filter, addFilter } = this.props;
+    gtag(
+      "event",
+      googleEvents["Применение фильтров"].title,
+      googleEvents["Применение фильтров"].data
+    );
+
     if (
       !input &&
       filter.price_search &&
@@ -121,7 +128,7 @@ class FilterPrice extends React.PureComponent {
   };
 
   onChangeFromInput = (e, n) => {
-    const value = e.target.value
+    const value = e.target.value;
     if (Number.isNaN(value)) {
       return;
     }
@@ -156,47 +163,22 @@ class FilterPrice extends React.PureComponent {
   };
 
   render() {
-    const { inputValue = [] } = this.state;
-    const { classes, addFilter } = this.props;
-
+    const { classes, addFilter, filter } = this.props;
+    const filterValueCount = filter.price_search && filter.price_search.length;
     return (
       <div className={classes.root}>
         <div className={classes.title}>
           <span className={classes.titleText}>Цена:</span>
-          <span
-            className={classes.titleReset}
-            onClick={() => addFilter({ price_search: [] })}
-          >
-            Очистить фильтр
-          </span>
+          {filterValueCount ? (
+            <span
+              className={classes.titleReset}
+              onClick={() => addFilter({ price_search: [] })}
+            >
+              Очистить фильтр
+            </span>
+          ) : null}
         </div>
         <div className={classes.contentWrap}>
-          {/* <div className={classes.inputWrap}>
-            <span className={classes.fromTo}>От</span>
-            <input
-              type="number"
-              min={1}
-              max={5000}
-              style={{ marginLeft: 16 }}
-              value={inputValue[0]}
-              className={`${classes.inputLeft} ${classes.inputNumber}`}
-              onChange={e => {
-                this.onChangeFromInput(e, 0);
-              }}
-            />
-            <span className={classes.fromTo}>До</span>
-            <input
-              type="number"
-              min={1}
-              max={5000}
-              style={{ marginLeft: 16 }}
-              value={inputValue[1]}
-              className={`${classes.inputRight} ${classes.inputNumber}`}
-              onChange={e => {
-                this.onChangeFromInput(e, 1);
-              }}
-            />
-          </div> */}
           {this.rangePriceGenerator([
             { min: 0, max: 300, title: "До 300 грн" },
             { min: 300, max: 500, title: "300 - 500 грн" },

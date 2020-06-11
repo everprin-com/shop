@@ -9,6 +9,7 @@ require 'mina/rvm'
 #   branch       - Branch name to deploy. (needed by mina/git)
 
 set :application_name, 'rails-demo'
+#set :domain, '94.237.87.126'
 set :domain, '178.62.6.75'
 set :user, fetch(:application_name)
 set :deploy_to, "/home/#{fetch(:user)}/app"
@@ -78,9 +79,11 @@ task :deploy do
     #npm rebuild node-sass
     command %{npm rebuild node-sass}
     command %{yarn}
+    command %{yarn upgrade}
+    #command %{npm install}
     command %{bin/webpack --mode=production}
     command %{RAILS_ENV=production bundle exec rake sitemap:generate}
-    command %{RAILS_ENV=production bundle exec sidekiq -d}
+    #command %{RAILS_ENV=production bundle exec sidekiq -d -L log/delayed_job.log}
     #command %{RAILS_ENV=production ./bin/webpack}
     #invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'

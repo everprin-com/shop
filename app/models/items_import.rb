@@ -8,8 +8,8 @@ class ItemsImport
   ]
 
   HEADER_TIME_OF_STYLE = %w[
-    skip skip1	skip11	skip2	name article skip15 code category brand	skip3	size
-    color	country	sex	season	composition	size_world
+    skip skip11 name skip2	skip1 article skip15 code category brand	skip3	size
+    color	country	sex	season composition	size_world
     skip4	drop_ship_price	skip5	skip6	skip7	picture
     small_picture	small_picture1	small_picture2	small_picture3
     small_picture4 small_picture5
@@ -60,7 +60,7 @@ class ItemsImport
       HEADER_TIME_OF_STYLE
     when "ager"
       HEADER_AGER
-    when "prices"
+    when "garne"
       HEADER_GARNE
     when "favoritti"
       HEADER_FAVORITTI
@@ -139,7 +139,7 @@ class ItemsImport
           founded_category = NormalizerParse.get_category_by_name(setted_category)
          item["category"] = NormalizerParse.set_category(founded_category)
          item["color"] = row["color"]
-         item["sex"] =
+         item["sex"] = 
            if Item::WOOMAN_CATEGORIES.include?(row["sex"])
              ["wooman"]
            elsif Item::MAN_CATEGORIES.include?(row["sex"])
@@ -172,8 +172,7 @@ class ItemsImport
           category = NormalizerParse.get_category_by_name(row["name"])
         end
         item["category"] = NormalizerParse.set_category(category)
-      # garne = prices
-      elsif @name_drop_ship == "prices"
+      elsif @name_drop_ship == "garne"
          item["picture"] = row["picture"].split(",")
          item["size"] = row["size"]&.split("/")&.join(",")&.split(",")&.map(&:upcase)
          item["drop_ship_price"] = row["drop_ship_price"]
@@ -200,13 +199,13 @@ class ItemsImport
        if row["drop_ship_price"].present? && row["drop_ship_price"] != 0
          item["price"] = CalcClientPrice.calc_client_price(row["drop_ship_price"], @name_drop_ship)
        end
-       item["name"] =
-         if @name_drop_ship == "tos"
-           modified_name = row["name"]&.split("_")&.reverse&.drop(1)&.join(" ")
-           modified_name unless bad_names_include(modified_name)
-         else
-           row["name"] unless bad_names_include(row["name"])
-         end
+       item["name"] = row["name"]
+        #  if @name_drop_ship == "tos"
+        #    modified_name = row["name"]&.split("_")&.reverse&.drop(1)&.join(" ")
+        #    modified_name unless bad_names_include(modified_name)
+        #  else
+        # row["name"] unless bad_names_include(row["name"])
+         # end
        item["brand"] = row["brand"]&.remove("-")
        #item["code"] = row["code"]
        item["season"] = NormalizerParse.set_season(row["season"])
@@ -214,16 +213,16 @@ class ItemsImport
        item["article"] = row["article"]
        item["slug_id"] = NormalizerParse.create_slug(item["name"], item["color"])
        item["category_translate"] = Translit.convert(item["category"], :english) if item["category"].present?
-       #byebug if  item["slug_id"] == "rubashka_113rom92_kirpichnyj_kirpichnyj"
-       item
+       #byebug if i > 6000 && !NormalizerParse.delete_null_item(item)
+       item#.save if NormalizerParse.delete_null_item(item)
     end
   end
 
-  def bad_names_include(name)
-    return false unless name.present?
-    converted_name = name.gsub("_", " ").split(" ")&.map(&:capitalize)
-    (converted_name & Item::BAD_NAMED_ITEM).present?
-  end
+  # def bad_names_include(name)
+  #   return false unless name.present?
+  #   converted_name = name.gsub("_", " ").split(" ")&.map(&:capitalize)
+  #   (converted_name & Item::BAD_NAMED_ITEM).present?
+  # end
 
   def imported_items
     @imported_items ||= load_imported_items

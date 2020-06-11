@@ -34,7 +34,8 @@ const styles = theme => ({
     cursor: "pointer"
   },
   sideBarPanelItem: {
-    padding: 5,
+    padding: "5px 10px",
+    borderBottom: "1px solid #eee",
     "&:hover": {
       background: "#ddd"
     }

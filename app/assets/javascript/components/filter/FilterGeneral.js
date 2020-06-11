@@ -5,7 +5,8 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { connect } from "react-redux";
-import styles from "./styles"
+import styles from "./styles";
+import googleEvents from "../constants/googleEvents";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -26,6 +27,11 @@ class FilterGeneral extends React.PureComponent {
 
   handleChange = name => event => {
     const { addFilter, keyFilter, filter } = this.props;
+    gtag(
+      "event",
+      googleEvents["Применение фильтров"].title,
+      googleEvents["Применение фильтров"].data
+    );
     if (filter[keyFilter] && filter[keyFilter].includes(name)) {
       addFilter({
         [keyFilter]: filter[keyFilter].filter(item => item !== name)
@@ -74,23 +80,27 @@ class FilterGeneral extends React.PureComponent {
       isList,
       style,
       addFilter,
-      keyFilter
+      keyFilter,
+      filter
     } = this.props;
 
-    if (!filterOptions || !filterOptions.length ) return null;
+    if (!filterOptions || !filterOptions.length) return null;
+    const filterValueCount = filter[keyFilter] && filter[keyFilter].length;
 
     return (
       <FormGroup row className={classes.root}>
         <div className={classes.title}>
-        <span className={classes.titleText}>{title}:</span>
-        <span
-          className={classes.titleReset}
-          onClick={() => addFilter({ [keyFilter]: [] })}
-        >
-          Очистить фильтр
-        </span>
+          <span className={classes.titleText}>{title}:</span>
+          {filterValueCount ? (
+            <span
+              className={classes.titleReset}
+              onClick={() => addFilter({ [keyFilter]: [] })}
+            >
+              Очистить фильтр
+            </span>
+          ) : null}
         </div>
-     
+
         <div
           className={`${classes.container} ${isList ? classes.list : ""}`}
           style={{ ...style }}

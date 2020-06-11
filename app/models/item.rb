@@ -7,6 +7,7 @@ class Item < ActiveRecord::Base
 
   attr_accessor :skip
   include PgSearch
+
   pg_search_scope :search_color,
     against: [:color],
     :using => {
@@ -64,7 +65,9 @@ class Item < ActiveRecord::Base
       "Белый", "Бежевый", "Молочный",
     ],
   }
+
   CAPITALIZE_FIELDS = ["color", "brand", "country", "category", "drop_ship", "composition"]
+
   CANT_BE_NULL = [
     "article", "name", "category", "price",
     "picture", "drop_ship", "drop_ship_price",
@@ -87,14 +90,14 @@ class Item < ActiveRecord::Base
 
   BAD_CATEGORIES = [
     "Для девочек", "Для мальчиков", "Мужская одежда", "Замшевые", "Шляпы", "Митенки", "Носки",
-    "Детская одежда", "Детские платья", "Детская обувь", "Лоферы",
+    "Детская одежда", "Детские платья", "Детская обувь", "Лоферы", "Стильный", "Женский", "Подростковая обувь",
   ]
 
   BAD_SLUG_IDS = [
     "botinki_zimnie_na_kabluke_chernyj", "noski_zhenskie_21p011_1_sine_belyj_sine_belyj",
     "zhenskie_chernye_zamshewye_lofery_chernyj", "rubashka_113rom92_kirpichnyj_kirpichnyj",
     "rubashka_zeg_113r197_belo_salatowyj_belo_salatowyj", "rubashka_113r002_goluboj_goluboj",
-    "rubashka_113rom97_persikowyj_persikowyj",
+    "rubashka_113rom97_persikowyj_persikowyj", "dzhinsy_zhenskie_358kg001_junior_chernyj"
   ]
 
   BAD_PRODUCTS_NAME = [
@@ -155,6 +158,14 @@ class Item < ActiveRecord::Base
     "Favoritti", "Tos", "Ager", "Garne", "Villomi", "Issaplus", "Modus"
   ]
 
+  XLS_DROP_SHIPPER = [
+    "Favoritti", "Tos", "Ager", "Garne"
+  ]
+
+  XML_DROP_SHIPPER = [
+    "Villomi", "Issaplus", "Modus"
+  ]
+
   SYNONIM_NAMES_CATEGORIES = {
     "Слипоны": ["Женские слипоны", "Слипоны", ],
     "Белье": ["Белье", "Женские ночные рубашки", ],
@@ -197,10 +208,10 @@ class Item < ActiveRecord::Base
     "Кардиганы": ["Кардиганы", "Кардиган", ],
     "Шуба": ["Шуба", "Шубы", "Шубка", "Полушубок",],
     "Верхняя одежда": [
-       "Мантия",  "Дубленка",
+       "Мантия",  "Дубленка", "Верхняя одежда для женщи",
      ],
     "Футболки": ["Футболки", "Футболка",],
-    "Шарфы": ["Шарф", "Шарфы, хомуты",],
+    "Шарфы": ["Шарф", "Шарфы, хомуты", "Шарфы", ],
     "Кепки": ["Кепка", "Кепки",],
     "Перчатки": ["Перчатки", "Мужские перчатки", "Женские перчатки", ],
     "Свитера": ["Свитера",  "Свитер", "Джемпер", ],
@@ -213,6 +224,7 @@ class Item < ActiveRecord::Base
       "Куртка-жакет", "Куртки", "Куртка", "Ветровка", "Анорак", "Женские ветровки", "Женские демисезонные куртки",
       "Женские кожаные куртки", "Мужские куртки", "Тренч", "Пуховики", "Пуховик", "Парка", "Женские зимние куртки",
     ],
+    "Туфли": ["Оксфорды", "Туфли",],
     "Пиджаки": ["Пиджаки", "Пиджак",],
     "Костюмы": ["Костюмы", "Костюм", ],
     "Кофты": ["Кофты", "Кофта", "Пусер", "Кофта-топ", "Женские болеро", ],
@@ -222,49 +234,51 @@ class Item < ActiveRecord::Base
     "Тапочки": ["Шлепанцы", "Женские комнатные тапочки", "Женские вьетнамки, сланцы", "Тапочки", "Вьетнамки",],
   }
 
-  def self.update_size_same_items
-    update_size_same_names
-    #update_size_same_prices
-  end
-
-  def self.update_size_same_names
-    # Garne = Prices
-    items =  Item.where.not(drop_ship: "Prices")
-    names = items.select('items.name').group('items.name').having('count(items.name) > 1').map(&:name)
-    names.map do |name|
-      colors = items.where(name: name).select(:color).map(&:color).uniq&.flatten&.flatten
-      colors.each do |color|
-        sizes = items.where(name: name, color: color).map(&:size).flatten.uniq
-        #pictures = Item.where(name: name, color: color).map(&:picture).flatten.compact.uniq
-        first_item = Item.where(name: name, color: color).first
-        first_item.update(size: sizes)
-        items.where.not(id: first_item.id).where(name: name, color: color).map(&:delete)
+  def self.check_parsed_drop(drop_shipers)
+    drop_shipers.map do |drop_ship|
+      created_last_item_day =  Item.where(available_product: "t", drop_ship: drop_ship).last&.created_at&.day
+      if !created_last_item_day || Time.now.day - created_last_item_day != 0
+        broken_drop_ship = { drop_ship: drop_ship, text: "was broken" }
+        # TeleNotify::TelegramUser.find_by_tg_channel("question")&.send_message(broken_drop_ship.to_json)
       end
     end
   end
 
-  def self.update_size_same_prices
-    drop_shippers = Item.select(:drop_ship).map(&:drop_ship).uniq&.flatten&.flatten
-    drop_shippers.each do |drop_ship|
-    use_items = Item.where(drop_ship: drop_ship)
-    categories = use_items.select(:category).map(&:category).uniq&.flatten&.flatten
-    categories.each do |category|
-      prices = use_items.where(category: category).select('items.drop_ship_price').group('items.drop_ship_price').having('count(items.drop_ship_price) > 1').map(&:drop_ship_price)
-      prices.map do |drop_ship_price|
-        items = use_items.where(drop_ship_price: drop_ship_price, category: category)
-        colors = items.select(:color).map(&:color).uniq&.flatten&.flatten
-        colors.each do |color|
-          sizes = use_items.where(drop_ship_price: drop_ship_price, color: color, category: category).map(&:size).flatten.uniq
-          #pictures = Item.where(drop_ship_price: drop_ship_price, color: color, category: category).map(&:picture).flatten.compact.uniq
-          first_item = use_items.where(drop_ship_price: drop_ship_price, color: color, category: category).first
-          if first_item
-            first_item.update(size: sizes)
-            use_items.where.not(id: first_item.id).where(drop_ship_price: drop_ship_price, color: color, category: category).map(&:delete)
-          end
-        end
+  def self.check_all_parsed_drop
+    drop_shipers = Item::DROP_SHIPPER
+    brocken_drop_shiper = []
+    drop_shipers.map do |drop_ship|
+      created_last_item_day =  Item.where(available_product: "t", drop_ship: drop_ship).last&.created_at&.day
+      if !created_last_item_day || Time.now.day - created_last_item_day != 0
+        brocken_drop_shiper.push(drop_ship)
       end
     end
+    brocken_drop_shiper
+  end
+
+  def self.update_size_same_items(drop_shipers)
+    items =  Item.where.not(drop_ship: ["Garne", "Favoritti"]).where(available_product: "t", drop_ship: drop_shipers)
+    # group by slug_id
+    slug_ids = items.select('items.slug_id').group('items.slug_id').having('count(items.slug_id) > 1').map(&:slug_id)
+    slug_ids.map do |slug_id|
+      sizes = items.where(slug_id: slug_id).map(&:size).flatten.uniq
+      first_item = Item.where(slug_id: slug_id).first
+      first_item.update(size: sizes)
+      items.where.not(id: first_item.id).where(slug_id: slug_id).map(&:delete)
     end
+
+    # group by name and size
+    # names = items.select('items.name').group('items.name').having('count(items.name) > 1').map(&:name)
+    # names.map do |name|
+    #   colors = items.where(name: name).select(:color).map(&:color).uniq&.flatten&.flatten
+    #   colors.each do |color|
+    #     sizes = items.where(name: name, color: color).map(&:size).flatten.uniq
+    #     #pictures = Item.where(name: name, color: color).map(&:picture).flatten.compact.uniq
+    #     first_item = Item.where(name: name, color: color).first
+    #     first_item.update(size: sizes)
+    #     items.where.not(id: first_item.id).where(name: name, color: color).map(&:delete)
+    #   end
+    # end
   end
 
   # def self.delete_same_slug_ids
@@ -280,6 +294,7 @@ class Item < ActiveRecord::Base
 
   def self.generate_filters(all_items, search_category={})
     items = search_category.present? ? all_items.where(category: search_category) : all_items
+    # items = all_items
     prices = items.map { |item| item.price }
     seasons = items.map(&:season)&.flatten&.compact&.uniq
     {
@@ -309,13 +324,13 @@ class Item < ActiveRecord::Base
 
   def self.create_header
     Header.delete_all
-    wooman_catalogues = Item.where('sex && ARRAY[?]::varchar[]', "wooman").select(:category).map(&:category).compact.uniq
+    wooman_catalogues = Item.where('sex && ARRAY[?]::varchar[]', "wooman").where(available_product: "t").select(:category).map(&:category).compact.uniq
     wooman_catalogues.map do |catalogue|
       count = Item.where(category: catalogue).count
       group = GROUP.select{ |key, hash| hash.include?(catalogue&.capitalize) }.keys[0].to_s
       Header.create!(count_items: count, catalogue: catalogue, group: group, male: false)
     end
-    man_catalogues = Item.where('sex && ARRAY[?]::varchar[]', "man").select(:category).map(&:category).compact.uniq
+    man_catalogues = Item.where('sex && ARRAY[?]::varchar[]', "man").where(available_product: "t").select(:category).map(&:category).compact.uniq
     man_catalogues.map do |catalogue|
       count = Item.where(category: catalogue).count
       group = GROUP.select{ |key, hash| hash.include?(catalogue&.capitalize) }.keys[0].to_s

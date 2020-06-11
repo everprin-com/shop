@@ -31,3 +31,6 @@ yarn-debug.log*
 /public/excel/
 node_modules/
 public/converted_fid.xls
+.yarn.lock
+.package-lock.json
+

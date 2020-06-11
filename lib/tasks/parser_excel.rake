@@ -16,10 +16,12 @@ namespace :parser_excel do
           content_type: "application/vnd.ms-excel",
           tempfile: file,
         )
+        # drop_ship named prices is garne
+        drop_ship_name = drop_ship_name =="prices" ? "garne" : drop_ship_name
         @items_import = ItemsImport.new({:file => artwork}, drop_ship_name)
         @items_import.save
       end
-        NormalizerParse.normalizer_products
+      NormalizerParse.normalizer_products(Item::XLS_DROP_SHIPPER)
     rescue Zip::Error
       Roo::Spreadsheet.open(filepath)
     end
