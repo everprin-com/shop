@@ -113,14 +113,24 @@ class OrderForm extends React.PureComponent {
     return withoutErrors;
   };
 
+  sumOrders = objs => {
+    var sum = 0;
+    objs.map(obj => {
+      sum += parseFloat(obj["price"]);
+    })
+    return sum;
+  }
+
   sendOrder = () => {
-    gtag(
-      "event",
-      googleEvents["Попытка отправить заказ"].title,
-      googleEvents["Попытка отправить заказ"].data
-    );
     this.setState({ wasTrySend: true });
     if (this.validateData()) {
+      gtag("event", "Попытка отправить заказ", {'event_category': 'События кнопок', 'event_action': "Попытка отправить заказ"})
+      gtag(
+        "event",
+        googleEvents["Попытка отправить заказ"].title,
+        googleEvents["Попытка отправить заказ"].data
+      );
+      fbq('track', 'Purchase', {value: this.sumOrders(this.props.card.data), currency: 'GRN'});
       const line_items = this.props.card.data.map(function(element) {
         return {
           id: element.id,
