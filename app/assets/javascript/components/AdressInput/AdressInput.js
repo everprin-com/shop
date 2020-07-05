@@ -99,13 +99,13 @@ class CustomizedInputs extends React.PureComponent {
     this.setState({ searchCity: val });
     this.props.changeCity(val);
     if (val.length < 2) return;
-    this.sendNP(val, dep).then(res =>
+    this.sendNP(val, dep).then(res => {
       this.setState({
         searchCity: val,
         isOpenDropDown: true,
         data: res.data[0].Addresses
       })
-    );
+    });
   };
 
   changeCity = city => {
