@@ -155,11 +155,11 @@ class Item < ActiveRecord::Base
   }
 
   DROP_SHIPPER = [
-    "Favoritti", "Tos", "Ager", "Garne", "Villomi", "Issaplus", "Modus"
+    "Tos", "Ager", "Garne", "Villomi", "Issaplus", "Modus"
   ]
 
   XLS_DROP_SHIPPER = [
-    "Favoritti", "Tos", "Ager", "Garne"
+    "Tos", "Ager", "Garne"
   ]
 
   XML_DROP_SHIPPER = [
