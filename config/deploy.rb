@@ -16,7 +16,7 @@ set :deploy_to, "/home/#{fetch(:user)}/app"
 set :repository, 'git@github.com:everprin-com/shop.git'
 set :branch, 'master'
 set :rvm_use_path, '/etc/profile.d/rvm.sh'
-
+#set :nvm_node, 'v6.11.13'
 # Optional settings:
 #   set :user, 'foobar'          # Username in the server to SSH to.
 #   set :port, '30000'           # SSH port number.

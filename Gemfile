@@ -106,5 +106,6 @@ gem "roo-xls"
   gem 'capistrano-passenger'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
+  #gem 'capistrano-nvm', require: false
   #gem 'capistrano-rbenv', github: "capistrano/rbenv"
 #end
